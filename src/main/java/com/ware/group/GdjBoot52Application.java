@@ -1,4 +1,4 @@
-package com.iu.base;
+package com.ware.group;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
