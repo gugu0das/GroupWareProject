@@ -9,6 +9,7 @@
     </head>
     <body class="d-flex flex-column h-100">
        index
+      <a class="nav-link" href="/notice/list">Notice</a></li>
        
     </body>
 </html>
