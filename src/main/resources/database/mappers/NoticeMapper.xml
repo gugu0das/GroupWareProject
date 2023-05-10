@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ware.group.notice.NoticeDAO">
+	<sql id="search">
+		<where>
+			<if test="kind == 'title'">
+				TITLE LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="kind == 'contents'">
+				CONTENTS LIKE CONCAT('%', #{search},'%')
+			</if>
+			<if test="kind == 'writer'">
+				WRITER LIKE CONCAT('%', #{search}, '%')
+			</if>		
+			
+		</where>
+	</sql>
+	
+	<select id="getTotalCount" parameterType="Pager" resultType="Long">
+			SELECT COUNT(NOTICENUM) FROM NOTICE
+			<include refid="search"></include>
+	</select>
+	
+	
+	<select id="getList" parameterType="Pager" resultType="NoticeVO" >
+		SELECT * FROM NOTICE 
+		<include refid="search"></include>
+		ORDER BY NOTICENUM DESC
+		LIMIT #{startRow}, #{perPage}
+	</select>
+	
+	
+	<insert id="setInsert" parameterType="NoticeVO">
+		INSERT INTO NOTICE (NOTICENUM, TITLE, CONTENTS, WRITER, REGDATE, HIT)
+		VALUES( #{noticeNum} ,#{title}, #{contents}, #{writer}, now(), 0)
+	</insert>
+
+</mapper>
