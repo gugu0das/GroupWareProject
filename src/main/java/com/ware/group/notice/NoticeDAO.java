@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ware.group.board.BoardFileVO;
 import com.ware.group.util.Pager;
 
 
@@ -31,10 +32,10 @@ public interface NoticeDAO {
 		public int setDelete(NoticeVO noticeVO) throws Exception;
 		
 		// 파일 등록
-		//public int setBoardFileAdd(BoardFileVO boardFileVO) throws Exception;
+		public int setNoticeFileAdd(NoticeFileVO noticeFileVO) throws Exception;
 		
 		// 파일조회
-		//public BoardFileVO getFileDetail(BoardFileVO boardFileVO) throws Exception;
+		public BoardFileVO getFileDetail(BoardFileVO boardFileVO) throws Exception;
 		
 		//public int setRef(QnaVO qnaVO) throws Exception;
 }
