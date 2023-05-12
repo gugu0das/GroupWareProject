@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ware.group.board.BoardFileVO;
+import com.ware.group.util.FileManager;
 import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,16 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 public class NoticeService{
 
 	
-	public int setInsert(NoticeVO noticeVO, MultipartFile[] multipartFiles) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	@Autowired
 	private NoticeDAO noticeDAO;
 	
-	//@Autowired
-	//private FileManager fileManager;
+	@Autowired
+	private FileManager fileManager;
 
 	@Value("${app.upload.notice}")
 	private String path;
@@ -42,11 +41,13 @@ public class NoticeService{
 
 	public NoticeVO getDetail(NoticeVO noticeVO) throws Exception {
 		return noticeDAO.getDetail(noticeVO);
+		
+		
 	}
 
-	//@Override
-	//public int setInsert(BoardVO boardVO, MultipartFile [] multipartFiles) throws Exception {
-		//int result = noticeDAO.setInsert(boardVO);
+	
+	public int setInsert(NoticeVO noticeVO, MultipartFile [] multipartFiles) throws Exception {
+		int result = noticeDAO.setInsert(noticeVO);
 		
 //		Random random = new Random();
 //		int num = random.nextInt(1);
@@ -55,22 +56,23 @@ public class NoticeService{
 //			throw new Exception();
 //		}
 		
-	/*	if(multipartFiles != null) {
+		if(multipartFiles != null) {
 			for(MultipartFile multipartFile : multipartFiles) {
+				
 				if(!multipartFile.isEmpty()) {
 					String fileName = fileManager.saveFile(path, multipartFile);
-					BoardFileVO boardFileVO = new BoardFileVO();
-					boardFileVO.setFileName(fileName);
-					boardFileVO.setOriName(multipartFile.getOriginalFilename());
-					boardFileVO.setNum(boardVO.getNum());
-					
-					result = noticeDAO.setBoardFileAdd(boardFileVO);
+					NoticeFileVO noticeFileVO = new NoticeFileVO();
+					noticeFileVO.setFileName(fileName);
+					noticeFileVO.setOriName(multipartFile.getOriginalFilename());
+					noticeFileVO.setNoticeNum(noticeVO.getNoticeNum());
+					System.out.println("힘들다");
+					result = noticeDAO.setNoticeFileAdd(noticeFileVO);
 				}
 			}
 		}
 		
 		return result;
-	}*/
+	}
 
 	
 	public int setUpdate(NoticeVO noticeVO) throws Exception {
@@ -82,8 +84,11 @@ public class NoticeService{
 		return noticeDAO.setDelete(noticeVO);
 	}
 
-	/*
-	 * @Override public BoardFileVO getFileDetail(BoardFileVO boardFileVO) throws
-	 * Exception { return noticeDAO.getFileDetail(boardFileVO); }
-	 */
+	
+	 
+	 public BoardFileVO getFileDetail(BoardFileVO boardFileVO) throws Exception { 
+		 return noticeDAO.getFileDetail(boardFileVO); 
+		 
+	 }
+	 
 }
