@@ -8,9 +8,10 @@
 		
 	
 		<typeAlias type="com.ware.group.notice.NoticeVO" alias="NoticeVO"/>
+		<typeAlias type="com.ware.group.notice.NoticeFileVO" alias="NoticeFilesVO"/>
+		<typeAlias type="com.ware.group.board.BoardFileVO" alias="BoardFileVO"/>
 		
-		
-		
+		<typeAlias type="com.ware.group.qna.QnaVO" alias="QnaVO"/>
 		
 		
 	
