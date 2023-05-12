@@ -2,6 +2,7 @@ package com.ware.group.notice;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.ware.group.board.BoardFileVO;
 import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +29,11 @@ public class NoticeController {
 	private NoticeService noticeService;
 	
 	@ModelAttribute("notice")
-	public String getBoard() {
+	public String getNotice() {
 		return "notice";
 	}
 	
-	@GetMapping(value = "list")
+	@GetMapping("list")
 	public ModelAndView getList(Pager pager) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		log.info("search : {}", pager.getSearch());
@@ -46,32 +47,58 @@ public class NoticeController {
 		return mv;
 	}
 	
-	@GetMapping(value = "add")
+	@GetMapping("add")
 	public ModelAndView setInsert(@ModelAttribute NoticeVO noticeVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("notice/add");
-		
+		System.out.println("들어가지냐?");
 		return mv;
 	}
 	
-	@PostMapping(value = "add")
-	public ModelAndView setInsert(@Valid NoticeVO noticeVO, BindingResult bindingResult, MultipartFile [] boardFiles) throws Exception {
+//	@PostMapping("add")
+//	public ModelAndView setInsert(@Valid NoticeVO noticeVO, BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
+//		ModelAndView mv = new ModelAndView();
+//		
+//		if(bindingResult.hasErrors()) {
+//			log.warn("================ 검증 실패 ================");
+//			mv.setViewName("notice/add");
+//			System.out.println("여긴가지냐?");
+//			return mv;
+//		}
+//		System.out.println(files[0].getName());
+//		System.out.println(files[0].getOriginalFilename());
+//		for(MultipartFile multipartFile : files) {
+//			log.error("{} ::",multipartFile.getOriginalFilename());
+//			}
+//		int result = noticeService.setInsert(noticeVO, files);
+//		
+//		mv.setViewName("redirect:./list");
+//		
+//		return mv;
+//	}
+	@PostMapping("add")
+	public ModelAndView setInsert(@Valid NoticeVO noticeVO, BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		if(bindingResult.hasErrors()) {
 			log.warn("================ 검증 실패 ================");
 			mv.setViewName("notice/add");
+			System.out.println("여긴가지냐?");
 			return mv;
 		}
-		
-		int result = noticeService.setInsert(noticeVO, boardFiles);
+		System.out.println(files[0].getName());
+		System.out.println("orginalFileName :  "+files[0].getOriginalFilename());
+		for(MultipartFile multipartFile : files) {
+			log.error("{} ::",multipartFile.getOriginalFilename());
+			}
+		int result = noticeService.setInsert(noticeVO, files);
 		
 		mv.setViewName("redirect:./list");
 		
 		return mv;
 	}
 	
-	@GetMapping(value = "detail")
+	@GetMapping("detail")
 	public ModelAndView getDetail(NoticeVO noticeVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
@@ -83,18 +110,18 @@ public class NoticeController {
 		return mv;
 	}
 	
-	/*
-	 * @GetMapping(value = "fileDown") public ModelAndView getFileDown(BoardFileVO
-	 * boardFileVO) throws Exception { ModelAndView mv = new ModelAndView();
-	 * 
-	 * boardFileVO = noticeService.getFileDetail(boardFileVO);
-	 * 
-	 * mv.addObject("boardFileVO", boardFileVO); mv.setViewName("fileManager");
-	 * 
-	 * return mv; }
-	 */
 	
-	@GetMapping(value = "delete")
+	  @GetMapping("fileDown") 
+	  public ModelAndView getFileDown(BoardFileVO boardFileVO) throws Exception { ModelAndView mv = new ModelAndView();
+	   
+	  mv.addObject("boardFileVO", boardFileVO); mv.setViewName("fileManager");
+	  
+	  return mv; 
+	  }
+	  
+	 
+	
+	@GetMapping("delete")
 	public ModelAndView setDelete(NoticeVO noticeVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
