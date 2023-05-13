@@ -49,46 +49,25 @@
 	                                        <label for="writer">Writer</label>
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
+	                                    <div class="form-floating mb-3">
+	                                    	<input type="file" name="files">                                                                                                                              >
+	                                    </div>
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">
-	                                        <textarea class="form-control" id="content" name="content" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
-	                                        <label for="content">Content</label>
+	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+	                                        <label for="contents">Contents</label>
 	                                        <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
 	                                    </div>  
 	                                    
-	                                    <div class="form-floating mb-3">
-	                                    	<input type="file" name="boardFiles">
-	                                    </div>
-	                                                              
+	                                    
+	                                                            
 	                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button></div>
                                 	</form:form>   
                                 <%-- </form> --%>
                             </div>
                         </div>
                     </div>
-                    <!-- Contact cards-->
-                    <div class="row gx-5 row-cols-2 row-cols-lg-4 py-5">
-                        <div class="col">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-chat-dots"></i></div>
-                            <div class="h5 mb-2">Chat with us</div>
-                            <p class="text-muted mb-0">Chat live with one of our support specialists.</p>
-                        </div>
-                        <div class="col">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-people"></i></div>
-                            <div class="h5">Ask the community</div>
-                            <p class="text-muted mb-0">Explore our community forums and communicate with other users.</p>
-                        </div>
-                        <div class="col">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-question-circle"></i></div>
-                            <div class="h5">Support center</div>
-                            <p class="text-muted mb-0">Browse FAQ's and support articles to find solutions.</p>
-                        </div>
-                        <div class="col">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-telephone"></i></div>
-                            <div class="h5">Call us</div>
-                            <p class="text-muted mb-0">Call us during normal business hours at (555) 892-9403.</p>
-                        </div>
-                    </div>
+                    
                 </div>
             </section>
         
@@ -103,7 +82,7 @@
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>
-		$("#content").summernote();
+		$("#contents").summernote();
 	</script>
 </body>
 </html>
