@@ -104,6 +104,8 @@ public class NoticeController {
 		
 		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
 		
+		int result = noticeService.setNoticeHit(noticeVO);
+		
 		mv.addObject("noticeVO", noticeVO);
 		mv.setViewName("notice/detail");
 		
