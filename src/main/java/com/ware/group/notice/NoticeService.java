@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ware.group.board.BoardFileVO;
+
 import com.ware.group.util.FileManager;
 import com.ware.group.util.Pager;
 
@@ -90,5 +91,10 @@ public class NoticeService{
 		 return noticeDAO.getFileDetail(boardFileVO); 
 		 
 	 }
+	 // 조회수
+	 public int setNoticeHit(NoticeVO noticeVO)throws Exception{
+		 return noticeDAO.setNoticeHit(noticeVO);
+	 }
+	 
 	 
 }
