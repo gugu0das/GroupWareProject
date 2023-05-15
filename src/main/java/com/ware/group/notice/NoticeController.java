@@ -105,7 +105,7 @@ public class NoticeController {
 		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
 		
 		int result = noticeService.setNoticeHit(noticeVO);
-		
+	
 		mv.addObject("noticeVO", noticeVO);
 		mv.setViewName("notice/detail");
 		
@@ -132,5 +132,28 @@ public class NoticeController {
 		mv.setViewName("redirect:./list");
 		
 		return mv;
+	}
+	
+	@GetMapping("update")
+	public ModelAndView setUpdate(NoticeVO noticeVO) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		
+		 noticeVO = noticeService.getDetail(noticeVO);
+		 
+		
+		mv.setViewName("notice/update");
+		mv.addObject("noticeVO", noticeVO);
+		return mv;
+	}
+	@PostMapping("update")
+	public ModelAndView setUpdate(NoticeVO noticeVO,MultipartFile pic)throws Exception{
+		ModelAndView mv = new ModelAndView();
+		
+		int result = noticeService.setUpdate(noticeVO,pic);
+		
+		mv.setViewName("redirect:./list");
+		
+		return mv;
+		
 	}
 }
