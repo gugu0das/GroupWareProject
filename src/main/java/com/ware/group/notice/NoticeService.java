@@ -65,7 +65,7 @@ public class NoticeService{
 					NoticeFileVO noticeFileVO = new NoticeFileVO();
 					noticeFileVO.setFileName(fileName);
 					noticeFileVO.setOriName(multipartFile.getOriginalFilename());
-					noticeFileVO.setNoticeNum(noticeVO.getNoticeNum());
+					noticeFileVO.setId(noticeVO.getId());
 					System.out.println("힘들다");
 					result = noticeDAO.setNoticeFileAdd(noticeFileVO);
 				}
@@ -76,8 +76,8 @@ public class NoticeService{
 	}
 
 	
-	public int setUpdate(NoticeVO noticeVO) throws Exception {
-		return 0;
+	public int setUpdate(NoticeVO noticeVO,MultipartFile pic) throws Exception {
+		return noticeDAO.setUpdate(noticeVO);
 	}
 
 	
@@ -93,6 +93,7 @@ public class NoticeService{
 	 }
 	 // 조회수
 	 public int setNoticeHit(NoticeVO noticeVO)throws Exception{
+		
 		 return noticeDAO.setNoticeHit(noticeVO);
 	 }
 	 
