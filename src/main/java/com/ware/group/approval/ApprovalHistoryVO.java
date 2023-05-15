@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ApprovalLogVO {
+public class ApprovalHistoryVO {
 	private long logNum;
 	private long approvalNum;
 	private String id;
