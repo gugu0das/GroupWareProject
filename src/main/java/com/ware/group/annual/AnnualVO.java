@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 public class AnnualVO {
 
-	private Long annualNum;
-	private Long annualCount;
-	private Long annualType;
-	private Date annualReg;
-	private String id;
+	private Long id;
+	private Long count;
+	private Long type;
+	private Date reg;
+	private Long memberId;
 	
 }

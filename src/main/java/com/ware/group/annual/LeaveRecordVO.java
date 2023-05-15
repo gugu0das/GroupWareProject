@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 public class LeaveRecordVO {
 
-	private Long leaveNum;
-	private String id;
-	private String leaveReason;
-	private String leaveType;
-	private Long leaveCount;
-	private Date leaveDate;
+	private Long id;
+	private String memberId;
+	private String reason;
+	private String type;
+	private Long count;
+	private Date date;
 	
 	
 }

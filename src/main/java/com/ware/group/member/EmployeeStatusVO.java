@@ -10,12 +10,12 @@ public class EmployeeStatusVO {
 	@Setter
 	public class EmployeeStatus {
 
-		private Long empNum;
-		private Date empReg;
-		private Date empOnTime;
-		private Date empOffTime;
-		private String empStatus;
-		private String id;
+		private Long id;
+		private Date reg;
+		private Date onTime;
+		private Date offTime;
+		private String status;
+		private String memberId;
 		
 	}
 }

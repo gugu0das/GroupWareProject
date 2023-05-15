@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter
 public class DepartmentVO {
 
-	private Long deptNum;
-	private String deptName;
-	private String deptManager;
-	private Long deptUpper;
-	private Long deptLevel;
-	private Date deptCreateDate;
+	private Long id;
+	private String name;
+	private String manager;
+	private Long upper;
+	private Long level;
+	private Date createDate;
 	
 }
