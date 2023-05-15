@@ -12,8 +12,8 @@ import lombok.Setter;
 @Getter
 public class NoticeVO {
 	
-	private Long noticeNum;
-	private String id;
+	private Long id;
+	private Long memberId;
 	//@NotBlank
 	//@Size(min = 5, max = 20)
 	private String title;
