@@ -11,6 +11,7 @@
 
 		<typeAlias type="com.ware.group.member.MemberVO"
 			alias="MemberVO" />
+			<typeAlias type="com.ware.group.department.DepartmentVO" alias="DepartMentVO"/>
 	</typeAliases>
 
 </configuration>  
