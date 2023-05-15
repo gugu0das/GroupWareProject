@@ -21,7 +21,7 @@
 	</sql>
 	
 	<select id="getTotalCount" parameterType="Pager" resultType="Long">
-			SELECT COUNT(NOTICENUM) FROM NOTICE
+			SELECT COUNT(id) FROM NOTICE
 			<include refid="search"></include>
 	</select>
 	
@@ -29,7 +29,7 @@
 	<select id="getList" parameterType="Pager" resultType="NoticeVO" >
 		SELECT * FROM NOTICE 
 		<include refid="search"></include>
-		ORDER BY NOTICENUM DESC
+		ORDER BY ID DESC
 		LIMIT #{startRow}, #{perPage}
 	</select>
 	
@@ -38,49 +38,54 @@
 		FROM NOTICE
 			 LEFT JOIN
 			 NOTICEFILES 
-			 USING(NOTICENUM) 
-		WHERE NOTICENUM = #{noticeNum}
+			 USING(ID) 
+		WHERE ID = #{id}
   	</select>
   	
   	<resultMap type="NoticeVO" id="getDetailResult">
-		<id property="noticeNum" column="NOTICENUM"/>
-		<result property="id" column="ID"/>
-		<result property="title" column="TITLE"/>
-		<result property="writer" column="WRITER"/>
-		<result property="contents" column="CONTENTS"/>
-		<result property="regDate" column="REGDATE"/>
-		<result property="hit" column="HIT"/>
+		<id property="id" column="id"/>
+		<result property="memberId" column="member_id"/>
+		<result property="title" column="title"/>
+		<result property="contents" column="contents"/>
+		<result property="writer" column="writer"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="hit" column="hit"/>
 		
 		<collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
-			<id property="fileNum" column="FILENUM"/>
-			<result property="fileName" column="FILENAME"/>
-			<result property="oriName" column="ORINAME"/>
+			<id property="id" column="id"/>
+			<result property="fileName" column="file_name"/>
+			<result property="oriName" column="ori_name"/>
 		</collection>
 		
 	</resultMap>
   	
 	
 	
-	<insert id="setInsert" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noticeNum">
-		INSERT INTO NOTICE (NOTICENUM, ID, TITLE, CONTENTS, WRITER, REGDATE, HIT)
-		VALUES( #{noticeNum} , #{id} ,#{title}, #{contents}, #{writer}, now(), 0)
+	<insert id="setInsert" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO NOTICE (id, member_id, title, contents, writer, reg_date, hit)
+		VALUES( #{id} , #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0)
 	</insert>
 	
 	<delete id="setDelete" parameterType="NoticeVO">
-  		DELETE FROM NOTICE WHERE NOTICENUM = #{noticeNum}
+  		DELETE FROM NOTICE WHERE ID = #{id}
   	</delete>
   	
   	<insert id="setNoticeFileAdd" parameterType="BoardFileVO">
-  		INSERT INTO NOTICEFILES (FILENUM,NOTICENUM, FILENAME, ORINAME)
-  		VALUES(#{fileNum}, #{noticeNum}, #{fileName}, #{oriName})
+  		INSERT INTO NOTICEFILES (id, notice_id, file_name, ori_name)
+  		VALUES(#{id}, #{noticeId}, #{fileName}, #{oriName})
   	</insert>
   	
   	<select id="getFileDetail" parameterType="BoardFileVO" resultType="BoardFileVO">
-  		SELECT * FROM NOTICEFILES WHERE FILENUM = #{fileNum}
+  		SELECT * FROM NOTICEFILES WHERE ID = #{id}
   	</select>
   	
   	<update id="setNoticeHit" parameterType="NoticeVO">
   		UPDATE NOTICE SET HIT = #{hit} + 1
-		WHERE NOTICENUM = #{noticeNum}
+		WHERE ID = #{id}
+  	</update>
+  	
+  	<update id="setUpdate" parameterType="NoticeVO">
+  		UPDATE NOTICE SET TITLE = #{title}, WRITER = #{writer}, CONTENTS = #{contents}
+  		WHERE ID = #{id}
   	</update>
 </mapper>
