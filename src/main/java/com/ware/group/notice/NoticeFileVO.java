@@ -10,7 +10,7 @@ import lombok.Setter;
 public class NoticeFileVO extends BoardFileVO{
 		
 	
-	private Long noticeNum;
+	private Long noticeId;
 	
 	
 }
