@@ -6,7 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApprovalCategoryVO {
-	private long categoryNum;
-	private String categoryName;
-	private long categoryref;
+	private long id;
+	private String name;
+	private long ref;
+	
+	private ApproverVO[] approverList;
+	private ApprovalFormFileVO[] approvalFileList;
 }

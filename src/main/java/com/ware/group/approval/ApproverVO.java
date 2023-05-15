@@ -7,7 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApproverVO {
-	private long categoryNum;
+	private long categoryId;
 	private long jobId;
+	private long deptId;
 	private long deptNum;
 }

@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApprovalFormFileVO {
-	private long categoryNum;
-	private long fileNum;
+	private long categoryId;
+	private long fileId;
 }
