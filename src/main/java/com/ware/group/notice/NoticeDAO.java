@@ -40,5 +40,7 @@ public interface NoticeDAO {
 		// 조회수
 		public int setNoticeHit(NoticeVO noticeVO) throws Exception;
 		
+		
+		
 		//public int setRef(QnaVO qnaVO) throws Exception;
 }
