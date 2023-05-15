@@ -370,8 +370,8 @@
                                     <tbody>
                                     <c:forEach items="${list}" var="noticeVO">
                                         <tr class="odd">
-                                            <td class="sorting_1">${noticeVO.noticeNum}</td>
-                                            <td><a href="./detail?noticeNum=${noticeVO.noticeNum}">${noticeVO.title}</a></td>
+                                            <td class="sorting_1">${noticeVO.id}</td>
+                                            <td><a href="./detail?id=${noticeVO.id}">${noticeVO.title}</a></td>
                                             <td>${noticeVO.writer}</td>
                                             <td>${noticeVO.regDate}</td>
                                             <td>${noticeVO.hit}</td>
