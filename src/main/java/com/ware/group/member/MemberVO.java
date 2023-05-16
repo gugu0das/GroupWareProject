@@ -1,6 +1,7 @@
 package com.ware.group.member;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
@@ -43,6 +44,7 @@ public class MemberVO {
 	@NotBlank
 	private Long deptNum;
 	
+	private List<RoleVO> roleVOs;
 	
 	
 
