@@ -11,7 +11,7 @@ public class DepartmentVO {
 
 	private Long id;
 	private String name;
-	private String manager;
+	private Long manager;
 	private Long upper;
 	private Long level;
 	private Date createDate;

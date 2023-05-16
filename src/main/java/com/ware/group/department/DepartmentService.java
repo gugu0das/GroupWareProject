@@ -10,8 +10,13 @@ public class DepartmentService {
 
 	@Autowired
 	private DepartmentDAO departmentDAO;
+	
 	public List<DepartmentVO> getDepartmentList()throws Exception{
 		return departmentDAO.getDepartmentList();
+		
+	}
+	public int setDepartmentAdd(DepartmentVO departmentVO)throws Exception{
+		return departmentDAO.setDepartmentAdd(departmentVO);
 		
 	}
 }
