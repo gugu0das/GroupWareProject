@@ -8,8 +8,13 @@
 	<select id="getMembers" resultType="MemberVO">
 	select * from MEMBER
 	</select>
-
 	
+	
+	
+	<insert id="setMemberRole" parameterType="Map">
+		INSERT INTO MEMBER_ROLE (username, NUM)
+		VALUES(#{username}, #{num})
+	</insert>
 	
 
 
