@@ -37,6 +37,8 @@ public interface NoticeDAO {
 		// 파일조회
 		public BoardFileVO getFileDetail(BoardFileVO boardFileVO) throws Exception;
 		
+		
+		
 		// 조회수
 		public int setNoticeHit(NoticeVO noticeVO) throws Exception;
 		

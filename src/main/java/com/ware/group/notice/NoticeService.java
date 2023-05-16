@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ware.group.board.BoardFileVO;
-
 import com.ware.group.util.FileManager;
 import com.ware.group.util.Pager;
 
@@ -66,7 +65,7 @@ public class NoticeService{
 					noticeFileVO.setFileName(fileName);
 					noticeFileVO.setOriName(multipartFile.getOriginalFilename());
 					noticeFileVO.setId(noticeVO.getId());
-					System.out.println("힘들다");
+					
 					result = noticeDAO.setNoticeFileAdd(noticeFileVO);
 				}
 			}
@@ -76,10 +75,33 @@ public class NoticeService{
 	}
 
 	
-	public int setUpdate(NoticeVO noticeVO,MultipartFile pic) throws Exception {
-		return noticeDAO.setUpdate(noticeVO);
+	public int setUpdate(NoticeVO noticeVO,MultipartFile [] multipartFiles) throws Exception {
+		
+		int result =  noticeDAO.setUpdate(noticeVO);
+		if(multipartFiles != null) {
+			for(MultipartFile multipartFile : multipartFiles) {
+			
+			//1. File을 HDD에 저장 경로
+			// Project 경로가 아닌 OS가 이용하는 경로
+			/*
+			 * String realPath= servletContext.getRealPath("resources/images");
+			 * System.out.println(realPath); String fileName =
+			 * fileManager.saveFile(realPath, pic);
+			 */
+	if(!multipartFile.isEmpty()) {
+		String fileName = fileManager.saveFile(path, multipartFile);
+		NoticeFileVO noticeFileVO = new NoticeFileVO();
+		noticeFileVO.setFileName(fileName);
+		noticeFileVO.setOriName(multipartFile.getOriginalFilename());
+		noticeFileVO.setId(noticeVO.getId());
+	
+		result = noticeDAO.setNoticeFileAdd(noticeFileVO);
+		}
 	}
-
+		}
+		return result;
+	}
+	
 	
 	public int setDelete(NoticeVO noticeVO) throws Exception {
 		return noticeDAO.setDelete(noticeVO);
@@ -91,11 +113,13 @@ public class NoticeService{
 		 return noticeDAO.getFileDetail(boardFileVO); 
 		 
 	 }
-	 // 조회수
+	 //조회수
 	 public int setNoticeHit(NoticeVO noticeVO)throws Exception{
 		
 		 return noticeDAO.setNoticeHit(noticeVO);
 	 }
+	 
+	 
 	 
 	 
 }

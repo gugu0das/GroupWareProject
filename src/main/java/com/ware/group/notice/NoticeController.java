@@ -28,7 +28,7 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
-	@ModelAttribute("notice")
+	@ModelAttribute("board")
 	public String getNotice() {
 		return "notice";
 	}
@@ -51,7 +51,7 @@ public class NoticeController {
 	public ModelAndView setInsert(@ModelAttribute NoticeVO noticeVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("notice/add");
-		System.out.println("들어가지냐?");
+		
 		return mv;
 	}
 	
@@ -81,13 +81,12 @@ public class NoticeController {
 		ModelAndView mv = new ModelAndView();
 		
 		if(bindingResult.hasErrors()) {
-			log.warn("================ 검증 실패 ================");
+			
 			mv.setViewName("notice/add");
-			System.out.println("여긴가지냐?");
+			
 			return mv;
 		}
-		System.out.println(files[0].getName());
-		System.out.println("orginalFileName :  "+files[0].getOriginalFilename());
+		
 		for(MultipartFile multipartFile : files) {
 			log.error("{} ::",multipartFile.getOriginalFilename());
 			}
@@ -114,9 +113,13 @@ public class NoticeController {
 	
 	
 	  @GetMapping("fileDown") 
-	  public ModelAndView getFileDown(BoardFileVO boardFileVO) throws Exception { ModelAndView mv = new ModelAndView();
-	   
-	  mv.addObject("boardFileVO", boardFileVO); mv.setViewName("fileManager");
+	  public ModelAndView getFileDown(BoardFileVO boardFileVO,String notice) throws Exception {
+		  
+	  ModelAndView mv = new ModelAndView();
+	  
+	  boardFileVO = noticeService.getFileDetail(boardFileVO);
+	  mv.addObject("boardFileVO", boardFileVO); 
+	  mv.setViewName("fileManager");
 	  
 	  return mv; 
 	  }
@@ -138,18 +141,18 @@ public class NoticeController {
 	public ModelAndView setUpdate(NoticeVO noticeVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		
-		 noticeVO = noticeService.getDetail(noticeVO);
-		 
-		
 		mv.setViewName("notice/update");
-		mv.addObject("noticeVO", noticeVO);
 		return mv;
 	}
+	
+	
 	@PostMapping("update")
-	public ModelAndView setUpdate(NoticeVO noticeVO,MultipartFile pic)throws Exception{
+	public ModelAndView setUpdate(NoticeVO noticeVO,MultipartFile [] multipartFiles)throws Exception{
 		ModelAndView mv = new ModelAndView();
 		
-		int result = noticeService.setUpdate(noticeVO,pic);
+		int result = noticeService.setUpdate(noticeVO,multipartFiles);
+		
+		
 		
 		mv.setViewName("redirect:./list");
 		
