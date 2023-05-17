@@ -13,5 +13,8 @@
  	<insert id="setApprovalApplicationFileUpload" parameterType="ApprovalUploadFileVO">
  		INSERT INTO APPROVALUPLOADFILE(approval_id,name) VALUES(#{approvalId},#{name})
  	</insert>
+ 	<insert id="setApprovalApplicationHistory" parameterType="ApprovalHistoryVO">
+ 		INSERT INTO APPROVALHISTORY(approval_id,member_id,date,`check`) VALUES(#{approvalId},#{memberId},now(),#{check})
+ 	</insert>
  
  </mapper>

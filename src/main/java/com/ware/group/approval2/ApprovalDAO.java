@@ -8,4 +8,6 @@ public interface ApprovalDAO {
 	public int setApprovalApplication(ApprovalVO approvalVO);
 	
 	public int setApprovalApplicationFileUpload(ApprovalUploadFileVO approvalUploadFileVO);
+	
+	public int setApprovalApplicationHistory(ApprovalHistoryVO approvalHistoryVO);
 }

@@ -7,10 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ApprovalLogVO {
+public class ApprovalHistoryVO {
 	private long id;
 	private long approvalId;
-	private String memberId;
+	private long memberId;
 	private Date date;
-	private long check;
+	private String check;
 }

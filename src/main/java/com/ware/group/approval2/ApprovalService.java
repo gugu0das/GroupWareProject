@@ -20,6 +20,13 @@ public class ApprovalService {
 			approvalUploadFileVO.setApprovalId(approvalVO.getId());
 			approvalUploadFileVO.setName(fileName);
 			result = approvalDAO.setApprovalApplicationFileUpload(approvalUploadFileVO);
+			if(result == 1) {
+				ApprovalHistoryVO approvalHistoryVO = new ApprovalHistoryVO();
+				approvalHistoryVO.setMemberId(approvalVO.getMemberId());
+				approvalHistoryVO.setApprovalId(approvalVO.getId());
+				approvalHistoryVO.setCheck("대기");
+				result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
+			}
 		}
 		
 		return result;
