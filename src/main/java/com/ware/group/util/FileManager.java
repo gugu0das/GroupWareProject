@@ -35,7 +35,7 @@ public class FileManager extends AbstractView {
 		 
 		String board = (String)model.get("board");
 		
-		File file = new File(path + board, boardFileVO.getFileName());
+		File file = new File(path+board, boardFileVO.getFileName());
 		 
 		//한글 처리
 		response.setCharacterEncoding("UTF-8");
