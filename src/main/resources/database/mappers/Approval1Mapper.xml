@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  
+ <mapper namespace="com.ware.group.approval2.ApprovalDAO">
+ 	
+ 	<insert id="setApprovalApplication" parameterType="ApprovalVO" useGeneratedKeys="true" keyProperty="id">
+ 		INSERT INTO APPROVAL VALUES(#{id},#{categoryId},#{memberId},#{contents},now(),'대기',null)
+ 	</insert>
+ 	<insert id="setApprovalApplicationFileUpload" parameterType="ApprovalUploadFileVO">
+ 		INSERT INTO APPROVALUPLOADFILE(approval_id,name) VALUES(#{approvalId},#{name})
+ 	</insert>
+ 
+ </mapper>

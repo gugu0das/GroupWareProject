@@ -8,5 +8,6 @@
 </head>
 <body>
 
+<a href="./application">돌아가기</a>
 </body>
 </html>

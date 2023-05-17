@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApprovalUploadFileVO {
-	private long fileNum;
-	private long approvalNum;
-	private String fileName;
-	private String originalName;
+	private long id;
+	private long approvalId;
+	private String name;
 }

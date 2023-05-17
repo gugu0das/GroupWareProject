@@ -4,5 +4,9 @@
 <configuration>        
     <settings>        
         <setting name="mapUnderscoreToCamelCase" value="true" />
-    </settings>    
+    </settings>
+    <typeAliases>
+		<typeAlias type="com.ware.group.approval2.ApprovalVO" alias="ApprovalVO"/>
+		<typeAlias type="com.ware.group.approval2.ApprovalUploadFileVO" alias="ApprovalUploadFileVO"/>
+	</typeAliases>     
 </configuration>

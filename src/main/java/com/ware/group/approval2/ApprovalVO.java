@@ -8,11 +8,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApprovalVO {
-	private long approvalNum;
-	private long categoryNum;
-	private String id;
-	private String approvalContents;
-	private Date approvalDate;
-	private long approvalConfirm;
-	private Date approvalFin;
+	private long id;
+	private long categoryId;
+	private long memberId;
+	private String contents;
+	private Date reg_date;
+	private String confirm;
+	private Date fin;
 }
