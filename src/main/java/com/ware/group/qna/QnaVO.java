@@ -1,6 +1,7 @@
 package com.ware.group.qna;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +11,8 @@ import lombok.Setter;
 @Setter
 public class QnaVO {
 	
-	private Long qnaNum;
-	private String id;
+	private Long id;
+	private Long memberId;
 	//@NotBlank
 	//@Size(min = 5, max = 20)
 	private String title;
@@ -23,5 +24,5 @@ public class QnaVO {
 	private Long ref;
 	private Long step;
 	private Long depth;
-
+	private List<QnaFileVO> boardFileVOs;
 }
