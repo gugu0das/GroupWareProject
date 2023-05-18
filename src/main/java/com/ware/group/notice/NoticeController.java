@@ -32,6 +32,19 @@ public class NoticeController {
 	public String getNotice() {
 		return "notice";
 	}
+	//메인화면에 공지사항 리스트 뜨게 하는 컨트롤러
+	@GetMapping("listTop")
+	public ModelAndView getNoticeListTop(Pager pager)throws Exception{
+		ModelAndView mv = new ModelAndView();
+		pager.setPerPage(5L);
+		
+		List<NoticeVO> ar = noticeService.getList(pager);
+		
+		mv.addObject("list", ar);
+		mv.setViewName("common/noticeResult");
+		
+		return mv;
+	}
 	
 	@GetMapping("list")
 	public ModelAndView getList(Pager pager) throws Exception {
@@ -138,8 +151,15 @@ public class NoticeController {
 	}
 	
 	@GetMapping("update")
-	public ModelAndView setUpdate(NoticeVO noticeVO) throws Exception{
+	public ModelAndView setUpdate(@ModelAttribute NoticeVO noticeVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
+		log.debug("안녕");
+		/*
+		 * noticeVO = noticeService.getDetail(noticeVO);
+		 * 
+		 * mv.addObject("noticeVO", noticeVO);
+		 */
+		mv.addObject("notice", noticeVO);
 		
 		mv.setViewName("notice/update");
 		return mv;
@@ -147,12 +167,12 @@ public class NoticeController {
 	
 	
 	@PostMapping("update")
-	public ModelAndView setUpdate(NoticeVO noticeVO,MultipartFile [] multipartFiles)throws Exception{
+	public ModelAndView setUpdate(@Valid NoticeVO noticeVO,BindingResult bindingResult, MultipartFile [] files,HttpSession session)throws Exception{
 		ModelAndView mv = new ModelAndView();
 		
-		int result = noticeService.setUpdate(noticeVO,multipartFiles);
+		int result = noticeService.setUpdate(noticeVO,files);
 		
-		
+		mv.addObject("noticeVO", noticeVO);
 		
 		mv.setViewName("redirect:./list");
 		
