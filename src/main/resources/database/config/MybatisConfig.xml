@@ -15,9 +15,11 @@
 		<typeAlias type="com.ware.group.board.BoardFileVO" alias="BoardFileVO"/>
 		
 		<typeAlias type="com.ware.group.qna.QnaVO" alias="QnaVO"/>
+		<typeAlias type="com.ware.group.qna.QnaFileVO" alias="QnaFileVO"/>
+		
+		<typeAlias type="com.ware.group.qna.QnaCommentVO" alias="QnaCommentVO"/>
 		
 		
-	
 		
 		<typeAlias type="com.ware.group.util.Pager" alias="Pager"/>
 	</typeAliases>
