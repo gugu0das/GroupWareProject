@@ -97,8 +97,8 @@ public class NoticeService{
 	
 		result = noticeDAO.setNoticeFileAdd(noticeFileVO);
 		}
-	}
-		}
+	 }
+   }
 		return result;
 	}
 	
