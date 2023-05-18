@@ -9,5 +9,10 @@
 		<typeAlias type="com.ware.group.approval2.ApprovalVO" alias="ApprovalVO"/>
 		<typeAlias type="com.ware.group.approval2.ApprovalUploadFileVO" alias="ApprovalUploadFileVO"/>
 		<typeAlias type="com.ware.group.approval2.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
+		<typeAlias type="com.ware.group.approval2.MemberVO" alias="MemberVO"/>
+		<typeAlias type="com.ware.group.approval2.ApproverVO" alias="ApproverVO"/>
+		<typeAlias type="com.ware.group.approval2.ApprovalInfoVO" alias="ApprovalInfoVO"/>
+		
+		
 	</typeAliases>     
 </configuration>

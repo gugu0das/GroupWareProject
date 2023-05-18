@@ -1,5 +1,7 @@
 package com.ware.group.approval2;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class ApprovalService {
 		int result = approvalDAO.setApprovalApplication(approvalVO);
 		if(result == 1) {
 			ApprovalUploadFileVO approvalUploadFileVO = new ApprovalUploadFileVO();
+			//결재 승인 번호
 			approvalUploadFileVO.setApprovalId(approvalVO.getId());
 			approvalUploadFileVO.setName(fileName);
 			result = approvalDAO.setApprovalApplicationFileUpload(approvalUploadFileVO);
@@ -26,6 +29,20 @@ public class ApprovalService {
 				approvalHistoryVO.setApprovalId(approvalVO.getId());
 				approvalHistoryVO.setCheck("대기");
 				result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
+				if(result == 1) {
+					List<ApproverVO> ar = approvalDAO.getApprover(approvalVO);
+					for(ApproverVO approverVO : ar) {
+						ApprovalInfoVO approvalInfoVO = new ApprovalInfoVO();
+						//결재 승인 번호
+						approvalInfoVO.setApprovalId(approvalVO.getId());
+						MemberVO memberVO = approvalDAO.getApprovalInfo(approverVO);
+						//결재자 id
+						approvalInfoVO.setMemberId(memberVO.getId());
+						approvalInfoVO.setCheck("대기");
+						result = approvalDAO.setApprovalInfo(approvalInfoVO);
+						
+					}
+				}
 			}
 		}
 		
