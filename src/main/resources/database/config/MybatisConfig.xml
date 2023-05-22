@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.ware.group.common" alias="DateVO"/>
+		<typeAlias type="com.ware.group.common" alias="Field3VO"/>
+		<typeAlias type="com.ware.group.common" alias="PageVO"/>
+		<typeAlias type="com.ware.group.common" alias="SearchVO"/>
+		<typeAlias type="com.ware.group.common" alias="Util4calen"/>
+		
+		<typeAlias type="com.ware.group.board" alias="BoardSearchVo"/>
+		
+		<typeAlias type="com.ware.group.schedule" alias="CalendarVO"/>
+		<typeAlias type="com.ware.group.schedule" alias="MonthVO"/>
+		<typeAlias type="com.ware.group.schedule" alias="ScheDetailVO"/>
+		<typeAlias type="com.ware.group.schedule" alias="ScheVO"/>
+	</typeAliases>
+</configuration>
