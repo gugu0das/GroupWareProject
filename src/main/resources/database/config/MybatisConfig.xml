@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+        <!-- 카멜 케이스 VO 매핑 -->       
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    
+	<typeAliases>
+		<!-- <typeAlias type="com.iu.base.board.BoardVO" alias="BoardVO"/> -->
+		<typeAlias type="com.ware.group.approval.ApprovalVO" alias="ApprovalVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalCategoryVO" alias="ApprovalCategoryVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalFormFileVO" alias="ApprovalFormFileVO"/>
+		<typeAlias type="com.ware.group.approval.ApproverVO" alias="ApproverVO"/>
+		<typeAlias type="com.ware.group.approval3.DepartmentVO" alias="DepartmentVO"/>
+		<typeAlias type="com.ware.group.approval3.JobVO" alias="JobVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalUploadFileVO" alias="ApprovalUploadFileVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalInfoVO" alias="ApprovalInfoVO"/>
+		<typeAlias type="com.ware.group.approval.MemberVO" alias="MemberVO"/>
+	</typeAliases>
+	
+</configuration>

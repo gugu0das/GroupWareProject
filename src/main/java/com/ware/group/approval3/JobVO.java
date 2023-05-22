@@ -1,13 +1,11 @@
-package com.ware.group.approval;
-
+package com.ware.group.approval3;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ApprovalUploadFileVO {
+public class JobVO {
 	private long id;
-	private long approvalId;
 	private String name;
 }

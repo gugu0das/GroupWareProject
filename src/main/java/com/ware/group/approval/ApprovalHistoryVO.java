@@ -8,9 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApprovalHistoryVO {
-	private long logNum;
-	private long approvalNum;
-	private String id;
-	private Date approvalDate;
-	private long approvalCheck;
+	private long id;
+	private long approvalId;
+	private long memberId;
+	private Date date;
+	private String check;
 }
