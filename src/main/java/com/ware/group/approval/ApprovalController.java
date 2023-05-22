@@ -1,6 +1,8 @@
 package com.ware.group.approval;
 
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.ware.group.approval.MemberVO;
 import com.ware.group.approval3.DepartmentVO;
 import com.ware.group.approval3.JobVO;
 
@@ -147,15 +148,18 @@ public class ApprovalController {
         PrintWriter pw = new PrintWriter(System.out, true);
         String fileName = UUID.randomUUID().toString();
         fileName=fileName+".html";
+        System.out.println("==================1============================");
         PrintWriter fw = new PrintWriter(new FileOutputStream("c:/sm/approval/"+fileName));
         fw.println(dd);
-        
+        System.out.println("===================2===========================");
         //is.close(); //입력 스트림 닫기
         //br.close(); //출력스트림 닫기
-        pw.close();
-        fw.close();
+        System.out.println("===================3===========================");
+        log.error("컨트롤러");
         int result = approvalService.setApprovalApplication(approvalVO, fileName);
 		mv.setViewName("redirect:./myInformation");
+		pw.close();
+		fw.close();
 		return mv;
 	}
 	@GetMapping("information")
@@ -163,7 +167,7 @@ public class ApprovalController {
 	public ModelAndView getApprovalInformation() throws Exception{
 		ModelAndView mv = new ModelAndView();
 		MemberVO memberVO = new MemberVO();
-		memberVO.setId(4L);
+		memberVO.setId(1L);
 		List<ApprovalVO> ar = approvalService.getApprovalList(memberVO);
 		
 		mv.addObject("list", ar);
@@ -183,26 +187,28 @@ public class ApprovalController {
 	@PostMapping("approval")
 	public ModelAndView setApprovalApproval(MemberVO memberVO,int approval,String fileName,String ddd,ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		memberVO.setId(4L);
+		memberVO.setId(1L);
 		log.error("들어오냐");
 		log.error("{}::::::::::",approval);
-//		PrintWriter pw = new PrintWriter(System.out, true);
-//        //파일 수정 모드 있는 파일을 불러오기
-//		
-//        //PrintWriter fw = new PrintWriter(new FileOutputStream("c:/sm/approval/"+fileName,true));
-//        BufferedWriter writer = new BufferedWriter(new FileWriter("c:/sm/approval/"+fileName));
-//        //fw.println(dd);
-//        //덮어 쓰기
-//        writer.write(ddd);
-//        //is.close(); //입력 스트림 닫기
-//        //br.close(); //출력스트림 닫기
-//        pw.close();
-//        writer.close();
-		approvalService.setApprovalApproval(memberVO, approvalVO, approval);
+		PrintWriter pw = new PrintWriter(System.out, true);
+        //파일 수정 모드 있는 파일을 불러오기
 		
+        //PrintWriter fw = new PrintWriter(new FileOutputStream("c:/sm/approval/"+fileName,true));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("c:/sm/approval/"+fileName));
+        //fw.println(dd);
+        //덮어 쓰기
+        writer.write(ddd);
+        //is.close(); //입력 스트림 닫기
+        //br.close(); //출력스트림 닫기
+        
+        
+        int result=approvalService.setApprovalApproval(memberVO, approvalVO, approval);
+        
 		log.error("{} ::::::::::::", approval);
-		mv.setViewName("approval/approval");
+		mv.setViewName("redirect:./information");
 		//mv.setViewName("approval/refuse");
+		pw.close();
+        writer.close();
 		return mv;
 	}
 	

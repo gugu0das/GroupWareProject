@@ -67,13 +67,13 @@
  		SELECT * FROM MEMBER WHERE job_id=#{jobId} AND department_id = #{departmentId}
  	</select>
  	<select id="getApprover" parameterType="ApprovalVO" resultType="ApproverVO">
- 		SELECT * FROM APPROVER WHERE category_id=#{categoryId} ORDER BY depth
+ 		SELECT * FROM APPROVER WHERE category_id=#{categoryId}
  	</select>
  	<insert id="setApprovalInfo" parameterType="ApprovalInfoVO">
- 		INSERT INTO APPROVALINFO(approval_id,member_id,date,`check`) VALUES(#{approvalId},#{memberId},now(),#{check})
+ 		INSERT INTO APPROVALINFO(approval_id,member_id,date,`check`,depth) VALUES(#{approvalId},#{memberId},now(),#{check},#{depth})
  	</insert>
  	<select id="getApprovalList" resultMap="app" parameterType="MemberVO">
- 		SELECT * FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='대기' AND a3.member_id=#{id}
+ 		SELECT * FROM APPROVAL a  INNER JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='승인중' AND a3.member_id=#{id}
  	</select>
  	<resultMap type="ApprovalVO" id="app">
  		<id column="id" property="id"/>
@@ -95,4 +95,15 @@
  	<select id="getApprovalFile" parameterType="ApprovalVO" resultType="ApprovalUploadFileVO">
  		SELECT * FROM APPROVALUPLOADFILE WHERE approval_id=#{id}
  	</select>
+ 	<update id="setInfoUpdate" parameterType="ApprovalInfoVO">
+ 		UPDATE APPROVALINFO SET `check`=#{check}, date=now() WHERE member_id=#{memberId} AND approval_id=#{approvalId}
+ 	</update>
+ 	<select id="getInfoDetail" parameterType="ApprovalInfoVO" resultType="ApprovalInfoVO">
+ 		SELECT * FROM APPROVALINFO WHERE approval_id=#{approvalId} AND member_id=#{memberId}
+ 	</select>
+ 	 <select id="getInfoList" parameterType="ApprovalInfoVO"  resultType="ApprovalInfoVO">
+ 		SELECT * FROM APPROVALINFO WHERE approval_id=#{approvalId} AND depth=#{depth}
+ 	</select>
+ 	
+ 	
 </mapper>

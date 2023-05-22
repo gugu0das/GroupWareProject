@@ -47,4 +47,10 @@ public interface ApprovalDAO {
 	public List<DepartmentVO> getDepartmentList() throws Exception;
 	
 	public List<JobVO> getJobList(DepartmentVO departmentVO) throws Exception;
+	
+	public int setInfoUpdate(ApprovalInfoVO approvalInfoVO) throws Exception;
+	//자신의 id와 결재 번호로 자신의 순서를 조회
+	public ApprovalInfoVO getInfoDetail(ApprovalInfoVO approvalInfoVO) throws Exception;
+	//depth와 결재 번호로 다음 사람을 조회
+	public ApprovalInfoVO getInfoList(ApprovalInfoVO approvalInfoVO) throws Exception;
 }
