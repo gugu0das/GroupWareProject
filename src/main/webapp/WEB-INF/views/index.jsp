@@ -10,5 +10,7 @@
     <body class="d-flex flex-column h-100">
        index
        
+       <a href="./approval/application">나만</a>
+       <a href="./approval/information">리스트</a>
     </body>
 </html>

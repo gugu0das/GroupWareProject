@@ -115,7 +115,7 @@ public class ApprovalController {
 //        //br.close(); //출력스트림 닫기
 //        pw.close();
 //        writer.close();
-		approvalService.setApprovalApproval(memberVO, approvalVO, approval);
+		//approvalService.setApprovalApproval(memberVO, approvalVO, approval);
 		
 		log.error("{} ::::::::::::", approval);
 		mv.setViewName("approval/approval");

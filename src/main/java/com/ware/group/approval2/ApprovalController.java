@@ -1,12 +1,10 @@
 package com.ware.group.approval2;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.net.URL;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import lombok.extern.slf4j.Slf4j;
 
 //import org.junit.jupiter.api.Assertions;
-@Controller
-@RequestMapping("/approval/*")
+//@Controller
+//@RequestMapping("/approval/*")
 @Slf4j
 public class ApprovalController {
 	
@@ -81,24 +79,47 @@ public class ApprovalController {
 	}
 	@GetMapping("information")
 	//list
-	public ModelAndView setApprovalInformation() throws Exception{
+	public ModelAndView getApprovalInformation() throws Exception{
 		ModelAndView mv = new ModelAndView();
+		MemberVO memberVO = new MemberVO();
+		memberVO.setId(4L);
+		List<ApprovalVO> ar = approvalService.getApprovalList(memberVO);
 		
+		mv.addObject("list", ar);
 		mv.setViewName("approval/information");
 		return mv;
 	}
 	@GetMapping("check")
 	//detail
-	public ModelAndView setApprovalCheck() throws Exception{
+	public ModelAndView setApprovalCheck(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		
+		ApprovalUploadFileVO approvalUploadFileVO=approvalService.getApprovalFile(approvalVO);
+		mv.addObject("file", approvalUploadFileVO.getName());
+		mv.addObject("id",approvalVO.getId());
 		mv.setViewName("approval/check");
 		return mv;
 	}
 	@PostMapping("approval")
-	public ModelAndView setApprovalApproval() throws Exception{
+	public ModelAndView setApprovalApproval(MemberVO memberVO,int approval,String fileName,String ddd,ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
+		memberVO.setId(4L);
+		log.error("들어오냐");
+		log.error("{}::::::::::",approval);
+//		PrintWriter pw = new PrintWriter(System.out, true);
+//        //파일 수정 모드 있는 파일을 불러오기
+//		
+//        //PrintWriter fw = new PrintWriter(new FileOutputStream("c:/sm/approval/"+fileName,true));
+//        BufferedWriter writer = new BufferedWriter(new FileWriter("c:/sm/approval/"+fileName));
+//        //fw.println(dd);
+//        //덮어 쓰기
+//        writer.write(ddd);
+//        //is.close(); //입력 스트림 닫기
+//        //br.close(); //출력스트림 닫기
+//        pw.close();
+//        writer.close();
+		approvalService.setApprovalApproval(memberVO, approvalVO, approval);
 		
+		log.error("{} ::::::::::::", approval);
 		mv.setViewName("approval/approval");
 		//mv.setViewName("approval/refuse");
 		return mv;

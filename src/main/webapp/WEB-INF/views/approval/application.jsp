@@ -20,7 +20,7 @@
     		
     		<form action="./application" method="post" id="fr">
     		<input type="hidden" name="dd" id="ddd">
-    		 <input type="hidden" name="categoryId" value="1">  
+    		 <input type="hidden" name="categoryId" value="2">  
     		<div id="ttt">
     		<button type="button" class="appBtn" data-category="1">휴가</button>
     		<button type="button" class="appBtn" data-category="2">비품</button>
@@ -41,8 +41,8 @@
    
    
    <script type="text/javascript" src="/js/approvalApplication.js"></script>
-<!--  <script type="text/javascript">
-   $("#ttt").load("/file/approvalForm/vacationForm.html");
-   </script>  --> 
+<!-- <script type="text/javascript">
+  $("#ttt").load("/file/approval/e03c2207-6b85-44b7-886c-dfa9ffbf02e8.html")
+   </script>  -->
     </body>
 </html>

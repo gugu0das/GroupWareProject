@@ -7,14 +7,14 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@Transactional(rollbackFor=Exception.class)
+//@Service
+//@Transactional(rollbackFor=Exception.class)
 public class ApprovalService {
 	
 	@Autowired
 	private ApprovalDAO approvalDAO;
 	
-	public int setApprovalApplication(ApprovalVO approvalVO,String fileName) {
+	public int setApprovalApplication(ApprovalVO approvalVO,String fileName) throws Exception{
 		
 		int result = approvalDAO.setApprovalApplication(approvalVO);
 		if(result == 1) {
@@ -47,5 +47,27 @@ public class ApprovalService {
 		}
 		
 		return result;
+	}
+	
+	public List<ApprovalVO> getApprovalList(MemberVO memberVO) throws Exception{
+		List<ApprovalVO> ar = approvalDAO.getApprovalList(memberVO);
+		
+		return ar;
+	}
+	public ApprovalUploadFileVO getApprovalFile(ApprovalVO approvalVO) throws Exception{
+		return approvalDAO.getApprovalFile(approvalVO);
+	}
+	public int setApprovalApproval(MemberVO memberVO,ApprovalVO approvalVO,int approval) throws Exception{
+		
+		ApprovalHistoryVO approvalHistoryVO = new ApprovalHistoryVO();
+		approvalHistoryVO.setMemberId(memberVO.getId());
+		approvalHistoryVO.setApprovalId(approvalVO.getId());
+		if(approval ==1) {
+		approvalHistoryVO.setCheck("승인");
+		}else {
+			approvalHistoryVO.setCheck("거절");
+		}
+		
+		return 1;
 	}
 }
