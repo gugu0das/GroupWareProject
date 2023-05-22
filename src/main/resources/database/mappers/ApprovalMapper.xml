@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ware.group.approval.ApprovalDAO">
+	
+	
+	<insert id="addCategory" parameterType="ApprovalCategoryVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO APPROVALCATEGORY (id, name, ref) VALUES (#{id}, #{name}, #{ref})
+	</insert>
+	
+	<insert id="addApprover" parameterType="ApprovalCategoryVO">
+		INSERT INTO APPROVER (category_id, job_id, dept_id, depth) VALUES (#{categoryId}, #{jobId}, #{deptId}, 0)
+	</insert>
+	
+	<insert id="addApprovalFormFile" parameterType="ApprovalCategoryVO">
+		INSERT INTO APPROVALFORMFILE (category_id, file_id) VALUES (#{categoryId}, #{fileId})
+	</insert>
+	
+	<select id="getDepartmentList" resultType="DepartmentVO">
+		SELECT * FROM DEPARTMENT
+	</select>
+	
+	<select id="getJobList" parameterType="DepartmentVO" resultType="JobVO">
+		SELECT j.id, j.name FROM `MEMBER` m 
+		LEFT JOIN DEPARTMENT d 
+		ON m.dept_num = d.id
+		LEFT JOIN JOB j 
+		ON m.job_id = j.id
+		WHERE d.id = #{id};
+	</select>
+	
+	<!-- 
+	
+	<insert id="addCategoryApprover" parameterType="ApproverVO">
+		INSERT INTO APPROVER (CATEGORYNUM, JOBID, DEPTNUM) VALUSE (#{categoryNum}, #{jobId}, #{deptNum})
+	</insert>
+	
+	<insert id="addCategoryFormFile" parameterType="ApprovalFormFileVO">
+		INSERT INTO APPROVALFORMFILE (CATEGORYNUM, FILENUM) VALUSE (#{categoryNum}, #{fileNum})
+	</insert>
+	
+	<update id="updateCategory" parameterType="ApprovalCategoryVO">
+		UPDATE APPROVALCATEGORY SET CATEGORYNAME = #{categoryName}, CATEGORYREF = #{categoryRef} WHERE CATEGORYNUM = #{categoryNum}
+	</update>
+	
+	<delete id="deleteCategory" parameterType="ApprovalCategoryVO">
+		DELETE APPROVALCATEGORY WHERE CATEGORYNUM = #{categoryNum}
+	</delete>
+	
+	<delete id="deleteUnderCategory" parameterType="ApprovalCategoryVO">
+		DELETE APPROVALCATEGORY WHERE CATEGORYREF = #{categoryNum}
+	</delete>
+	
+	<select id="getListCategory" resultType="ApprovalCategoryVO">
+		SELECT * FROM APPRAOVALCATEGORY
+	</select> -->
+	<insert id="setApprovalApplication" parameterType="ApprovalVO" useGeneratedKeys="true" keyProperty="id">
+ 		INSERT INTO APPROVAL VALUES(#{id},#{categoryId},#{memberId},#{contents},now(),'대기',null)
+ 	</insert>
+ 	<insert id="setApprovalApplicationFileUpload" parameterType="ApprovalUploadFileVO">
+ 		INSERT INTO APPROVALUPLOADFILE(approval_id,name) VALUES(#{approvalId},#{name})
+ 	</insert>
+ 	<insert id="setApprovalApplicationHistory" parameterType="ApprovalHistoryVO">
+ 		INSERT INTO APPROVALHISTORY(approval_id,member_id,date,`check`) VALUES(#{approvalId},#{memberId},now(),#{check})
+ 	</insert>
+ 	<select id="getApprovalInfo" parameterType="ApproverVO" resultType="MemberVO">
+ 		SELECT * FROM MEMBER WHERE job_id=#{jobId} AND department_id = #{departmentId}
+ 	</select>
+ 	<select id="getApprover" parameterType="ApprovalVO" resultType="ApproverVO">
+ 		SELECT * FROM APPROVER WHERE category_id=#{categoryId} ORDER BY depth
+ 	</select>
+ 	<insert id="setApprovalInfo" parameterType="ApprovalInfoVO">
+ 		INSERT INTO APPROVALINFO(approval_id,member_id,date,`check`) VALUES(#{approvalId},#{memberId},now(),#{check})
+ 	</insert>
+ 	<select id="getApprovalList" resultMap="app" parameterType="MemberVO">
+ 		SELECT * FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='대기' AND a3.member_id=#{id}
+ 	</select>
+ 	<resultMap type="ApprovalVO" id="app">
+ 		<id column="id" property="id"/>
+ 		<result column="category_id" property="categoryId"/>
+ 		<result column="member_id" property="memberId"/>
+ 		<result column="contents" property="contents"/>
+ 		<result column="date" property="date"/>
+ 		<result column="confirm" property="confirm"/>
+ 		<result column="fin" property="fin"/>
+ 		
+ 		<association property="approvalInfoVO" javaType="ApprovalInfoVO">
+ 			<id column="id" property="id"/>
+ 			<result column="approval_id" property="approvalId"/>
+ 			<result column="member_id" property="memberId"/>
+ 			<result column="date" property="date"/>
+ 			<result column="check" property="check"/>
+ 		</association>
+ 	</resultMap>
+ 	<select id="getApprovalFile" parameterType="ApprovalVO" resultType="ApprovalUploadFileVO">
+ 		SELECT * FROM APPROVALUPLOADFILE WHERE approval_id=#{id}
+ 	</select>
+</mapper>

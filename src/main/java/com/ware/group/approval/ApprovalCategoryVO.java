@@ -10,6 +10,9 @@ public class ApprovalCategoryVO {
 	private String name;
 	private long ref;
 	
-	private ApproverVO[] approverList;
-	private ApprovalFormFileVO[] approvalFileList;
+	
+	
+	private ApprovalCategoryVO[] sub;
+	private ApproverVO[] approver;
+	private ApprovalFormFileVO[] file;
 }

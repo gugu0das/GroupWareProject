@@ -1,0 +1,38 @@
+package com.ware.group.approval3;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.ware.group.approval.ApprovalCategoryVO;
+import com.ware.group.approval.ApprovalFormFileVO;
+import com.ware.group.approval.ApprovalVO;
+import com.ware.group.approval.ApproverVO;
+
+
+
+@Mapper
+public interface ApprovalDAO3 {
+
+	public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int addApprover(ApproverVO approverVO) throws Exception;
+	
+	public int addApprovalFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception;
+	
+	public List<ApprovalCategoryVO> getCategoryOption() throws Exception;
+	
+	public int deleteCategory(ApprovalCategoryVO categoryVO) throws Exception;
+	
+	public int updateCategory(ApprovalCategoryVO categoryVO) throws Exception;
+	
+	public List<ApprovalCategoryVO> getListCategory() throws Exception;
+	
+	public ApprovalVO test() throws Exception;
+	
+	public List<DepartmentVO> getDepartmentList() throws Exception;
+	
+	public List<JobVO> getJobList(DepartmentVO departmentVO) throws Exception;
+	
+}

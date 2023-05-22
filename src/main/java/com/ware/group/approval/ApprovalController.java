@@ -11,9 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.ware.group.approval.MemberVO;
+import com.ware.group.approval3.DepartmentVO;
+import com.ware.group.approval3.JobVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +35,85 @@ public class ApprovalController {
 	/*
 	 * @Autowired TemplateEngine templateEngine;
 	 */
+	
+	@GetMapping("addCategory")
+	public ModelAndView addCategory() throws Exception{
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("/approval/addCategory");
+		
+		List<DepartmentVO> deptList = approvalService.getDepartmentList();
+		
+		mv.addObject("deptList", deptList);
+		
+		return mv;
+		
+	}
+	
+	@PostMapping("getJobList")
+	@ResponseBody
+	public List<JobVO> getJobList(DepartmentVO departmentVO) throws Exception{
+		
+		List<JobVO> jobList = approvalService.getJobList(departmentVO);
+		
+		return jobList;
+	}
+	
+	@PostMapping("addCategory")
+	public ModelAndView addCategory(String json1) throws Exception{
+		
+		ModelAndView mv = new ModelAndView();
+		
+		log.error(json1);
+		
+		Gson gson = new Gson();
+		
+		ApprovalCategoryVO [] approvalCategoryVOs = gson.fromJson(json1, ApprovalCategoryVO[].class);
+		
+		for(ApprovalCategoryVO approvalCategoryVO1 : approvalCategoryVOs) {
+			approvalCategoryVO1.setRef(0L);
+			approvalService.addCategory(approvalCategoryVO1);
+			if(approvalCategoryVO1.getSub() == null) {
+				for(ApproverVO approverVO : approvalCategoryVO1.getApprover()) {					
+					approverVO.setCategoryId(approvalCategoryVO1.getId());
+					approvalService.addApprover(approverVO);
+				}
+				for(ApprovalFormFileVO fileVO : approvalCategoryVO1.getFile()) {
+					fileVO.setCategoryId(approvalCategoryVO1.getId());
+					approvalService.addApprovalFormFile(fileVO);
+				}
+			}else {
+				for(ApprovalCategoryVO approvalCategoryVO2 : approvalCategoryVO1.getSub()) {
+					approvalCategoryVO2.setRef(approvalCategoryVO1.getId());
+					approvalService.addCategory(approvalCategoryVO2);
+					for(ApproverVO approverVO : approvalCategoryVO2.getApprover()) {					
+						approverVO.setCategoryId(approvalCategoryVO2.getId());
+						approvalService.addApprover(approverVO);
+					}
+					for(ApprovalFormFileVO fileVO : approvalCategoryVO2.getFile()) {
+						fileVO.setCategoryId(approvalCategoryVO2.getId());
+						approvalService.addApprovalFormFile(fileVO);
+					}
+				}
+			}
+		}
+		//int result = approvalService.addCategory();
+		
+//		mv.addObject("result", result);
+//		
+//		
+//		if(result == 1) {
+//			mv.setViewName("/common/result");
+//			mv.addObject("url", "/approval/main");
+//		}else {
+//			mv.setViewName("/approval/addCategory");
+//		}
+		
+		
+		return mv;
+		
+	}
 	
 	
 	@GetMapping("application")
@@ -115,7 +198,7 @@ public class ApprovalController {
 //        //br.close(); //출력스트림 닫기
 //        pw.close();
 //        writer.close();
-		//approvalService.setApprovalApproval(memberVO, approvalVO, approval);
+		approvalService.setApprovalApproval(memberVO, approvalVO, approval);
 		
 		log.error("{} ::::::::::::", approval);
 		mv.setViewName("approval/approval");
