@@ -9,33 +9,42 @@
 		select * from MEMBER
 	</select>
 
-	<select id="getMemberLogin" parameterType="MemberVO" resultMap="getLoginResult">
-	select m.id as m_id, m.employee_id ,m.account_id ,m.password,m.status ,r.id as r_id, r.name as r_name  from `MEMBER` m
-	inner join
-	MEMBERROLE mr 
-	on m.id =mr.member_id 
-	INNER JOIN 
-	`ROLE` r
-	on mr.role_id =r.id 
-	where account_id =#{accountId}
+	<select id="getMemberLogin" parameterType="MemberVO"
+		resultMap="getLoginResult">
+		select m.id as m_id, m.employee_id ,m.account_id ,m.password,m.status ,r.id
+		as r_id, r.name as r_name from `MEMBER` m
+		inner join
+		MEMBERROLE mr
+		on m.id =mr.member_id
+		INNER JOIN
+		`ROLE` r
+		on mr.role_id =r.id
+		where account_id =#{accountId}
 	</select>
-	<resultMap type="MemberVO" id="getLoginResult">
-	<id property="id" column="m_id"/>
-	<result property="employeeId" column="employee_id"/>
-	<result property="accountId" column="account_id"/>
-	<result property="password" column="password"/>
-	<result property="status" column="status"/>
-	<collection property="roleVOs" javaType="List" ofType="RoleVO">
-		<id property="id" column="r_id"/>
-		<result property="name" column="r_name"/>
-	</collection>
-	</resultMap>
-	
+	<!-- userDetail(Profile) -->
+	<select id="getMemberProfile" parameterType="MemberVO"
+		resultMap="getMemberProfile">
+		select m.id as m_id,m.employee_id,m.account_id ,m.name as m_name
+		,m.status,m.birth_date ,m.email ,m.phone ,m.address, m.hire_date
+		,d.name as dep_name,j.name as job_name
+		from `MEMBER` m
+		inner join
+		DEPARTMENT d
+		on m.department_id =d.id
+		INNER JOIN
+		JOB j
+		on m.job_id =j.id
+		where account_id =#{accountId};
+	</select>
+
+
+
+
 	<insert id="setMemberJoin" parameterType="MemberVO">
-	<selectKey keyProperty="id" resultType="Long" order="AFTER">
-	select id  from `MEMBER` where id=(SELECT MAX(id) from `MEMBER`)
-	</selectKey>
-	
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select id from `MEMBER` where id=(SELECT MAX(id) from `MEMBER`)
+		</selectKey>
+
 		INSERT INTO `MEMBER`
 		(employee_id,account_id,job_id
 		,PASSWORD,name,birth_date,email,phone,address,reg_date,update_date,hire_date,end_date,status,department_id)
@@ -50,18 +59,66 @@
 		VALUES(#{roleId}, #{memberId})
 	</insert>
 
+<update id="setMemberUpdate" parameterType="MemberVO">
+update `MEMBER` SET account_id=#{accountId},name=#{name},address=#{address}, email=#{email},phone=#{phone}, birth_date=#{birthDate}
+where id=#{id}
+
+</update>
+
 
 	<!-- select JobList -->
 	<select id="getJobList" resultType="JobVO">
 		select * from JOB
 	</select>
 
+
+
+
 	<!-- 검증 1. ID중복검사 -->
 	<select id="idDuplicateCheck" resultType="MemberVO"
 		parameterType="MemberVO">
-		SELECT account_id FROM MEMBER WHERE account_id=#{accountId}
+		SELECT account_id FROM MEMBER WHERE
+		account_id=#{accountId}
 	</select>
 
 
 
+	<!-- result Map -->
+
+	<!-- 1. Login -->
+	<resultMap type="MemberVO" id="getLoginResult">
+		<id property="id" column="m_id" />
+		<result property="employeeId" column="employee_id" />
+		<result property="accountId" column="account_id" />
+		<result property="password" column="password" />
+		<result property="status" column="status" />
+		<collection property="roleVOs" javaType="List"
+			ofType="RoleVO">
+			<id property="id" column="r_id" />
+			<result property="name" column="r_name" />
+		</collection>
+	</resultMap>
+
+	<!-- 2. MemberProfile -->
+	<resultMap type="MemberVO" id="getMemberProfile">
+		<id property="id" column="m_id" />
+		<result property="employeeId" column="employee_id" />
+		<result property="accountId" column="account_id" />
+		<result property="name" column="m_name" />
+		<result property="phone" column="phone"/>
+		<result property="birthDate" column="birth_date" />
+		<result property="email" column="email" />
+		<result property="status" column="status"/>
+		<result property="address" column="address" />
+		<result property="hireDate" column="hire_date" />
+		<association property="jobVO" javaType="JobVO">
+			<id property="name" column="job_name" />
+		</association>
+		<association property="departmentVO"
+			javaType="DepartmentVO">
+			<id property="name" column="dep_name" />
+		</association>
+
+	</resultMap>
+	<!-- End Result Map -->
 </mapper>  
