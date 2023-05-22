@@ -40,4 +40,11 @@ public class ApprovalService3 {
 	public ApprovalVO test() throws Exception{
 		return approvalDAO.test();
 	};
+	
+	public List<DepartmentVO> getDepartmentList() throws Exception{
+		return approvalDAO.getDepartmentList();
+	};
+	public List<JobVO> getJobList(DepartmentVO departmentVO) throws Exception{
+		return approvalDAO.getJobList(departmentVO);
+	};
 }

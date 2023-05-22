@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,10 +18,20 @@
 				<button id="addUnderOption">ADD UNDER OPTION</button>
 				<div class="underOption" id="underOption1" data-under-count="1">
 					&nbsp &nbsp<input type="text" name="underName" id="underName">
-					<input type="text" name="fileId" id="fileId">
-					<input type="text" name="deptId" id="deptId">
-					<input type="text" name="jobId" id="jobId">
 					<button id="deleteUnderOption">DELETE UNDER OPTION</button>
+					<input type="text" name="fileId" id="fileId">
+					<div id="approver" data-approver-count="1">
+						<select id="deptId" class="form-control">
+							<option value="부서" selected>부서</option>
+							<c:forEach items="${deptList}" var="dept">
+								<option value="${dept.id}">${dept.name}</option>
+							</c:forEach>
+						</select>
+						<button id="addApprover">ADD APPROVER</button>
+						<button id="deleteApprover">DELETE APPROVER</button>
+						
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -31,6 +42,7 @@
 		</form>
 		<button id="btn">SUBMIT</button>
 	</div>
+	<script src="/js/approver.js"></script>	
 	<script src="/js/categoryAdd.js"></script>	
 </body>
 </html>

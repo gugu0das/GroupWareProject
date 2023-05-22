@@ -8,8 +8,6 @@
 	<settings>
         <!-- 카멜 케이스 VO 매핑 -->       
         <setting name="mapUnderscoreToCamelCase" value="true"/>
-        
-       
     </settings>
     
 	<typeAliases>
@@ -18,7 +16,8 @@
 		<typeAlias type="com.ware.group.approval.ApprovalCategoryVO" alias="ApprovalCategoryVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalFormFileVO" alias="ApprovalFormFileVO"/>
 		<typeAlias type="com.ware.group.approval.ApproverVO" alias="ApproverVO"/>
-		
+		<typeAlias type="com.ware.group.approval3.DepartmentVO" alias="DepartmentVO"/>
+		<typeAlias type="com.ware.group.approval3.JobVO" alias="JobVO"/>
 	</typeAliases>
 	
 </configuration>

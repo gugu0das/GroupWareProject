@@ -31,4 +31,8 @@ public interface ApprovalDAO3 {
 	
 	public ApprovalVO test() throws Exception;
 	
+	public List<DepartmentVO> getDepartmentList() throws Exception;
+	
+	public List<JobVO> getJobList(DepartmentVO departmentVO) throws Exception;
+	
 }
