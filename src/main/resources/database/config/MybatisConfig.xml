@@ -1,22 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
-
+  
 <configuration>
+	<settings>
+
+        <!-- 카멜 케이스 VO 매핑 -->       
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    
 	<typeAliases>
-		<typeAlias type="com.ware.group.common" alias="DateVO"/>
-		<typeAlias type="com.ware.group.common" alias="Field3VO"/>
-		<typeAlias type="com.ware.group.common" alias="PageVO"/>
-		<typeAlias type="com.ware.group.common" alias="SearchVO"/>
-		<typeAlias type="com.ware.group.common" alias="Util4calen"/>
+		<!-- <typeAlias type="com.iu.base.board.BoardVO" alias="BoardVO"/> -->
 		
-		<typeAlias type="com.ware.group.board" alias="BoardSearchVo"/>
+		<typeAlias type="com.ware.group.common.DateVO" alias="DateVO"/>
+		<typeAlias type="com.ware.group.common.Field3VO" alias="Field3VO"/>
+		<typeAlias type="com.ware.group.common.PageVO" alias="PageVO"/>
+		<typeAlias type="com.ware.group.common.SearchVO" alias="SearchVO"/>
+		<typeAlias type="com.ware.group.common.Util4calen" alias="Util4calen"/>
 		
-		<typeAlias type="com.ware.group.schedule" alias="CalendarVO"/>
-		<typeAlias type="com.ware.group.schedule" alias="MonthVO"/>
-		<typeAlias type="com.ware.group.schedule" alias="ScheDetailVO"/>
-		<typeAlias type="com.ware.group.schedule" alias="ScheVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalVO" alias="ApprovalVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalCategoryVO" alias="ApprovalCategoryVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalFormFileVO" alias="ApprovalFormFileVO"/>
+		<typeAlias type="com.ware.group.approval.ApproverVO" alias="ApproverVO"/>
+		
+		<typeAlias type="com.ware.group.notice.NoticeVO" alias="NoticeVO"/>
+		<typeAlias type="com.ware.group.notice.NoticeFileVO" alias="NoticeFilesVO"/>
+		
+		<typeAlias type="com.ware.group.board.BoardFileVO" alias="BoardFileVO"/>
+		<typeAlias type="com.ware.group.board.BoardSearchVo" alias="BoardSearchVo"/>
+		
+		<typeAlias type="com.ware.group.qna.QnaVO" alias="QnaVO"/>
+		<typeAlias type="com.ware.group.qna.QnaFileVO" alias="QnaFileVO"/>
+		
+		<typeAlias type="com.ware.group.qna.QnaCommentVO" alias="QnaCommentVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalUploadFileVO" alias="ApprovalUploadFileVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalInfoVO" alias="ApprovalInfoVO"/>
+		
+		<typeAlias type="com.ware.group.schedule.CalendarVO" alias="CalendarVO"/>
+		<typeAlias type="com.ware.group.schedule.MonthVO" alias="MonthVO"/>
+		<typeAlias type="com.ware.group.schedule.ScheDetailVO" alias="ScheDetailVO"/>
+		<typeAlias type="com.ware.group.schedule.ScheVO" alias="ScheVO"/>
+	
+		<typeAlias type="com.ware.group.member.MemberVO"
+			alias="MemberVO" />
+		<typeAlias type="com.ware.group.department.DepartmentVO"
+			alias="DepartmentVO" />
+		<typeAlias type="com.ware.group.member.JobVO"
+			alias="JobVO" />
+			<typeAlias type="com.ware.group.member.RoleVO"
+			alias="RoleVO" />
+			
+  	  	<typeAlias type="java.lang.Long" alias="Long" />
+		<typeAlias type="java.util.List" alias="List"/>
+		<typeAlias type="com.ware.group.util.Pager" alias="Pager"/>
 	</typeAliases>
-</configuration>
+
+</configuration>  
+
