@@ -6,12 +6,12 @@
         <setting name="mapUnderscoreToCamelCase" value="true" />
     </settings>
     <typeAliases>
-		<typeAlias type="com.ware.group.approval2.ApprovalVO" alias="ApprovalVO"/>
-		<typeAlias type="com.ware.group.approval2.ApprovalUploadFileVO" alias="ApprovalUploadFileVO"/>
-		<typeAlias type="com.ware.group.approval2.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
-		<typeAlias type="com.ware.group.approval2.MemberVO" alias="MemberVO"/>
-		<typeAlias type="com.ware.group.approval2.ApproverVO" alias="ApproverVO"/>
-		<typeAlias type="com.ware.group.approval2.ApprovalInfoVO" alias="ApprovalInfoVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalVO" alias="ApprovalVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalUploadFileVO" alias="ApprovalUploadFileVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
+		<typeAlias type="com.ware.group.approval.ApproverVO" alias="ApproverVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalInfoVO" alias="ApprovalInfoVO"/>
+		<typeAlias type="com.ware.group.approval.MemberVO" alias="MemberVO"/>
 		
 		
 	</typeAliases>     

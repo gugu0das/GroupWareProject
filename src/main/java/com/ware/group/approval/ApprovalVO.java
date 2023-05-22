@@ -2,6 +2,8 @@ package com.ware.group.approval;
 
 import java.sql.Date;
 
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +14,9 @@ public class ApprovalVO {
 	private long categoryId;
 	private long memberId;
 	private String contents;
-	private Date reg_date;
+	private Date date;
 	private String confirm;
 	private Date fin;
+	
+	private ApprovalInfoVO approvalInfoVO;
 }
