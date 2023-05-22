@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
 	<settings>
+
         <!-- 카멜 케이스 VO 매핑 -->       
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
@@ -22,6 +22,19 @@
 		<typeAlias type="com.ware.group.approval.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalInfoVO" alias="ApprovalInfoVO"/>
 		<typeAlias type="com.ware.group.approval.MemberVO" alias="MemberVO"/>
-	</typeAliases>
 	
-</configuration>
+		<typeAlias type="com.ware.group.member.MemberVO"
+			alias="MemberVO" />
+		<typeAlias type="com.ware.group.department.DepartmentVO"
+			alias="DepartmentVO" />
+		<typeAlias type="com.ware.group.member.JobVO"
+			alias="JobVO" />
+			<typeAlias type="com.ware.group.member.RoleVO"
+			alias="RoleVO" />
+			
+  	  	<typeAlias type="java.lang.Long" alias="Long" />
+		<typeAlias type="java.util.List" alias="List"/>
+	</typeAliases>
+
+</configuration>  
+
