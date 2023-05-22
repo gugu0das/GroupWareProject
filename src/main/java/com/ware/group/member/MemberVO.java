@@ -13,6 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ware.group.department.DepartmentVO;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,6 +56,7 @@ public class MemberVO implements UserDetails{
 	private Long departmentId;
 	
 	private JobVO jobVO;
+	private DepartmentVO departmentVO;
 	
 	private List<RoleVO> roleVOs;
 

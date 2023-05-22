@@ -42,6 +42,9 @@ public class MemberService implements UserDetailsService{
 	}
 
 
+	public MemberVO getMemberProfile(MemberVO memberVO) throws Exception{
+		return memberDAO.getMemberProfile(memberVO);
+	}
 
 	public List<MemberVO> getMembers()throws Exception{
 		return memberDAO.getMembers();
@@ -70,6 +73,9 @@ public class MemberService implements UserDetailsService{
 		
 	}
 	
+	public int setMemberUpdate(MemberVO memberVO)throws Exception{
+		return memberDAO.setMemberUpdate(memberVO);
+	}
 	//id중복 검증
 	//true면 중복
 	public boolean idDuplicateCheck(MemberVO memberVO)throws Exception{

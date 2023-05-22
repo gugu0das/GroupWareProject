@@ -20,5 +20,7 @@ public interface MemberDAO {
 	
 	public int setMemberRole(Map<String, Object> map)throws Exception;
 	
+	public MemberVO getMemberProfile(MemberVO memberVO)throws Exception;
 	
+	public int setMemberUpdate(MemberVO memberVO) throws Exception;
 }

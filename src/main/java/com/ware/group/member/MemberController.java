@@ -96,19 +96,32 @@ public class MemberController {
 //	
 	@GetMapping("login")
 	public ModelAndView getLogin(ModelAndView mv, HttpSession session)throws Exception{
-//		MemberVO memberVO = new MemberVO();
-//		memberVO.setAccountId("D");
-//		memberVO = memberService.getMemberLogin(memberVO);
-//		System.out.println("getID : "+memberVO.getId());
-//		System.out.println("getROLEID : "+memberVO.getRoleVOs().get(0).getId());
-//		
-//		
-		
 		
 		mv.setViewName("member/login");
 		return mv;
 		
 	}
+	
+	@PostMapping("update")
+	public ModelAndView setMemberUpdate(ModelAndView mv, MemberVO memberVO)throws Exception{
+		int result = memberService.setMemberUpdate(memberVO);
+		
+		mv.setViewName("redirect:/");
+		return mv;
+	}
+	
+	@GetMapping("profile")
+	public ModelAndView getProfile(@ModelAttribute MemberVO memberVO, ModelAndView mv,HttpSession session)throws Exception{
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		
+		mv.addObject("memberVO", memberVO);
+		mv.setViewName("member/profile");
+		return mv;
+		
+	}
+	
 	
 //	-------------검증------------------------------------------
 	@GetMapping("idDuplicateCheck")
