@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
-
+  
 <configuration>
 	<settings>
+
         <!-- 카멜 케이스 VO 매핑 -->       
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
@@ -16,12 +16,33 @@
 		<typeAlias type="com.ware.group.approval.ApprovalCategoryVO" alias="ApprovalCategoryVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalFormFileVO" alias="ApprovalFormFileVO"/>
 		<typeAlias type="com.ware.group.approval.ApproverVO" alias="ApproverVO"/>
-		<typeAlias type="com.ware.group.approval3.DepartmentVO" alias="DepartmentVO"/>
-		<typeAlias type="com.ware.group.approval3.JobVO" alias="JobVO"/>
+		
+		<typeAlias type="com.ware.group.notice.NoticeVO" alias="NoticeVO"/>
+		<typeAlias type="com.ware.group.notice.NoticeFileVO" alias="NoticeFilesVO"/>
+		<typeAlias type="com.ware.group.board.BoardFileVO" alias="BoardFileVO"/>
+		
+		<typeAlias type="com.ware.group.qna.QnaVO" alias="QnaVO"/>
+		<typeAlias type="com.ware.group.qna.QnaFileVO" alias="QnaFileVO"/>
+		
+		<typeAlias type="com.ware.group.qna.QnaCommentVO" alias="QnaCommentVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalUploadFileVO" alias="ApprovalUploadFileVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalInfoVO" alias="ApprovalInfoVO"/>
-		<typeAlias type="com.ware.group.approval.MemberVO" alias="MemberVO"/>
-	</typeAliases>
+		
 	
-</configuration>
+		<typeAlias type="com.ware.group.member.MemberVO"
+			alias="MemberVO" />
+		<typeAlias type="com.ware.group.department.DepartmentVO"
+			alias="DepartmentVO" />
+		<typeAlias type="com.ware.group.member.JobVO"
+			alias="JobVO" />
+			<typeAlias type="com.ware.group.member.RoleVO"
+			alias="RoleVO" />
+			
+  	  	<typeAlias type="java.lang.Long" alias="Long" />
+		<typeAlias type="java.util.List" alias="List"/>
+		<typeAlias type="com.ware.group.util.Pager" alias="Pager"/>
+	</typeAliases>
+
+</configuration>  
+

@@ -1,0 +1,115 @@
+@charset "UTF-8";
+
+#sidebar {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    border-collapse: collapse;
+  }
+  #sidebar {
+    /* 생략 */
+    animation: sidebarFadeIn 1s ease-in-out forwards;
+    opacity: 0;
+  }
+  
+  @keyframes sidebarFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .product-container {
+    margin-right: 100px;
+  }
+
+.naver-link {
+  display: inline-block;
+  padding: 12px 20px;
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+  background-color: #2db400;
+  border-radius: 30px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.naver-link:hover {
+  background-color: #219200;
+}
+
+.product-container .product_info {
+  position: relative;
+  display: flex;
+}
+
+.product-container .product_info .product_detail {
+  position: absolute;
+  margin-left: 600px;
+}
+
+.product-container .product-btn {
+  margin-top: 50px;
+}
+.product-price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #131212;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #cfdcf5;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 800px;
+}
+.product-price1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #131212;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #cfdcf5;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  margin-top: 50px;
+  border-collapse: collapse;
+  border-spacing: 800px;
+ 
+}
+.product-price2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #131212;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #cfdcf5;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  width: 85%;
+  margin-top: 50px;
+  border-collapse: collapse;
+  border-spacing: 800px;
+}
+.product-btn {
+  margin-left: 0px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  border-collapse: collapse;
+  border-spacing: 40px;
+}
