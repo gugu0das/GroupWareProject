@@ -20,6 +20,7 @@
 		<typeAlias type="com.ware.group.qna.QnaCommentVO" alias="QnaCommentVO"/>
 		
 		
+	
 		
 		<typeAlias type="com.ware.group.util.Pager" alias="Pager"/>
 	</typeAliases>
