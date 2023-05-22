@@ -20,7 +20,7 @@ import com.ware.group.approval.ApproverVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/approval/*")
+//@RequestMapping("/approval/*")
 @Slf4j
 public class ApprovalController3 {
 	
