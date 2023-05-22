@@ -36,8 +36,8 @@ public class MemberController {
 	@Autowired
 	private DepartmentService departmentService;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
 //	@GetMapping("info")
 //	public void info(HttpSession session) {
 ////		String pw="5";
@@ -106,7 +106,7 @@ public class MemberController {
 	public ModelAndView setMemberUpdate(ModelAndView mv, MemberVO memberVO)throws Exception{
 		int result = memberService.setMemberUpdate(memberVO);
 		
-		mv.setViewName("redirect:/");
+		mv.setViewName("redirect:/member/logout");
 		return mv;
 	}
 	
@@ -121,7 +121,24 @@ public class MemberController {
 		return mv;
 		
 	}
+	@GetMapping("security")
+	public ModelAndView getSecurity(@ModelAttribute MemberVO memberVO, ModelAndView mv)throws Exception{
+		
+		mv.setViewName("member/security");
+		return mv;
+	}
 	
+	@PostMapping("security")
+	public ModelAndView setPasswordUpdate(ModelAndView mv, MemberVO memberVO,HttpSession session, BindingResult bindingResult)throws Exception{
+		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO2 =(MemberVO)contextImpl.getAuthentication().getPrincipal(); 
+		memberVO.setId(memberVO2.getId());
+		memberService.setPasswordUpdate(memberVO, bindingResult);
+		mv.setViewName("redirect:/member/logout");
+		return mv;
+	}
 	
 //	-------------검증------------------------------------------
 	@GetMapping("idDuplicateCheck")
@@ -129,9 +146,7 @@ public class MemberController {
 	public boolean idDuplicateCheck(MemberVO memberVO)throws Exception{
 		boolean check;
 		check = memberService.idDuplicateCheck(memberVO);
-		
-		
-		
+
 		return check;
 		
 	}

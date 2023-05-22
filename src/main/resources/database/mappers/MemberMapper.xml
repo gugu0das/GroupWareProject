@@ -58,13 +58,19 @@
 		(role_id, member_id)
 		VALUES(#{roleId}, #{memberId})
 	</insert>
-
-<update id="setMemberUpdate" parameterType="MemberVO">
-update `MEMBER` SET account_id=#{accountId},name=#{name},address=#{address}, email=#{email},phone=#{phone}, birth_date=#{birthDate}
-where id=#{id}
-
-</update>
-
+	
+<!-- profile update -->
+	<update id="setMemberUpdate" parameterType="MemberVO">
+	update `MEMBER` SET account_id=#{accountId},name=#{name},address=#{address}, email=#{email},phone=#{phone}, birth_date=#{birthDate}, update_date=now()
+	where id=#{id}
+	
+	</update>
+	
+<!-- pwUpdate -->
+	<update id="setPasswordUpdate" parameterType="MemberVO">
+	update `MEMBER` SET password=#{password}
+	where id=#{id}
+	</update>
 
 	<!-- select JobList -->
 	<select id="getJobList" resultType="JobVO">

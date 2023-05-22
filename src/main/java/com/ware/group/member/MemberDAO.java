@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
+
 @Mapper
 public interface MemberDAO {
 
@@ -23,4 +25,6 @@ public interface MemberDAO {
 	public MemberVO getMemberProfile(MemberVO memberVO)throws Exception;
 	
 	public int setMemberUpdate(MemberVO memberVO) throws Exception;
+	
+	public int setPasswordUpdate(MemberVO memberVO)throws Exception;
 }

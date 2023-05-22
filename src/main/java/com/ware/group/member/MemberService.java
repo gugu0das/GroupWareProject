@@ -27,8 +27,7 @@ public class MemberService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		System.out.println("userDetail");
-		System.out.println(username);
+		
 		MemberVO memberVO = new MemberVO();
 		memberVO.setAccountId(username);
 		try {
@@ -64,6 +63,20 @@ public class MemberService implements UserDetailsService{
 		return result;
 	}
 
+	//password change
+	public int setPasswordUpdate(MemberVO memberVO,BindingResult bindingResult)throws Exception{
+		boolean check = false;
+		check = this.pwCheck(memberVO);
+		if(!check) {//false면 pw두개가 같음
+			memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
+			return memberDAO.setPasswordUpdate(memberVO);
+			
+//			bindingResult.rejectValue("passwordCheck", "member.password.notEqual");
+					
+		}
+		return 0;
+		
+	}
 	public List<JobVO> getJobList()throws Exception{
 		return memberDAO.getJobList();
 
@@ -76,8 +89,8 @@ public class MemberService implements UserDetailsService{
 	public int setMemberUpdate(MemberVO memberVO)throws Exception{
 		return memberDAO.setMemberUpdate(memberVO);
 	}
-	//id중복 검증
-	//true면 중복
+	// 검증----------------------------------------------------------------
+	// id중복   true면 중복
 	public boolean idDuplicateCheck(MemberVO memberVO)throws Exception{
 
 		boolean check = false;
@@ -89,5 +102,14 @@ public class MemberService implements UserDetailsService{
 		return check;
 		
 	}
+	//pw체크 pw두개가 같으면 false 다르면 true
+	public boolean pwCheck(MemberVO memberVO)throws Exception{
+		boolean check = false;
+		if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
+			check= true;
+		}
+		return check;
+	}
+	//검증 END------------------------------------------------
 	
 }
