@@ -16,6 +16,8 @@ public class Pager {
 	private Long totalPage;
 	private Long startNum;
 	private Long lastNum;
+	//qna댓글로 인해 추가
+	private Long qnaId;
 	
 	private boolean before;
 	private boolean after;
