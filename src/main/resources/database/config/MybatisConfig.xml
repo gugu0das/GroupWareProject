@@ -12,7 +12,7 @@
 		<typeAlias type="com.ware.group.member.MemberVO"
 			alias="MemberVO" />
 		<typeAlias type="com.ware.group.department.DepartmentVO"
-			alias="DepartMentVO" />
+			alias="DepartmentVO" />
 		<typeAlias type="com.ware.group.member.JobVO"
 			alias="JobVO" />
 			<typeAlias type="com.ware.group.member.RoleVO"
