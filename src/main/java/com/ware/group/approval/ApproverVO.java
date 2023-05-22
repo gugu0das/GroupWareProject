@@ -9,6 +9,6 @@ import lombok.Setter;
 public class ApproverVO {
 	private long categoryId;
 	private long jobId;
-	private long deptId;
-	private long depth;
+	private long departmentId;
+	private long dept;
 }

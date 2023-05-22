@@ -18,6 +18,10 @@
 		<typeAlias type="com.ware.group.approval.ApproverVO" alias="ApproverVO"/>
 		<typeAlias type="com.ware.group.approval3.DepartmentVO" alias="DepartmentVO"/>
 		<typeAlias type="com.ware.group.approval3.JobVO" alias="JobVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalUploadFileVO" alias="ApprovalUploadFileVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalInfoVO" alias="ApprovalInfoVO"/>
+		<typeAlias type="com.ware.group.approval.MemberVO" alias="MemberVO"/>
 	</typeAliases>
 	
 </configuration>
