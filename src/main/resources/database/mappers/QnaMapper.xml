@@ -29,7 +29,7 @@
 	<select id="getList" parameterType="Pager" resultType="QnaVO" >
 		SELECT * FROM QNA 
 		<include refid="search"></include>
-		ORDER BY ID DESC
+		ORDER BY ID DESC,REF DESC, STEP ASC
 		LIMIT #{startRow}, #{perPage}
 	</select>
 	
@@ -65,9 +65,17 @@
 	
 	
 	<insert id="setInsert" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO QNA (id, member_id, title, contents, writer, reg_date, hit, ref, step, depth)
-		VALUES( #{id} , #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0, 0, 0, 0)
+	 	<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+  			SELECT MAX(id)+1 FROM QNA
+  		</selectKey>
+		INSERT INTO QNA (id,member_id, title, contents, writer, reg_date, hit, ref, step, depth)
+		VALUES(#{id}, #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0,#{id} , 0, 0)
 	</insert>
+	
+	<!-- <update id="setRefUpdate" parameterType="QnaVO">
+	UPDATE QNA SET ref = #{id}
+	WHERE id = #{id};
+	</update> -->
 	
 	<delete id="setDelete" parameterType="QnaVO">
   		DELETE FROM QNA WHERE ID = #{id}
@@ -87,9 +95,19 @@
 		WHERE ID = #{id}
   	</update>
   	
-  	<update id="setUpdate" parameterType="QnaVo">
+  	<update id="setUpdate" parameterType="QnaVO">
   		UPDATE QNA SET TITLE = #{title}, WRITER = #{writer}, CONTENTS = #{contents}
   		WHERE ID = #{id}
   	</update>
   	
+  	
+  	<update id="setStepUpdate" parameterType="QnaVO">
+  		UPDATE QNA SET STEP = STEP + 1
+  		WHERE REF = #{ref} AND STEP > #{step}
+  	</update>
+  	
+  	<insert id="setReplyAdd" parameterType="QnaVO">
+  		INSERT INTO QNA (member_id, title, contents, writer, reg_date, hit, ref, step, depth)
+		VALUES( #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0,#{ref} , #{step}, #{depth})
+  	</insert>
 </mapper>
