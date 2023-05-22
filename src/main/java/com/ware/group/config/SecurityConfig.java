@@ -27,7 +27,7 @@ public class SecurityConfig{
 		//Security에서 무시해야하는 URL 패턴 등록
 		return web -> web
 				.ignoring()
-//				.antMatchers("/**")
+				.antMatchers("/**")
 				.antMatchers("/images/**")
 				.antMatchers("/js/**")
 				.antMatchers("/css/**")
