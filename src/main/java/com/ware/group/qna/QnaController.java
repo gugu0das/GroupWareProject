@@ -90,7 +90,7 @@ public class QnaController {
 				log.error("{} ::",multipartFile.getOriginalFilename());
 				}
 			int result = qnaService.setInsert(qnaVO, files);
-			
+//						 qnaService.setRefUpdate(qnaVO);
 			mv.setViewName("redirect:./list");
 			
 			return mv;
@@ -158,5 +158,31 @@ public class QnaController {
 			
 			return mv;
 			
+		}
+		@GetMapping("reply")
+		public ModelAndView setReplyAdd(QnaVO qnaVO,ModelAndView modelAndView)throws Exception{
+			
+			
+			
+			modelAndView.setViewName("qna/reply");
+			return modelAndView;
+		}
+		@PostMapping("reply")
+		public ModelAndView setReplyAdd(QnaVO qnaVO)throws Exception{
+			ModelAndView mv = new ModelAndView();
+			
+			int result= qnaService.setReplyAdd(qnaVO);
+			
+			String message="등록 실패";
+			
+			if(result>0) {
+				message = "글이 등록 되었습니다";
+			}
+			
+			
+			mv.setViewName("common/result");
+			mv.addObject("result", message);
+			mv.addObject("url","./detail?id="+qnaVO.getId());
+			return mv;
 		}
 	}
