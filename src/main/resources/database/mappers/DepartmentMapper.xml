@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ware.group.department.DepartmentDAO">
+
+	<select id="getDepartmentList" resultType="DepartmentVO">
+	select * from DEPARTMENT
+	</select>
+
+	<insert id="setDepartmentAdd" parameterType="DepartmentVO">
+	INSERT INTO DEPARTMENT(name,manager,upper,`level`,create_date)
+		values(#{name},#{manager},#{upper},#{level},now())
+	</insert>
+	
+	
+
+
+</mapper>  
