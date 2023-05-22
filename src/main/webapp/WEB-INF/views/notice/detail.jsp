@@ -10,14 +10,14 @@
 <meta name="author" content="" />
 <title>Modern Business - Start Bootstrap Template</title>
 <!-- css, favicon -->
-<%-- <c:import url="../temp/style.jsp"></c:import> --%>
+
 <!-- css, favicon -->
 </head>
 <body class="d-flex flex-column h-100">
 	<main class="flex-shrink-0">
-		<!-- Navigation-->
-     <%--    <c:import url="../temp/header.jsp"></c:import> --%>
-        <!-- Header-->
+	
+   <c:import url="../temp/header.jsp"></c:import>
+
        						
         							
         						
@@ -53,10 +53,14 @@
                                 <section class="mb-5">
                                     ${noticeVO.contents}
                                      
-                                     
+                               
                                      <c:forEach items="${noticeVO.boardFileVOs}" var="boardFileVO">
-                                    	<img alt="" src="/file/${notice}/${boardFileVO.fileName}">
+                                    	
+                                    	<img alt="2" src="/file/notice/${boardFileVO.fileName}">
+                                    	<%-- <img alt="3" src="/file/notice/${boardFileVO.fileName}">
+                                    	<img alt="4" src="/file/notice/${boardFileVO.fileName}"> --%>
                                     	<a href="./fileDown?id=${boardFileVO.id}">${boardFileVO.oriName}</a>
+                                    	
                                     </c:forEach>
                                     
                                 

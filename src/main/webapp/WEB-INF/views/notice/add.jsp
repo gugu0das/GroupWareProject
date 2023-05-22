@@ -10,15 +10,13 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>Modern Business - Start Bootstrap Template</title>
-<!-- css, favicon -->
-<%-- <c:import url="../temp/style.jsp"></c:import> --%>
-<!-- css, favicon -->
+
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100">
 	<main class="flex-shrink-0">
 		<!-- Navigation-->
-      <%--   <c:import url="../temp/header.jsp"></c:import> --%>
+     <c:import url="../temp/header.jsp"></c:import>
         <!-- Header-->
         <!-- Page content-->
             <section class="py-5">
@@ -36,6 +34,7 @@
                             	<form:form id="contactForm" modelAttribute="noticeVO" action="./add" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
 	                                    <!-- Title input-->
 	                                    <div class="form-floating mb-3">
+	                                 
 	                                        <!-- <input class="form-control" id="title" name="title" type="text" placeholder="Enter Title..." data-sb-validations="required" /> -->
 	                                        <form:input path="title" id="title" cssClass="form-control"/>
 	                                        <label for="title">제목</label>
@@ -61,7 +60,7 @@
 	                                    
 	                                    
 	                                                            
-	                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button></div>
+	                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="update" type="submit">Submit</button></div>
                                 	</form:form>   
                                 <%-- </form> --%>
                             </div>
