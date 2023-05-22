@@ -20,12 +20,70 @@
 	<main class="flex-shrink-0">
 		<!-- Navigation-->
      <c:import url="../temp/header.jsp"></c:import>
-        <!-- Header-->
-       						
-        							
-        						
+  
+
+<title>SB Admin 2 - Dashboard</title>
+<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+<style type="text/css">/* Chart.js */
+@
+keyframes chartjs-render-animation {
+	from {opacity: .99
+}
+
+to {
+	opacity: 1
+}
+
+}
+.chartjs-render-monitor {
+	animation: chartjs-render-animation 1ms
+}
+
+.chartjs-size-monitor, .chartjs-size-monitor-expand,
+	.chartjs-size-monitor-shrink {
+	position: absolute;
+	direction: ltr;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	pointer-events: none;
+	visibility: hidden;
+	z-index: -1
+}
+.change{
+border :none;
+}
+.chartjs-size-monitor-expand>div {
+	position: absolute;
+	width: 1000000px;
+	height: 1000000px;
+	left: 0;
+	top: 0
+}
+
+.chartjs-size-monitor-shrink>div {
+	position: absolute;
+	width: 200%;
+	height: 200%;
+	left: 0;
+	top: 0
+}
+</style>   						
+        
+        				
+ <c:import url="../temp/sidebar.jsp"></c:import>       						
         <!-- Page Content-->
             <section class="py-5">
+            
                 <div class="container px-5 my-5">
                     <div class="row gx-5">
                         <div class="col-lg-3">
@@ -97,12 +155,12 @@
                     </div>
                 </div>
             </section>
-        
+  
 	</main>
 	
 	<!-- Footer -->
  <script src="/js/qnaReply.js"></script>
- 
+	
  <!-- <script src="/js/commentListResult.js"></script> -->
     <!-- Footer -->
 </body>
