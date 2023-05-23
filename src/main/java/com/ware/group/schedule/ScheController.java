@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,6 +17,7 @@ import com.ware.group.common.Util4calen;
 import com.ware.group.etc.EtcService;
 
 @Controller
+@RequestMapping("/schedule/*")
 public class ScheController {
 
     @Autowired
@@ -25,7 +28,7 @@ public class ScheController {
 
     static final Logger LOGGER = LoggerFactory.getLogger(ScheController.class);
 
-    @RequestMapping(value = "/scheList")
+    @GetMapping("/scheList")
     public ModelAndView scheList(HttpServletRequest request, MonthVO searchVO) {
         ModelAndView modelAndView = new ModelAndView("schedule/scheList");
 
@@ -49,7 +52,7 @@ public class ScheController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/scheForm")
+    @GetMapping("/scheForm")
     public ModelAndView scheForm(HttpServletRequest request, ScheVO scheInfo) {
         ModelAndView modelAndView = new ModelAndView("schedule/scheForm");
 
@@ -72,7 +75,7 @@ public class ScheController {
             scheInfo.setEnd_date(calendar_date);
             scheInfo.setEnd_hour("18");
         }
-        
+
         modelAndView.addObject("scheInfo", scheInfo);
 
         List<?> typelist = etcSvc.selectClassCode("4");
@@ -81,17 +84,17 @@ public class ScheController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/scheSave")
+    @PostMapping("/scheSave")
     public ModelAndView scheSave(HttpServletRequest request, ScheVO scheInfo) {
         String usernum = request.getSession().getAttribute("usernum").toString();
         scheInfo.setUsernum(usernum);
 
         scheSvc.insertSche(scheInfo);
 
-        return new ModelAndView("redirect:/scheList");
+        return new ModelAndView("redirect:/schedule/scheList");
     }
 
-    @RequestMapping(value = "/scheRead4Ajax")
+    @GetMapping("/scheRead4Ajax")
     public ModelAndView scheRead4Ajax(HttpServletRequest request, ScheVO scheVO, String calendar_date) {
         ModelAndView modelAndView = new ModelAndView("schedule/scheRead4Ajax");
 
@@ -102,10 +105,11 @@ public class ScheController {
 
         return modelAndView;
     }
+
     /**
      * 읽기.
      */
-    @RequestMapping(value = "/scheRead")
+    @GetMapping("/scheRead")
     public ModelAndView scheRead(HttpServletRequest request, ScheVO scheVO) {
         ModelAndView modelAndView = new ModelAndView("schedule/scheRead");
 
@@ -120,12 +124,11 @@ public class ScheController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/scheDelete")
+    @PostMapping("/scheDelete")
     public ModelAndView scheDelete(HttpServletRequest request, ScheVO scheVO) {
 
         scheSvc.deleteSche(scheVO);
 
-        return new ModelAndView("redirect:/scheList");
+        return new ModelAndView("redirect:/schedule/scheList");
     }
-
 }
