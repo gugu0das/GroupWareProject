@@ -2,19 +2,56 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="com.ware.group.department.DepartmentDAO">
 
 	<select id="getDepartmentList" resultType="DepartmentVO">
-	select * from DEPARTMENT
+		select * from
+		DEPARTMENT
 	</select>
 
+
 	<insert id="setDepartmentAdd" parameterType="DepartmentVO">
-	INSERT INTO DEPARTMENT(name,manager,upper,`level`,create_date)
-		values(#{name},#{manager},#{upper},#{level},now())
+		INSERT INTO
+		DEPARTMENT(name,manager,upper,`level`,create_date)
+		values(#{name},#{manager, jdbcType=INTEGER},#{upper,
+		jdbcType=INTEGER},#{level},now())
 	</insert>
-	
-	
+
+
+
+
+
+<select id="getDepartmentLevel0" resultType="DepartmentVO">
+select * from
+		DEPARTMENT
+		where level=0
+</select>
+<select id="getDepartmentLevel1" resultType="DepartmentVO" parameterType="DepartmentVO">
+select * from
+		DEPARTMENT
+		where level=1 and upper=#{id}
+</select>
+<select id="getDepartmentLevel2" resultType="DepartmentVO" parameterType="DepartmentVO">
+select * from
+		DEPARTMENT
+		where level=2 and upper=#{id}
+</select>
+<select id="getDepartmentLevel3" resultType="DepartmentVO" parameterType="DepartmentVO">
+select * from
+		DEPARTMENT
+		where level=3 and upper=#{id}
+</select>
+<select id="getDepartmentLevel4" resultType="DepartmentVO" parameterType="DepartmentVO">
+select * from
+		DEPARTMENT
+		where level=4 and upper=#{id}
+</select>
+<select id="getDepartmentLevel5" resultType="DepartmentVO" parameterType="DepartmentVO">
+select * from
+		DEPARTMENT
+		where level=5 and upper=#{id}
+</select>
 
 
 </mapper>  
