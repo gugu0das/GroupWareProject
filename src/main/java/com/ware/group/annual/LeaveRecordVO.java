@@ -14,7 +14,8 @@ public class LeaveRecordVO {
 	private String reason;
 	private String type;
 	private Long count;
-	private Date date;
+	private String useDate;
+	private Long approvalId;
 	
 	
 }

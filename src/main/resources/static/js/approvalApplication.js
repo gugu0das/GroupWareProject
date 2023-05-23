@@ -18,22 +18,44 @@ $(".appBtn").click(function(){
 
 $(document).on("click","#btn",function(){
     $("input").each(function(idx,index){
+        console.log("아 :",$(index).attr("name"))
         console.log($(index).val());
         console.log("index 위치",$(index).parent());
         if($(index).attr("type") != "hidden" && $(index).attr("name") !="contents"){
+
             if($(index).attr("type") == "radio"){
                 $(index).attr('onclick', "return(false);");
                 //radio check 여부
                 if($(index).is(':checked')){
                     console.log("radio 선택",$(index).val());
+                    $("#type").val($(index).val());
                     $(index).attr("checked","checked")
                    
                 }
             }else{
+                if($(index).attr("name") =="count"){
+                    console.log("zz :",$(index).val());
+                    console.log("아씨 :",$(index).parent().text())
+                    
+                    $("#vacation").val($(index).val());
+                    
+                    $(index).parent().text($(index).val()+$(index).parent().text());
+                    return
+                }else if($(index).attr("name")=="useDate"){
+                    $(index).parent().text($(index).val())
+                    $("#useDate").val($(index).val());
+                    console.log($("#useDate").val());
+                    console.log("아씨 :",$(index).parent().text())
+                    
+                }else if($(index).attr("name")=="reason"){
+                    $("#reason").val($(index).val());
+                    console.log("콘솔",$("#reason").val());
+                }
                 $(index).parent().text($(index).val());
             }
         }
     })
+    console.log("==============================================휴가 일수 :",$("#vacation").val());
     console.log($("#ttt").html());
     $("#ddd").val($("#ttt").html());
     $("#fr").submit();

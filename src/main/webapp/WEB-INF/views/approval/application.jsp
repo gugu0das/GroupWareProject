@@ -21,6 +21,10 @@
     		<form action="./application" method="post" id="fr">
     		<input type="hidden" name="dd" id="ddd">
     		 <input type="hidden" name="categoryId" value="2">  
+    		 <input type="hidden" name="count" id="vacation">
+    		 <input type="hidden" name="reason" id="reason">
+    		 <input type="hidden" name="useDate" id="useDate">
+    		 <input type="hidden" name="type" id="type">
     		<div id="ttt">
     		<button type="button" class="appBtn" data-category="1">휴가</button>
     		<button type="button" class="appBtn" data-category="2">비품</button>

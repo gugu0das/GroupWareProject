@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ware.group.approval.MemberVO;
-import com.ware.group.approval3.DepartmentVO;
+import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.approval3.JobVO;
+import com.ware.group.department.DepartmentVO;
+import com.ware.group.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,12 +21,14 @@ public class ApprovalService {
 	@Autowired
 	private ApprovalDAO approvalDAO;
 	
-	public int setApprovalApplication(ApprovalVO approvalVO,String fileName) throws Exception{
+	public int setApprovalApplication(ApprovalVO approvalVO,String fileName,LeaveRecordVO leaveRecordVO) throws Exception{
 		  System.out.println("=========================4=====================");
 		log.error("들어옴");
 		log.error("들어와");
+		log.error("{}:::::::::::::::::::::::::::::::",leaveRecordVO.getCount());
+		log.error("{}:::::::::::::::::::::::::::::::",leaveRecordVO.getCount().TYPE);
 		int result = approvalDAO.setApprovalApplication(approvalVO);
-		int pendig = 0;
+		
 		if(result == 1) {
 			ApprovalUploadFileVO approvalUploadFileVO = new ApprovalUploadFileVO();
 			//결재 승인 번호
@@ -38,26 +41,40 @@ public class ApprovalService {
 				approvalHistoryVO.setMemberId(approvalVO.getMemberId());
 				approvalHistoryVO.setApprovalId(approvalVO.getId());
 				approvalHistoryVO.setCheck(ApprovalStatus.PENDING);
+				
 				result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
 				if(result == 1) {
+					//연차 기록에 결재 번호 입력
+					if(leaveRecordVO != null) {
+						leaveRecordVO.setApprovalId(approvalVO.getId());
+						leaveRecordVO.setMemberId(approvalVO.getMemberId());
+						leaveRecordVO.setType(ApprovalStatus.PENDING);
+						result = approvalDAO.setLeaverCode(leaveRecordVO);
+					}
+					ApprovalInfoVO approvalInfoVO = new ApprovalInfoVO();
+					approvalInfoVO.setApprovalId(approvalVO.getId());
+					approvalInfoVO.setDepth(1);
+					approvalInfoVO.setCheck(ApprovalStatus.APPROVALING);
+					MemberVO memberVO = approvalDAO.memberDepart(approvalVO);
+					DepartmentVO departmentVO = approvalDAO.departManager(memberVO);
+					approvalInfoVO.setMemberId(departmentVO.getManager());
+					result = approvalDAO.setApprovalInfo(approvalInfoVO);
+					
 					List<ApproverVO> ar = approvalDAO.getApprover(approvalVO);
 					for(ApproverVO approverVO : ar) {
-						ApprovalInfoVO approvalInfoVO = new ApprovalInfoVO();
+						
 						//결재 승인 번호
-						approvalInfoVO.setApprovalId(approvalVO.getId());
-						MemberVO memberVO = approvalDAO.getApprovalInfo(approverVO);
+						
+						memberVO = approvalDAO.getApprovalInfo(approverVO);
 						//결재자 id
 						approvalInfoVO.setMemberId(memberVO.getId());
-						approvalInfoVO.setCheck(ApprovalStatus.APPROVALING);
+						
 						approvalInfoVO.setDepth(approverVO.getDepth());
-						log.error("{}::::::::",approverVO.getDepth());
-						log.error("{}::::::::",approverVO.getDepth());
-						log.error("{}::::::::",approverVO.getDepth());
-						System.out.println(approverVO.getDepth());
-						if(pendig >0) {
+						
+						if(approvalInfoVO.getCheck().equals(ApprovalStatus.APPROVALING)) {
 							approvalInfoVO.setCheck(ApprovalStatus.PENDING);
 						}
-						pendig++;
+						
 						result = approvalDAO.setApprovalInfo(approvalInfoVO);
 						
 					}
@@ -82,9 +99,11 @@ public class ApprovalService {
 		ApprovalHistoryVO approvalHistoryVO = new ApprovalHistoryVO();
 		approvalHistoryVO.setMemberId(memberVO.getId());
 		approvalHistoryVO.setApprovalId(approvalVO.getId());
+		
 		ApprovalInfoVO approvalInfoVO = new ApprovalInfoVO();
 		if(approval ==1) {
 		approvalHistoryVO.setCheck(ApprovalStatus.APPROVAL);
+		result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
 		//대기/승인 대입
 				approvalInfoVO.setCheck(ApprovalStatus.APPROVAL);
 				//결재 번호 대입
@@ -102,21 +121,21 @@ public class ApprovalService {
 					approvalHistoryVO.setMemberId(approvalInfoVO.getMemberId());
 					approvalHistoryVO.setCheck(ApprovalStatus.APPROVALING);
 					result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
-				}
+				}else {
+					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
+					result = approvalDAO.setApprovalUpdate(approvalVO);
+					}
 		}else {
 			approvalHistoryVO.setCheck(ApprovalStatus.REFUSE);
 			approvalInfoVO.setCheck(ApprovalStatus.REFUSE);
 			approvalInfoVO.setApprovalId(approvalVO.getId());
 			approvalInfoVO.setMemberId(memberVO.getId());
 			result = approvalDAO.setInfoUpdate(approvalInfoVO);
+			result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
 		}
 		
-		result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
 		
-		
-		
-		
-		
+
 		
 		return result;
 	}

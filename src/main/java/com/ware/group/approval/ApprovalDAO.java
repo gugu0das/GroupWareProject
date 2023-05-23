@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ware.group.approval.MemberVO;
-import com.ware.group.approval3.DepartmentVO;
+import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.approval3.JobVO;
+import com.ware.group.department.DepartmentVO;
+import com.ware.group.member.MemberVO;
 
 @Mapper
 public interface ApprovalDAO {
@@ -53,4 +54,13 @@ public interface ApprovalDAO {
 	public ApprovalInfoVO getInfoDetail(ApprovalInfoVO approvalInfoVO) throws Exception;
 	//depth와 결재 번호로 다음 사람을 조회
 	public ApprovalInfoVO getInfoList(ApprovalInfoVO approvalInfoVO) throws Exception;
+	
+	public int setApprovalUpdate(ApprovalVO approvalVO) throws Exception;
+	
+	public int setLeaverCode(LeaveRecordVO leaveRecordVO) throws Exception;
+	
+	public MemberVO memberDepart(ApprovalVO approvalVO) throws Exception;
+	
+	public DepartmentVO departManager(MemberVO memberVO) throws Exception;
+	
 }

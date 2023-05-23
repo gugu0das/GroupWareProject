@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.ware.group.approval3.DepartmentVO;
+import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.approval3.JobVO;
+import com.ware.group.department.DepartmentVO;
+import com.ware.group.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -126,11 +128,11 @@ public class ApprovalController {
 	}
 	
 	@PostMapping("application")
-	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd) throws Exception{
+	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		
 		//예시
-		approvalVO.setMemberId(12L);
+		approvalVO.setMemberId(1L);
 		
 		
 		//log.error(dd);
@@ -156,7 +158,7 @@ public class ApprovalController {
         //br.close(); //출력스트림 닫기
         System.out.println("===================3===========================");
         log.error("컨트롤러");
-        int result = approvalService.setApprovalApplication(approvalVO, fileName);
+        int result = approvalService.setApprovalApplication(approvalVO, fileName,leaveRecordVO);
 		mv.setViewName("redirect:./myInformation");
 		pw.close();
 		fw.close();

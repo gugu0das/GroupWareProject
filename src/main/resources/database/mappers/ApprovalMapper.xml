@@ -104,6 +104,18 @@
  	 <select id="getInfoList" parameterType="ApprovalInfoVO"  resultType="ApprovalInfoVO">
  		SELECT * FROM APPROVALINFO WHERE approval_id=#{approvalId} AND depth=#{depth}
  	</select>
+ 	<update id="setApprovalUpdate" parameterType="ApprovalVO">
+ 		UPDATE APPROVAL SET confirm=#{confirm}, fin=now() WHERE id=#{id}
+ 	</update>
+ 	<insert id="setLeaverCode" parameterType="LeaveRecordVO">
+ 		INSERT INTO LEAVERECODE(member_id,approval_id,reason,`type`,count,use_date) VALUES(#{memberId},#{approvalId},#{reason},#{type},#{count},#{useDate})
+ 	</insert>
+ 	<select id="memberDepart" parameterType="ApprovalVO" resultType="MemberVO">
+ 		SELECT department_id FROM MEMBER WHERE id=#{memberId}
+ 	</select>
+ 	<select id="departManager" parameterType="MemberVO" resultType="DepartmentVO">
+ 		SELECT manager FROM DEPARTMENT WHERE  id=#{departmentId}
+ 	</select>
  	
  	
 </mapper>
