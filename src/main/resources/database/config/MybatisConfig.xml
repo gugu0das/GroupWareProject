@@ -22,6 +22,9 @@
 		<typeAlias type="com.ware.group.approval.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalInfoVO" alias="ApprovalInfoVO"/>
 		<typeAlias type="com.ware.group.approval.MemberVO" alias="MemberVO"/>
+		<typeAlias type="java.lang.Long" alias="Long"/>
+		<typeAlias type="java.lang.String" alias="String"/>
+		<typeAlias type="com.ware.group.approval3.DocumentFilesVO" alias="DocumentFilesVO"/>
 	</typeAliases>
 	
 </configuration>

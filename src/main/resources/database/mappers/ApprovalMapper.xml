@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ware.group.approval.ApprovalDAO">
+<mapper namespace="com.ware.group.approval3.ApprovalDAO3">
 	
 	
 	<insert id="addCategory" parameterType="ApprovalCategoryVO" useGeneratedKeys="true" keyProperty="id">
@@ -9,7 +9,7 @@
 	</insert>
 	
 	<insert id="addApprover" parameterType="ApprovalCategoryVO">
-		INSERT INTO APPROVER (category_id, job_id, dept_id, depth) VALUES (#{categoryId}, #{jobId}, #{deptId}, 0)
+		INSERT INTO APPROVER (category_id, job_id, department_id, depth) VALUES (#{categoryId}, #{jobId}, #{departmentId}, 0)
 	</insert>
 	
 	<insert id="addApprovalFormFile" parameterType="ApprovalCategoryVO">
@@ -28,6 +28,31 @@
 		ON m.job_id = j.id
 		WHERE d.id = #{id};
 	</select>
+	
+	<select id="getFileId" parameterType="String" resultType="Long">
+		SELECT id FROM DOCUMENTFILES WHERE file_name = #{fileName}
+	</select>
+	
+	<select id="getCategoryDuplication" parameterType="String" resultType="String">
+		SELECT name FROM APPROVALCATEGORY WHERE name = #{name}
+	</select>
+	
+	<insert id="addFormFile" parameterType="DocumentFilesVO">
+		INSERT INTO DOCUMENTFILES (document_id, file_name, ori_name) VALUE (0, #{fileName}, #{oriName}) 
+	</insert>
+	
+	<select id="getFileDuplication" parameterType="String" resultType="String">
+		SELECT file_name FROM DOCUMENTFILES WHERE file_name = #{formFileName}
+	</select>
+	
+	<select id="getListCategoryRef0" resultType="ApprovalCategoryVO">
+		SELECT * FROM APPROVALCATEGORY WHERE REF = 0
+	</select>
+	
+	<select id="getListCategoryRef1" resultType="ApprovalCategoryVO">
+		SELECT * FROM APPROVALCATEGORY WHERE NOT REF = 0
+	</select>
+	
 	
 	<!-- 
 	

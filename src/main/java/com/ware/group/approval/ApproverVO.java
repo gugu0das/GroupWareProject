@@ -10,5 +10,5 @@ public class ApproverVO {
 	private long categoryId;
 	private long jobId;
 	private long departmentId;
-	private long dept;
+	private long depth;
 }
