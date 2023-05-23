@@ -28,7 +28,6 @@
 		<typeAlias type="com.ware.group.notice.NoticeFileVO" alias="NoticeFilesVO"/>
 		
 		<typeAlias type="com.ware.group.board.BoardFileVO" alias="BoardFileVO"/>
-		<typeAlias type="com.ware.group.board.BoardSearchVo" alias="BoardSearchVo"/>
 		
 		<typeAlias type="com.ware.group.qna.QnaVO" alias="QnaVO"/>
 		<typeAlias type="com.ware.group.qna.QnaFileVO" alias="QnaFileVO"/>

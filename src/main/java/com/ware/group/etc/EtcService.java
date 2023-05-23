@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ware.group.board.BoardSearchVO;
+//import com.ware.group.board.BoardSearchVO;
 
 @Service
 public class EtcService {
@@ -33,13 +33,13 @@ public class EtcService {
         return sqlSession.selectList("selectAlertList", param);
     }
     
-    public Integer selectList4UserCount(BoardSearchVO param) {
-        return sqlSession.selectOne("selectList4UserCount", param);
-    }
-    
-    public List<?> selectList4User(BoardSearchVO param) {
-        return sqlSession.selectList("selectList4User", param);
-    }
+	/*
+	 * public Integer selectList4UserCount(BoardSearchVO param) { return
+	 * sqlSession.selectOne("selectList4UserCount", param); }
+	 * 
+	 * public List<?> selectList4User(BoardSearchVO param) { return
+	 * sqlSession.selectList("selectList4User", param); }
+	 */
     
     public List<?> selectClassCode(String param) {
         return sqlSession.selectList("selectClassCode", param);
