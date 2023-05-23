@@ -14,4 +14,6 @@ public class ScheDetailVO {
                     usernum,
                     title,      // 일정명
                     fontcolor;
+    
+    private Integer seq;
 }
