@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+    .upperCategory a{cursor:pointer;}
+    .upperCategory .hide{display:none;}
+</style>
 <!-- Sidebar -->
 <ul
 	class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
@@ -40,11 +45,20 @@
 			data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Custom Components:</h6>
-				<a class="collapse-item" href="buttons.html">결제</a> <a
-					class="collapse-item" href="buttons.html">휴가</a> <a
-					class="collapse-item" href="buttons.html">경조사</a> <a
-					class="collapse-item" href="buttons.html">결제</a> <a
-					class="collapse-item" href="cards.html">확인</a>
+				<ul>
+					<c:forEach items="${categoryList0}" var="upper">
+						<li class="upperCategory">
+							<span class="collapse-item" href="#" id="${upper.id}">${upper.name}</span>
+							<ul class="hide">
+								<c:forEach items="${categoryList1}" var="under">
+									<c:if test="${upper.id == under.ref}">
+										<li id="${under.id}"><a class="collapse-item" href="#">${under.name}</a></li>
+									</c:if> 
+								</c:forEach>
+							</ul>
+						</li>
+					</c:forEach>
+				</ul>
 			</div>
 		</div></li>
 
@@ -123,3 +137,20 @@
 
 </ul>
 <!-- End of Sidebar -->
+
+<script>
+    // html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+        $(".upperCategory>a").click(function(){
+        	console.log("??");
+            var submenu = $(this).next(".hide");
+            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+            if(submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
+    });
+</script>

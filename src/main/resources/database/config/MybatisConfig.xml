@@ -29,12 +29,10 @@
 		<typeAlias type="com.ware.group.approval.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalInfoVO" alias="ApprovalInfoVO"/>
 		
-		<typeAlias type="com.ware.group.approval.MemberVO" alias="MemberVO"/>
+		
 		<typeAlias type="java.lang.Long" alias="Long"/>
 		<typeAlias type="java.lang.String" alias="String"/>
 		<typeAlias type="com.ware.group.approval3.DocumentFilesVO" alias="DocumentFilesVO"/>
-	</typeAliases>
-	
 		<typeAlias type="com.ware.group.member.MemberVO"
 			alias="MemberVO" />
 		<typeAlias type="com.ware.group.department.DepartmentVO"
@@ -48,6 +46,9 @@
 		<typeAlias type="java.util.List" alias="List"/>
 		<typeAlias type="com.ware.group.util.Pager" alias="Pager"/>
 	</typeAliases>
+	
+		
+	
 
 </configuration>  
 
