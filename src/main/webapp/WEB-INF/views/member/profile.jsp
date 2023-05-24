@@ -214,11 +214,19 @@ to {
 
 
 											<div class="col-md-5">
+												<c:if test="${not empty departmentVO.name }">
 												<form:label path="departmentVO.name">부서</form:label>
 												<form:input path="departmentVO.name" cssClass="form-control"
 													id="departmentVO.name" cssStyle="border:none;"
 													readonly="true" />
 												<form:errors path="departmentVO.name"></form:errors>
+													</c:if>
+												<c:if test="${empty departmentVO.name }">
+												<label for="department">부서</label>
+												<input name="department" id="department" class="form-control" style="border:none;" placeholder="부서없음" readonly="readonly" disabled="disabled">
+												
+												</c:if>
+														
 											</div>
 
 											<div class="col-md-2">
