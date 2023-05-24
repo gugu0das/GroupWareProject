@@ -10,6 +10,27 @@
 		DEPARTMENT
 	</select>
 
+	<select id="getDepartmentDetail" parameterType="DepartmentVO"
+		resultMap="DepartmentDetailResult">
+		select 
+		d.id as d_id, d.name as d_name ,d.manager ,d.upper ,d.create_date ,
+		m.id as m_id, m.employee_id ,m.name as m_name, m.hire_date,j.name as j_name,
+		d2.name as up_name
+		from DEPARTMENT d
+		left outer join
+		`MEMBER` m
+		on(m.department_id=d.id)
+		left outer join
+		JOB j
+		on(m.job_id=j.id)
+		left outer JOIN 
+		DEPARTMENT d2 
+		on(d2.id=d.upper)
+		where d.id =#{id}
+		order by m.hire_date
+
+
+	</select>
 
 	<insert id="setDepartmentAdd" parameterType="DepartmentVO">
 		INSERT INTO
@@ -21,37 +42,62 @@
 
 
 
-
-<select id="getDepartmentLevel0" resultType="DepartmentVO">
-select * from
+	<!-- DepartmentTree -->
+	<select id="getDepartmentLevel0" resultType="DepartmentVO">
+		select * from
 		DEPARTMENT
 		where level=0
-</select>
-<select id="getDepartmentLevel1" resultType="DepartmentVO" parameterType="DepartmentVO">
-select * from
+	</select>
+	<select id="getDepartmentLevel1" resultType="DepartmentVO"
+		parameterType="DepartmentVO">
+		select * from
 		DEPARTMENT
 		where level=1 and upper=#{id}
-</select>
-<select id="getDepartmentLevel2" resultType="DepartmentVO" parameterType="DepartmentVO">
-select * from
+	</select>
+	<select id="getDepartmentLevel2" resultType="DepartmentVO"
+		parameterType="DepartmentVO">
+		select * from
 		DEPARTMENT
 		where level=2 and upper=#{id}
-</select>
-<select id="getDepartmentLevel3" resultType="DepartmentVO" parameterType="DepartmentVO">
-select * from
+	</select>
+	<select id="getDepartmentLevel3" resultType="DepartmentVO"
+		parameterType="DepartmentVO">
+		select * from
 		DEPARTMENT
 		where level=3 and upper=#{id}
-</select>
-<select id="getDepartmentLevel4" resultType="DepartmentVO" parameterType="DepartmentVO">
-select * from
+	</select>
+	<select id="getDepartmentLevel4" resultType="DepartmentVO"
+		parameterType="DepartmentVO">
+		select * from
 		DEPARTMENT
 		where level=4 and upper=#{id}
-</select>
-<select id="getDepartmentLevel5" resultType="DepartmentVO" parameterType="DepartmentVO">
-select * from
+	</select>
+	<select id="getDepartmentLevel5" resultType="DepartmentVO"
+		parameterType="DepartmentVO">
+		select * from
 		DEPARTMENT
 		where level=5 and upper=#{id}
-</select>
+	</select>
 
+	<resultMap type="DepartmentVO" id="DepartmentDetailResult">
+		<id property="id" column="d_id" />
+		<result property="name" column="d_name" />
+		<result property="manager" column="manager" />
+		<result property="upper" column="upper" />
+		<result property="createDate" column="create_date" />
+		<association property="upperDepartment" javaType="DepartmentVO">
+			<id property="name" column="up_name"/>
+		</association>
+		<collection property="memberVOs" javaType="List"
+			ofType="MemberVO">
+			<id property="id" column="m_id" />
+			<result property="employeeId" column="employee_id" />
+			<result property="name" column="m_name" />
+			<result property="hireDate" column="hire_date" />
+			<association property="jobVO" javaType="JobVO">
+				<id property="name" column="j_name" />
+			</association>
+		</collection>
+	</resultMap>
 
 </mapper>  

@@ -22,25 +22,13 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 	
 	@GetMapping("list")
-	
-	public ModelAndView getDepartmentList(ModelAndView mv) throws Exception{
-		
-		
-		mv.setViewName("department/list");
-		
-		
-		return mv;
+	public void getDepartmentList() throws Exception{
 	}
-	
-	
-	
-	
+
 	@GetMapping("tree")
 	@ResponseBody
 	public List<DepartmentVO> getDepartmentTreeList()throws Exception{
-		List<DepartmentVO> ar=  departmentService.getDepartmentTreeList();
-		
-		
+		List<DepartmentVO> ar=  departmentService.getDepartmentTreeList();	
 		return ar;
 	}
 	@GetMapping("add")
@@ -59,7 +47,12 @@ public class DepartmentController {
 		mv.setViewName("redirect:/");
 		return mv;
 	}
-	@GetMapping("update")
-	public void setDepartmentUpdate() {}
+	@GetMapping("detail")
+	public ModelAndView getDepartmentDetail(ModelAndView mv, DepartmentVO departmentVO)throws Exception{
+		departmentVO = departmentService.getDepartmentDetail(departmentVO);
+		mv.addObject("vo", departmentVO);
+		mv.setViewName("department/detail");
+		return mv;
+	}
 
 }

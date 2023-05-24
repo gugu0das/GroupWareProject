@@ -11,6 +11,11 @@ public interface DepartmentDAO {
 
 	public int setDepartmentAdd(DepartmentVO departmentVO)throws Exception;
 	
+	public DepartmentVO getDepartmentDetail(DepartmentVO departmentVO)throws Exception;
+	
+	
+	
+	
 	public List<DepartmentVO> getDepartmentLevel0()throws Exception;
 	public List<DepartmentVO> getDepartmentLevel1(DepartmentVO departmentVO)throws Exception;
 	public List<DepartmentVO> getDepartmentLevel2(DepartmentVO departmentVO)throws Exception;

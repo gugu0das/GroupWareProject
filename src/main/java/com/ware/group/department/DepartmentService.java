@@ -21,6 +21,11 @@ public class DepartmentService {
 		return departmentDAO.setDepartmentAdd(departmentVO);
 		
 	}
+	public DepartmentVO getDepartmentDetail(DepartmentVO departmentVO)throws Exception{
+		return departmentDAO.getDepartmentDetail(departmentVO);
+		
+	}
+	
 	public List<DepartmentVO> getDepartmentTreeList()throws Exception{
 		List<DepartmentVO> level0 = departmentDAO.getDepartmentLevel0();
 		for(DepartmentVO l1:level0) {
