@@ -19,7 +19,7 @@
 <body class="d-flex flex-column h-100">
 	<main class="flex-shrink-0">
 		<!-- Navigation-->
-     <c:import url="../temp/header.jsp"></c:import>
+     <c:import url="../temp/header2.jsp"></c:import>
   
 
 <title>SB Admin 2 - Dashboard</title>
@@ -80,7 +80,7 @@ border :none;
 </style>   						
         
         				
- <c:import url="../temp/sidebar.jsp"></c:import>       						
+      						
         <!-- Page Content-->
             <section class="py-5">
             
@@ -129,18 +129,18 @@ border :none;
                                
                             </article>
                             	<%-- <c:if test="${qnaDetail ne 'notice'}"> --%>
-                             <a href="./reply?id=${qnaVO.id}" class="btn btn-danger">답글</a>
+                           
                             	<%-- </c:if> --%>
                             <div class="mb-5" id="commentListResult">
                                 
                             </div>
-                            
                             <div class="mb-5">
                                   <div class="mb-3">
                                     <textarea class="form-control" rows="3" id="replyContents"></textarea>
                                   </div> 
                                   <div class="mb-3">
                                     <button type="button" class="btn btn-primary" id="replyAdd" data-qna-qnaId="${qnaVO.id}">댓글등록</button>
+                                  	
                                   </div>
                             </div>
                             
