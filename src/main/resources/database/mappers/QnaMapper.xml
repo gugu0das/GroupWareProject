@@ -100,14 +100,5 @@
   		WHERE ID = #{id}
   	</update>
   	
-  	
-  	<update id="setStepUpdate" parameterType="QnaVO">
-  		UPDATE QNA SET STEP = STEP + 1
-  		WHERE REF = #{ref} AND STEP > #{step}
-  	</update>
-  	
-  	<insert id="setReplyAdd" parameterType="QnaVO">
-  		INSERT INTO QNA (member_id, title, contents, writer, reg_date, hit, ref, step, depth)
-		VALUES( #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0,#{ref} , #{step}, #{depth})
-  	</insert>
+
 </mapper>
