@@ -10,11 +10,16 @@
 		DEPARTMENT
 	</select>
 
+	<select id="getDepartmentChildId" parameterType="DepartmentVO"
+		resultType="DepartmentVO">
+		select id from DEPARTMENT WHERE upper=#{id}
+	</select>
 	<select id="getDepartmentDetail" parameterType="DepartmentVO"
 		resultMap="DepartmentDetailResult">
-		select 
+		select
 		d.id as d_id, d.name as d_name ,d.manager ,d.upper ,d.create_date ,
-		m.id as m_id, m.employee_id ,m.name as m_name, m.hire_date,j.name as j_name,
+		m.id as
+		m_id, m.employee_id ,m.name as m_name, m.hire_date,j.name as j_name,
 		d2.name as up_name
 		from DEPARTMENT d
 		left outer join
@@ -23,8 +28,9 @@
 		left outer join
 		JOB j
 		on(m.job_id=j.id)
-		left outer JOIN 
-		DEPARTMENT d2 
+		left
+		outer JOIN
+		DEPARTMENT d2
 		on(d2.id=d.upper)
 		where d.id =#{id}
 		order by m.hire_date
@@ -38,7 +44,10 @@
 		values(#{name},#{manager, jdbcType=INTEGER},#{upper,
 		jdbcType=INTEGER},#{level},now())
 	</insert>
+	<delete id="setDepartmentDelete" parameterType="DepartmentVO">
+		delete from DEPARTMENT where id = #{id}
 
+	</delete>
 
 
 
@@ -85,8 +94,9 @@
 		<result property="manager" column="manager" />
 		<result property="upper" column="upper" />
 		<result property="createDate" column="create_date" />
-		<association property="upperDepartment" javaType="DepartmentVO">
-			<id property="name" column="up_name"/>
+		<association property="upperDepartment"
+			javaType="DepartmentVO">
+			<id property="name" column="up_name" />
 		</association>
 		<collection property="memberVOs" javaType="List"
 			ofType="MemberVO">

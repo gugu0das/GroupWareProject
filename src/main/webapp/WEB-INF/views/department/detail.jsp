@@ -23,58 +23,43 @@
 				<div class="container-fluid">
 					<h1 class="h3 mb-3 text-gray-800">${vo.name}</h1>
 					<div class="row">
-					
+
 						<div class="col-xl-4 mb-3">
 							<div class="card mb-4 mb-xl-0">
+
 								<div class="card-header">부서정보</div>
-								<div class="card-body px-0">
-									<div
-										class="d-flex align-items-center justify-content-between px-4">
-										<div class="d-flex align-items-center">
-											<div class="ms-4">
-												<div class="small text-Secondary">부서명</div>
-												<div class="text-dark h4">${vo.name}</div>
-											</div>
-										</div>
-										<div class="ms-4">
-											<div class="badge bg-light text-primary me-3">
-												<a href="#">수정하기</a>
-											</div>
-
-										</div>
-									</div>
-									<hr>
-
-									<div
-										class="d-flex align-items-center justify-content-between px-4">
-										<div class="d-flex align-items-center">
-											<div class="ms-4">
-												<div class="small text-Secondary">담당자</div>
-												<c:if test="${not empty vo.manager }">
-													<div class="text-dark h4">${vo.manager}</div>
-												</c:if>
-												<c:if test="${empty vo.manager}">
-													<div class="text-dark h4">없음</div>
-												</c:if>
-											</div>
-										</div>
-										<div class="ms-4">
-											<div class="badge bg-light text-primary me-3">
-												<a href="#">수정하기</a>
-											</div>
-
-										</div>
-									</div>
-									<c:if test="${not empty vo.upper }">
-										<hr>
+								<form action="./delete" method="post">
+									<input type="hidden" value="${vo.id }" name="id">
+									<div class="card-body px-0">
 										<div
 											class="d-flex align-items-center justify-content-between px-4">
 											<div class="d-flex align-items-center">
 												<div class="ms-4">
-													<div class="small text-Secondary">상위부서</div>
-													
-														<div class="text-dark h4">${vo.upperDepartment.name}</div>
-													
+													<div class="small text-Secondary">부서명</div>
+													<div class="text-dark h4">${vo.name}</div>
+												</div>
+											</div>
+											<div class="ms-4">
+												<div class="badge bg-light text-primary me-3">
+													<a href="#">수정하기</a>
+												</div>
+												<button class=" btn btn-danger small" type="submit">부서삭제</button>
+
+											</div>
+										</div>
+										<hr>
+
+										<div
+											class="d-flex align-items-center justify-content-between px-4">
+											<div class="d-flex align-items-center">
+												<div class="ms-4">
+													<div class="small text-Secondary">담당자</div>
+													<c:if test="${not empty vo.manager }">
+														<div class="text-dark h4">${vo.manager}</div>
+													</c:if>
+													<c:if test="${empty vo.manager}">
+														<div class="text-dark h4">없음</div>
+													</c:if>
 												</div>
 											</div>
 											<div class="ms-4">
@@ -84,27 +69,47 @@
 
 											</div>
 										</div>
-									</c:if>
-									<hr>
+										<c:if test="${not empty vo.upper }">
+											<hr>
+											<div
+												class="d-flex align-items-center justify-content-between px-4">
+												<div class="d-flex align-items-center">
+													<div class="ms-4">
+														<div class="small text-Secondary">상위부서</div>
 
-									<div
-										class="d-flex align-items-center justify-content-between px-4">
-										<div class="d-flex align-items-center">
+														<div class="text-dark h4">${vo.upperDepartment.name}</div>
+
+													</div>
+												</div>
+												<div class="ms-4">
+													<div class="badge bg-light text-primary me-3">
+														<a href="#">수정하기</a>
+													</div>
+
+												</div>
+											</div>
+										</c:if>
+										<hr>
+
+										<div
+											class="d-flex align-items-center justify-content-between px-4">
+											<div class="d-flex align-items-center">
+												<div class="ms-4">
+													<div class="small text-Secondary">생성일</div>
+
+													<div class="text-dark h4">${vo.createDate}</div>
+
+												</div>
+											</div>
 											<div class="ms-4">
-												<div class="small text-Secondary">생성일</div>
-
-												<div class="text-dark h4">${vo.createDate}</div>
+												<div class="badge bg-light text-primary me-3">
+													<a href="#">수정하기</a>
+												</div>
 
 											</div>
-										</div>
-										<div class="ms-4">
-											<div class="badge bg-light text-primary me-3">
-												<a href="#">수정하기</a>
-											</div>
-
 										</div>
 									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 						<div class="col-xl-7">
@@ -114,7 +119,7 @@
 								</div>
 								<div class="card-body">
 									<div class="table-responsive">
-									
+
 										<table class="table table-bordered" id="dataTable"
 											width="100%" cellspacing="0">
 											<thead>
@@ -123,8 +128,8 @@
 													<th>사원번호</th>
 													<th>이름</th>
 													<th>입사일</th>
-													
-		
+
+
 												</tr>
 											</thead>
 											<tbody>
@@ -165,12 +170,10 @@
 		<!-- End of Page Wrapper -->
 	</div>
 	<!-- Page level plugins -->
-    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+	<!--  <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<!-- 
-    Page level custom scripts
-    <script src="js/demo/datatables-demo.js"></script> -->
-	
+ -->
+
 	<c:import url="../temp/logoutModal.jsp"></c:import>
 	<c:import url="../temp/common_js.jsp"></c:import>
 </body>

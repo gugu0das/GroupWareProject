@@ -54,5 +54,11 @@ public class DepartmentController {
 		mv.setViewName("department/detail");
 		return mv;
 	}
+	@PostMapping("delete")
+	public ModelAndView setDepartmentDelete(ModelAndView mv, DepartmentVO departmentVO)throws Exception{
+		int result = departmentService.setDepartmentDelete(departmentVO);
+		mv.setViewName("department/list");
+		return mv;
+	}
 
 }
