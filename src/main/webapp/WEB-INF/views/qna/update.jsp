@@ -14,7 +14,7 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100">
-<c:import url="../temp/header.jsp"></c:import>
+<c:import url="../temp/header2.jsp"></c:import>
 
 	<main class="flex-shrink-0">
 	
