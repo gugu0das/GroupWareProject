@@ -16,7 +16,7 @@
 <body class="d-flex flex-column h-100">
 	<main class="flex-shrink-0">
 	
-   <c:import url="../temp/header.jsp"></c:import>
+   <c:import url="../temp/header2.jsp"></c:import>
 
        						
         							
