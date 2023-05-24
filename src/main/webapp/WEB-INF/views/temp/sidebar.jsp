@@ -40,7 +40,7 @@
 			data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Custom Components:</h6>
-				<a class="collapse-item" href="buttons.html">결제</a> <a
+				<a class="collapse-item" href="approval/application">결제</a> <a
 					class="collapse-item" href="buttons.html">휴가</a> <a
 					class="collapse-item" href="buttons.html">경조사</a> <a
 					class="collapse-item" href="buttons.html">결제</a> <a
