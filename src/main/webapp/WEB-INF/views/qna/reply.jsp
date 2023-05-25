@@ -34,7 +34,8 @@
                         <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
                                 <%-- <form id="contactForm" action="./add" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data"> --%>
-                            	<form:form id="contactForm" modelAttribute="qnaCommentVO" action="./reply" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
+                            	<form:form id="contactForm" modelAttribute="qnaCommentVO" action="./reply" method="post" enctype="multipart/form-data">
+                            	<%-- <form:form id="contactForm" modelAttribute="qnaCommentVO" action="./reply" method="post"enctype="multipart/form-data"> --%>
 	                                    <!-- Title input-->
 	                                    <input type="hidden" name="id" value="${qnaCommentVO.id}">
 	                                    <div class="form-floating mb-3">
