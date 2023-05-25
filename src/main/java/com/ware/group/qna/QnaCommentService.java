@@ -47,7 +47,7 @@ public class QnaCommentService {
 		 QnaCommentVO parent = (QnaCommentVO)qnaCommentDAO.getQnaCommentDetail(qnaCommentVO);
 		 //ref :  부모의 ref
 		
-		 System.out.println(parent);
+		 System.out.println(parent);//여기부분에서 에러 발생
 		 qnaCommentVO.setRef(parent.getRef());
 		 //step : 부모의 step+1
 		 System.out.println(parent);

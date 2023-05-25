@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -89,7 +90,7 @@ public class QnaCommentController {
 	}
 	
 	@GetMapping("reply")
-	public ModelAndView setReplyAdd(QnaCommentVO qnaCommentVO,ModelAndView modelAndView)throws Exception{
+	public ModelAndView setReplyAdd(@ModelAttribute QnaCommentVO qnaCommentVO,ModelAndView modelAndView)throws Exception{
 		
 		log.error("========================");
 		
@@ -99,7 +100,7 @@ public class QnaCommentController {
 	@PostMapping("reply")
 	public ModelAndView setReplyAdd(QnaCommentVO qnaCommentVO)throws Exception{
 		ModelAndView mv = new ModelAndView();
-		
+		System.out.println("qnaComment : "+qnaCommentVO.getId());
 		int result= qnaCommentService.setReplyAdd(qnaCommentVO);
 		
 		String message="등록 실패";
