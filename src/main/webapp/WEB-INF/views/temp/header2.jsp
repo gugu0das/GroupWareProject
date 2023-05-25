@@ -111,9 +111,9 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="/qna/list">커뮤니티&QnA</a>
                         <a class="collapse-item" href="/notice/list">공지사항</a>
+                        <a class="collapse-item" href="/qna/list">커뮤니티&QnA</a>
+                        <a class="collapse-item" href="#">??</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>
@@ -131,9 +131,9 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="/notice/list">
+                <a class="nav-link" href="">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Notice</span></a>
+                    <span></span></a>
             </li>
 
             <!-- Divider -->
@@ -381,23 +381,23 @@
    
    <script src="/vendor/jquery/jquery.min.js"></script>
     
-    빼도됨
+
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    빼도됨 ㄴㄴ
+
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
   
-    빼도됨 ㄴㄴ
+    
     <script src="/js/sb-admin-2.min.js"></script> 
  
-  	 빼도됨  ㄴㄴ
+  	
   	<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
     
-    빼도됨  ㄴㄴ
-   <!--  <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
     
-      빼도됨 ㄴㄴ
-   <!--  <script src="/js/datatables-demo.js"></script> -->
+   <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    
+     
+   <script src="/js/datatables-demo.js"></script>
  
    
 
