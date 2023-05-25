@@ -48,9 +48,19 @@
 	                                        <label for="writer">작성자</label>
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
-	                                    <div class="form-floating mb-3">
-	                                    	<input type="file" name="files">                                                                                                                              >
+	                                     <div class="form-floating mb-3">
+	                                    	<input type="file" name="files"> 
 	                                    </div>
+	                                    
+	                                    <!-- <div class="form-floating mb-3" id="fileList"> -->
+	                                   
+	                               			<!-- <div class="mb-3">
+	                                    	<label for="files" class="form-label">Image</label>
+	                                    	<input type="file" class="form-control" name="files" name="files">
+	                                    	<button type="button">X</button>
+	                                    	</div>  -->                         
+	                                    <!-- 	<button type="button" id="fileAdd">ADD</button>                                                                                            
+	                                    </div> -->
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">
 	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
@@ -78,12 +88,13 @@
     <!-- Footer -->
     
     <script type="text/javascript" src="/js/boardForm.js"></script>
+    <script type="text/javascript" src="/js/fileManger.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>
 		$("#contents").summernote();
-		
-		
+		setMax(3);
+		setParam('files')
 	</script>
 </body>
 </html>
