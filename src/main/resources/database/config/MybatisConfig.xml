@@ -44,6 +44,8 @@
 		<typeAlias type="com.ware.group.util.Pager" alias="Pager"/>
 		<typeAlias type="com.ware.group.annual.LeaveRecordVO" alias="LeaveRecordVO"/>
 		<typeAlias type="com.ware.group.department.DepartmentVO" alias="DepartmentVO"/>
+		<typeAlias type="com.ware.group.annual.AnnualVO" alias="AnnualVO"/>
+		
 		
 	</typeAliases>
 

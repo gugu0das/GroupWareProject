@@ -16,7 +16,8 @@
 	<input type="hidden" name="fileName" value="${file}">
 	<input type="hidden" name="ddd" id="ddd">
 	<input type="hidden" name="approval" id="approval">
-	<input type="hidden" name="id" value="${id}">
+	<input type="hidden" name="id1" value="${id}">
+	<%-- <input type="hidden" name="id2" value="${id}"> --%>
 	<button type="button"  value="1" class="btn">승인</button>
 	<button type="button"  value="0" class="btn">거절</button>
 </form>

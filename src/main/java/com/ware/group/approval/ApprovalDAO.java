@@ -59,8 +59,16 @@ public interface ApprovalDAO {
 	
 	public int setLeaverCode(LeaveRecordVO leaveRecordVO) throws Exception;
 	
+	//부서 번호 조회
 	public MemberVO memberDepart(ApprovalVO approvalVO) throws Exception;
 	
 	public DepartmentVO departManager(MemberVO memberVO) throws Exception;
 	
+	public LeaveRecordVO getLeaverCode(LeaveRecordVO leaveRecordVO) throws Exception;
+	
+	public ApprovalVO getApprovalId(ApprovalVO approvalVO) throws Exception;
+	
+	public int setAnnual(LeaveRecordVO leaveRecordVO) throws Exception;
+	
+	public List<ApprovalVO> getMyApproval(ApprovalVO approvalVO) throws Exception;
 }

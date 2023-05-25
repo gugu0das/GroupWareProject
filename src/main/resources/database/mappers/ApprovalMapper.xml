@@ -116,6 +116,21 @@
  	<select id="departManager" parameterType="MemberVO" resultType="DepartmentVO">
  		SELECT manager FROM DEPARTMENT WHERE  id=#{departmentId}
  	</select>
+ 	<select id="getLeaverCode" parameterType="LeaveRecordVO" resultType="LeaveRecordVO">
+ 		SELECT * FROM LEAVERECODE WHERE member_id=#{memberId} AND approval_id=#{approvalId}
+ 	</select>
+ 	<select id="getApprovalId" parameterType="ApprovalVO" resultType="ApprovalVO">
+ 		SELECT * FROM APPROVAL WHERE id=#{id}
+ 	</select>
+ 	<update id="setAnnual" parameterType="LeaveRecordVO">
+ 		UPDATE ANNUAL SET count=count-#{count} WHERE member_id=#{memberId}
+ 	</update>
+ 	<select id="getMyApproval" parameterType="ApprovalVO" resultType="ApprovalVO">
+ 		SELECT * FROM APPROVAL WHERE member_id=#{memberId}
+ 	</select>
+ 	<select id="">
+ 		SELECT * FROM APPROVALCATEGORY
+ 	</select>
  	
  	
 </mapper>

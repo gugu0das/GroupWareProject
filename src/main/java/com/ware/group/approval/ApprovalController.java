@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -187,8 +188,12 @@ public class ApprovalController {
 		return mv;
 	}
 	@PostMapping("approval")
-	public ModelAndView setApprovalApproval(MemberVO memberVO,int approval,String fileName,String ddd,ApprovalVO approvalVO) throws Exception{
+	public ModelAndView setApprovalApproval(Long id1,Long id2,int approval,String fileName,String ddd) throws Exception{
 		ModelAndView mv = new ModelAndView();
+		
+		ApprovalVO approvalVO = new ApprovalVO();
+		approvalVO.setId(id1);
+		MemberVO memberVO = new MemberVO();
 		memberVO.setId(1L);
 		log.error("들어오냐");
 		log.error("{}::::::::::",approval);
@@ -215,10 +220,12 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("myInformation")
-	public ModelAndView getMyInformation(MemberVO memberVO) throws Exception{
+	public ModelAndView getMyInformation(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		
+		List<ApprovalVO> ar = approvalService.getMyApproval(approvalVO);
 		
+		mv.addObject("list", ar);
 		mv.setViewName("approval/myInformation");
 		return mv;
 	}
