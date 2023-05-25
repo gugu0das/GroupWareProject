@@ -31,7 +31,7 @@
 			   	 ) AS C
 				) AS D
 		WHERE R BETWEEN #{startRow} AND #{perPage}
-	
+		ORDER BY ref ,step,depth
 	</select>
 	
 	<!-- <select id="getQnaCommentList" parameterType="Pager" resultType="QnaCommentVO" >
