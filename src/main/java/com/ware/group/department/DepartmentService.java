@@ -36,6 +36,11 @@ public class DepartmentService {
 
 		return result;
 	}
+	public int setDepartmentUpdate(DepartmentVO departmentVO)throws Exception{
+		int result = departmentDAO.setDepartmentUpdate(departmentVO);
+		return result;
+	}
+	
 	public DepartmentVO getDepartmentDetail(DepartmentVO departmentVO)throws Exception{
 		return departmentDAO.getDepartmentDetail(departmentVO);
 

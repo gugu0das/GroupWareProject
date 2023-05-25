@@ -50,6 +50,9 @@ public class DepartmentController {
 	@GetMapping("detail")
 	public ModelAndView getDepartmentDetail(ModelAndView mv, DepartmentVO departmentVO)throws Exception{
 		departmentVO = departmentService.getDepartmentDetail(departmentVO);
+		List<DepartmentVO>  ar= departmentService.getDepartmentList();
+		mv.addObject("departmentVOs", ar);
+		
 		mv.addObject("vo", departmentVO);
 		mv.setViewName("department/detail");
 		return mv;
@@ -57,6 +60,13 @@ public class DepartmentController {
 	@PostMapping("delete")
 	public ModelAndView setDepartmentDelete(ModelAndView mv, DepartmentVO departmentVO)throws Exception{
 		int result = departmentService.setDepartmentDelete(departmentVO);
+		mv.setViewName("department/list");
+		return mv;
+	}
+	@PostMapping("update")
+	public ModelAndView setDepartmentUpdate(ModelAndView mv, DepartmentVO departmentVO)throws Exception{
+		int result = departmentService.setDepartmentUpdate(departmentVO);
+		
 		mv.setViewName("department/list");
 		return mv;
 	}

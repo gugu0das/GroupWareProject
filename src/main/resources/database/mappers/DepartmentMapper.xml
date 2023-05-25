@@ -18,7 +18,7 @@
 	<select id="getDepartmentDetail" parameterType="DepartmentVO"
 		resultMap="DepartmentDetailResult">
 		select
-		d.id as d_id, d.name as d_name ,d.manager ,d.upper ,d.create_date ,
+		d.id as d_id, d.name as d_name ,d.manager ,d.upper ,d.create_date ,d.level,
 		m.id as
 		m_id, m.employee_id ,m.name as m_name, m.hire_date,j.name as j_name,
 		d2.name as up_name
@@ -49,6 +49,12 @@
 		delete from DEPARTMENT where id = #{id}
 
 	</delete>
+
+	<update id="setDepartmentUpdate" parameterType="DepartmentVO">
+	
+	UPDATE DEPARTMENT set name =#{name}, manager =#{manager}, upper =#{upper} ,`level` =#{level},update_date =now() where id=#{id}
+	
+	</update>
 
 
 
@@ -95,6 +101,7 @@
 		<result property="manager" column="manager" />
 		<result property="upper" column="upper" />
 		<result property="createDate" column="create_date" />
+		<result property="level" column="level" />
 		<association property="upperDepartment"
 			javaType="DepartmentVO">
 			<id property="name" column="up_name" />
