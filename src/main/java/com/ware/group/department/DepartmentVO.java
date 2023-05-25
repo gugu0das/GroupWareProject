@@ -19,6 +19,7 @@ public class DepartmentVO {
 	private Long level;
 	private Date createDate;
 	
+	private Long nextLevel;
 	private List<DepartmentVO> departmentVOs;
 	private List<MemberVO> memberVOs;
 	private DepartmentVO upperDepartment;

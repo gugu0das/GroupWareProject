@@ -58,7 +58,7 @@
 											<div class="col-md-2">
 												<label for="level">부서레벨</label> <select class="form-control"
 													name="level" id="level">
-													<c:forEach begin="0" end="5" varStatus="i">
+													<c:forEach begin="0" end="${departmentVOs[0].nextLevel }" varStatus="i">
 														<option value="${i.index}">${i.index}</option>
 													</c:forEach>
 												</select>

@@ -6,8 +6,9 @@
 <mapper namespace="com.ware.group.department.DepartmentDAO">
 
 	<select id="getDepartmentList" resultType="DepartmentVO">
-		select * from
-		DEPARTMENT
+		select * from 
+		(select max(d.`level`+1) as next_level from DEPARTMENT d ) 
+		max_level,DEPARTMENT d3 
 	</select>
 
 	<select id="getDepartmentChildId" parameterType="DepartmentVO"
