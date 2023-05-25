@@ -41,9 +41,9 @@
 
 	<insert id="setDepartmentAdd" parameterType="DepartmentVO">
 		INSERT INTO
-		DEPARTMENT(name,manager,upper,`level`,create_date)
+		DEPARTMENT(name,manager,upper,`level`,create_date,update_date)
 		values(#{name},#{manager, jdbcType=INTEGER},#{upper,
-		jdbcType=INTEGER},#{level},now())
+		jdbcType=INTEGER},#{level},now(),now())
 	</insert>
 	<delete id="setDepartmentDelete" parameterType="DepartmentVO">
 		delete from DEPARTMENT where id = #{id}
