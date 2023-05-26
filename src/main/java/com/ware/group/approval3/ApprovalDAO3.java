@@ -46,4 +46,13 @@ public interface ApprovalDAO3 {
 	
 	public String getFileDuplication(String formFileName) throws Exception;
 	
+	public List<ApprovalFormFileVO> getListFormFile() throws Exception;
+	
+	public List<ApproverVO> getListApprover() throws Exception;
+	
+	public int updateFormFile(DocumentFilesVO documentFilesVO) throws Exception;
+	
+	public int updateCategoryName(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int updateApprover(ApproverVO approverVO) throws Exception;
 }

@@ -23,7 +23,7 @@
 	<select id="getJobList" parameterType="DepartmentVO" resultType="JobVO">
 		SELECT j.id, j.name FROM `MEMBER` m 
 		LEFT JOIN DEPARTMENT d 
-		ON m.dept_num = d.id
+		ON m.department_id = d.id
 		LEFT JOIN JOB j 
 		ON m.job_id = j.id
 		WHERE d.id = #{id};
@@ -53,7 +53,44 @@
 		SELECT * FROM APPROVALCATEGORY WHERE NOT REF = 0
 	</select>
 	
+	<select id="getListFormFile" resultType="ApprovalFormFileVO">
+		SELECT * FROM APPROVALFORMFILE
+	</select>
 	
+	<select id="getListApprover" resultMap="ApproverList">
+		SELECT a.*, d.id as 'd.id', d.name as 'd.name', j.id as 'j.id', j.name as 'j.name'  FROM APPROVER a 
+		LEFT JOIN DEPARTMENT d 
+		ON a.department_id = d.id
+		LEFT JOIN JOB j
+		ON a.job_id  = j.id;
+	</select>
+	<resultMap type="ApproverVO" id="ApproverList">
+		<result property="categoryId" column="category_id" />
+		<result property="jobId" column="job_id" />
+		<result property="departmentId" column="department_id" />
+		<result property="depth" column="depth" />
+		
+		<collection property="jobVOs" javaType="List" ofType="JobVO">
+			<id column="j.id" property="id"></id>   <!-- PK로 사용하는 column -->
+			<result column="j.name" property="name"></result>   <!-- PK를 제외한 나머지 -->
+	 	</collection>
+	 	<collection property="departmentVOs" javaType="List" ofType="DepartmentVO">
+			<id column="d.id" property="id"></id>   <!-- PK로 사용하는 column -->
+			<result column="d.name" property="name"></result>   <!-- PK를 제외한 나머지 -->
+	 	</collection>
+	</resultMap>
+	
+	<update id="updateFormFile">
+		UPDATE DOCUMENTFILES SET file_name = #{fileName}, ori_name = #{oriName} WHERE id = #{id}
+	</update>
+	
+	<update id="updateCategoryName" parameterType="ApprovalCategoryVO">
+		UPDATE APPROVALCATEGORY SET name = #{name} where id = #{id}
+	</update>
+	
+	<update id="updateApprover" parameterType="ApproverVO">
+		UPDATE APPROVER SET department_id = #{departmentId}, job_id = #{jobId} WHERE category_id = #{categoryId} AND depth = #{depth}
+	</update>
 	<!-- 
 	
 	<insert id="addCategoryApprover" parameterType="ApproverVO">

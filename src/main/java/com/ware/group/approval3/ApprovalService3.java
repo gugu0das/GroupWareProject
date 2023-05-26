@@ -19,6 +19,23 @@ public class ApprovalService3 {
 	@Autowired
 	ApprovalDAO3 approvalDAO;
 	
+	public int updateFormFile(DocumentFilesVO documentFilesVO) throws Exception{
+		return approvalDAO.updateFormFile(documentFilesVO);
+	}
+	public int updateCategoryName(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.updateCategoryName(approvalCategoryVO);
+	}
+	public int updateApprover(ApproverVO approverVO) throws Exception{
+		return approvalDAO.updateApprover(approverVO);
+	}
+	
+	public List<ApprovalFormFileVO> getListFormFile() throws Exception{
+		return approvalDAO.getListFormFile();
+	};
+	public List<ApproverVO> getListApprover() throws Exception{
+		return approvalDAO.getListApprover();
+	}
+	
 	public List<ApprovalCategoryVO> getListCategoryRef0() throws Exception{
 		return approvalDAO.getListCategoryRef0();
 	};

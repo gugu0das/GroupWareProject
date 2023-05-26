@@ -39,9 +39,6 @@ $(document).on("change", "#deptId", function() {
 	}else{
 		id.parent().children('#jobId').remove();
 	}
-    
-    
-    
 });
 
 $('#addCategoryOption').click(function(){
