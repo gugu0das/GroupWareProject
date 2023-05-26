@@ -13,3 +13,4 @@
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="/js/sb-admin-2.min.js"></script>
+<script src="/js/approvalCategory.js"></script>

@@ -42,6 +42,8 @@
 		<typeAlias type="com.ware.group.schedule.ScheDetailVO" alias="ScheDetailVO"/>
 		<typeAlias type="com.ware.group.schedule.ScheVO" alias="ScheVO"/>
 	
+		<typeAlias type="com.ware.group.approval3.DocumentFilesVO" alias="DocumentFilesVO"/>
+		<typeAlias type="java.lang.String" alias="String"/>
 		<typeAlias type="com.ware.group.member.MemberVO"
 			alias="MemberVO" />
 		<typeAlias type="com.ware.group.department.DepartmentVO"
@@ -54,7 +56,15 @@
   	  	<typeAlias type="java.lang.Long" alias="Long" />
 		<typeAlias type="java.util.List" alias="List"/>
 		<typeAlias type="com.ware.group.util.Pager" alias="Pager"/>
+		<typeAlias type="com.ware.group.annual.LeaveRecordVO" alias="LeaveRecordVO"/>
+		<typeAlias type="com.ware.group.department.DepartmentVO" alias="DepartmentVO"/>
+		<typeAlias type="com.ware.group.annual.AnnualVO" alias="AnnualVO"/>
+		
+		
 	</typeAliases>
+	
+		
+	
 
 </configuration>  
 
