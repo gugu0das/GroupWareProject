@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,8 +48,17 @@ public class QnaController {
 		return mv;
 }
 		@GetMapping("add")
-		public ModelAndView setInsert(@ModelAttribute QnaVO qnaVO) throws Exception {
+		public ModelAndView setInsert(@ModelAttribute QnaVO qnaVO,HttpSession session) throws Exception {
 			ModelAndView mv = new ModelAndView();
+			
+			Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+			SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+				
+			qnaVO.setWriter(memberVO.getAccountId());
+			
+			
+			
 			mv.setViewName("qna/add");
 			
 			return mv;
