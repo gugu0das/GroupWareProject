@@ -18,15 +18,7 @@ public interface DepartmentDAO {
 	public List<DepartmentVO> getDepartmentChildId(DepartmentVO departmentVO)throws Exception;
 
 	public int setDepartmentUpdate(DepartmentVO departmentVO)throws Exception;
-	
 
-
-	public List<DepartmentVO> getDepartmentLevel0()throws Exception;
-	public List<DepartmentVO> getDepartmentLevel1(DepartmentVO departmentVO)throws Exception;
-	public List<DepartmentVO> getDepartmentLevel2(DepartmentVO departmentVO)throws Exception;
-	public List<DepartmentVO> getDepartmentLevel3(DepartmentVO departmentVO)throws Exception;
-	public List<DepartmentVO> getDepartmentLevel4(DepartmentVO departmentVO)throws Exception;
-	public List<DepartmentVO> getDepartmentLevel5(DepartmentVO departmentVO)throws Exception;
-
+	public List<DepartmentVO> getDeparmentTree(DepartmentVO departmentVO)throws Exception;
 
 }

@@ -46,27 +46,20 @@ public class DepartmentService {
 
 	}
 
-	public List<DepartmentVO> getDepartmentTreeList()throws Exception{
-		List<DepartmentVO> level0 = departmentDAO.getDepartmentLevel0();
-		for(DepartmentVO l1:level0) {
-			//			System.out.println("l1 : " + l1.getName());
-			l1.setDepartmentVOs(departmentDAO.getDepartmentLevel1(l1));
-			for(DepartmentVO l2 :l1.getDepartmentVOs() ) {
-				//				System.out.println("l2 : " + l2.getName());
-				l2.setDepartmentVOs(departmentDAO.getDepartmentLevel2(l2));
-				for(DepartmentVO l3:l2.getDepartmentVOs()) {
-					//					System.out.println("l3 : " + l3.getName());
-					l3.setDepartmentVOs(departmentDAO.getDepartmentLevel3(l3));
-					for(DepartmentVO l4:l3.getDepartmentVOs()) {
-						//						System.out.println("l4 : " + l4.getName());
-						l4.setDepartmentVOs(departmentDAO.getDepartmentLevel4(l4));
-					}
-				}
+	public List<DepartmentVO> getDepartmentTreeList(DepartmentVO departmentVO)throws Exception{
+		if(departmentVO.getLevel()==null) {
+			departmentVO.setLevel(0L);
+		}
+		departmentVO.setDepartmentVOs(departmentDAO.getDeparmentTree(departmentVO));
+		for(DepartmentVO tree:departmentVO.getDepartmentVOs()) {
+			if(tree!=null) {
+				tree.setLevel(tree.getLevel()+1);
+				this.getDepartmentTreeList(tree);
 			}
 		}
-
-
-		return level0;
+		
+		return departmentVO.getDepartmentVOs();
 
 	}
+	
 }
