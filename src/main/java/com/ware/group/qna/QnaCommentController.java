@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ware.group.member.MemberVO;
 import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,7 @@ public class QnaCommentController {
 	private QnaCommentService qnaCommentService;
 	
 	@GetMapping("list")
-	public ModelAndView getQnaCommentList(Pager pager) throws Exception {
+	public ModelAndView getQnaCommentList(@ModelAttribute QnaCommentVO qnaCommentVO,Pager pager) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		List<QnaCommentVO> ar = qnaCommentService.getQnaCommentList(pager);
@@ -44,7 +46,8 @@ public class QnaCommentController {
 		
 		/* qnaCommentVO.setWriter(memberVO.getId()); */
 		//qnaCommentVO.setWriter("iu");
-		int result = qnaCommentService.setQnaCommentAdd(qnaCommentVO, null, null);
+		
+		int result = qnaCommentService.setQnaCommentAdd(qnaCommentVO, null, session);
 		
 		mv.addObject("result", result);
 		mv.setViewName("common/ajaxResult");
@@ -90,11 +93,15 @@ public class QnaCommentController {
 	}
 	
 	@GetMapping("reply")
-	public ModelAndView setReplyAdd(@ModelAttribute QnaCommentVO qnaCommentVO,ModelAndView modelAndView)throws Exception{
+	public ModelAndView setReplyAdd(@ModelAttribute QnaCommentVO qnaCommentVO,ModelAndView modelAndView,HttpSession session)throws Exception{
 		
-		log.error("========================");
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+			
+		qnaCommentVO.setWriter(memberVO.getAccountId());
 		
-		modelAndView.setViewName("qna/reply");
+		modelAndView.setViewName("/qna/reply");
 		return modelAndView;
 	}
 	@PostMapping("reply")
@@ -112,7 +119,7 @@ public class QnaCommentController {
 	
 		mv.setViewName("common/result");
 		mv.addObject("result", message);
-		mv.addObject("url","./detail?id="+qnaCommentVO.getId());
+		mv.addObject("url","/qna/detail?id="+qnaCommentVO.getQnaId());
 		return mv;
 	}
 }
