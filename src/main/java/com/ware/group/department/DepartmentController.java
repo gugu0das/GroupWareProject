@@ -52,7 +52,6 @@ public class DepartmentController {
 		departmentVO = departmentService.getDepartmentDetail(departmentVO);
 		List<DepartmentVO>  ar= departmentService.getDepartmentList();
 		mv.addObject("departmentVOs", ar);
-		
 		mv.addObject("vo", departmentVO);
 		mv.setViewName("department/detail");
 		return mv;

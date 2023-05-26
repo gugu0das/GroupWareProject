@@ -33,6 +33,7 @@ public class NoticeController {
 	
 	
 	
+	
 	@ModelAttribute("board")
 	public String getNotice() {
 		return "notice";
@@ -134,6 +135,7 @@ public class NoticeController {
 		 * MemberVO memberVO = (MemberVO)session.getAttribute("member");
 		 * noticeVO.setMemberId(memberVO.getId());
 		 */
+		
 		
 		
 		if(bindingResult.hasErrors()) {
