@@ -12,7 +12,7 @@
 					<tr>
 						
                        <td>
-                       <a href="./detail?id=${noticeVO.id}">${noticeVO.title}</a></td>
+                       <a href="/notice/detail?id=${noticeVO.id}">${noticeVO.title}</a></td>
                         
                    		<c:if test="${i.first}">
                    		 	${noticeVO.contents}

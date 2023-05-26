@@ -29,7 +29,7 @@
 	<select id="getList" parameterType="Pager" resultType="QnaVO" >
 		SELECT * FROM QNA 
 		<include refid="search"></include>
-		ORDER BY ID DESC,REF DESC, STEP ASC
+		ORDER BY ID DESC
 		LIMIT #{startRow}, #{perPage}
 	</select>
 	
@@ -50,9 +50,6 @@
 		<result property="writer" column="writer"/>
 		<result property="regDate" column="reg_date"/>
 		<result property="hit" column="hit"/>
-		<result property="ref" column="ref"/>
-		<result property="step" column="step"/>
-		<result property="depth" column="depth"/>
 		
 		<collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
 			<id property="id" column="id"/>
@@ -65,11 +62,8 @@
 	
 	
 	<insert id="setInsert" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="id">
-	 	<selectKey keyProperty="id" resultType="Long" order="BEFORE">
-  			SELECT MAX(id)+1 FROM QNA
-  		</selectKey>
-		INSERT INTO QNA (id,member_id, title, contents, writer, reg_date, hit, ref, step, depth)
-		VALUES(#{id}, #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0,#{id} , 0, 0)
+		INSERT INTO QNA (id,member_id, title, contents, writer, reg_date, hit)
+		VALUES(#{id}, #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0)
 	</insert>
 	
 	<!-- <update id="setRefUpdate" parameterType="QnaVO">
@@ -100,14 +94,5 @@
   		WHERE ID = #{id}
   	</update>
   	
-  	
-  	<update id="setStepUpdate" parameterType="QnaVO">
-  		UPDATE QNA SET STEP = STEP + 1
-  		WHERE REF = #{ref} AND STEP > #{step}
-  	</update>
-  	
-  	<insert id="setReplyAdd" parameterType="QnaVO">
-  		INSERT INTO QNA (member_id, title, contents, writer, reg_date, hit, ref, step, depth)
-		VALUES( #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0,#{ref} , #{step}, #{depth})
-  	</insert>
+
 </mapper>

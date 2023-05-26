@@ -42,10 +42,10 @@ public interface QnaDAO {
 	public int setQnaHit(QnaVO qnaVO) throws Exception;
 	
 	//REF 댓글
-	public  int setStepUpdate(QnaVO qnaVO)throws Exception;
+	/* public int setStepUpdate(QnaVO qnaVO)throws Exception; */
 	
 	//댓글 더하기
-	public int setReplyAdd(QnaVO qnaVO)throws Exception;
+	/* public int setReplyAdd(QnaVO qnaVO)throws Exception; */
 	
 	//REF UPDATE
 	//public int setRefUpdate(QnaVO qnaVO)throws Exception;

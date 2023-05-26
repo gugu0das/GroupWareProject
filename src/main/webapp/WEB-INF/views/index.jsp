@@ -514,7 +514,7 @@ to {
 	<!-- Page level custom scripts -->
 	<script src="/js/demo/datatables-demo.js"></script>
 	<!--Notice 공지사항 메인으로 빼는 기능-->
-	<!-- <script src="/js/noticeTop5.js"></script> -->
+	<script src="/js/noticeTop5.js"></script>
 
 
 </body>

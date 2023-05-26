@@ -16,7 +16,7 @@
 <body class="d-flex flex-column h-100">
 	<main class="flex-shrink-0">
 	
-   <c:import url="../temp/header.jsp"></c:import>
+   <c:import url="../temp/header2.jsp"></c:import>
 
        						
         							
@@ -44,11 +44,10 @@
                                     <!-- Post meta content-->
                                     <div class="text-muted fst-italic mb-2">${noticeVO.regDate}</div>
                                     <!-- Post categories-->
-                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                                    
                                 </header>
                                 <!-- Preview image figure-->
-                                <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
+                               
                                 <!-- Post content-->
                                 <section class="mb-5">
                                     ${noticeVO.contents}

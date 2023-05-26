@@ -12,6 +12,13 @@
     
 	<typeAliases>
 		<!-- <typeAlias type="com.iu.base.board.BoardVO" alias="BoardVO"/> -->
+		
+		<typeAlias type="com.ware.group.common.DateVO" alias="DateVO"/>
+		<typeAlias type="com.ware.group.common.Field3VO" alias="Field3VO"/>
+		<typeAlias type="com.ware.group.common.PageVO" alias="PageVO"/>
+		<typeAlias type="com.ware.group.common.SearchVO" alias="SearchVO"/>
+		<typeAlias type="com.ware.group.common.Util4calen" alias="Util4calen"/>
+		
 		<typeAlias type="com.ware.group.approval.ApprovalVO" alias="ApprovalVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalCategoryVO" alias="ApprovalCategoryVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalFormFileVO" alias="ApprovalFormFileVO"/>
@@ -19,6 +26,7 @@
 		
 		<typeAlias type="com.ware.group.notice.NoticeVO" alias="NoticeVO"/>
 		<typeAlias type="com.ware.group.notice.NoticeFileVO" alias="NoticeFilesVO"/>
+		
 		<typeAlias type="com.ware.group.board.BoardFileVO" alias="BoardFileVO"/>
 		
 		<typeAlias type="com.ware.group.qna.QnaVO" alias="QnaVO"/>
@@ -29,10 +37,13 @@
 		<typeAlias type="com.ware.group.approval.ApprovalHistoryVO" alias="ApprovalHistoryVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalInfoVO" alias="ApprovalInfoVO"/>
 		
-		
-		<typeAlias type="java.lang.Long" alias="Long"/>
-		<typeAlias type="java.lang.String" alias="String"/>
+		<typeAlias type="com.ware.group.schedule.CalendarVO" alias="CalendarVO"/>
+		<typeAlias type="com.ware.group.schedule.MonthVO" alias="MonthVO"/>
+		<typeAlias type="com.ware.group.schedule.ScheDetailVO" alias="ScheDetailVO"/>
+		<typeAlias type="com.ware.group.schedule.ScheVO" alias="ScheVO"/>
+	
 		<typeAlias type="com.ware.group.approval3.DocumentFilesVO" alias="DocumentFilesVO"/>
+		<typeAlias type="java.lang.String" alias="String"/>
 		<typeAlias type="com.ware.group.member.MemberVO"
 			alias="MemberVO" />
 		<typeAlias type="com.ware.group.department.DepartmentVO"

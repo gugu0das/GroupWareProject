@@ -91,22 +91,23 @@ public class QnaService {
 	 }
 	 
 	//reply Insert
-	 public int setReplyAdd(QnaVO qnaVO)throws Exception{
-		 
-		 QnaVO parent = (QnaVO)qnaDAO.getDetail(qnaVO);
-		 //ref :  부모의 ref
-		 qnaVO.setRef(parent.getRef());
-		 //step : 부모의 step+1
-		 qnaVO.setStep(parent.getStep()+1);
-		 //depth : 부모의 depth+1
-		 qnaVO.setDepth(parent.getDepth()+1);
-		 //2. Step update
-		 int result = qnaDAO.setStepUpdate(parent);
-		 //3. 답글 insert
-		 result = qnaDAO.setReplyAdd(qnaVO);
-		 
-		 return result;
-	 }
+	/*
+	 * public int setReplyAdd(QnaVO qnaVO)throws Exception{
+	 * 
+	 * QnaVO parent = (QnaVO)qnaDAO.getDetail(qnaVO);
+	 * 
+	 * qnaVO.setRef(parent.getRef());
+	 * 
+	 * qnaVO.setStep(parent.getStep()+1);
+	 * 
+	 * qnaVO.setDepth(parent.getDepth()+1);
+	 * 
+	 * int result = qnaDAO.setStepUpdate(parent);
+	 * 
+	 * result = qnaDAO.setReplyAdd(qnaVO);
+	 * 
+	 * return result; }
+	 */
 	 
 		/*
 		 * public int setRefUpdate(QnaVO qnaVO)throws Exception{
