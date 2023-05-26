@@ -54,6 +54,9 @@
 	<select id="getListCategory" resultType="ApprovalCategoryVO">
 		SELECT * FROM APPRAOVALCATEGORY
 	</select> -->
+	<select id="getListCategory" resultType="ApprovalCategoryVO">
+		SELECT * FROM APPROVALCATEGORY
+	</select>
 	<insert id="setApprovalApplication" parameterType="ApprovalVO" useGeneratedKeys="true" keyProperty="id">
  		INSERT INTO APPROVAL VALUES(#{id},#{categoryId},#{memberId},#{contents},now(),'대기',null)
  	</insert>
@@ -72,8 +75,11 @@
  	<insert id="setApprovalInfo" parameterType="ApprovalInfoVO">
  		INSERT INTO APPROVALINFO(approval_id,member_id,date,`check`,depth) VALUES(#{approvalId},#{memberId},now(),#{check},#{depth})
  	</insert>
- 	<select id="getApprovalList" resultMap="app" parameterType="MemberVO">
- 		SELECT * FROM APPROVAL a  INNER JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='승인중' AND a3.member_id=#{id}
+ 	<select id="getApprovalList" resultMap="app" parameterType="ApprovalVO">
+ 		SELECT * FROM APPROVAL a  INNER JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
+ 		<if test="categoryId !=null">
+ 			AND category_id=#{categoryId}
+ 		</if>
  	</select>
  	<resultMap type="ApprovalVO" id="app">
  		<id column="id" property="id"/>
@@ -128,9 +134,7 @@
  	<select id="getMyApproval" parameterType="ApprovalVO" resultType="ApprovalVO">
  		SELECT * FROM APPROVAL WHERE member_id=#{memberId}
  	</select>
- 	<select id="">
- 		SELECT * FROM APPROVALCATEGORY
- 	</select>
+ 	
  	
  	
 </mapper>

@@ -24,7 +24,7 @@ public interface ApprovalDAO {
 	
 	public int setApprovalInfo(ApprovalInfoVO approvalInfoVO) throws Exception;
 	
-	public List<ApprovalVO> getApprovalList(MemberVO memberVO) throws Exception;
+	public List<ApprovalVO> getApprovalList(ApprovalVO approvalVO) throws Exception;
 	
 	public ApprovalUploadFileVO getApprovalFile(ApprovalVO approvalVO) throws Exception;
 	

@@ -89,8 +89,8 @@ public class ApprovalService {
 		return result;
 	}
 	
-	public List<ApprovalVO> getApprovalList(MemberVO memberVO) throws Exception{
-		List<ApprovalVO> ar = approvalDAO.getApprovalList(memberVO);
+	public List<ApprovalVO> getApprovalList(ApprovalVO approvalVO) throws Exception{
+		List<ApprovalVO> ar = approvalDAO.getApprovalList(approvalVO);
 		
 		return ar;
 	}
@@ -168,10 +168,11 @@ public class ApprovalService {
 		return approvalDAO.getMyApproval(approvalVO);
 	}
 	
+	
 	//
 	public List<ApprovalCategoryVO> getListCategory() throws Exception{
 		return approvalDAO.getListCategory();
-	};
+	}
 	public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{
 		return approvalDAO.addCategory(approvalCategoryVO);
 	}

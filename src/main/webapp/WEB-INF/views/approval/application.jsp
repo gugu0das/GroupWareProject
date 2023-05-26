@@ -32,7 +32,7 @@
     		
     		<form action="./application" method="post" id="fr">
     		<input type="hidden" name="dd" id="ddd">
-    		 <input type="hidden" name="categoryId" value="2">  
+    		 <input type="hidden" name="categoryId" value="3">  
     		 <input type="hidden" name="count" id="vacation">
     		 <input type="hidden" name="reason" id="reason">
     		 <input type="hidden" name="useDate" id="useDate">

@@ -40,6 +40,8 @@ public class ApprovalController {
 	 * @Autowired TemplateEngine templateEngine;
 	 */
 	
+	
+	
 	@GetMapping("addCategory")
 	public ModelAndView addCategory() throws Exception{
 		
@@ -167,12 +169,37 @@ public class ApprovalController {
 	}
 	@GetMapping("information")
 	//list
-	public ModelAndView getApprovalInformation() throws Exception{
+	public ModelAndView getApprovalInformation(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		MemberVO memberVO = new MemberVO();
-		memberVO.setId(1L);
-		List<ApprovalVO> ar = approvalService.getApprovalList(memberVO);
 		
+		
+		approvalVO.setMemberId(1L);
+		
+		List<ApprovalVO> ar = approvalService.getApprovalList(approvalVO);
+		List<ApprovalCategoryVO> arr = approvalService.getListCategory();
+		if(approvalVO.getCategoryId() !=null) {
+		for(ApprovalCategoryVO approvalCategoryVO : arr) {
+			if( approvalCategoryVO.getRef() == approvalVO.getCategoryId()) {
+				ApprovalVO vo = new ApprovalVO();
+				vo.setCategoryId(approvalCategoryVO.getId());
+				vo.setMemberId(1L);
+				List<ApprovalVO> arrr = approvalService.getApprovalList(vo);
+				log.error("{}...",arrr);
+				for(ApprovalVO er : arrr) {
+					ar.add(er);
+				}
+			}
+		}
+		}
+		for(ApprovalCategoryVO approvalCategoryVO : arr) {
+			if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
+				mv.addObject("name", approvalCategoryVO.getName());
+				break;
+			}else {
+				mv.addObject("name", "전체");
+			}
+		}
+		mv.addObject("cat", arr);
 		mv.addObject("list", ar);
 		mv.setViewName("approval/information");
 		return mv;
