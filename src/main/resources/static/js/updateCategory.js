@@ -14,7 +14,7 @@ $(document).on('click', '#updateApprover', function(){
 			
 		},
 		success : function(data){
-			inputHtml = '<select id="deptId" class="form-control">' +
+			inputHtml = '<select id="deptIdSelect" class="form-control">' +
 							'<option value="부서">부서</option>';
 			for(let i = 0; i < data.length; i ++){
 				if(data[i].id == existDepartmentId){
@@ -94,6 +94,7 @@ $(document).on('click', '#updateApprover1', function(){
 	let approverDepth = $(this).parent().children('#approverDepth').val();
 	let departmentSelect = $('#deptIdSelect option:selected').text();
 	let jobSelect = $('#jobIdSelect option:selected').text();
+	let tempApproverDiv = $(this).parent();
 	
 	if(departmentId == '부서' || departmentId == null){
 		alert('부서 번호를 확인하세요');
@@ -101,7 +102,7 @@ $(document).on('click', '#updateApprover1', function(){
 		if(jobId == '직책' || jobId == null){
 			alert('직책을 확인하세요');
 		}else{
-			//updateApprover();
+			updateApprover();
 		}
 	}
 
@@ -122,9 +123,11 @@ $(document).on('click', '#updateApprover1', function(){
 					alert('수정 성공');
 					let inputHtml = 
 					'<span id="departmentId" data-department-id="'+ departmentId +'">'+ departmentSelect + '</span>' + 
-					'<span id="jobId" data-job-id="'+ jobId +'">' + jobSelect + '</span>' + 
-					'<button class="btn btn-primary" id="updateApprover">수정하기</button>' + 
+					'<span id="jobId" data-job-id="'+ jobId +'">' + jobSelect + '</span>&nbsp' + 
+					'<button class="btn btn-primary" id="updateApprover">수정하기</button>&nbsp' + 
 					'<button class="btn btn-danger" id="deleteApprover">삭제하기</button>';
+					
+					tempApproverDiv.html(inputHtml);
 				}
 			}
 		})
