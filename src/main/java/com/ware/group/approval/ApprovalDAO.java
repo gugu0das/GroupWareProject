@@ -28,27 +28,6 @@ public interface ApprovalDAO {
 	
 	public ApprovalUploadFileVO getApprovalFile(ApprovalVO approvalVO) throws Exception;
 	
-	//
-	public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
-	
-	public int addApprover(ApproverVO approverVO) throws Exception;
-	
-	public int addApprovalFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception;
-	
-	public List<ApprovalCategoryVO> getCategoryOption() throws Exception;
-	
-	public int deleteCategory(ApprovalCategoryVO categoryVO) throws Exception;
-	
-	public int updateCategory(ApprovalCategoryVO categoryVO) throws Exception;
-	
-	public List<ApprovalCategoryVO> getListCategory() throws Exception;
-	
-	public ApprovalVO test() throws Exception;
-	
-	public List<DepartmentVO> getDepartmentList() throws Exception;
-	
-	public List<JobVO> getJobList(DepartmentVO departmentVO) throws Exception;
-	
 	public int setInfoUpdate(ApprovalInfoVO approvalInfoVO) throws Exception;
 	//자신의 id와 결재 번호로 자신의 순서를 조회
 	public ApprovalInfoVO getInfoDetail(ApprovalInfoVO approvalInfoVO) throws Exception;

@@ -4,59 +4,7 @@
 <mapper namespace="com.ware.group.approval.ApprovalDAO">
 	
 	
-	<insert id="addCategory" parameterType="ApprovalCategoryVO" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO APPROVALCATEGORY (id, name, ref) VALUES (#{id}, #{name}, #{ref})
-	</insert>
 	
-	<insert id="addApprover" parameterType="ApprovalCategoryVO">
-		INSERT INTO APPROVER (category_id, job_id, dept_id, depth) VALUES (#{categoryId}, #{jobId}, #{deptId}, 0)
-	</insert>
-	
-	<insert id="addApprovalFormFile" parameterType="ApprovalCategoryVO">
-		INSERT INTO APPROVALFORMFILE (category_id, file_id) VALUES (#{categoryId}, #{fileId})
-	</insert>
-	
-	<select id="getDepartmentList" resultType="DepartmentVO">
-		SELECT * FROM DEPARTMENT
-	</select>
-	
-	<select id="getJobList" parameterType="DepartmentVO" resultType="JobVO">
-		SELECT j.id, j.name FROM `MEMBER` m 
-		LEFT JOIN DEPARTMENT d 
-		ON m.dept_num = d.id
-		LEFT JOIN JOB j 
-		ON m.job_id = j.id
-		WHERE d.id = #{id};
-	</select>
-	
-	<!-- 
-	
-	<insert id="addCategoryApprover" parameterType="ApproverVO">
-		INSERT INTO APPROVER (CATEGORYNUM, JOBID, DEPTNUM) VALUSE (#{categoryNum}, #{jobId}, #{deptNum})
-	</insert>
-	
-	<insert id="addCategoryFormFile" parameterType="ApprovalFormFileVO">
-		INSERT INTO APPROVALFORMFILE (CATEGORYNUM, FILENUM) VALUSE (#{categoryNum}, #{fileNum})
-	</insert>
-	
-	<update id="updateCategory" parameterType="ApprovalCategoryVO">
-		UPDATE APPROVALCATEGORY SET CATEGORYNAME = #{categoryName}, CATEGORYREF = #{categoryRef} WHERE CATEGORYNUM = #{categoryNum}
-	</update>
-	
-	<delete id="deleteCategory" parameterType="ApprovalCategoryVO">
-		DELETE APPROVALCATEGORY WHERE CATEGORYNUM = #{categoryNum}
-	</delete>
-	
-	<delete id="deleteUnderCategory" parameterType="ApprovalCategoryVO">
-		DELETE APPROVALCATEGORY WHERE CATEGORYREF = #{categoryNum}
-	</delete>
-	
-	<select id="getListCategory" resultType="ApprovalCategoryVO">
-		SELECT * FROM APPRAOVALCATEGORY
-	</select> -->
-	<select id="getListCategory" resultType="ApprovalCategoryVO">
-		SELECT * FROM APPROVALCATEGORY
-	</select>
 	<insert id="setApprovalApplication" parameterType="ApprovalVO" useGeneratedKeys="true" keyProperty="id">
  		INSERT INTO APPROVAL VALUES(#{id},#{categoryId},#{memberId},#{contents},now(),'대기',null)
  	</insert>
