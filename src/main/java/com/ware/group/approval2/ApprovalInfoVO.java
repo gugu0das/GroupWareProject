@@ -1,4 +1,4 @@
-package com.ware.group.approval;
+package com.ware.group.approval2;
 
 import java.sql.Date;
 
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ApprovalHistoryVO {
+public class ApprovalInfoVO {
 	private Long id;
 	private Long approvalId;
 	private Long memberId;

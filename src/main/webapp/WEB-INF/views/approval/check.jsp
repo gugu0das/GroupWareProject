@@ -9,19 +9,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 <body>
- ㅋㅋ
- <img alt="" src="/file/approval/이미지1.jfif">
+
 <div id ="dd">
 </div>
 <form action="./approval" method="post" id="fm">
 	<input type="hidden" name="fileName" value="${file}">
 	<input type="hidden" name="ddd" id="ddd">
 	<input type="hidden" name="approval" id="approval">
-	<input type="hidden" name="id" value="${id}">
+	<input type="hidden" name="id1" value="${id}">
+	<%-- <input type="hidden" name="id2" value="${id}"> --%>
 	<button type="button"  value="1" class="btn">승인</button>
 	<button type="button"  value="0" class="btn">거절</button>
 </form>
-<img alt="" src="/file/approval/승인.JPG">
+
 
 <script type="text/javascript">
   $("#dd").load("/file/approval/${file}")
