@@ -28,10 +28,10 @@
 		,m.status,m.birth_date ,m.email ,m.phone ,m.address, m.hire_date
 		,d.name as dep_name,j.name as job_name
 		from `MEMBER` m
-		inner join
+		left outer join
 		DEPARTMENT d
 		on m.department_id =d.id
-		INNER JOIN
+		left outer JOIN
 		JOB j
 		on m.job_id =j.id
 		where account_id =#{accountId};

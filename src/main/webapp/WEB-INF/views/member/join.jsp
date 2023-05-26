@@ -104,7 +104,7 @@
 									<div class="col-sm-4">
 										<form:label path="departmentId">부서선택</form:label>
 										<form:select path="departmentId" id="departmentId"
-											cssClass="custom-select form-control">
+											cssClass="custom-select form-control" size="1">
 											<c:forEach items="${departmentVOs }" var="depVO">
 												<form:option value="${depVO.id }">${depVO.name }</form:option>
 											</c:forEach>
@@ -115,7 +115,7 @@
 										<form:label path="jobId">직위/직책 선택</form:label>
 										<form:select path="jobId"
 											cssClass="custom-select form-control"
-											placeholder="직위/직책을 선택해주세요">
+											placeholder="직위/직책을 선택해주세요" >
 											<c:forEach items="${jobVOs }" var="jobVO">
 												<form:option value="${jobVO.id }">${jobVO.name}</form:option>
 											</c:forEach>
