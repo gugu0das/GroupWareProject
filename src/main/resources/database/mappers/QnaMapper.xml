@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ware.group.qna.QnaDAO">
+
+	<sql id="search">
+		<where>
+			<if test="kind == 'title'">
+				TITLE LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="kind == 'contents'">
+				CONTENTS LIKE CONCAT('%', #{search},'%')
+			</if>
+			<if test="kind == 'writer'">
+				WRITER LIKE CONCAT('%', #{search}, '%')
+			</if>		
+			
+		</where>
+	</sql>
+	
+	<select id="getTotalCount" parameterType="Pager" resultType="Long">
+			SELECT COUNT(id) FROM QNA
+			<include refid="search"></include>
+	</select>
+	
+	
+	<select id="getList" parameterType="Pager" resultType="QnaVO" >
+		SELECT * FROM QNA 
+		<include refid="search"></include>
+		ORDER BY ID DESC
+		LIMIT #{startRow}, #{perPage}
+	</select>
+	
+	<select id="getDetail" parameterType="QnaVO" resultMap="getDetailResult">
+  		SELECT *
+		FROM QNA
+			 LEFT JOIN
+			 QNAFILES 
+			 USING(id) 
+		WHERE ID = #{id}
+  	</select>
+  	
+  	<resultMap type="QnaVO" id="getDetailResult">
+		<id property="id" column="id"/>
+		<result property="memberId" column="member_id"/>
+		<result property="title" column="title"/>
+		<result property="contents" column="contents"/>
+		<result property="writer" column="writer"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="hit" column="hit"/>
+		
+		<collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
+			<id property="id" column="id"/>
+			<result property="fileName" column="file_name"/>
+			<result property="oriName" column="ori_name"/>
+		</collection>
+		
+	</resultMap>
+  	
+	
+	
+	<insert id="setInsert" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO QNA (id,member_id, title, contents, writer, reg_date, hit)
+		VALUES(#{id}, #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0)
+	</insert>
+	
+	<!-- <update id="setRefUpdate" parameterType="QnaVO">
+	UPDATE QNA SET ref = #{id}
+	WHERE id = #{id};
+	</update> -->
+	
+	<delete id="setDelete" parameterType="QnaVO">
+  		DELETE FROM QNA WHERE ID = #{id}
+  	</delete>
+  	
+  	<insert id="setQnaFileAdd" parameterType="BoardFileVO">
+  		INSERT INTO QNAFILES (id, qna_id, file_name, ori_name)
+  		VALUES(#{id}, #{qnaId}, #{fileName}, #{oriName})
+  	</insert>
+  	
+  	<select id="getFileDetail" parameterType="BoardFileVO" resultType="BoardFileVO">
+  		SELECT * FROM QNAFILES WHERE ID = #{id}
+  	</select> 
+  	
+  	<update id="setQnaHit" parameterType="QnaVO">
+  		UPDATE QNA SET HIT = #{hit} + 1
+		WHERE ID = #{id}
+  	</update>
+  	
+  	<update id="setUpdate" parameterType="QnaVO">
+  		UPDATE QNA SET TITLE = #{title}, WRITER = #{writer}, CONTENTS = #{contents}
+  		WHERE ID = #{id}
+  	</update>
+  	
+
+</mapper>

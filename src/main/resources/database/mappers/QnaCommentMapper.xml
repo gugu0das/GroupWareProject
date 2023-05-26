@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ware.group.qna.QnaCommentDAO">
+	
+	<sql id="commentCondition">
+		<trim prefix="where" suffixOverrides="and">
+			qna_id = #{qnaId} AND
+			<if test="kind == 'contents'">
+				CONTENTS LIKE CONCAT('%', #{search},'%')
+			</if>
+			<if test="kind == 'writer'">
+				WRITER LIKE CONCAT('%', #{search}, '%')
+			</if>		
+		</trim> 
+	</sql>
+	
+	
+	<select id="getTotalCount" resultType="Long" parameterType="Pager">
+		SELECT COUNT(ID) FROM QNACOMMENT
+		<include refid="commentCondition"></include>
+	</select>
+	
+	<select id="getQnaCommentList" resultType="QnaCommentVO" parameterType="Pager">
+		SELECT * FROM (
+			    SELECT *, ROW_NUMBER() OVER (ORDER BY ID ASC) AS R FROM (
+			        SELECT * FROM QNACOMMENT
+			      
+			   	 ) AS C
+				) AS D
+		WHERE R BETWEEN #{startRow} AND #{perPage}
+		ORDER BY ref ,step,depth
+	</select>
+	
+	<!-- <select id="getQnaCommentList" parameterType="Pager" resultType="QnaCommentVO" >
+		SELECT * FROM 
+		(
+			SELECT ROWNUM R, N.* FROM
+			 (
+			 	SELECT ID,CONTENTS, WRITER, REG_DATE FROM QNACOMMENT
+		<include refid="search"></include>
+		ORDER BY ID DESC,REF DESC, STEP ASC
+		LIMIT #{startRow}, #{perPage}
+	</select> -->
+	
+	<select id="getQnaCommentDetail" parameterType="QnaCommentVO" resultMap="qnaCommentResultMap">
+  		SELECT *
+		FROM QNACOMMENT
+		WHERE ID = #{id}
+  	</select>
+  	
+  	<resultMap id="qnaCommentResultMap" type="QnaCommentVO">
+    <id property="id" column="id"/>
+    <result property="qnaId" column="qna_id"/>
+    <result property="contents" column="contents"/>
+     <result property="regDate" column="reg_date"/>
+    <result property="writer" column="writer"/>
+    <result property="ref" column="ref"/>
+	<result property="step" column="step"/>
+	<result property="depth" column="depth"/>
+		
+    <!-- 추가 필드 및 컬럼 매핑 -->
+</resultMap>
+	
+	<insert id="setQnaCommentAdd" parameterType="QnaCommentVO" useGeneratedKeys="true" keyProperty="id">
+  			<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+  				SELECT MAX(id)+1 FROM QNACOMMENT
+  			</selectKey>
+  			INSERT INTO QNACOMMENT (id, qna_id, contents, reg_date, writer,ref,step,depth)
+  			VALUES ( #{id} , #{qnaId}, #{contents}, now(), #{writer},#{id},0,0)
+  		</insert>
+	
+	<delete id="setQnaCommentDelete" parameterType="QnaCommentVO">
+  			DELETE FROM QNACOMMENT WHERE ID = #{id}
+  	</delete>
+  	
+  	<update id="setQnaCommentUpdate" parameterType="QnaCommentVO">
+  			UPDATE QNACOMMENT SET CONTENTS = #{contents}
+  			WHERE ID = #{id}
+  	</update>
+  	
+  	<update id="setStepUpdate" parameterType="QnaCommentVO">
+  		UPDATE QNACOMMENT SET STEP = STEP + 1
+  		WHERE REF = #{ref} AND STEP > #{step}
+  	</update>
+	
+	<insert id="setReplyAdd" parameterType="QnaCommentVO">
+  		INSERT INTO QNACOMMENT (qna_id,  contents, writer, reg_date, ref, step, depth)
+		VALUES( #{qnaId} , #{contents}, #{writer}, now(),#{ref} , #{step}, #{depth})
+  	</insert>
+</mapper>

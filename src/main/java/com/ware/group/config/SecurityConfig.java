@@ -45,7 +45,9 @@ public class SecurityConfig{
 				
 			.authorizeRequests()
 				//URL과 권한 매칭
+			
 				.antMatchers("/**").hasRole("USER")
+//				.permitAll()
 				.antMatchers("/member/join").permitAll()
 //				.antMatchers("/notice/add").hasRole("MEMBER")
 //				.antMatchers("/notice/update").hasRole("ADMIN")

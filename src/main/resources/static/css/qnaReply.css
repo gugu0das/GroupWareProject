@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+#replyContents {
+    width: 80%;
+    height: 50px;
+    margin: left auto;
+}
+
+.replyAdd {
+    display: inline-block;
+    text-align: center;
+}
+
+.btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0;
+}
+
+.btns .btn_list {
+    width: 150px;
+    height: 50px;
+}
+
+.btns #replyAdd {
+    margin-left: 10px;
+    width: 150px;
+    height: 50px;
+}
+
+#commentListResult {
+    width: 70%;
+}
