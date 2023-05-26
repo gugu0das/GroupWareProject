@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ware.group.board.BoardFileVO;
+import com.ware.group.member.MemberVO;
 import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -89,8 +91,15 @@ public class NoticeController {
 	}
 	
 	@GetMapping("add")
-	public ModelAndView setInsert(@ModelAttribute NoticeVO noticeVO) throws Exception {
+	public ModelAndView setInsert(@ModelAttribute NoticeVO noticeVO, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		//session.getAttribute 를 하고싶지만 SEcurity Session으로 바뀌어서 이렇게 받아와야 session에 있는 데이터를 얻을 수 있다.
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		
+		
+		noticeVO.setWriter(memberVO.getAccountId());
 		mv.setViewName("notice/add");
 		
 		return mv;
