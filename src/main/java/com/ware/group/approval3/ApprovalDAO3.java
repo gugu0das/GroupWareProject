@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ware.group.approval.ApprovalCategoryVO;
 import com.ware.group.approval.ApprovalFormFileVO;
@@ -27,7 +28,9 @@ public interface ApprovalDAO3 {
 	
 	public int updateCategory(ApprovalCategoryVO categoryVO) throws Exception;
 	
-	public List<ApprovalCategoryVO> getListCategory() throws Exception;
+	public List<ApprovalCategoryVO> getListCategoryRef0() throws Exception;
+	
+	public List<ApprovalCategoryVO> getListCategoryRef1() throws Exception;
 	
 	public ApprovalVO test() throws Exception;
 	
@@ -35,4 +38,21 @@ public interface ApprovalDAO3 {
 	
 	public List<JobVO> getJobList(DepartmentVO departmentVO) throws Exception;
 	
+	public int addFormFile(DocumentFilesVO documentFilesVO) throws Exception;
+	
+	public long getFileId(String fileName) throws Exception;
+	
+	public String getCategoryDuplication(String name) throws Exception;
+	
+	public String getFileDuplication(String formFileName) throws Exception;
+	
+	public List<ApprovalFormFileVO> getListFormFile() throws Exception;
+	
+	public List<ApproverVO> getListApprover() throws Exception;
+	
+	public int updateFormFile(DocumentFilesVO documentFilesVO) throws Exception;
+	
+	public int updateCategoryName(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int updateApprover(ApproverVO approverVO) throws Exception;
 }

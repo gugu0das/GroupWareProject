@@ -1,8 +1,14 @@
 package com.ware.group.approval;
 
+import java.util.List;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class ApprovalCategoryVO {
@@ -12,7 +18,10 @@ public class ApprovalCategoryVO {
 	
 	
 	
-	private ApprovalCategoryVO[] sub;
-	private ApproverVO[] approver;
-	private ApprovalFormFileVO[] file;
+	private List<ApprovalCategoryVO> sub;
+	private List<ApproverVO> approver;
+	private List<ApprovalFormFileVO> file;
+	
+	
+	
 }

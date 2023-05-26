@@ -1,4 +1,4 @@
-package com.ware.group.approval;
+package com.ware.group.approval2;
 
 import lombok.Getter;
 import lombok.Setter;
