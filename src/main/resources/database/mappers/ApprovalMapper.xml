@@ -1,10 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ware.group.approval3.ApprovalDAO3">
+<mapper namespace="com.ware.group.approval.ApprovalDAO">
 	
+	<insert id="addCategory" parameterType="ApprovalCategoryVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO APPROVALCATEGORY (id, name, ref) VALUES (#{id}, #{name}, #{ref})
+	</insert>
 	
+	<insert id="addApprover" parameterType="ApprovalCategoryVO">
+		INSERT INTO APPROVER (category_id, job_id, department_id, depth) VALUES (#{categoryId}, #{jobId}, #{departmentId}, 0)
+	</insert>
 	
+	<insert id="addApprovalFormFile" parameterType="ApprovalCategoryVO">
+		INSERT INTO APPROVALFORMFILE (category_id, file_id) VALUES (#{categoryId}, #{fileId})
+	</insert>
+	
+	<select id="getDepartmentList" resultType="DepartmentVO">
+		SELECT * FROM DEPARTMENT
+	</select>
+	
+	<select id="getJobList" parameterType="DepartmentVO" resultType="JobVO">
+		SELECT j.id, j.name FROM `MEMBER` m 
+		LEFT JOIN DEPARTMENT d 
+		ON m.department_id = d.id
+		LEFT JOIN JOB j 
+		ON m.job_id = j.id
+		WHERE d.id = #{id};
+	</select>
+	
+	<select id="getFileId" parameterType="String" resultType="Long">
+		SELECT id FROM DOCUMENTFILES WHERE file_name = #{fileName}
+	</select>
+	
+	<select id="getCategoryDuplication" parameterType="String" resultType="String">
+		SELECT name FROM APPROVALCATEGORY WHERE name = #{name}
+	</select>
+	
+	<insert id="addFormFile" parameterType="DocumentFilesVO">
+		INSERT INTO DOCUMENTFILES (document_id, file_name, ori_name) VALUE (0, #{fileName}, #{oriName}) 
+	</insert>
+	
+	<select id="getFileDuplication" parameterType="String" resultType="String">
+		SELECT file_name FROM DOCUMENTFILES WHERE file_name = #{formFileName}
+	</select>
+	
+	<select id="getListCategoryRef0" resultType="ApprovalCategoryVO">
+		SELECT * FROM APPROVALCATEGORY WHERE REF = 0
+	</select>
+	
+	<select id="getListCategoryRef1" resultType="ApprovalCategoryVO">
+		SELECT * FROM APPROVALCATEGORY WHERE NOT REF = 0
+	</select>
+	
+	<select id="getListFormFile" resultType="ApprovalFormFileVO">
+		SELECT * FROM APPROVALFORMFILE
+	</select>
+	
+	<select id="getListApprover" resultMap="ApproverList">
+		SELECT a.*, d.id as 'd.id', d.name as 'd.name', j.id as 'j.id', j.name as 'j.name'  FROM APPROVER a 
+		LEFT JOIN DEPARTMENT d 
+		ON a.department_id = d.id
+		LEFT JOIN JOB j
+		ON a.job_id  = j.id;
+	</select>
+	<resultMap type="ApproverVO" id="ApproverList">
+		<result property="categoryId" column="category_id" />
+		<result property="jobId" column="job_id" />
+		<result property="departmentId" column="department_id" />
+		<result property="depth" column="depth" />
+		
+		<collection property="jobVOs" javaType="List" ofType="JobVO">
+			<id column="j.id" property="id"></id>   <!-- PK로 사용하는 column -->
+			<result column="j.name" property="name"></result>   <!-- PK를 제외한 나머지 -->
+	 	</collection>
+	 	<collection property="departmentVOs" javaType="List" ofType="DepartmentVO">
+			<id column="d.id" property="id"></id>   <!-- PK로 사용하는 column -->
+			<result column="d.name" property="name"></result>   <!-- PK를 제외한 나머지 -->
+	 	</collection>
+	</resultMap>
+	
+	<update id="updateFormFile">
+		UPDATE DOCUMENTFILES SET file_name = #{fileName}, ori_name = #{oriName} WHERE id = #{id}
+	</update>
+	
+	<update id="updateCategoryName" parameterType="ApprovalCategoryVO">
+		UPDATE APPROVALCATEGORY SET name = #{name} where id = #{id}
+	</update>
+	
+	<update id="updateApprover" parameterType="ApproverVO">
+		UPDATE APPROVER SET department_id = #{departmentId}, job_id = #{jobId} WHERE category_id = #{categoryId} AND depth = #{depth}
+	</update>
+	
+	<select id="getListCategory" resultType="ApprovalCategoryVO">
+      SELECT * FROM APPROVALCATEGORY
+   	</select>
+	
+	<!--  -->
 	<insert id="setApprovalApplication" parameterType="ApprovalVO" useGeneratedKeys="true" keyProperty="id">
  		INSERT INTO APPROVAL VALUES(#{id},#{categoryId},#{memberId},#{contents},now(),'대기',null)
  	</insert>

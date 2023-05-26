@@ -1,5 +1,6 @@
 package com.ware.group.approval;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ware.group.annual.LeaveRecordVO;
+import com.ware.group.approval3.DocumentFilesVO;
 import com.ware.group.approval3.JobVO;
 import com.ware.group.department.DepartmentVO;
 import com.ware.group.member.MemberVO;
@@ -20,6 +22,93 @@ public class ApprovalService {
 	
 	@Autowired
 	private ApprovalDAO approvalDAO;
+	
+	public int updateFormFile(DocumentFilesVO documentFilesVO) throws Exception{
+		return approvalDAO.updateFormFile(documentFilesVO);
+	}
+	public int updateCategoryName(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.updateCategoryName(approvalCategoryVO);
+	}
+	public int updateApprover(ApproverVO approverVO) throws Exception{
+		return approvalDAO.updateApprover(approverVO);
+	}
+	
+	public List<ApprovalFormFileVO> getListFormFile() throws Exception{
+		return approvalDAO.getListFormFile();
+	};
+	public List<ApproverVO> getListApprover() throws Exception{
+		return approvalDAO.getListApprover();
+	}
+	
+	public List<ApprovalCategoryVO> getListCategoryRef0() throws Exception{
+		return approvalDAO.getListCategoryRef0();
+	};
+	
+	public List<ApprovalCategoryVO> getListCategoryRef1() throws Exception{
+		return approvalDAO.getListCategoryRef1();
+	};
+	public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.addCategory(approvalCategoryVO);
+	}
+	public int addApprover(ApproverVO approverVO) throws Exception{
+		return approvalDAO.addApprover(approverVO);
+	}
+	public int addApprovalFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
+		return approvalDAO.addApprovalFormFile(approvalFormFileVO);
+	}
+	public List<ApprovalCategoryVO> getCategoryOption() throws Exception{
+		return approvalDAO.getCategoryOption();
+	};
+	public int deleteCategory(ApprovalCategoryVO categoryVO) throws Exception{
+		return approvalDAO.deleteCategory(categoryVO);
+	};
+	
+	public ApprovalVO test() throws Exception{
+		return approvalDAO.test();
+	};
+	
+	public List<DepartmentVO> getDepartmentList() throws Exception{
+		return approvalDAO.getDepartmentList();
+	};
+	public List<JobVO> getJobList(DepartmentVO departmentVO) throws Exception{
+		return approvalDAO.getJobList(departmentVO);
+	};
+	
+	public int addFormFile(DocumentFilesVO documentFilesVO) throws Exception{
+		return approvalDAO.addFormFile(documentFilesVO);
+	};
+	
+	public long getFileId(String fileName) throws Exception{
+		return approvalDAO.getFileId(fileName);
+	}
+	
+	public List<String> getCategoryDuplication(String[] name) throws Exception{
+		List<String> dup = new ArrayList<String>();
+		for(String str : name) {
+			str = approvalDAO.getCategoryDuplication(str);
+			if(str != null) {
+				dup.add(str);
+			}
+		}
+		return dup;
+	}
+	
+	public List<String> getFileDuplication(String[] formFileName) throws Exception{
+		List<String> dup = new ArrayList<String>();
+		for(String str : formFileName) {
+			str = approvalDAO.getFileDuplication(str);
+			if(str != null) {
+				dup.add(str);
+			}
+		}
+		
+		return dup;
+	}
+	
+	//
+	public List<ApprovalCategoryVO> getListCategory() throws Exception{
+		return approvalDAO.getListCategory();
+	}
 	
 	public int setApprovalApplication(ApprovalVO approvalVO,String fileName,LeaveRecordVO leaveRecordVO) throws Exception{
 		  System.out.println("=========================4=====================");
@@ -72,7 +161,7 @@ public class ApprovalService {
 						//결재자 id
 						approvalInfoVO.setMemberId(memberVO.getId());
 						
-						approvalInfoVO.setDepth(approverVO.getDepth());
+						approvalInfoVO.setDepth(Long.valueOf(approverVO.getDepth()).intValue());
 						
 						if(approvalInfoVO.getCheck().equals(ApprovalStatus.APPROVALING)) {
 							approvalInfoVO.setCheck(ApprovalStatus.PENDING);

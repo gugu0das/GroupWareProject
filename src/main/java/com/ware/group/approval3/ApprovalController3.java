@@ -25,9 +25,9 @@ import com.ware.group.util.FileManager;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
-@RequestMapping("/approval/*")
-@Slf4j
+//@Controller
+//@RequestMapping("/approval/*")
+//@Slf4j
 public class ApprovalController3 {
 	
 	@Value("${app.upload1}")
@@ -76,10 +76,7 @@ public class ApprovalController3 {
 		List<ApprovalFormFileVO> listFormFile = approvalService.getListFormFile();
 		
 		List<ApproverVO> listApprover =  approvalService.getListApprover();
-		log.error("=={}==", listApprover.get(0).getDepartmentId());
-		log.error("=={}==", listApprover.get(0).getJobId());
-		log.error("=={}==", listApprover.get(0).getDepartmentVOs().get(0).getName());
-		log.error("=={}==", listApprover.get(0).getJobVOs().get(0).getName());
+
 		mv.addObject("list0", listCategoryRef0);
 		mv.addObject("list1", listCategoryRef1);
 		mv.addObject("listFormFile", listFormFile);
@@ -96,13 +93,10 @@ public class ApprovalController3 {
 	@PostMapping("updateFormFile")
 	@ResponseBody
 	public String updateFormFile(MultipartHttpServletRequest request, Long fileId) throws Exception{
-		log.error("=======test=======");
 		
 		
 		List<MultipartFile> file = request.getFiles("file");
-		
-		log.error("=={}==", file.size());
-		log.error("=={}==", fileId);
+
 		DocumentFilesVO documentFilesVO = new DocumentFilesVO();
 		int result = 0;
 		String fileName = "";
