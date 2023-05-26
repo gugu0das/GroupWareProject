@@ -27,8 +27,8 @@ public class DepartmentController {
 
 	@GetMapping("tree")
 	@ResponseBody
-	public List<DepartmentVO> getDepartmentTreeList()throws Exception{
-		List<DepartmentVO> ar=  departmentService.getDepartmentTreeList();	
+	public List<DepartmentVO> getDepartmentTreeList(DepartmentVO departmentVO)throws Exception{
+		List<DepartmentVO> ar=  departmentService.getDepartmentTreeList(departmentVO);	
 		return ar;
 	}
 	@GetMapping("add")
