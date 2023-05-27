@@ -37,12 +37,13 @@ public interface NoticeDAO {
 		// 파일조회
 		public BoardFileVO getFileDetail(BoardFileVO boardFileVO) throws Exception;
 		
-		
-		
 		// 조회수
 		public int setNoticeHit(NoticeVO noticeVO) throws Exception;
 		
+		// 중요글 맨위 상단으로 올리고 색변화
+		public List<NoticeVO> getImportantList(NoticeVO noticeVO) throws Exception;
 		
 		
-		//public int setRef(QnaVO qnaVO) throws Exception;
+		
+		
 }

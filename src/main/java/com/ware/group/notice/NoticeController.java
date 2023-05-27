@@ -33,34 +33,22 @@ public class NoticeController {
 	
 	
 	
-	
 	@ModelAttribute("board")
 	public String getNotice() {
 		return "notice";
 	}
 	
-	@PostMapping("moveToTop")
-	public ModelAndView moveToTop(@RequestParam("postId") Long postId) throws Exception {
-	    ModelAndView mv = new ModelAndView();
-	    
-	    // 게시글 조회
-	    NoticeVO noticeVO = new NoticeVO();
-	    noticeVO.setId(postId);
-	    NoticeVO targetPost = noticeService.getDetail(noticeVO);
-	    
-	    // 게시글을 리스트에서 삭제
-	    noticeService.setDelete(noticeVO);
-	    
-	    // 리스트의 맨 앞에 게시글 추가
-	    Pager pager = new Pager();
-	    pager.setPerPage(2L); // 최근 게시글 1개만 조회
-	    List<NoticeVO> currentPosts = noticeService.getList(pager);
-	    currentPosts.add(0, targetPost);
-	    
-	    mv.addObject("list", currentPosts);
-	    mv.setViewName("common/noticeTop");
-	    
-	    return mv;
+	
+	@GetMapping("importantList")
+	public ModelAndView getImportantList(NoticeVO noticeVO) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		
+		List<NoticeVO> ar = noticeService.getImportantList(noticeVO);
+		
+		mv.addObject("importantList", ar);
+		mv.setViewName("notice/importantList");
+		
+		return mv;
 	}
 	
 	//메인화면에 공지사항 리스트 뜨게 하는 컨트롤러
@@ -161,7 +149,8 @@ public class NoticeController {
 		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
 		
 		int result = noticeService.setNoticeHit(noticeVO);
-	
+		
+		
 		mv.addObject("noticeVO", noticeVO);
 		mv.setViewName("notice/detail");
 		

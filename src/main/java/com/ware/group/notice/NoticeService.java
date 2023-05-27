@@ -38,6 +38,12 @@ public class NoticeService{
 		
 		return noticeDAO.getList(pager);
 	}
+	
+	
+	public List<NoticeVO> getImportantList(NoticeVO noticeVO) throws Exception {
+		return noticeDAO.getImportantList(noticeVO);
+	}
+
 
 	public NoticeVO getDetail(NoticeVO noticeVO) throws Exception {
 		return noticeDAO.getDetail(noticeVO);
