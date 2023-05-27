@@ -127,6 +127,7 @@ public class QnaController {
 			int result = qnaService.setQnaHit(qnaVO);
 		
 			mv.addObject("qnaVO", qnaVO);
+		
 			mv.setViewName("qna/detail");
 			
 			return mv;

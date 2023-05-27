@@ -3,6 +3,8 @@ package com.ware.group.qna;
 import java.sql.Date;
 import java.util.List;
 
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +24,5 @@ public class QnaVO {
 	private Date regDate;
 	private Long hit;
 	private List<QnaFileVO> boardFileVOs;
+	
 }
