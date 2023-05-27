@@ -33,6 +33,11 @@
 		LIMIT #{startRow}, #{perPage}
 	</select>
 	
+	<select id="getImportantList" resultType="NoticeVO" parameterType="NoticeVO">
+  		SELECT * FROM NOTICE
+  		WHERE IMPORTANT = #{important}
+  	</select>
+	
 	<select id="getDetail" parameterType="NoticeVO" resultMap="getDetailResult">
   		SELECT *
 		FROM NOTICE
@@ -50,6 +55,7 @@
 		<result property="writer" column="writer"/>
 		<result property="regDate" column="reg_date"/>
 		<result property="hit" column="hit"/>
+		<result column="important" property="important"/>
 		
 		<collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
 			<id property="id" column="id"/>
@@ -61,8 +67,8 @@
   	
 
 	<insert id="setInsert" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="id">
-	INSERT INTO NOTICE ( member_id, title, contents, writer, reg_date, hit)
-	VALUES ( #{memberId}, #{title}, #{contents}, #{writer}, now(), 0)
+	INSERT INTO NOTICE ( member_id, title, contents, writer, reg_date, hit,important)
+	VALUES ( #{memberId}, #{title}, #{contents}, #{writer}, now(), 0,#{important})
 	</insert>
 
 	<delete id="setDelete" parameterType="NoticeVO">
