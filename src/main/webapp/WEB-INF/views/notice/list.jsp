@@ -37,15 +37,19 @@
                             <div class="table-responsive">
                                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label><!-- Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"> --></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
-                                        <tr role="row"><th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 99px;">번호</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 148px;">제목</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 71px;">작성자</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">날짜</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 74px;">조회수</th><!-- <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 67px;">Salary</th> --></tr>
+                                        <tr role="row"><th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 99px;">번호</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 148px;">제목</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 71px;">작성자</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">날짜</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 74px;">조회수</th>                                    
                                     </thead>
                                     <tfoot>
-                                        <tr><th rowspan="1" colspan="1">번호</th><th rowspan="1" colspan="1">제목</th><th rowspan="1" colspan="1">작성자</th><th rowspan="1" colspan="1">날짜</th><th rowspan="1" colspan="1">조회수</th><!-- <th rowspan="1" colspan="1">Salary</th> --></tr>
+                                        <tr><th rowspan="1" colspan="1">번호</th><th rowspan="1" colspan="1">제목</th><th rowspan="1" colspan="1">작성자</th><th rowspan="1" colspan="1">날짜</th><th rowspan="1" colspan="1">조회수</th>
                                     </tfoot>
                                     <tbody>
+                                    <tr class="importantList" style="background-color: #8cf108; color: rgb(5, 5, 5);">
+                                        
+                                    
+                                    </tr>
                                     <c:forEach items="${list}" var="noticeVO">
-                                        <tr class="odd">
-                                            <td class="sorting_1">${noticeVO.id}</td>
+                                        <tr class="check-item" data-num-important="${noticeVO.important}">
+                                            <td class="id" data-num-id="${noticeVO.id}">${noticeVO.id}</td>
                                             <td><a href="./detail?id=${noticeVO.id}">${noticeVO.title}</a></td>
                                             <td>${noticeVO.writer}</td>
                                             <td>${noticeVO.regDate}</td>
@@ -139,7 +143,7 @@
     </div>
     
 <!-- <script src="/js/noticeToTop.js" type="text/javascript"></script>	 -->
-
+<script src="/js/noticeImportant.js"></script>
 </body>
 </html>
                                         
