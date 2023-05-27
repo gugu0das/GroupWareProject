@@ -44,7 +44,7 @@
 	                                    <!-- writer input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="writer" name="writer" type="text" placeholder="Enter Title..." data-sb-validations="required,email" /> -->
-	                                        <form:input path="writer" id="writer" cssClass="form-control"/>
+	                                        <form:input path="writer" id="writer" cssClass="form-control" readOnly="true" />
 	                                        <label for="writer">작성자</label>
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
