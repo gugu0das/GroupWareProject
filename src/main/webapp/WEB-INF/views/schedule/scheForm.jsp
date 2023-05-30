@@ -174,10 +174,10 @@ function repeat_typeChange(){
 	                    	<div class="row form-group">
 	                            <label class="col-lg-1">공개</label>
 	                            <div class="col-lg-8">
-	                            	<label style="margin-right: 5px"><input type="radio" <c:if test='${scheInfo.ssisopen=="Y"}'>checked</c:if> 
-	                            		 id="ssisopen" name="ssisopen" value="Y"> 공개</label>
-	                            	<label style="margin-right: 5px"><input type="radio" <c:if test='${scheInfo.ssisopen=="N"}'>checked</c:if> 
-	                            		 id="ssisopen" name="ssisopen" value="N"> 비공개</label>
+	                            	<label style="margin-right: 5px"><input type="radio" <c:if test='${scheInfo.open=="Y"}'>checked</c:if> 
+	                            		 id="open" name="open" value="Y"> 공개</label>
+	                            	<label style="margin-right: 5px"><input type="radio" <c:if test='${scheInfo.open=="N"}'>checked</c:if> 
+	                            		 id="open" name="open" value="N"> 비공개</label>
 	                            </div>
 	                        </div> 
 	                    	<div class="row form-group">
