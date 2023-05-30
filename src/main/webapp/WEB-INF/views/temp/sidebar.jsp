@@ -48,11 +48,11 @@
 				<ul>
 					<c:forEach items="${categoryList0}" var="upper">
 						<li class="upperCategory">
-							<span class="collapse-item" href="#" id="${upper.id}">${upper.name}</span>
+							<span class="collapse-item" href="/approval/application?categoryId=${upper.id}" id="${upper.id}">${upper.name}</span>
 							<ul class="hide">
 								<c:forEach items="${categoryList1}" var="under">
 									<c:if test="${upper.id == under.ref}">
-										<li id="${under.id}"><a class="collapse-item" href="">${under.name}</a></li>
+										<li id="${under.id}"><a class="collapse-item" href="/approval/application?categoryId=${under.id}">${under.name}</a></li>
 									</c:if> 
 								</c:forEach>
 							</ul>
