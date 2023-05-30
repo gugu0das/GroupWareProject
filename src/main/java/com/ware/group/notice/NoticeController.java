@@ -184,14 +184,14 @@ public class NoticeController {
 	}
 	
 	@GetMapping("update")
-	public ModelAndView setUpdate(@ModelAttribute NoticeVO noticeVO) throws Exception{
+	public ModelAndView setUpdate(@ModelAttribute NoticeVO noticeVO,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		log.debug("안녕");
-		/*
-		 * noticeVO = noticeService.getDetail(noticeVO);
-		 * 
-		 * mv.addObject("noticeVO", noticeVO);
-		 */
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+			
+		noticeVO.setWriter(memberVO.getAccountId());
 		mv.addObject("notice", noticeVO);
 		
 		mv.setViewName("notice/update");
