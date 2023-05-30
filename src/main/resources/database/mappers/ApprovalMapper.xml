@@ -116,9 +116,9 @@
  	</insert>
  	<select id="getApprovalList" resultMap="app" parameterType="ApprovalVO">
  		SELECT * FROM APPROVAL a  INNER JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
- 		<if test="categoryId !=null">
+ 		<!-- <if test="categoryId !=null">
  			AND category_id=#{categoryId}
- 		</if>
+ 		</if> -->
  	</select>
  	<resultMap type="ApprovalVO" id="app">
  		<id column="id" property="id"/>
@@ -172,6 +172,9 @@
  	</update>
  	<select id="getMyApproval" parameterType="ApprovalVO" resultType="ApprovalVO">
  		SELECT * FROM APPROVAL WHERE member_id=#{memberId}
+ 		<if test="confirm !=null">
+ 			AND confirm=#{confirm}
+ 		</if>
  	</select>
  	
  	

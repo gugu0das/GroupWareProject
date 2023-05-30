@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -449,8 +450,16 @@ public class ApprovalController {
 	@GetMapping("myInformation")
 	public ModelAndView getMyInformation(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		
+		approvalVO.setMemberId(1L);
 		List<ApprovalVO> ar = approvalService.getMyApproval(approvalVO);
+		
+		
+		if(approvalVO.getConfirm() != null) {
+		mv.addObject("name", approvalVO.getConfirm());
+		}else {
+			mv.addObject("name", "전체");
+		}
+		
 		
 		mv.addObject("list", ar);
 		mv.setViewName("approval/myInformation");
