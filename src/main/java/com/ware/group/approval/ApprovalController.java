@@ -356,26 +356,37 @@ public class ApprovalController {
 	//list
 	public ModelAndView getApprovalInformation(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		
-		
-		approvalVO.setMemberId(4L);
+		log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());		
+		approvalVO.setMemberId(0L);
 		
 		List<ApprovalVO> ar = approvalService.getApprovalList(approvalVO);
-		List<ApprovalCategoryVO> arr = approvalService.getListCategory();
-		if(approvalVO.getCategoryId() !=null) {
-		for(ApprovalCategoryVO approvalCategoryVO : arr) {
-			if( approvalCategoryVO.getRef() == approvalVO.getCategoryId()) {
-				ApprovalVO vo = new ApprovalVO();
-				vo.setCategoryId(approvalCategoryVO.getId());
-				vo.setMemberId(1L);
-				List<ApprovalVO> arrr = approvalService.getApprovalList(vo);
-				log.error("{}...",arrr);
-				for(ApprovalVO er : arrr) {
-					ar.add(er);
-				}
-			}
-		}
-		}
+		//cat
+		List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
+		//cat2
+		List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
+		//cat1
+		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+		
+		
+//		for(ApprovalVO approvalVO2 : ar) {
+//			log.error("1");
+//			for(ApprovalCategoryVO approvalCategoryVO : arrr) {
+//				log.error("2");
+//				log.error("{}",approvalCategoryVO.getRef());
+//				if(approvalVO.getCategoryId() !=null && approvalVO.getCategoryId() == approvalCategoryVO.getRef()) {
+//					log.error("3");
+//					approvalVO2.setCategoryId(approvalCategoryVO.getRef());
+//					
+//					
+//					ars.add(approvalService.getApprovalList(approvalVO2));
+//					approvalVO2.getAr().add(approvalService.getApprovalList(approvalVO2));			
+//					
+//				}
+//
+//				
+//			}
+//		}
+
 		for(ApprovalCategoryVO approvalCategoryVO : arr) {
 			if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
 				mv.addObject("name", approvalCategoryVO.getName());
@@ -385,6 +396,8 @@ public class ApprovalController {
 			}
 		}
 		mv.addObject("cat", arr);
+		mv.addObject("cat2", arrrr);
+		mv.addObject("cat1", arrr);
 		mv.addObject("list", ar);
 		mv.setViewName("approval/information");
 		return mv;
@@ -408,7 +421,7 @@ public class ApprovalController {
 		ApprovalVO approvalVO = new ApprovalVO();
 		approvalVO.setId(id1);
 		MemberVO memberVO = new MemberVO();
-		memberVO.setId(4L);
+		memberVO.setId(1L);
 		log.error("들어오냐");
 		log.error("{}::::::::::",approval);
 		PrintWriter pw = new PrintWriter(System.out, true);
