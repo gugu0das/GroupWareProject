@@ -358,7 +358,7 @@ public class ApprovalController {
 		ModelAndView mv = new ModelAndView();
 		
 		
-		approvalVO.setMemberId(1L);
+		approvalVO.setMemberId(4L);
 		
 		List<ApprovalVO> ar = approvalService.getApprovalList(approvalVO);
 		List<ApprovalCategoryVO> arr = approvalService.getListCategory();
@@ -408,7 +408,7 @@ public class ApprovalController {
 		ApprovalVO approvalVO = new ApprovalVO();
 		approvalVO.setId(id1);
 		MemberVO memberVO = new MemberVO();
-		memberVO.setId(1L);
+		memberVO.setId(4L);
 		log.error("들어오냐");
 		log.error("{}::::::::::",approval);
 		PrintWriter pw = new PrintWriter(System.out, true);
