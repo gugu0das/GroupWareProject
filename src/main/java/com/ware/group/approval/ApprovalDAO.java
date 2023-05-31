@@ -94,4 +94,6 @@ public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	public int setAnnual(LeaveRecordVO leaveRecordVO) throws Exception;
 	
 	public List<ApprovalVO> getMyApproval(ApprovalVO approvalVO) throws Exception;
+	
+	public ApprovalFormFileVO getFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 }

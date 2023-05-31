@@ -4,21 +4,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<c:import url="../temp/header2.jsp"></c:import>
+<c:import url="../temp/header.jsp"></c:import>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-     
+
+<c:import url="../temp/style.jsp"></c:import>
 </head>
 <body>
-<div class="dropdown">
+
+<div id="wrapper">
+		<!-- sideBar -->
+		<c:import url="../temp/sidebar.jsp"></c:import>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<c:import url="../temp/topbar.jsp"></c:import>
+
+				<!-- contents 작성 -->
+				<div class="container-fluid">
+					
+					<div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
     ${name}
   </button>
-  
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+  <ul class="dropdown-menu animated--fade-in-up" aria-labelledby="dropdownMenuButton1">
   <c:if test="${name ne '전체'}">
     <li  data-id=${s.id}><a class="dropdown-item" href="./myInformation">전체</a></li>
     
@@ -31,14 +41,58 @@
     
   </ul>
 </div>
-<c:forEach items="${list}" var="vo">
-	${vo.id}
-	${vo.contents}
-	${vo.confirm}
-</c:forEach>
+<div class="card mb-4">
+									<div class="card-header">
+										
+										
+									</div>
+									<div class="card-body">
+										<div
+											class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+											
+											<div class="datatable-container">
+												<table class="table table-hover">
+												<thead>
+													<tr>
+														<th>id</th>
+														<th>내용</th>
+														<th>날짜</th>
+														<th>상태</th>
+														
+													</tr>
+												</thead>
+												<tbody>
+					<c:forEach items="${list}" var="vo">
+												<tr>
+														  	
+												<td>${vo.id}</td>
+												<td><a href="./myPayment?id=${vo.id}">${vo.contents}</a></td>
+												<td>${vo.date}</td>
+												<td>${vo.confirm}</td>
+														  	
+														  	 </tr>
+					</c:forEach>
+</tbody>
+												
+												</table>
+											</div>
+											
+										</div>
+									</div>
+								</div>
 
 <a href="/">돌아가기</a>
+					
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+				</div>
+				</div>
+				</div>
+				</div>
+
+<c:import url="../temp/footer.jsp"></c:import>
+<c:import url="../temp/logoutModal.jsp"></c:import>
+	<c:import url="../temp/common_js.jsp"></c:import>
+
 </body>
 </html>

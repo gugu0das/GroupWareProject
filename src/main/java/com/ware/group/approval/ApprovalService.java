@@ -134,8 +134,20 @@ public class ApprovalService {
 				result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
 				if(result == 1) {
 					//연차 기록에 결재 번호 입력
+					log.error("1{}::::::::::::",leaveRecordVO);
+					log.error("2{}::::::::::::",leaveRecordVO.getCount());
+					log.error("3{}::::::::::::",leaveRecordVO.getDegree());
+					log.error("4{}::::::::::::",leaveRecordVO.getApprovalId());
+					log.error("5{}::::::::::::",leaveRecordVO.getId());
+					log.error("6{}::::::::::::",leaveRecordVO.getMemberId());
+					log.error("7{}::::::::::::",leaveRecordVO.getReason());
+					log.error("8{}::::::::::::",leaveRecordVO.getType());
+					log.error("9{}::::::::::::",leaveRecordVO.getUseDate());
+					
+					log.error("{}::::::::::::",leaveRecordVO == null);
+					log.error("{}::::::::::::",leaveRecordVO != null);
 					if(leaveRecordVO != null) {
-						if(leaveRecordVO.getDegree() !=1) {
+						if(leaveRecordVO.getDegree() !=null &&leaveRecordVO.getDegree() !=1) {
 							leaveRecordVO.setCount(0L);
 						}
 						leaveRecordVO.setApprovalId(approvalVO.getId());
@@ -214,6 +226,7 @@ public class ApprovalService {
 				}else {
 					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
 					result = approvalDAO.setApprovalUpdate(approvalVO);
+					
 					LeaveRecordVO leaveRecordVO = new LeaveRecordVO();
 					leaveRecordVO.setApprovalId(approvalVO.getId());
 					log.error("{}::::::::::::::::::::::::",approvalVO.getId());
@@ -257,6 +270,8 @@ public class ApprovalService {
 		return approvalDAO.getMyApproval(approvalVO);
 	}
 	
-	
+	public ApprovalFormFileVO getFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.getFormFile(approvalCategoryVO);
+		}
 	
 }

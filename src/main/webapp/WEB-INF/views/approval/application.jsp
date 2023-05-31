@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <c:import url="../temp/header.jsp"></c:import>
 <!-- Custom styles for this template-->
-<c:import url="../temp/style.jsp"></c:import>
+    <c:import url="../temp/style.jsp"></c:import>
 </head>
 <body class="bg-gradient-primary">
 	<div id="wrapper">
@@ -22,6 +22,17 @@
 				<!-- contents 작성 -->
 				<div class="container-fluid">
 					<div class="row">
+					<div class="card mb-4">
+									<div class="card-header">
+										
+										
+									</div>
+									<div class="card-body">
+										<div
+											class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+											
+											<div class="datatable-container">
+					
 					<c:choose>
 							<c:when test="${not empty app}">
 
@@ -31,21 +42,26 @@
 
 								<form action="./application" method="post" id="fr">
 									<input type="hidden" name="dd" id="ddd"> <input
-										type="hidden" name="categoryId" value="3"> <input
+										type="hidden" name="categoryId" value="${cat}"> <input
 										type="hidden" name="count" id="vacation"> <input
 										type="hidden" name="reason" id="reason"> <input
 										type="hidden" name="useDate" id="useDate"> <input
 										type="hidden" name="degree" id="type">
+										 
 									<div id="ttt">
-										<button type="button" class="appBtn" data-category="1">휴가</button>
-										<button type="button" class="appBtn" data-category="2">비품</button>
-										<button type="button" class="appBtn" data-category="3">교육비</button>
+										
 									</div>
 									<!-- 	<button type="button" id="btn2">전송</button> -->
+								
 								</form>
 							</c:otherwise>
 
 						</c:choose>
+						</div>
+											
+										</div>
+									</div>
+								</div>
 					</div>
 
 
@@ -53,13 +69,7 @@
 				<!-- END Contents  -->
 
 				<!-- Footer -->
-				<footer class="sticky-footer bg-white">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2021</span>
-						</div>
-					</div>
-				</footer>
+				<c:import url="../temp/footer.jsp"></c:import>
 				<!-- End of Footer -->
 			</div>
 			<!-- End of Content Wrapper -->
@@ -69,6 +79,11 @@
 
 	<c:import url="../temp/logoutModal.jsp"></c:import>
 	<c:import url="../temp/common_js.jsp"></c:import>
+	<script type="text/javascript">
+	 $("#ttt").load("/file/approvalForm/${file}");
+	 $("#fr").append('<SPAN>결재 상세 내용</SPAN><input type="text" name="contents"><br>')
+	    $("#fr").append('<button type="button" id="btn">전송</button>');
+	</script>
 		<script type="text/javascript" src="/js/approvalApplication.js"></script>
 </body>
 </html>

@@ -176,6 +176,9 @@
  			AND confirm=#{confirm}
  		</if>
  	</select>
+ 	<select id="getFormFile" resultType="ApprovalFormFileVO" parameterType="ApprovalCategoryVO">
+		SELECT * FROM APPROVALFORMFILE WHERE category_id=#{id}
+	</select>
  	
  	
  	

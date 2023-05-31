@@ -12,3 +12,13 @@ $(document).ready(function(){
 		}
 	});
 });
+
+function deleteTag(){
+   $(".upperCategory").each(function(i,v){
+      if($(v).children('ul').children().length > 0){
+         $(v).children('span').text($(v).children('span').children('a').text());
+         $(v).children('span>a').remove();
+      }
+   })
+}
+deleteTag();
