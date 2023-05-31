@@ -1,22 +1,51 @@
 
-$(".appBtn").click(function(){
-    console.log("버튼 클릭")
-    
-	
-    let num=$(this).attr("data-category");
-    if(num == 1){
-        $("#ttt").load("/file/approvalForm/vacationForm.html");
-    }else if(num == 2){
-        $("#ttt").html("비품")
-    }else{
-        $("#ttt").html("교육비")
-    }
-    $("#fr").append('<SPAN>결재 상세 내용</SPAN><input type="text" name="contents"><br>')
-    $("#fr").append('<button type="button" id="btn">전송</button>');
-})
+
 
 
 $(document).on("click","#btn",function(){
+    let a =true;
+    if($('input:radio').lengh){
+    if(!$('input:radio[name=degree]').is(':checked')){
+       
+            alert("종류는 필수 사항입니다");
+            a=false;
+            return false;
+        
+        
+    }
+    $("input").each(function(idx,index){
+        if($(index).attr("type") != "hidden" && $(index).attr("name") !="contents"){
+            
+            
+        
+         if($(index).attr("name")=="useDate" && $(index).val()==""){
+            
+            alert("날짜는 필수 사항입니다");
+            a=false;
+            return false;
+            
+        }
+        else if( $(index).attr("name") =="count" && $(index).val()==""){
+            console.log($(index).val().type);
+            alert("일수는 필수 사항입니다");
+        a=false;
+        return false;
+            
+        
+    }else if( $(index).attr("name") =="count" && isNaN($(index).val()*1)){
+        console.log(isNaN($(index).val()*1));
+        alert("일수는 필수 사항입니다");
+    a=false;
+    return false;
+        
+    
+}
+}
+
+    })
+    }
+
+if(a){
     $("input").each(function(idx,index){
         console.log("아 :",$(index).attr("name"))
         console.log($(index).val());
@@ -24,6 +53,7 @@ $(document).on("click","#btn",function(){
         if($(index).attr("type") != "hidden" && $(index).attr("name") !="contents"){
 
             if($(index).attr("type") == "radio"){
+                
                 $(index).attr('onclick', "return(false);");
                 //radio check 여부
                 if($(index).is(':checked')){
@@ -42,6 +72,7 @@ $(document).on("click","#btn",function(){
                     $(index).parent().text($(index).val()+$(index).parent().text());
                     return
                 }else if($(index).attr("name")=="useDate"){
+                    
                     $(index).parent().text($(index).val())
                     $("#useDate").val($(index).val());
                     console.log($("#useDate").val());
@@ -55,9 +86,20 @@ $(document).on("click","#btn",function(){
             }
         }
     })
+    if ($('textarea').length) {
+        $('textarea').each(function(idx,index){
+            $(index).parent().text($(index).val());
+        })
+    }
     console.log("==============================================휴가 일수 :",$("#vacation").val());
     console.log($("#ttt").html());
+    console.log($("#reason").val());
+    console.log($("#useDate").val());
     $("#ddd").val($("#ttt").html());
     $("#fr").submit();
+}else{
+    return false;
+}
+    
 })
 
