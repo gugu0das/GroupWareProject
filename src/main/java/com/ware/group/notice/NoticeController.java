@@ -59,6 +59,9 @@ public class NoticeController {
 		
 		List<NoticeVO> ar = noticeService.getList(pager);
 		
+		
+		
+		
 		mv.addObject("list", ar);
 		mv.setViewName("common/noticeResult");
 		
@@ -72,6 +75,7 @@ public class NoticeController {
 		log.info("kind : {}", pager.getKind());
 		
 		List<NoticeVO> ar = noticeService.getList(pager);
+		
 		
 		mv.addObject("list", ar);
 		mv.setViewName("notice/list");
@@ -118,11 +122,9 @@ public class NoticeController {
 	public ModelAndView setInsert(@Valid NoticeVO noticeVO, BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
-		/*
-		 * MemberVO memberVO = (MemberVO)session.getAttribute("member");
-		 * noticeVO.setMemberId(memberVO.getId());
-		 */
-		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		
 		
 		if(bindingResult.hasErrors()) {
@@ -135,6 +137,7 @@ public class NoticeController {
 		for(MultipartFile multipartFile : files) {
 			log.error("{} ::",multipartFile.getOriginalFilename());
 			}
+		noticeVO.setMemberId(memberVO.getId());
 		int result = noticeService.setInsert(noticeVO, files);
 		
 		mv.setViewName("redirect:./list");
@@ -143,14 +146,19 @@ public class NoticeController {
 	}
 	
 	@GetMapping("detail")
-	public ModelAndView getDetail(NoticeVO noticeVO) throws Exception {
+	public ModelAndView getDetail(NoticeVO noticeVO,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	    
+	    
 		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
 		
 		int result = noticeService.setNoticeHit(noticeVO);
 		
-		
+		mv.addObject("memberVO", memberVO);
 		mv.addObject("noticeVO", noticeVO);
 		mv.setViewName("notice/detail");
 		
@@ -186,7 +194,7 @@ public class NoticeController {
 	@GetMapping("update")
 	public ModelAndView setUpdate(@ModelAttribute NoticeVO noticeVO,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		log.debug("안녕");
+		
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
@@ -202,7 +210,7 @@ public class NoticeController {
 	@PostMapping("update")
 	public ModelAndView setUpdate(@Valid NoticeVO noticeVO,BindingResult bindingResult, MultipartFile [] files,HttpSession session)throws Exception{
 		ModelAndView mv = new ModelAndView();
-		
+		System.out.println("Controller");
 		int result = noticeService.setUpdate(noticeVO,files);
 		
 		mv.addObject("noticeVO", noticeVO);
