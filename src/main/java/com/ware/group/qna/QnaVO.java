@@ -3,7 +3,7 @@ package com.ware.group.qna;
 import java.sql.Date;
 import java.util.List;
 
-
+import com.ware.group.member.MemberVO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,5 +24,8 @@ public class QnaVO {
 	private Date regDate;
 	private Long hit;
 	private List<QnaFileVO> boardFileVOs;
+	//댓글 갯수 리스트에 뜨게 하기
+	private Long count;
+	private MemberVO memberVO;
 	
 }

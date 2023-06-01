@@ -43,13 +43,6 @@ public class QnaService {
 	public int setInsert(QnaVO qnaVO, MultipartFile [] multipartFiles) throws Exception {
 		int result = qnaDAO.setInsert(qnaVO);
 		
-//		Random random = new Random();
-//		int num = random.nextInt(1);
-//		
-//		if(num == 0) {
-//			throw new Exception();
-//		}
-		
 		if(multipartFiles != null) {
 			for(MultipartFile multipartFile : multipartFiles) {
 				
@@ -89,30 +82,9 @@ public class QnaService {
 		
 		 return qnaDAO.setQnaHit(qnaVO);
 	 }
-	 
-	//reply Insert
-	/*
-	 * public int setReplyAdd(QnaVO qnaVO)throws Exception{
-	 * 
-	 * QnaVO parent = (QnaVO)qnaDAO.getDetail(qnaVO);
-	 * 
-	 * qnaVO.setRef(parent.getRef());
-	 * 
-	 * qnaVO.setStep(parent.getStep()+1);
-	 * 
-	 * qnaVO.setDepth(parent.getDepth()+1);
-	 * 
-	 * int result = qnaDAO.setStepUpdate(parent);
-	 * 
-	 * result = qnaDAO.setReplyAdd(qnaVO);
-	 * 
-	 * return result; }
-	 */
-	 
-		/*
-		 * public int setRefUpdate(QnaVO qnaVO)throws Exception{
-		 * 
-		 * return qnaDAO.setRefUpdate(qnaVO); }
-		 */
+	 public Long getCount(QnaVO qnaVO) throws Exception{
+		 return qnaDAO.getCount(qnaVO);
+		 
+		 }
 	 
 }
