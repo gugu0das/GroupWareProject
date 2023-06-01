@@ -25,7 +25,7 @@
 		<typeAlias type="com.ware.group.approval.ApproverVO" alias="ApproverVO"/>
 		
 		<typeAlias type="com.ware.group.notice.NoticeVO" alias="NoticeVO"/>
-		<typeAlias type="com.ware.group.notice.NoticeFileVO" alias="NoticeFilesVO"/>
+		<typeAlias type="com.ware.group.notice.NoticeFileVO" alias="NoticeFileVO"/>
 		
 		<typeAlias type="com.ware.group.board.BoardFileVO" alias="BoardFileVO"/>
 		
