@@ -8,11 +8,11 @@
 	</insert>
 	
 	<insert id="addApprover" parameterType="ApprovalCategoryVO">
-		INSERT INTO APPROVER (category_id, job_id, department_id, depth) VALUES (#{categoryId}, #{jobId}, #{departmentId}, 0)
+		INSERT INTO APPROVER (category_id, job_id, department_id, depth) VALUES (#{categoryId}, #{jobId}, #{departmentId}, #{depth})
 	</insert>
 	
 	<insert id="addApprovalFormFile" parameterType="ApprovalCategoryVO">
-		INSERT INTO APPROVALFORMFILE (category_id, file_id) VALUES (#{categoryId}, #{fileId})
+		INSERT INTO APPROVALFORMFILE (category_id, file_name) VALUES (#{categoryId}, #{fileName})
 	</insert>
 	
 	<select id="getDepartmentList" resultType="DepartmentVO">
@@ -41,7 +41,7 @@
 	</insert>
 	
 	<select id="getFileDuplication" parameterType="String" resultType="String">
-		SELECT file_name FROM DOCUMENTFILES WHERE file_name = #{formFileName}
+		SELECT file_name FROM APPROVALFORMFILE WHERE file_name = #{formFileName}
 	</select>
 	
 	<select id="getListCategoryRef0" resultType="ApprovalCategoryVO">
@@ -79,8 +79,8 @@
 	 	</collection>
 	</resultMap>
 	
-	<update id="updateFormFile">
-		UPDATE DOCUMENTFILES SET file_name = #{fileName}, ori_name = #{oriName} WHERE id = #{id}
+	<update id="updateFormFile" parameterType="ApprovalFormFileVO">
+		UPDATE APPROVALFORMFILE SET file_name = #{fileName} WHERE category_id = #{categoryId}
 	</update>
 	
 	<update id="updateCategoryName" parameterType="ApprovalCategoryVO">
@@ -92,8 +92,12 @@
 	</update>
 	
 	<select id="getListCategory" resultType="ApprovalCategoryVO">
-      SELECT * FROM APPROVALCATEGORY
+     	SELECT * FROM APPROVALCATEGORY
    	</select>
+	
+	<delete id="deleteApprover" parameterType="ApproverVO">
+		DELETE FROM APPROVER WHERE category_id = #{categoryId} and job_id = #{jobId} and department_id = #{departmentId} and depth = #{depth}
+	</delete>
 	
 	<!--  -->
 	<insert id="setApprovalApplication" parameterType="ApprovalVO" useGeneratedKeys="true" keyProperty="id">
@@ -116,9 +120,6 @@
  	</insert>
  	<select id="getApprovalList" resultMap="app" parameterType="ApprovalVO">
  		SELECT * FROM APPROVAL a  INNER JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
- 		<if test="categoryId !=null">
- 			AND category_id=#{categoryId}
- 		</if>
  	</select>
  	<resultMap type="ApprovalVO" id="app">
  		<id column="id" property="id"/>

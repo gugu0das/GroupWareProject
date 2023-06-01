@@ -13,7 +13,7 @@ import com.ware.group.member.MemberVO;
 @Mapper
 public interface ApprovalDAO {
 	
-public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public int addApprover(ApproverVO approverVO) throws Exception;
 	
@@ -39,19 +39,21 @@ public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public long getFileId(String fileName) throws Exception;
 	
-	public String getCategoryDuplication(String name) throws Exception;
+	public List<String> getCategoryDuplication(String name) throws Exception;
 	
-	public String getFileDuplication(String formFileName) throws Exception;
+	public List<String> getFileDuplication(String formFileName) throws Exception;
 	
 	public List<ApprovalFormFileVO> getListFormFile() throws Exception;
 	
 	public List<ApproverVO> getListApprover() throws Exception;
 	
-	public int updateFormFile(DocumentFilesVO documentFilesVO) throws Exception;
+	public int updateFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception;
 	
 	public int updateCategoryName(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public int updateApprover(ApproverVO approverVO) throws Exception;
+	
+	public int deleteApprover(ApproverVO approverVO) throws Exception;
 	
 	//
 	public List<ApprovalCategoryVO> getListCategory() throws Exception;

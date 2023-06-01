@@ -20,17 +20,20 @@
 		<table class="table table-hover col-md-10 mx-auto my-3">
 			<thead>
 				<tr>
-					<th>상하 구분</th>
-					<th>카테고리 아이디</th>
-					<th>카테고리 이름</th>
-					<th>결재 양식파일</th>
-					<th>결재자</th>
+					<th><p class="text-center my-auto">상하 구분</p></th>
+					<th><p class="text-center my-auto">카테고리 아이디</p></th>
+					<th><p class="text-center my-auto">카테고리 이름</p></th>
+					<th><p class="text-center my-auto">결재 양식파일</p></th>
+					<th><p class="text-center my-auto">결재자</p></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${list0}" var="upper">
 					<tr id="${upper.id}">
-						<td>상위 옵션</td>
+						<td>
+							상위 옵션
+							<button class="btn btn-primary" id="addUnderOption">하위 옵션 추가</button>
+						</td>
 						<td>
 							<span>${upper.id}</span>
 							<button class="btn btn-danger" id="deleteOption">삭제하기</button>
@@ -42,7 +45,7 @@
 						<td>
 							<c:forEach items="${listFormFile}" var="file">
 								<c:if test="${file.categoryId == upper.id}">
-									<span>${file.fileId}</span>
+									<span>${file.fileName}</span>
 									<button class="btn btn-primary" id="updateFile">수정하기</button>
 								</c:if>
 							</c:forEach>
@@ -73,12 +76,13 @@
 								<td>
 									<c:forEach items="${listFormFile}" var="file">
 										<c:if test="${file.categoryId == under.id}">
-											<span>${file.fileId}</span>
+											<span>${file.fileName}</span>
 											<button class="btn btn-primary" id="updateFile">수정하기</button>
 										</c:if>
 									</c:forEach>
 								</td>
 								<td>
+								<button class="btn btn-primary" id="addApprover" data-hide="yes">추가하기</button>
 									<c:forEach items="${listApprover}" var="approver" varStatus="i">
 										<c:if test="${approver.categoryId == under.id}">
 											<c:forEach items="${approver.departmentVOs}" var="department" varStatus="status">
@@ -88,6 +92,7 @@
 													<button class="btn btn-primary" id="updateApprover">수정하기</button>
 													<button class="btn btn-danger" id="deleteApprover">삭제하기</button>
 												</div>
+												<br>
 											</c:forEach>
 										</c:if>
 									</c:forEach>
@@ -96,9 +101,17 @@
 						</c:if>
 					</c:forEach>
 				</c:forEach>
+				
 			</tbody>
 		</table>
-	</div>	
+	</div>
+	<div id="hide">
+		<select id="deptId" class="form-control">
+			<c:forEach items="${listDepartment}" var="dept">
+				<option value="${dept.id}">${dept.name}</option>
+			</c:forEach>
+		</select>
+	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="/js/updateCategory.js"></script>
 	<script src="/vendor/bootstrap/js/bootstrap.js"></script>

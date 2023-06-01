@@ -48,7 +48,7 @@
 				<ul>
 					<c:forEach items="${categoryList0}" var="upper">
 						<li class="upperCategory">
-							<span class="collapse-item" href="#" id="${upper.id}">${upper.name}</span>
+							<span class="collapse-item" id="${upper.id}"><a>${upper.name}</a></span>
 							<ul class="hide">
 								<c:forEach items="${categoryList1}" var="under">
 									<c:if test="${upper.id == under.ref}">

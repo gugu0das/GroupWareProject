@@ -38,8 +38,8 @@ public class ApprovalController {
 	@Autowired
 	private ApprovalService approvalService;
 
-	@Value("${app.upload.base}")
-	private String basePath;
+	@Value("${app.upload.approvalFormFile}")
+	private String formFilePath;
 	
 	@Autowired
 	private FileManager filemanger;
@@ -84,6 +84,9 @@ public class ApprovalController {
 		List<ApprovalFormFileVO> listFormFile = approvalService.getListFormFile();
 		
 		List<ApproverVO> listApprover =  approvalService.getListApprover();
+		
+		List<DepartmentVO> listDepartment = approvalService.getDepartmentList();
+		
 		log.error("=={}==", listApprover.get(0).getDepartmentId());
 		log.error("=={}==", listApprover.get(0).getJobId());
 		log.error("=={}==", listApprover.get(0).getDepartmentVOs().get(0).getName());
@@ -92,6 +95,7 @@ public class ApprovalController {
 		mv.addObject("list1", listCategoryRef1);
 		mv.addObject("listFormFile", listFormFile);
 		mv.addObject("listApprover", listApprover);
+		mv.addObject("listDepartment", listDepartment);
 		
 		
 		
@@ -103,24 +107,25 @@ public class ApprovalController {
 	
 	@PostMapping("updateFormFile")
 	@ResponseBody
-	public String updateFormFile(MultipartHttpServletRequest request, Long fileId) throws Exception{
+	public String updateFormFile(MultipartHttpServletRequest request) throws Exception{
 		log.error("=======test=======");
 		
 		
 		List<MultipartFile> file = request.getFiles("file");
 		
 		log.error("=={}==", file.size());
-		log.error("=={}==", fileId);
-		DocumentFilesVO documentFilesVO = new DocumentFilesVO();
+		//log.error("=={}==", categoryId);
+		ApprovalFormFileVO approvalFormFileVO = new ApprovalFormFileVO();
 		int result = 0;
 		String fileName = "";
 		
 		for(MultipartFile obj : file) {
-			documentFilesVO.setFileName(obj.getOriginalFilename());
-			documentFilesVO.setOriName(obj.getOriginalFilename());
-			documentFilesVO.setId(fileId);
-			result = approvalService.updateFormFile(documentFilesVO);
-			filemanger.saveFile(basePath + "/approvalFormFile", obj);
+			approvalFormFileVO.setFileName(obj.getOriginalFilename());
+			
+			approvalFormFileVO.setCategoryId(3L);
+			result = approvalService.updateFormFile(approvalFormFileVO);
+			
+			filemanger.saveFile(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {
@@ -178,23 +183,17 @@ public class ApprovalController {
 		boolean check = false;
 		
 		for(MultipartFile multipartFile : fileId) {
-			//중복검사 먼저 하기
-			DocumentFilesVO documentFilesVO = new DocumentFilesVO();
-			
-			documentFilesVO.setFileName(multipartFile.getOriginalFilename());
-			documentFilesVO.setOriName(multipartFile.getOriginalFilename());
-			
-			
-			approvalService.addFormFile(documentFilesVO);
-				
-			filemanger.saveFile(basePath + "/approvalFormFile", multipartFile);
+			filemanger.saveFile(formFilePath + "/approvalFormFile", multipartFile);
 		}
 		
 		
 		Gson gson = new Gson();
-			
+		log.error(json1);
 		ApprovalCategoryVO [] approvalCategoryVOs = gson.fromJson(json1, ApprovalCategoryVO[].class);
-			
+		log.error("============");
+		log.error("============{}",approvalCategoryVOs.length);
+		
+		
 		for(ApprovalCategoryVO approvalCategoryVO1 : approvalCategoryVOs) {
 			approvalCategoryVO1.setRef(0L);
 			approvalService.addCategory(approvalCategoryVO1);
@@ -217,7 +216,6 @@ public class ApprovalController {
 					}
 					for(ApprovalFormFileVO fileVO : approvalCategoryVO2.getFile()) {
 						fileVO.setCategoryId(approvalCategoryVO2.getId());
-						fileVO.setFileId(approvalService.getFileId(fileVO.getFileName()));
 						approvalService.addApprovalFormFile(fileVO);
 					}
 				}
@@ -234,7 +232,7 @@ public class ApprovalController {
 //		}else {
 //			mv.setViewName("/approval/addCategory");
 //		}
-		mv.addObject("url", "/");
+		mv.setViewName("redirect:./updateCategory");
 		
 		return mv;
 	}
@@ -282,11 +280,44 @@ public class ApprovalController {
 	@PostMapping("updateApprover")
 	@ResponseBody
 	public int updateApprover(ApproverVO approverVO) throws Exception{
-		
+
 		int result = approvalService.updateApprover(approverVO);
 		
 		return result;
 		
+	}
+	
+	@PostMapping("addApprover")
+	@ResponseBody
+	public int addApprover(ApproverVO approverVO) throws Exception{
+		List<ApproverVO> ar = approvalService.getListApprover();
+		boolean check = false;
+		for(ApproverVO approver : ar) {
+			if(approver.getCategoryId() == approverVO.getCategoryId()) {
+				if(approver.getDepartmentId() == approverVO.getDepartmentId()) {
+					if(approver.getJobId() == approverVO.getJobId()) {
+						check = true;
+					}
+				}	
+			}
+		}
+		
+		int result = 0;
+		
+		if(!check) {
+			result = approvalService.addApprover(approverVO);
+		}
+		
+		return result;
+		
+	}
+	
+	@PostMapping("deleteApprover")
+	@ResponseBody
+	public int deleteApprover(ApproverVO approverVO) throws Exception{
+		int result = approvalService.deleteApprover(approverVO);
+		
+		return result;
 	}
 	
 	@PostMapping("deleteCategory")
@@ -338,7 +369,7 @@ public class ApprovalController {
         String fileName = UUID.randomUUID().toString();
         fileName=fileName+".html";
         System.out.println("==================1============================");
-        PrintWriter fw = new PrintWriter(new FileOutputStream("c:/sm/approval/"+fileName));
+        PrintWriter fw = new PrintWriter(new FileOutputStream(formFilePath+fileName));
         fw.println(dd);
         System.out.println("===================2===========================");
         //is.close(); //입력 스트림 닫기
@@ -356,38 +387,36 @@ public class ApprovalController {
 	//list
 	public ModelAndView getApprovalInformation(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		
-		
-		approvalVO.setMemberId(1L);
-		
-		List<ApprovalVO> ar = approvalService.getApprovalList(approvalVO);
-		List<ApprovalCategoryVO> arr = approvalService.getListCategory();
-		if(approvalVO.getCategoryId() !=null) {
-		for(ApprovalCategoryVO approvalCategoryVO : arr) {
-			if( approvalCategoryVO.getRef() == approvalVO.getCategoryId()) {
-				ApprovalVO vo = new ApprovalVO();
-				vo.setCategoryId(approvalCategoryVO.getId());
-				vo.setMemberId(1L);
-				List<ApprovalVO> arrr = approvalService.getApprovalList(vo);
-				log.error("{}...",arrr);
-				for(ApprovalVO er : arrr) {
-					ar.add(er);
-				}
-			}
-		}
-		}
-		for(ApprovalCategoryVO approvalCategoryVO : arr) {
-			if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
-				mv.addObject("name", approvalCategoryVO.getName());
-				break;
-			}else {
-				mv.addObject("name", "전체");
-			}
-		}
-		mv.addObject("cat", arr);
-		mv.addObject("list", ar);
-		mv.setViewName("approval/information");
-		return mv;
+	      log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());      
+	      approvalVO.setMemberId(1L);
+	      
+	      List<ApprovalVO> ar = approvalService.getApprovalList(approvalVO);
+	      //cat
+	      List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
+	      //cat2
+	      List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
+	      //cat1
+	      List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+
+
+	      for(ApprovalCategoryVO approvalCategoryVO : arr) {
+	         if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
+	            mv.addObject("name", approvalCategoryVO.getName());
+	            break;
+	         }else {
+	            mv.addObject("name", "전체");
+	         }
+	      }
+	      mv.addObject("cat", arr);
+	      mv.addObject("cat2", arrrr);
+	      mv.addObject("cat1", arrr);
+	      mv.addObject("list", ar);
+//	      mv.addObject("ref0", arr);
+//	      mv.addObject("all", arrrr);
+//	      mv.addObject("ref1", arrr);
+//	      mv.addObject("list", ar);
+	      mv.setViewName("approval/information");
+	      return mv;
 	}
 
 	@GetMapping("check")
@@ -415,7 +444,7 @@ public class ApprovalController {
         //파일 수정 모드 있는 파일을 불러오기
 		
         //PrintWriter fw = new PrintWriter(new FileOutputStream("c:/sm/approval/"+fileName,true));
-        BufferedWriter writer = new BufferedWriter(new FileWriter("c:/sm/approval/"+fileName));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(formFilePath+fileName));
         //fw.println(dd);
         //덮어 쓰기
         writer.write(ddd);
@@ -443,4 +472,6 @@ public class ApprovalController {
 		mv.setViewName("approval/myInformation");
 		return mv;
 	}
+	
+	
 }
