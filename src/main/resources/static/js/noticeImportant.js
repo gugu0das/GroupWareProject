@@ -28,8 +28,9 @@ $(document).ready(function(){
             important : 1
         },
         success: function(result) {
-            $(".importantList").html(result);
+            $(".importantList").prepend(result);
         }
     })
 
 })
+
