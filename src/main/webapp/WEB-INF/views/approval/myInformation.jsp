@@ -24,7 +24,7 @@
 				<!-- contents 작성 -->
 				<div class="container-fluid">
 					
-					<div class="dropdown">
+					<div class="dropdown offset-md-11">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
     ${name}
   </button>

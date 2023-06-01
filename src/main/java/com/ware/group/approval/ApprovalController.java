@@ -274,6 +274,7 @@ public class ApprovalController {
         writer.close();
 		return mv;
 	}
+	
 
 	@GetMapping("myInformation")
 	public ModelAndView getMyInformation(ApprovalVO approvalVO) throws Exception{
