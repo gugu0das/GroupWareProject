@@ -27,4 +27,16 @@ public interface MemberDAO {
 	public int setMemberUpdate(MemberVO memberVO) throws Exception;
 	
 	public int setPasswordUpdate(MemberVO memberVO)throws Exception;
+	
+	///근태관리
+	public EmployeeStatusVO getDefaultWork(EmployeeStatusVO employeeStatusVO)throws Exception;
+	
+	public EmployeeStatusVO getEmployeeStatus(EmployeeStatusVO employeeStatusVO) throws Exception;
+
+	public int setDefaultWorkAdd(EmployeeStatusVO employeeStatusVO)throws Exception;
+	public int setDefaultWorkUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
+
+	public int setEmployeeStatusUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
+	public int testTimeStempInsert(EmployeeStatusVO employeeStatusVO) throws Exception;
+	
 }
