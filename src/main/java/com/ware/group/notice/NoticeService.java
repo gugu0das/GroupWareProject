@@ -32,6 +32,8 @@ public class NoticeService{
 	private String path;
 	
 	public List<NoticeVO> getList(Pager pager) throws Exception {
+		
+		
 		pager.makeStartRow();
 		
 		pager.makeNum(noticeDAO.getTotalCount(pager));
@@ -102,7 +104,9 @@ public class NoticeService{
 		noticeFileVO.setId(noticeVO.getId());
 	
 		result = noticeDAO.setNoticeFileAdd(noticeFileVO);
+		System.out.println("Service");
 		}
+	
 	 }
    }
 		return result;
