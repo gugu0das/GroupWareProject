@@ -189,9 +189,9 @@ function repeat_typeChange(){
 	                    </div>
 	                </div>
 				</form>	
-		        <button class="btn btn-outline btn-primary" onclick="fn_formSubmit()"></button>
+		        <button class="btn btn-outline btn-primary" onclick="fn_formSubmit()">저장</button>
 		        <c:if test='${scheInfo.id!=null}'>
-	            	<button class="btn btn-outline btn-primary" onclick="fn_delete()" ></button>
+	            	<button class="btn btn-outline btn-primary" onclick="fn_delete()">삭제</button>
 	            </c:if>
             </div>
             <!-- /.row -->
