@@ -104,7 +104,7 @@
 									<div class="col-sm-4">
 										<form:label path="departmentId">부서선택</form:label>
 										<form:select path="departmentId" id="departmentId"
-											cssClass="custom-select form-control" size="1">
+											cssClass="custom-select form-control">
 											<c:forEach items="${departmentVOs }" var="depVO">
 												<form:option value="${depVO.id }">${depVO.name }</form:option>
 											</c:forEach>
