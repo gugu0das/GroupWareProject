@@ -55,19 +55,19 @@
 											</div>
 												
 	                                    </div>
-	                                     <div class="form-floating mb-3">
+	                                    <!--  <div class="form-floating mb-3">
 	                                    	<input type="file" name="files"> 
-	                                    </div>
-	                                    
-	                                    <!-- <div class="form-floating mb-3" id="fileList"> -->
-	                                   
-	                               			<!-- <div class="mb-3">
-	                                    	<label for="files" class="form-label">Image</label>
-	                                    	<input type="file" class="form-control" name="files" name="files">
-	                                    	<button type="button">X</button>
-	                                    	</div>  -->                         
-	                                    <!-- 	<button type="button" id="fileAdd">ADD</button>                                                                                            
 	                                    </div> -->
+	                                    
+	                                    <div class="form-floating mb-3" id="fileList">
+	                                   
+	                               			<div class="mb-3">
+	                                    	<label for="files" class="form-label">Image</label>
+	                                    	<!-- <input type="file" class="form-control" name="files" name="files"> -->
+	                                    	<!-- <button type="button">X</button> -->
+	                                    	</div>                          
+	                                    	<button type="button" id="fileAdd">ADD</button>                                                                                            
+	                                    </div>
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">
 	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
