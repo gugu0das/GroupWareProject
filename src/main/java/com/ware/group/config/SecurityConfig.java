@@ -62,6 +62,7 @@ public class SecurityConfig{
 			.formLogin()
 			.usernameParameter("accountId")
 				.loginPage("/member/login")
+				
 //				.defaultSuccessUrl("/")
 				.successHandler(new UserSuccessHandler())
 //				.failureUrl("/member/login")
