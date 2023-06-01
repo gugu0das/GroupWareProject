@@ -31,6 +31,12 @@ public class NoticeService{
 	@Value("${app.upload.notice}")
 	private String path;
 	
+	
+	public List<NoticeFileVO> getFileList(NoticeVO noticeVO) throws Exception{
+		return noticeDAO.getFileList(noticeVO);
+	}
+	
+	
 	public List<NoticeVO> getList(Pager pager) throws Exception {
 		
 		
@@ -72,7 +78,7 @@ public class NoticeService{
 					NoticeFileVO noticeFileVO = new NoticeFileVO();
 					noticeFileVO.setFileName(fileName);
 					noticeFileVO.setOriName(multipartFile.getOriginalFilename());
-					noticeFileVO.setId(noticeVO.getId());
+					noticeFileVO.setNoticeId(noticeVO.getId());
 					
 					result = noticeDAO.setNoticeFileAdd(noticeFileVO);
 				}

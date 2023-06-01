@@ -153,11 +153,16 @@ public class NoticeController {
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 	    
+	    log.error("{}",noticeVO.getId());
+	    noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
+	    log.error("============={}================S",noticeVO.getBoardFileVOs().size());
 	    
-		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
-		
+	    
+		for(NoticeFileVO fileVO : noticeVO.getBoardFileVOs()) {
+			log.error("{}",fileVO.getFileName());
+		}
 		int result = noticeService.setNoticeHit(noticeVO);
-		
+		mv.addObject("filess",noticeService.getFileList(noticeVO));
 		mv.addObject("memberVO", memberVO);
 		mv.addObject("noticeVO", noticeVO);
 		mv.setViewName("notice/detail");
@@ -200,7 +205,13 @@ public class NoticeController {
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 			
 		noticeVO.setWriter(memberVO.getAccountId());
-		mv.addObject("notice", noticeVO);
+		log.error("{}",noticeVO.getId());
+		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
+		log.error(noticeVO.getTitle());
+		
+		
+		
+		mv.addObject("noticeVO", noticeVO);
 		
 		mv.setViewName("notice/update");
 		return mv;
@@ -213,7 +224,7 @@ public class NoticeController {
 		System.out.println("Controller");
 		int result = noticeService.setUpdate(noticeVO,files);
 		
-		mv.addObject("noticeVO", noticeVO);
+		
 		
 		mv.setViewName("redirect:./list");
 		

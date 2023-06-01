@@ -43,7 +43,7 @@ public interface NoticeDAO {
 		// 중요글 맨위 상단으로 올리고 색변화
 		public List<NoticeVO> getImportantList(NoticeVO noticeVO) throws Exception;
 		
-		
+		public List<NoticeFileVO> getFileList(NoticeVO noticeVO) throws Exception;
 		
 		
 }
