@@ -32,8 +32,6 @@ public class DepartmentService {
 			}
 		}
 
-
-
 		return result;
 	}
 	public int setDepartmentUpdate(DepartmentVO departmentVO)throws Exception{
