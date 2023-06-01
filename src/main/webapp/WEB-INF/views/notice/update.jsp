@@ -32,7 +32,8 @@
                             <div class="col-lg-8 col-xl-6">
                                
                             	<form:form id="contactForm" modelAttribute="noticeVO" action="./update" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
-	                                    <td>${notice.writer}</td>
+	                                    <td>${noticeVO.id}</td>
+	                                   <%--  <input type="hidden" name="num" value="${dto.num}"> --%>
 	                                    <!-- Title input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="title" name="title" type="text" placeholder="Enter Title..." data-sb-validations="required" /> -->
@@ -44,14 +45,16 @@
 	                                    <!-- writer input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="writer" name="writer" type="text" placeholder="Enter Title..." data-sb-validations="required,email" /> -->
-	                                        <form:input path="writer" id="writer" cssClass="form-control"/>
+	                                        <form:input path="writer" id="writer" cssClass="form-control" readOnly="true"/>
 	                                        <label for="writer">작성자</label>
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
-	                                    <div class="form-floating mb-3">
+	                                    <!-- <div class="form-floating mb-3">
 	                                    	<input type="file" name="files">          
-	                                    </div>
-	                                    <%-- <div id="files">
+	                                    </div> -->
+	                    
+	                                    
+	                                   <%--   <div id="files">
 											<a class="btn" id="files">첨부파일</a>
 											<c:forEach items="${noticeVO.boardFileVOs}" var="noticeVO">
 												<div class="input-group mb-3 my-3">
@@ -61,7 +64,7 @@
 													<input type="text" disabled value="${boardFiveVO.oriName}" class="form-control" aria-label="Text input with checkbox">
 												</div>
 											</c:forEach>	
-										</div> --%>
+										</div> --%> 
 				
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">
@@ -88,7 +91,7 @@
 	<!-- Footer -->
     
     <!-- Footer -->
-    
+    <script src="/js/noticeImportant.js"></script>
     <script type="text/javascript" src="/js/boardForm.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
