@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ware.group.common.Util4calen;
 import com.ware.group.etc.EtcService;
+import com.ware.group.member.MemberVO;
 
 @Controller
 @RequestMapping("/schedule/*")
@@ -35,18 +36,23 @@ public class ScheController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            LOGGER.error("Authentication is null");
+        	LOGGER.error("인증 값 null");
             return modelAndView;
         }
 
-        String usernum = authentication.getName();
-        if (usernum == null) {
-            LOGGER.error("Usernum is null");
+        Object principal = authentication.getPrincipal();
+        Long userId = null;
+
+        if (principal instanceof MemberVO) {
+            MemberVO member = (MemberVO) principal;
+            userId = member.getId();
+        } else {
+            LOGGER.error("MemberVO 보안 에러.");
             return modelAndView;
         }
 
         if (searchVO == null) {
-        	LOGGER.error("searchVO is null");
+        	LOGGER.error("searchVO null");
         } else {
             if (searchVO.getYear() == null || "".equals(searchVO.getYear())) {
                 Date today = Util4calen.getToday();
@@ -57,9 +63,9 @@ public class ScheController {
 
         Integer dayofweek = Util4calen.getDayOfWeek(Util4calen.str2Date(searchVO.getYear() + "-" + searchVO.getMonth() + "-01"));
 
-        List<?> listview = scheSvc.selectCalendar(searchVO, usernum);
+        List<?> listview = scheSvc.selectCalendar(searchVO, userId);
         if (listview == null) {
-        	LOGGER.error("listview is null");
+        	LOGGER.error("리스트 뷰 null.");
         }
 
         modelAndView.addObject("listview", listview);
@@ -75,13 +81,18 @@ public class ScheController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            LOGGER.error("Authentication is null");
+        	LOGGER.error("인증 값 null");
             return modelAndView;
         }
 
-        String usernum = authentication.getName();
-        if (usernum == null) {
-            LOGGER.error("Usernum is null");
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof MemberVO) {
+            MemberVO member = (MemberVO) principal;
+            long userId = member.getId();
+
+        } else {
+            LOGGER.error("MemberVO 보안 에러");
             return modelAndView;
         }
 
@@ -137,13 +148,7 @@ public class ScheController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            LOGGER.error("Authentication is null");
-            return modelAndView;
-        }
-
-        String usernum = authentication.getName();
-        if (usernum == null) {
-            LOGGER.error("Usernum is null");
+            LOGGER.error("인증 값 null");
             return modelAndView;
         }
 

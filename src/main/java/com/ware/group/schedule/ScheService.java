@@ -28,11 +28,11 @@ public class ScheService {
 
     static final Logger LOGGER = LoggerFactory.getLogger(ScheService.class);
     
-    public List<?> selectCalendar(MonthVO param, String userno) {
+    public List<?> selectCalendar(MonthVO param, Long userId) {
     	List<?> list = sqlSession.selectList("selectCalendar", param);
         
     	Field3VO fld = new Field3VO();
-    	fld.setField1(userno);
+    	fld.setField1(userId);
     	for (int i=0; i<list.size(); i++){
     		CalendarVO cvo = (CalendarVO) list.get(i);
     		fld.setField2(cvo.getCalendar_date());
