@@ -39,12 +39,12 @@
   	</select>
 	
 	<select id="getDetail" parameterType="NoticeVO" resultMap="getDetailResult">
-  		SELECT *
-		FROM NOTICE
+  		SELECT n.*, nf.id as 'nf.id', nf.file_name, nf.ori_name
+		FROM NOTICE n
 			 LEFT JOIN
-			 NOTICEFILES 
-			 USING(ID) 
-		WHERE ID = #{id}
+			 NOTICEFILES nf
+			 on (n.id = nf.notice_id) 
+		WHERE nf.notice_id = 3
   	</select>
   	
   	<resultMap type="NoticeVO" id="getDetailResult">
@@ -57,13 +57,22 @@
 		<result property="hit" column="hit"/>
 		<result column="important" property="important"/>
 		
-		<collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
-			<id property="id" column="id"/>
+		<collection property="boardFileVOs" javaType="List" ofType="NoticeFileVO">
+			<id property="id" column="nf.id"/>
 			<result property="fileName" column="file_name"/>
 			<result property="oriName" column="ori_name"/>
 		</collection>
 		
+		<!-- <collection property="boardFileDTOs" javaType="List" ofType="BoardFileDTO">
+  			<id column="fileNum" property="fileNum"/>
+  			<result column="fileName" property="fileName"/>
+  			<result column="oriName" property="oriName"/>
+  		</collection> -->
+		
 	</resultMap>
+	<select id="getFileList" parameterType="NoticeVO" resultType="NoticeFileVO">
+		SELECT * FROM NOTICEFILES WHERE notice_id=#{id}
+	</select>
   	
 
 	<insert id="setInsert" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="id">
@@ -76,8 +85,8 @@
   	</delete>
   	
   	<insert id="setNoticeFileAdd" parameterType="BoardFileVO">
-  		INSERT INTO NOTICEFILES (id, notice_id, file_name, ori_name)
-  		VALUES(#{id}, #{noticeId}, #{fileName}, #{oriName})
+  		INSERT INTO NOTICEFILES (notice_id, file_name, ori_name)
+  		VALUES( #{noticeId}, #{fileName}, #{oriName})
   	</insert>
   	
   	<select id="getFileDetail" parameterType="BoardFileVO" resultType="BoardFileVO">
@@ -90,7 +99,7 @@
   	</update>
   	
   	<update id="setUpdate" parameterType="NoticeVO">
-  		UPDATE NOTICE SET TITLE = #{title}, CONTENTS = #{contents}
+  		UPDATE NOTICE SET TITLE = #{title}, CONTENTS = #{contents}, IMPORTANT = #{important}
   		WHERE ID = #{id}
   	</update>
   	
