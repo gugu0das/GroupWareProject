@@ -50,7 +50,7 @@
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
 	                                    <div class="form-floating mb-3">
-	                                    	<input type="file" name="files">                                                                                                                              >
+	                                    	<input type="file" name="files">
 	                                    </div>
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">

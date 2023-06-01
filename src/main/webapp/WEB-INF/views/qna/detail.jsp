@@ -14,15 +14,16 @@
 <!-- css, favicon -->
 
 <link rel="stylesheet" href="/css/qnaReply.css">
-
+<link href="/css/commentWriter.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100">
 	<main class="flex-shrink-0">
 		<!-- Navigation-->
      <c:import url="../temp/header2.jsp"></c:import>
-  
 
 <title>SB Admin 2 - Dashboard</title>
+  
+
 <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
 <link
@@ -31,52 +32,10 @@
 
 <!-- Custom styles for this template-->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+
 <style type="text/css">/* Chart.js */
-@
-keyframes chartjs-render-animation {
-	from {opacity: .99
-}
 
-to {
-	opacity: 1
-}
-
-}
-.chartjs-render-monitor {
-	animation: chartjs-render-animation 1ms
-}
-
-.chartjs-size-monitor, .chartjs-size-monitor-expand,
-	.chartjs-size-monitor-shrink {
-	position: absolute;
-	direction: ltr;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	overflow: hidden;
-	pointer-events: none;
-	visibility: hidden;
-	z-index: -1
-}
-.change{
-border :none;
-}
-.chartjs-size-monitor-expand>div {
-	position: absolute;
-	width: 1000000px;
-	height: 1000000px;
-	left: 0;
-	top: 0
-}
-
-.chartjs-size-monitor-shrink>div {
-	position: absolute;
-	width: 200%;
-	height: 200%;
-	left: 0;
-	top: 0
-}
 </style>   						
         
         				
@@ -91,7 +50,8 @@ border :none;
                                 <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
                                 <div class="ms-3">
                                     <div class="fw-bold">${qnaVO.writer}</div>
-                                    <div class="text-muted">커뮤니티 디테일</div>
+                                   	<div class="fw-bold">${memberVO.accountId}</div>
+                                    <!-- <div class="text-muted">커뮤니티 디테일</div> -->
                                 </div>
                             </div>
                         </div>
@@ -112,7 +72,7 @@ border :none;
                                 <!-- Post content-->
                                 <section class="mb-5">
                                     ${qnaVO.contents}
-                                     
+                                      
                                      
                                        <c:forEach items="${qnaVO.boardFileVOs}" var="boardFileVO">
                                     	
@@ -140,16 +100,18 @@ border :none;
                                   <div class="mb-3">
                                     <button type="button" class="btn btn-primary" id="replyAdd" data-qna-qnaId="${qnaVO.id}">댓글등록</button>
                                   	
-                                  </div>
+                                  	
                             </div>
+                           
                             
-                            
-                            <a class="btn btn-primary" href="./delete?id=${qnaVO.id}">글 삭제</a>
+         							
+											<c:if test="${memberVO.id eq qnaVO.memberId}">	
+											  <a class="btn btn-primary" href="./delete?id=${qnaVO.id}">글 삭제</a>
+											  <form action="./update" id="frm">
+											    <button id="update" type="submit" class="btn btn-outline-primary">상품 수정</button>
+											  </form>
+											</c:if>
                             <button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
-                             <form action="./update" id="frm">
-                             
-                            <button id="update" type="submit" class="btn btn-outline-primary">상품수정</button>
-                             </form>
                         </div>
                     </div>
                 </div>
