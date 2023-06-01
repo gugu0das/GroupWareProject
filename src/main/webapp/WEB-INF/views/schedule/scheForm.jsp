@@ -35,6 +35,15 @@ window.onload = function() {
     </c:if> 
 }
 
+function chkInputValue(id, msg){
+	if ( $.trim($(id).val()) == "") {
+		alert(msg+"을(를) 입력해주세요.");
+		$(id).focus();
+		return false;
+	}
+	return true;
+}
+
 function fn_formSubmit(){
 	if ( ! chkInputValue("#title", "일정명")) return false;
 	if ( ! chkInputValue("#content", "내용")) return false;
