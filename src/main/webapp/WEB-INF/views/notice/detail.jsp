@@ -50,8 +50,8 @@
                                
                                 <!-- Post content-->
                                 <section class="mb-5">
-                                    ${noticeVO.contents}
-                                     
+                                    ${noticeVO.contents};                                                                           
+                                                            
                                
                                      <c:forEach items="${noticeVO.boardFileVOs}" var="boardFileVO">
                                     	
@@ -61,19 +61,22 @@
                                     	<a href="./fileDown?id=${boardFileVO.id}">${boardFileVO.oriName}</a>
                                     	
                                     </c:forEach>
-                                    
-                                
+                                 
                                     
                                 </section>
                             </article>
-                            
+                          	<c:if test="${memberVO.id eq noticeVO.memberId}">
                             <a class="btn btn-primary" href="./delete?id=${noticeVO.id}">글 삭제</a>
-                            <button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
+                            
                              <form action="./update" id="frm">
                              
                             <button id="update" type="submit" class="btn btn-outline-primary">상품수정</button>
                              </form>
+                         	 </c:if>
+                       <button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
+                       
                         </div>
+                        
                     </div>
                 </div>
             </section>
@@ -81,7 +84,7 @@
 	</main>
 	
 	<!-- Footer -->
- 
+ <script src="/js/noticeImportant.js"></script>
     <!-- Footer -->
 </body>
 </html>
