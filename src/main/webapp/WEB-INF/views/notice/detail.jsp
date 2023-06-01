@@ -52,7 +52,10 @@
                                 <section class="mb-5">
                                     ${noticeVO.contents};                                                                           
                                                             
-                               
+                              <%--  <img alt="zz" src="/file/notice/${noticeVO.boardFileVOs[0].fileName}">
+                               <img alt="z" src="/file/notice/${noticeVO.boardFileVOs[1].fileName}"> --%>
+                              <%--  <img alt="zd" src="/file/notice/${filess[0].fileName}">
+                               <img alt="zdd" src="/file/notice/${filess[1].fileName}"> --%>
                                      <c:forEach items="${noticeVO.boardFileVOs}" var="boardFileVO">
                                     	
                                     	<img alt="2" src="/file/notice/${boardFileVO.fileName}">
@@ -68,10 +71,10 @@
                           	<c:if test="${memberVO.id eq noticeVO.memberId}">
                             <a class="btn btn-primary" href="./delete?id=${noticeVO.id}">글 삭제</a>
                             
-                             <form action="./update" id="frm">
                              
-                            <button id="update" type="submit" class="btn btn-outline-primary">상품수정</button>
-                             </form>
+                             
+                            <a id="update" class="btn btn-outline-primary" href="./update?id=${noticeVO.id}">상품수정</a>
+                             
                          	 </c:if>
                        <button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
                        
