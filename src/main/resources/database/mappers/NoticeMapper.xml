@@ -90,7 +90,7 @@
   	</update>
   	
   	<update id="setUpdate" parameterType="NoticeVO">
-  		UPDATE NOTICE SET TITLE = #{title}, WRITER = #{writer}, CONTENTS = #{contents}
+  		UPDATE NOTICE SET TITLE = #{title}, CONTENTS = #{contents}
   		WHERE ID = #{id}
   	</update>
   	
