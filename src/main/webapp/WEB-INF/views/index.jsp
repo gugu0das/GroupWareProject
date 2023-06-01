@@ -8,7 +8,6 @@
 <html>
 
 <body class="d-flex flex-column h-100">
-
 <head>
 <c:import url="./temp/header.jsp"></c:import>
 
@@ -76,8 +75,8 @@ to {
 		<!-- sideBar -->
 		<c:import url="./temp/sidebar.jsp"></c:import>
 		<!-- sideBar -->
-		
-		
+
+
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 
@@ -86,29 +85,69 @@ to {
 				<!--top bar  -->
 				<c:import url="./temp/topbar.jsp"></c:import>
 				<!--top bar  End -->
-				
-				
+
+
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Content Row -->
 					<div class="row">
 
-						<!-- Earnings (Monthly) Card Example -->
 						<div class="col-xl-3 col-md-6 mb-4">
 							<div class="card border-left-primary shadow h-100 py-2">
 								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
+									<form id="timeHistory" action="/member/statusUpdate"
+										method="post">
+										<div class="" id="timeStemp">
 											<div
-												class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-												Earnings (Monthly)</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+												class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+												id="month">0000년 00월 00일</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800" id="date">00:00:00</div>
+
 										</div>
-										<div class="col-auto">
-											<i class="fas fa-calendar fa-2x text-gray-300"></i>
+										<div class="row no-gutters align-items-center">
+											<div class="col mr-2">
+												<i class="fas fa-calendar fa-2x text-gray-300"> 
+												<c:if test="${not empty employeeVO.onTime }">
+														<a class="text-xs" id="">출근시간</a>
+														<a class="text-xs"   data-onTime="${employeeVO.onTime }" id="timeStatus">${employeeVO.strOnTime }</a>
+													</c:if> <%-- <c:if test="${employeeVO.status ne 0 }"> 상태 : ${employeeVO.status }</c:if> --%>
+												</i>
+
+
+											</div>
+											<div class="col-auto" id="statusBtns"
+												data-status="${employeeVO.status }">
+												<c:forEach items="${btns }" var="btn">
+												
+													<button class="btn btn-primary" type="button">${btn }</button>
+												</c:forEach>
+													<input id="statusVal" type="hidden" name="timeStatus">
+												
+												
+												<%-- <c:choose>
+													<c:when test="${employeeVO.status eq '출근'}">
+
+
+														<button type="button" class="btn btn-primary">조퇴</button>
+														<button type="button" class="btn btn-primary">외근</button>
+													</c:when>
+													<c:when test="${employeeVO.status eq '퇴근' }">
+														<button type="button" class="btn btn-primary">초과근무</button>
+													</c:when>
+													
+													<c:otherwise>
+														<c:if test="${empty employeeVO.onTime }">
+														<button type="button" class="btn btn-primary">출근</button>
+														</c:if>
+													</c:otherwise>
+												</c:choose> --%>
+
+											</div>
+												
+
 										</div>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -119,6 +158,7 @@ to {
 								<div class="card-body">
 									<div class="row no-gutters align-items-center">
 										<div class="col mr-2">
+											<button type="button" id="testStatusUp">testMakeStatus</button>
 											<div
 												class="text-xs font-weight-bold text-success text-uppercase mb-1">
 												Earnings (Annual)</div>
@@ -500,9 +540,9 @@ to {
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					
+
 					<form action="/member/logout" method="post">
-					<button class="btn btn-primary" >Logout</button>
+						<button class="btn btn-primary">Logout</button>
 					</form>
 				</div>
 			</div>
@@ -510,6 +550,7 @@ to {
 	</div>
 	<c:import url="./temp/common_js.jsp"></c:import>
 
+	<script src="/js/employeeStatus.js"></script>
 	<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 	<!-- Page level custom scripts -->
 	<script src="/js/demo/datatables-demo.js"></script>
