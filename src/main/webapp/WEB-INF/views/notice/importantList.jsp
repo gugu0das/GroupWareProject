@@ -4,11 +4,10 @@
 	 
 
     <c:forEach items="${importantList}" var="importantList">
-	<tr>
+	<tr  style="color: rgb(243, 6, 6);">
 		<td class="id" data-num-id="${importantList.id}">${importantList.id}</td>
 		<td class="d-flex align-items-center">
-		<a class="title" href="./detail?id=${importantList.id}">${importantList.title}</a>
-		</td>
+		<a class="title" href="./detail?id=${importantList.id}">${importantList.title}</a></td>
 		<td>${importantList.writer}</td>
 		<td>${importantList.regDate}</td>
 		<td>${importantList.hit}</td>
