@@ -22,6 +22,11 @@
     <!-- Custom styles for this page -->
     <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+<style>
+    .highlight {
+        color: red;
+    }
+</style>    
 </head>
 
 <body id="page-top">
@@ -56,8 +61,13 @@
                                         <tr class="odd">
                                             <td class="sorting_1">${qnaVO.id}</td>
                                             <td>
-                                            
-                                            <a href="./detail?id=${qnaVO.id}">${qnaVO.title}</a></td>
+                                                
+                                            <a href="./detail?id=${qnaVO.id}">${qnaVO.title}</a>
+                                            <c:if test="${qnaVO.count ne 0}">
+   											<span class="highlight">{${qnaVO.count}}</span>
+											</c:if>
+                                            	
+                                            </td>
                                             <td>${qnaVO.writer}</td>
                                             <td>${qnaVO.regDate}</td>
                                             <td>${qnaVO.hit}</td>
@@ -129,29 +139,11 @@
         <i class="fas fa-angle-up"></i>
     </a>
 	
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-     
-    </div>
+ 
  
 
 
-
+<script src="/js/commentUpdate.js"></script>
 </body>
 </html>
                                         
