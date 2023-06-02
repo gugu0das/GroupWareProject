@@ -1,13 +1,13 @@
 
 
-$(document).on("click","btn1",function(){
+$(document).on("click",".btn1",function(){
     console.log($(this).val())
     let a = $(this).val()
     if($(this).val() ==1){
         $("input").each(function(idx,index){
             if($(index).attr("type") =="hidden"){
                 console.log($(index).parent());
-                $(index).parent().html('<img alt="" src="/file/approval/승인.JPG">');
+                $(index).parent().html('<img alt="" src="/file/approval/승인.JPG" style="width:100px; height:100px;">');
                 $("#approval").val(a);
                 return false;
             }
@@ -17,7 +17,7 @@ $(document).on("click","btn1",function(){
         $("input").each(function(idx,index){
         if($(index).attr("type") =="hidden"){
             console.log($(index).parent());
-            $(index).parent().html('<img alt="" src="/file/approval/거절.JFIF">');
+            $(index).parent().html('<img alt="" src="/file/approval/거절.JFIF" style="width:100px; height:100px;">');
             $("#approval").val(a);
             return false;
         }
@@ -34,8 +34,8 @@ const pdf =document.getElementById("dd");
 
 $(document).on('click','#pdf',function(){
     
-    let a = $("body").html($("dd").html());
-    //console.log(document.body.remove());
+    let a = $("body").html($("dd").html());//length> 
+    console.log(document.body); // <body></body>
     console.log(a);
     html2canvas(pdf).then(function(canvas) {
 
@@ -57,6 +57,10 @@ $(document).on('click','#pdf',function(){
     
 })
 
+$(document).on("click","#del",function(){
+	$("#fm").attr("action","./delete")
+	$("#fm").submit();
+})
 
 
 // $(document).on('click','#pdf',function(){

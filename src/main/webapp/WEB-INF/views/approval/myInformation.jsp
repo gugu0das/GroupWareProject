@@ -66,7 +66,7 @@
 												<tr>
 														  	
 												<td>${vo.id}</td>
-												<td><a href="./myPayment?id=${vo.id}">${vo.contents}</a></td>
+												<td><a href="./myPayment?id=${vo.id}&&confirm=${vo.confirm}">${vo.contents}</a></td>
 												<td>${vo.date}</td>
 												<td>${vo.confirm}</td>
 														  	
