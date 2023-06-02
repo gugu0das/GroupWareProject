@@ -15,23 +15,23 @@
     <select id="selectScheList4Calen" resultType="com.ware.group.schedule.ScheDetailVO" parameterType="com.ware.group.common.Field3VO">
         SELECT NULL ID, NULL SEQ, HOL_TITLE TITLE, NULL USERNUM, NULL HOUR, NULL MINUTE, HOL_COLOR FONTCOLOR
           FROM HOLIDAY
-         WHERE HOL_MONTH=MONTH(#{field2}) AND HOL_DATE=DAY(#{field2}) AND DELETEFLAG='N'
+         WHERE HOL_MONTH=MONTH(#{field2}) AND HOL_DATE=DAY(#{field2}) AND DELETEFLAG=0
          UNION ALL
         SELECT SD.ID, SEQ, TITLE, USERNUM, SD.HOUR, SD.MINUTE, NULL FONTCOLOR
           FROM SCHEDULE_DETAIL SD 
           LEFT OUTER JOIN SCHEDULE SS ON SS.ID=SD.ID 
-         WHERE DATE=#{field2} AND DELETEFLAG='N' AND ISOPEN='Y'
+         WHERE DATE=#{field2} AND DELETEFLAG=0 AND ISOPEN=1
          UNION ALL
         SELECT SD.ID, SEQ, TITLE, USERNUM, SD.HOUR, SD.MINUTE, NULL FONTCOLOR
           FROM SCHEDULE_DETAIL SD 
           LEFT OUTER JOIN SCHEDULE SS ON SS.ID=SD.ID 
-         WHERE DATE=#{field2} AND DELETEFLAG='N' AND ISOPEN='N' AND USERNUM=#{field1}
+         WHERE DATE=#{field2} AND DELETEFLAG=0 AND ISOPEN=0 AND USERNUM=#{field1}
          ORDER BY HOUR, MINUTE, ID
     </select> 
 
     
     <sql id="includeSche">
-        WHERE DELETEFLAG='N'
+        WHERE DELETEFLAG=0
     </sql>
 
     <select id="selectScheCount" resultType="Integer" parameterType="com.ware.group.common.SearchVO">
@@ -56,7 +56,7 @@
 	    INSERT INTO SCHEDULE(TITLE, TYPE, START_DATE, START_HOUR, START_MINUTE, END_DATE, END_HOUR, 
 	    			END_MINUTE, REPEAT_TYPE, REPEAT_OPTION, REPEAT_END, CONTENT, ISOPEN, USERNUM, UPDATEDATE, INSERTDATE, DELETEFLAG)
 	    VALUES (#{title}, #{type}, #{start_date}, #{start_hour}, #{start_minute}, #{end_date}, #{end_hour}, 
-	    		#{end_minute}, #{repeat_type}, #{repeat_option}, #{repeat_end}, #{content}, #{isopen}, #{usernum}, NOW(), NOW(), 'N')
+	    		#{end_minute}, #{repeat_type}, #{repeat_option}, #{repeat_end}, #{content}, #{isopen}, #{usernum}, NOW(), NOW(), 0)
 	</insert>
     
     <update id="updateSche" parameterType="com.ware.group.schedule.ScheVO">
@@ -83,7 +83,7 @@
 	    	 , END_MINUTE, REPEAT_TYPE, REPEAT_OPTION, REPEAT_END, CONTENT, ISOPEN, M.employee_id USERNUM, M.name USERNM
 	      FROM SCHEDULE TC
 	     INNER JOIN MEMBER M ON TC.USERNUM = M.id
-	     WHERE TC.DELETEFLAG='N' AND ID=#{id}
+	     WHERE TC.DELETEFLAG=0 AND ID=#{id}
 	</select>
 	
 	<select id="selectScheOne4Read" parameterType="com.ware.group.schedule.ScheVO" resultType="com.ware.group.schedule.ScheVO">
@@ -94,7 +94,7 @@
 	     INNER JOIN COM_CODE CC1 ON CC1.CODECD = TC.TYPE AND CC1.CLASSNO = 4
 	     INNER JOIN COM_CODE CC2 ON CC2.CODECD = TC.REPEAT_TYPE AND CC2.CLASSNO = 5
 	     INNER JOIN COM_CODE CC3 ON CC3.CODECD = TC.ISOPEN
-	     WHERE TC.DELETEFLAG='N' AND ID=#{id}
+	     WHERE TC.DELETEFLAG=0 AND ID=#{id}
 	</select>
 
 </mapper>

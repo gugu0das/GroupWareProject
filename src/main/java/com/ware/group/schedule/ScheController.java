@@ -100,7 +100,7 @@ public class ScheController {
             scheInfo = scheSvc.selectScheOne(scheInfo);
         } else {
             scheInfo.setType("1");
-            scheInfo.setOpen("Y");
+            scheInfo.setIsopen(1);
 
             String calendar_date = request.getParameter("calendar_date");
             if (calendar_date == null || "".equals(calendar_date)) {

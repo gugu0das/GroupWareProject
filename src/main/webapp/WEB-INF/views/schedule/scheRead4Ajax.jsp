@@ -30,7 +30,7 @@
                  </div>
              	<div class="row form-group">
                      <label class="col-lg-2">공개</label>
-                     <div class="col-lg-10"><c:out value="${scheInfo.open}"/></div>
+                     <div class="col-lg-10"><c:out value="${scheInfo.isopen}"/></div>
                  </div> 
              	<div class="row form-group">
                      <label class="col-lg-2">작성자</label> 
