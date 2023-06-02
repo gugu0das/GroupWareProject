@@ -21,7 +21,9 @@ public class ScheVO {
 				    repeat_option,		//반복 옵션- 주
 				    repeat_end,			//반복종료
 				    content,			//내용
-				    open,				//공개여부
-				    usernum,			//사용자번호
 				    username;
+    
+    private int 	isopen;				//공개여부
+    private long 	usernum;			//사용자번호
+
 }
