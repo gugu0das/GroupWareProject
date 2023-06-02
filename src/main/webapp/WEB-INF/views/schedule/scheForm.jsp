@@ -19,21 +19,29 @@
 <script>
 
 window.onload = function() {
-    $('#start_date').datepicker().on('changeDate', function(ev) {
-        if (ev.viewMode=="days"){
-            $('#start_date').datepicker('hide');
-        }
-    });
-    $('#end_date').datepicker().on('changeDate', function(ev) {
-        if (ev.viewMode=="days"){
-            $('#end_date').datepicker('hide');
-        }
-    });
-    $('#repeat_end').datepicker().on('changeDate', function(ev) {
-        if (ev.viewMode=="days"){
-            $('#repeat_end').datepicker('hide');
-        }
-    });
+	$('#start_date').datepicker({
+	    dateFormat: 'yy-mm-dd'
+	}).on('changeDate', function(ev) {
+	    if (ev.viewMode=="days"){
+	        $('#start_date').datepicker('hide');
+	    }
+	});
+
+	$('#end_date').datepicker({
+	    dateFormat: 'yy-mm-dd'
+	}).on('changeDate', function(ev) {
+	    if (ev.viewMode=="days"){
+	        $('#end_date').datepicker('hide');
+	    }
+	});
+
+	$('#repeat_end').datepicker({
+	    dateFormat: 'yy-mm-dd'
+	}).on('changeDate', function(ev) {
+	    if (ev.viewMode=="days"){
+	        $('#repeat_end').datepicker('hide');
+	    }
+	});
     repeat_typeChange();
     <c:if test='${repeat_option ne ""}'>
     	$("#repeat_option").val('<c:out value="${scheInfo.repeat_option}"/>');
