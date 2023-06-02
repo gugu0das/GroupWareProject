@@ -37,6 +37,13 @@ function calendarDayMouseover(event, id, calendar_date){
     });	
 }
 
+function fn_moveToURL(url, msg){
+	if (msg) {
+		if (!confirm( msg + " 하시겠습니까??")) return;
+	}
+	location.href=url;
+}
+
 function calendarDayMouseout(){
 	$(".calendarTooltip").hide();
 }
