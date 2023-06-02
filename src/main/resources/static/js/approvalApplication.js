@@ -57,6 +57,7 @@ if(a){
                 $(index).attr('onclick', "return(false);");
                 //radio check 여부
                 if($(index).is(':checked')){
+					$(this).attr("style","accent-color: black;");
                     console.log("radio 선택",$(index).val());
                     $("#type").val($(index).val());
                     $(index).attr("checked","checked")
