@@ -146,7 +146,7 @@ public class ApprovalService {
 					
 					log.error("{}::::::::::::",leaveRecordVO == null);
 					log.error("{}::::::::::::",leaveRecordVO != null);
-					if(leaveRecordVO != null) {
+					if(leaveRecordVO.getCount() != null) {
 						if(leaveRecordVO.getDegree() !=null &&leaveRecordVO.getDegree() !=1) {
 							leaveRecordVO.setCount(0L);
 						}
@@ -273,5 +273,31 @@ public class ApprovalService {
 	public ApprovalFormFileVO getFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{
 		return approvalDAO.getFormFile(approvalCategoryVO);
 		}
+	public int setApprovalDelete(Long id1,MemberVO memberVO) throws Exception{
+		
+		ApprovalHistoryVO approvalHistoryVO = new ApprovalHistoryVO();
+		approvalHistoryVO.setMemberId(memberVO.getId());
+		approvalHistoryVO.setApprovalId(id1);
+		approvalHistoryVO.setCheck(ApprovalStatus.CANCEL);
+		approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
+		LeaveRecordVO leaveRecordVO = new LeaveRecordVO();
+		leaveRecordVO.setApprovalId(id1);
+		leaveRecordVO.setMemberId(memberVO.getId());
+		leaveRecordVO = approvalDAO.getLeaverCode(leaveRecordVO);
+		if(leaveRecordVO !=null) {
+			leaveRecordVO.setType(ApprovalStatus.CANCEL);
+			approvalDAO.setAnnual(leaveRecordVO);
+		
+		}
+		
+		return approvalDAO.setApprovalDelete(id1);
+	}
+	
+	public int setApprovalFileDelete(Long id1) throws Exception{
+		return approvalDAO.setApprovalFileDelete(id1);
+	}
+	public int setApprovalInfoDelete(Long id1) throws Exception{
+		return approvalDAO.setApprovalInfoDelete(id1);
+	}
 	
 }

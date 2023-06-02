@@ -96,4 +96,10 @@ public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	public List<ApprovalVO> getMyApproval(ApprovalVO approvalVO) throws Exception;
 	
 	public ApprovalFormFileVO getFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int setApprovalDelete(Long id1) throws Exception;
+	
+	public int setApprovalFileDelete(Long id1) throws Exception;
+	
+	public int setApprovalInfoDelete(Long id1) throws Exception;
 }

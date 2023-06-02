@@ -180,6 +180,17 @@
 		SELECT * FROM APPROVALFORMFILE WHERE category_id=#{id}
 	</select>
  	
+ 	<delete id="setApprovalDelete" parameterType="Long">
+ 		DELETE FROM APPROVAL WHERE id=#{id1}
+ 	</delete>
+ 	
+ 	<delete id="setApprovalFileDelete" parameterType="Long">
+ 		DELETE FROM APPROVALUPLOADFILE WHERE approval_id=#{id1}
+ 	</delete>
+ 	<delete id="setApprovalInfoDelete" parameterType="Long">
+ 		DELETE FROM APPROVALINFO WHERE approval_id=#{id1}
+ 	</delete>
+ 	
  	
  	
 </mapper>

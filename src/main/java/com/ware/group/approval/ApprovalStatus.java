@@ -10,4 +10,7 @@ public final class ApprovalStatus {
 	
 	public final static String REFUSE = "거절";
 	
+	
+	public final static String CANCEL = "취소";
+	
 }

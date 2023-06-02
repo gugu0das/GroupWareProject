@@ -239,6 +239,8 @@ public class ApprovalController {
 		ApprovalUploadFileVO approvalUploadFileVO = approvalService.getApprovalFile(approvalVO);
 		mv.addObject("file", approvalUploadFileVO.getName());
 		mv.addObject("checkNum", 2);
+		mv.addObject("id", approvalVO.getId());
+		mv.addObject("confirm", approvalVO.getConfirm());
 		mv.setViewName("approval/check");
 		return mv;
 	}
@@ -292,6 +294,18 @@ public class ApprovalController {
 		
 		mv.addObject("list", ar);
 		mv.setViewName("approval/myInformation");
+		return mv;
+	}
+	@PostMapping("delete")
+	public ModelAndView setDelete(Long id1) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		MemberVO memberVO = new MemberVO();
+		memberVO.setId(1L);
+		log.error("========================================{}====================================================",id1);
+		int result = approvalService.setApprovalDelete(id1,memberVO);
+		result = approvalService.setApprovalFileDelete(id1);
+		approvalService.setApprovalInfoDelete(id1);
+		mv.setViewName("redirect:./myInformation");
 		return mv;
 	}
 }
