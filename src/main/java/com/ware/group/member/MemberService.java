@@ -1,5 +1,6 @@
 package com.ware.group.member;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -48,7 +51,7 @@ public class MemberService implements UserDetailsService{
 	}
 
 	//session에 있는 Member정보의 일부분 받기
-	private MemberVO getSessionAttribute(HttpSession session)throws Exception{
+	public MemberVO getSessionAttribute(HttpSession session)throws Exception{
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
@@ -170,43 +173,46 @@ public class MemberService implements UserDetailsService{
 		//1.form 에서 받아온 status : 외근인지, 조퇴인지
 		String getstatus = employeeStatusVO.getStatus();
 
+		
 		//현재시간
 		Timestamp nowTime = Util4calen.getNowTime();
-		System.out.println(nowTime);
-		//1. 현재 있는 근태 가져오기(오늘날짜)
+		
+		// 현재 있는 근태 가져오기(오늘날짜)
 		employeeStatusVO = this.getEmployeeStatus(session);
+		EmployeeStatusVO defaultWork=memberDAO.getDefaultWork(employeeStatusVO);
 		if(employeeStatusVO==null) {
 			return 0;
 		}
-		EmployeeStatusVO defaultWork=memberDAO.getDefaultWork(employeeStatusVO);
 		
 
 		// 1. 출근 안했을시 
 		if(employeeStatusVO.getOnTime()==null) {
 			
+			employeeStatusVO.setOnTime(nowTime);
 			Long diffTime = Util4calen.TimeDiff(nowTime,defaultWork.getOnTime());
 			if(diffTime>10) {//기본시간보다 10분이 지나면
-				employeeStatusVO.setOnTime(nowTime);
 				employeeStatusVO.setStatus("지각");
 			}
 			else {
-				employeeStatusVO.setOnTime(Util4calen.getStatusTime(defaultWork.getOnTime(), employeeStatusVO.getReg()));
+				employeeStatusVO.setStatus(getstatus);
 			}
-			System.out.println("getonTime ="+employeeStatusVO.getOnTime());
+			
 		}
 		//2. 출근상태일때
 		else {
-		
+			
 			Long diffTime = Util4calen.TimeDiff(nowTime,defaultWork.getOffTime());
+
+			employeeStatusVO.setOffTime(nowTime);	
 			if(diffTime<0||diffTime>60) {//근무시간을 지나지 않았을때 혹은 근무시간이 지나고 1시간이 지났을때
-				employeeStatusVO.setOffTime(nowTime);
 				employeeStatusVO.setStatus(getstatus);
 			}
-			else {
+
+			if(getstatus.equals("외근")) {//외근은 정상퇴근
 				employeeStatusVO.setOffTime(Util4calen.getStatusTime(defaultWork.getOffTime(), employeeStatusVO.getReg()));
 			}
 		}
-		//form 에서 받아온 status 넣기
+		
 		result = memberDAO.setEmployeeStatusUpdate(employeeStatusVO);
 
 
@@ -249,11 +255,5 @@ public class MemberService implements UserDetailsService{
 
 	}
 
-	//비어있는 근태 생성
-	public int testTimeStempInsert(MemberVO memberVO, EmployeeStatusVO employeeStatusVO, HttpSession httpSession)throws Exception{
-		employeeStatusVO.setMemberId(this.getSessionAttribute(httpSession).getId());
-
-		return memberDAO.testTimeStempInsert(employeeStatusVO);
-	}
-
+	
 }

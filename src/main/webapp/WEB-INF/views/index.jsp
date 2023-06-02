@@ -107,10 +107,11 @@ to {
 										</div>
 										<div class="row no-gutters align-items-center">
 											<div class="col mr-2">
-												<i class="fas fa-calendar fa-2x text-gray-300"> 
-												<c:if test="${not empty employeeVO.onTime }">
+												<i class="fas fa-calendar fa-2x text-gray-300"> <c:if
+														test="${not empty employeeVO.onTime }">
 														<a class="text-xs" id="">출근시간</a>
-														<a class="text-xs"   data-onTime="${employeeVO.onTime }" id="timeStatus">${employeeVO.strOnTime }</a>
+														<a class="text-xs" data-onTime="${employeeVO.onTime }"
+															id="timeStatus">${employeeVO.strOnTime }</a>
 													</c:if> <%-- <c:if test="${employeeVO.status ne 0 }"> 상태 : ${employeeVO.status }</c:if> --%>
 												</i>
 
@@ -118,13 +119,19 @@ to {
 											</div>
 											<div class="col-auto" id="statusBtns"
 												data-status="${employeeVO.status }">
+												<c:if test="${not empty employeeVO.offTime }">
+													<i class="fas fa-2x"> <a
+														class="text-xs" id="">퇴근시간</a> <a class="text-xs"
+														data-onTime="${employeeVO.offTime }" id="timeStatus">${employeeVO.strOffTime }</a>
+													</i>
+												</c:if>
 												<c:forEach items="${btns }" var="btn">
-												
+
 													<button class="btn btn-primary" type="button">${btn }</button>
 												</c:forEach>
-													<input id="statusVal" type="hidden" name="timeStatus">
-												
-												
+												<input id="statusVal" type="hidden" name="timeStatus">
+
+
 												<%-- <c:choose>
 													<c:when test="${employeeVO.status eq '출근'}">
 
@@ -144,7 +151,7 @@ to {
 												</c:choose> --%>
 
 											</div>
-												
+
 
 										</div>
 									</form>

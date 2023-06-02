@@ -8,6 +8,9 @@
 	<select id="getMembers" resultType="MemberVO">
 		select * from MEMBER
 	</select>
+	<select id="getStatusMembers" resultType="MemberVO" parameterType="MemberVO">
+	select id from `MEMBER` where status =1
+	</select>
 
 	<select id="getMemberLogin" parameterType="MemberVO"
 		resultMap="getLoginResult">
@@ -40,9 +43,6 @@
 		=j.id
 		where account_id =#{accountId};
 	</select>
-
-
-
 
 	<insert id="setMemberJoin" parameterType="MemberVO">
 		<selectKey keyProperty="id" resultType="Long" order="AFTER">
@@ -95,10 +95,6 @@
 		SELECT account_id FROM MEMBER WHERE
 		account_id=#{accountId}
 	</select>
-
-
-
-
 
 	<!-- result Map -->
 
@@ -164,23 +160,22 @@
 
 	<update id="setEmployeeStatusUpdate"
 		parameterType="EmployeeStatusVO">
-		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
-			select
-			id from EMPLOYEESTATUS e where member_id =#{memberId} and reg
-			=(SELECT DATE_FORMAT(NOW(),'%y-%m-%d')from dual) and status not like '근무시간'
-		</selectKey>
+
 		update EMPLOYEESTATUS set
 		on_time =#{onTime},off_time=#{offTime,jdbcType=TIMESTAMP},status=#{status,jdbcType=VARCHAR}
-		<!-- <choose>
-			<when test="onTime!=null">
-				on_time =#{onTime},status=#{status,jdbcType=VARCHAR}
-			</when>
-			<otherwise>
-				off_time=#{offTime},status=#{status,jdbcType=VARCHAR}
-			</otherwise>
-		</choose> -->
+		
 		where id=#{id}
 	</update>
+	
+	<!-- 출근 안한 더미데이터 지우기 -->
+	 <delete id="setWorkNullDelete" parameterType="EmployeeStatusVO">
+	delete from EMPLOYEESTATUS where status='출근전' and member_id =#{memberId}
+	</delete>
+	
+	<!-- 오늘 출근한 데이터 있는지 여부 -->
+	<select id="getWorkIsEmpty" parameterType="EmployeeStatusVO" resultType="EmployeeStatusVO">
+	select * from EMPLOYEESTATUS e where reg =CURDATE() and member_id =#{memberId}
+	</select>
 	
 	<!-- 기본 근무시간 -->
 	<select id="getDefaultWork" parameterType="EmployeeStatusVO"
@@ -196,4 +191,6 @@
 	<update id="setDefaultWorkUpdate" parameterType="EmployeeStatusVO">
 	update EMPLOYEESTATUS set on_time=#{onTime}, off_time=#{offTime} where member_id=#{memberId} and status='근무시간'
 	</update>
+	
+	
 </mapper>  

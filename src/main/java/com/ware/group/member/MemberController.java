@@ -1,17 +1,11 @@
 package com.ware.group.member;
 
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ware.group.common.Util4calen;
+import com.ware.group.common.ScheduleService;
 import com.ware.group.department.DepartmentService;
 import com.ware.group.department.DepartmentVO;
 
@@ -35,6 +29,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private ScheduleService employeeService;
 	@Autowired
 	private DepartmentService departmentService;
 
@@ -128,7 +124,8 @@ public class MemberController {
 	}
 	@PostMapping("testStatusUp")
 	public void testStatusUp(ModelAndView mv,MemberVO memberVO, HttpSession session, EmployeeStatusVO employeeStatusVO) throws Exception{
-		int result = memberService.testTimeStempInsert(memberVO, employeeStatusVO, session);
+		int result = employeeService.testTimeStempInsert(memberVO, employeeStatusVO, session);
 		
 	}
+	
 }
