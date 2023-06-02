@@ -119,9 +119,29 @@ public class ScheController {
 
     @PostMapping("/scheSave")
     public ModelAndView scheSave(HttpServletRequest request, ScheVO scheInfo) {
-        String usernum = request.getSession().getAttribute("usernum").toString();
-        scheInfo.setUsernum(usernum);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            LOGGER.error("인증 값 Null.");
+            return new ModelAndView("redirect:/schedule/scheList");
+        }
 
+        Object principal = authentication.getPrincipal();
+        long userId = -1;
+        
+        if (principal instanceof MemberVO) {
+            MemberVO member = (MemberVO) principal;
+            userId = member.getId();
+        } else {
+            LOGGER.error("MemberVO 보안 에러.");
+            return new ModelAndView("redirect:/schedule/scheList");
+        }
+
+        if (userId == -1) {
+            LOGGER.error("ID 에러.");
+            return new ModelAndView("redirect:/schedule/scheList");
+        }
+
+        scheInfo.setUsernum(userId);
         scheSvc.insertSche(scheInfo);
 
         return new ModelAndView("redirect:/schedule/scheList");
