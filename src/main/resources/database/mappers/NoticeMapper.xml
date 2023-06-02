@@ -44,7 +44,7 @@
 			 LEFT JOIN
 			 NOTICEFILES nf
 			 on (n.id = nf.notice_id) 
-		WHERE nf.notice_id = 3
+		WHERE nf.notice_id = #{id}
   	</select>
   	
   	<resultMap type="NoticeVO" id="getDetailResult">
