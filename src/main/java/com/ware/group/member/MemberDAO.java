@@ -39,12 +39,14 @@ public interface MemberDAO {
 	public List<EmployeeStatusVO> getWorkIsEmpty(EmployeeStatusVO employeeStatusVO)throws Exception;
 	
 	public int setWorkNullDelete(EmployeeStatusVO employeeStatusVO)throws Exception;
-	
+	public int setWorkEmptyUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
 	
 	public int setDefaultWorkAdd(EmployeeStatusVO employeeStatusVO)throws Exception;
 	public int setDefaultWorkUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
 
 	public int setEmployeeStatusUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
-	public int testTimeStempInsert(EmployeeStatusVO employeeStatusVO) throws Exception;
+	public int setTimeStempInsert(EmployeeStatusVO employeeStatusVO) throws Exception;
+	public List<EmployeeStatusVO> getNotOffTimeEmployee(EmployeeStatusVO employeeStatusVO)throws Exception;
+	
 	
 }

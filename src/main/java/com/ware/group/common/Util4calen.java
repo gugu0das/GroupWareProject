@@ -8,7 +8,7 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+@SuppressWarnings("deprecation")
 public class Util4calen {
 	static final Logger LOGGER = LoggerFactory.getLogger(AdminInterceptor.class);
 	static final String[] dayArr = {"일", "월", "화", "수", "목", "금", "토"};
@@ -206,7 +206,7 @@ public class Util4calen {
 		return timestamp;
 	}
 	/*
-		Defualt 근무시간을 현재 근태에 넣기위해 정제 
+		Defualt 근무시간을 현재 근태에 넣기위해 날짜 정제 
 	 */
 	public static Timestamp getStatusTime(Timestamp timestamp, Date date)throws Exception {
 		
@@ -214,7 +214,7 @@ public class Util4calen {
 		getTime.setDate(date.getDate());
 		getTime.setYear(date.getYear());
 		getTime.setMonth(date.getMonth());
-		return timestamp;
+		return getTime;
 		
 	}
 	

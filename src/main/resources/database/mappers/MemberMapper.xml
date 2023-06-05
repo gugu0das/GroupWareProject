@@ -137,10 +137,10 @@
 
 	<!-- ////////////////////////////////////////////////////////////////////////// -->
 	<!-- 근태관리 -->
-	<!-- setting : 일요일 마다 status가 1인 활성화된 직원들의 월~금까지 근태 만들기 -->
+	<!-- setting : 일요일 마다 status가 1인 활성화된 직원들의 근태 만들기 -->
 	<!-- 1. 출근 : update --><!-- 퇴근 : update -->
 
-	<insert id="testTimeStempInsert"
+	<insert id="setTimeStempInsert"
 		parameterType="EmployeeStatusVO">
 		insert into
 		EMPLOYEESTATUS(reg,on_time,off_time,status,member_id)
@@ -172,10 +172,19 @@
 	delete from EMPLOYEESTATUS where status='출근전' and member_id =#{memberId}
 	</delete>
 	
+	<!-- 퇴근 안찍은 사람 검색 -->
+	<select id="getNotOffTimeEmployee" parameterType="EmployeeStatusVO" resultType="EmployeeStatusVO">
+	select * from EMPLOYEESTATUS where off_time =null  and member_id=#{memberId} and status Like '지각' or status Like '출근'
+	</select>
+	
 	<!-- 오늘 출근한 데이터 있는지 여부 -->
 	<select id="getWorkIsEmpty" parameterType="EmployeeStatusVO" resultType="EmployeeStatusVO">
 	select * from EMPLOYEESTATUS e where reg =CURDATE() and member_id =#{memberId}
 	</select>
+	
+	<update id="setWorkEmptyUpdate" parameterType="EmployeeStatusVO">
+	update EMPLOYEESTATUS set off_time =#{offTime} where id=#{id}
+	</update>
 	
 	<!-- 기본 근무시간 -->
 	<select id="getDefaultWork" parameterType="EmployeeStatusVO"

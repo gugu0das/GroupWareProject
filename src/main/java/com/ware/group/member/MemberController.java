@@ -112,8 +112,9 @@ public class MemberController {
 		return check;
 		
 	}
-	//
-	
+
+	//----------------근태------------------------------------
+
 	@PostMapping("statusUpdate")
 	public ModelAndView employeeStatusUpdate(ModelAndView mv,MemberVO memberVO,EmployeeStatusVO employeeStatusVO,HttpSession session,String timeStatus)throws Exception{
 		employeeStatusVO.setStatus(timeStatus);
@@ -126,6 +127,20 @@ public class MemberController {
 	public void testStatusUp(ModelAndView mv,MemberVO memberVO, HttpSession session, EmployeeStatusVO employeeStatusVO) throws Exception{
 		int result = employeeService.testTimeStempInsert(memberVO, employeeStatusVO, session);
 		
+	}
+	@GetMapping("statusList")
+	public ModelAndView getStatusList(ModelAndView mv,MemberVO memberVO, HttpSession session, EmployeeStatusVO employeeStatusVO)throws Exception{
+		memberVO = memberService.getMemberProfile(memberVO, session);
+		employeeStatusVO =  memberService.getEmployeeStatus(session);
+		mv.addObject("employeeVO", employeeStatusVO);
+		List<String> ar = memberService.getEmployeeStatusBtn(employeeStatusVO, session);
+		if(ar!=null&&ar.size()>0) {
+
+			mv.addObject("btns",ar);
+		}
+		mv.addObject("memberVO",memberVO);
+		mv.setViewName("member/statusList");
+		return mv;
 	}
 	
 }
