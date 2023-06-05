@@ -107,9 +107,10 @@
          							
 											<c:if test="${memberVO.id eq qnaVO.memberId}">	
 											  <a class="btn btn-primary" href="./delete?id=${qnaVO.id}">글 삭제</a>
-											  <form action="./update" id="frm">
-											    <button id="update" type="submit" class="btn btn-outline-primary">상품 수정</button>
-											  </form>
+											  
+											    
+											    <a id="update" type="submit" class="btn btn-outline-primary" href="./update?id=${qnaVO.id}">상품 수정</a>
+											  
 											</c:if>
                             <button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
                         </div>
