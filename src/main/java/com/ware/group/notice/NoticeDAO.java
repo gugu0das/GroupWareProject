@@ -44,6 +44,6 @@ public interface NoticeDAO {
 		public List<NoticeVO> getImportantList(NoticeVO noticeVO) throws Exception;
 		
 		public List<NoticeFileVO> getFileList(NoticeVO noticeVO) throws Exception;
-		
-		
+		//파일 삭제
+		public int setFileDelete(NoticeVO noticeVO)throws Exception;
 }

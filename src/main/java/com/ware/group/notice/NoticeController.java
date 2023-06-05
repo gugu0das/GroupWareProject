@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -188,12 +189,24 @@ public class NoticeController {
 	@GetMapping("delete")
 	public ModelAndView setDelete(NoticeVO noticeVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		
+		log.error("{}",noticeVO.getId());
 		int result = noticeService.setDelete(noticeVO);
 		
 		mv.setViewName("redirect:./list");
 		
 		return mv;
+	}
+	
+	@PostMapping("filedelete")
+	@ResponseBody
+	public int setFileDelete(NoticeVO noticeVO) throws Exception {
+		
+		log.error("{}",noticeVO.getId());
+		int result = noticeService.setFileDelete(noticeVO);
+		
+		
+		
+		return result;
 	}
 	
 	@GetMapping("update")
@@ -208,7 +221,9 @@ public class NoticeController {
 		log.error("{}",noticeVO.getId());
 		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
 		log.error(noticeVO.getTitle());
-		
+		for(BoardFileVO boardFileVO:noticeVO.getBoardFileVOs()) {
+			log.error("=============================={}======================",boardFileVO.getId());;
+		}
 		
 		
 		mv.addObject("noticeVO", noticeVO);
@@ -221,9 +236,11 @@ public class NoticeController {
 	@PostMapping("update")
 	public ModelAndView setUpdate(@Valid NoticeVO noticeVO,BindingResult bindingResult, MultipartFile [] files,HttpSession session)throws Exception{
 		ModelAndView mv = new ModelAndView();
+		log.error("{}",noticeVO.getId());
+		
 		System.out.println("Controller");
 		int result = noticeService.setUpdate(noticeVO,files);
-		
+					 noticeService.setDelete(noticeVO);
 		
 		
 		mv.setViewName("redirect:./list");

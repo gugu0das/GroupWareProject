@@ -122,6 +122,9 @@ public class NoticeService{
 	public int setDelete(NoticeVO noticeVO) throws Exception {
 		return noticeDAO.setDelete(noticeVO);
 	}
+	public int setFileDelete(NoticeVO noticeVO) throws Exception {
+		return noticeDAO.setFileDelete(noticeVO);
+	}
 
 	
 	 
