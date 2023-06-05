@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.approval3.DocumentFilesVO;
-import com.ware.group.approval3.JobVO;
 import com.ware.group.department.DepartmentVO;
+import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -262,6 +262,7 @@ public class ApprovalService {
 				}else {
 					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
 					result = approvalDAO.setApprovalUpdate(approvalVO);
+					
 					
 					LeaveRecordVO leaveRecordVO = new LeaveRecordVO();
 					leaveRecordVO.setApprovalId(approvalVO.getId());

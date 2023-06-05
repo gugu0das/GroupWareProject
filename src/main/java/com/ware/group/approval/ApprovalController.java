@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.department.DepartmentVO;
+import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
 import com.ware.group.util.FileManager;
-import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -505,7 +508,6 @@ public class ApprovalController {
         String fileName = UUID.randomUUID().toString();
         fileName=fileName+".html";
         System.out.println("==================1============================");
-        PrintWriter fw = new PrintWriter(new FileOutputStream(formFilePath+fileName));
         File file = new File(basePaths+"/approval");
         if(!file.exists()) {
 			file.mkdirs();
@@ -528,36 +530,7 @@ public class ApprovalController {
 	//list
 	public ModelAndView getApprovalInformation(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-	      log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());      
-	      approvalVO.setMemberId(1L);
-	      
-	      List<ApprovalVO> ar = approvalService.getApprovalList(approvalVO);
-	      //cat
-	      List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
-	      //cat2
-	      List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
-	      //cat1
-	      List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
-
-
-	      for(ApprovalCategoryVO approvalCategoryVO : arr) {
-	         if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
-	            mv.addObject("name", approvalCategoryVO.getName());
-	            break;
-	         }else {
-	            mv.addObject("name", "전체");
-	         }
-	      }
-	      mv.addObject("cat", arr);
-	      mv.addObject("cat2", arrrr);
-	      mv.addObject("cat1", arrr);
-	      mv.addObject("list", ar);
-//	      mv.addObject("ref0", arr);
-//	      mv.addObject("all", arrrr);
-//	      mv.addObject("ref1", arrr);
-//	      mv.addObject("list", ar);
-	      mv.setViewName("approval/information");
-	      return mv;
+	   
 		log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());		
 		approvalVO.setMemberId(0L);
 		
@@ -643,7 +616,6 @@ public class ApprovalController {
         //파일 수정 모드 있는 파일을 불러오기
 		
         //PrintWriter fw = new PrintWriter(new FileOutputStream("c:/sm/approval/"+fileName,true));
-        BufferedWriter writer = new BufferedWriter(new FileWriter(formFilePath+fileName));
         BufferedWriter writer = new BufferedWriter(new FileWriter(basePaths+"approval/"+fileName));
         //fw.println(dd);
         //덮어 쓰기

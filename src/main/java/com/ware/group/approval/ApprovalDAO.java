@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.approval3.DocumentFilesVO;
-import com.ware.group.approval3.JobVO;
 import com.ware.group.department.DepartmentVO;
+import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
 
 @Mapper
