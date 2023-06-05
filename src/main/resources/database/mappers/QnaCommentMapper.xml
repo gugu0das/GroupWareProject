@@ -27,14 +27,42 @@
 		SELECT * FROM (
 			    SELECT *, ROW_NUMBER() OVER (ORDER BY ID ASC) AS R FROM (
 			        SELECT * FROM QNACOMMENT
-			        <include refid="commentCondition"></include>
+			      
 			   	 ) AS C
 				) AS D
 		WHERE R BETWEEN #{startRow} AND #{perPage}
-	
+		ORDER BY ref ,step,depth
 	</select>
 	
+	<!-- <select id="getQnaCommentList" parameterType="Pager" resultType="QnaCommentVO" >
+		SELECT * FROM 
+		(
+			SELECT ROWNUM R, N.* FROM
+			 (
+			 	SELECT ID,CONTENTS, WRITER, REG_DATE FROM QNACOMMENT
+		<include refid="search"></include>
+		ORDER BY ID DESC,REF DESC, STEP ASC
+		LIMIT #{startRow}, #{perPage}
+	</select> -->
 	
+	<select id="getQnaCommentDetail" parameterType="QnaCommentVO" resultMap="qnaCommentResultMap">
+  		SELECT *
+		FROM QNACOMMENT
+		WHERE ID = #{id}
+  	</select>
+  	
+  	<resultMap id="qnaCommentResultMap" type="QnaCommentVO">
+    <id property="id" column="id"/>
+    <result property="qnaId" column="qna_id"/>
+    <result property="contents" column="contents"/>
+     <result property="regDate" column="reg_date"/>
+    <result property="writer" column="writer"/>
+    <result property="ref" column="ref"/>
+	<result property="step" column="step"/>
+	<result property="depth" column="depth"/>
+		
+    <!-- 추가 필드 및 컬럼 매핑 -->
+</resultMap>
 	
 	<insert id="setQnaCommentAdd" parameterType="QnaCommentVO" useGeneratedKeys="true" keyProperty="id">
   			<selectKey keyProperty="id" resultType="Long" order="BEFORE">
@@ -45,7 +73,7 @@
   		</insert>
 	
 	<delete id="setQnaCommentDelete" parameterType="QnaCommentVO">
-  			DELETE QNACOMMENT WHERE ID = #{id}
+  			DELETE FROM QNACOMMENT WHERE ID = #{id}
   	</delete>
   	
   	<update id="setQnaCommentUpdate" parameterType="QnaCommentVO">
@@ -53,4 +81,18 @@
   			WHERE ID = #{id}
   	</update>
   	
+  	<update id="setStepUpdate" parameterType="QnaCommentVO">
+  		UPDATE QNACOMMENT SET STEP = STEP + 1
+  		WHERE REF = #{ref} AND STEP > #{step}
+  	</update>
+	
+	<insert id="setReplyAdd" parameterType="QnaCommentVO">
+			<selectKey keyProperty="qnaId" resultType="Long" order="AFTER">
+  				SELECT qna_id FROM QNACOMMENT WHERE id=
+  				(SELECT MAX(id) FROM QNACOMMENT)
+  			</selectKey>
+	
+  		INSERT INTO QNACOMMENT (qna_id,  contents, writer, reg_date, ref, step, depth)
+		VALUES( #{qnaId} , #{contents}, #{writer}, now(),#{ref} , #{step}, #{depth})
+  	</insert>
 </mapper>

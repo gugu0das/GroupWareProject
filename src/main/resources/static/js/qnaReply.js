@@ -33,6 +33,8 @@ replyAdd.addEventListener("click", function(){
 
 })
 
+
+
 getList();
 
 function getList(){
@@ -48,6 +50,26 @@ function getList(){
         }
     })
 }
+
+$("#commentListResult").on("click", ".del", function(e){
+    let id = $(this).attr("data-qna-qna");
+
+    $.ajax({
+        url: "/qnaComment/delete",
+        type: "POST",
+         data: {
+             id: id
+             
+         },
+         success: function() {
+             alert('댓글이 삭제 되었습니다');
+             getList();
+        },
+        error: function() {
+           alert('삭제가 실패했습니다');
+         }
+     });
+ });
 
 //  $("#replyAdd").on("click", function(){
 //     let contents = $("#replyContents").val();

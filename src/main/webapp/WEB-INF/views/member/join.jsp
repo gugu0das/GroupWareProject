@@ -115,7 +115,7 @@
 										<form:label path="jobId">직위/직책 선택</form:label>
 										<form:select path="jobId"
 											cssClass="custom-select form-control"
-											placeholder="직위/직책을 선택해주세요">
+											placeholder="직위/직책을 선택해주세요" >
 											<c:forEach items="${jobVOs }" var="jobVO">
 												<form:option value="${jobVO.id }">${jobVO.name}</form:option>
 											</c:forEach>

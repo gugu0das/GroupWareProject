@@ -17,6 +17,7 @@
 </head>
 <body class="d-flex flex-column h-100">
 	<main class="flex-shrink-0">
+	<c:import url="../temp/header2.jsp"></c:import>
 		<!-- Navigation-->
       <%--   <c:import url="../temp/header.jsp"></c:import> --%>
         <!-- Header-->
@@ -27,21 +28,22 @@
                     <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                         <div class="text-center mb-5">
                             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
-                            <h1 class="fw-bolder">커뮤니티 글 쓰기</h1>
+                            <h1 class="fw-bolder">커뮤니티 댓글 2번째 대댓글</h1>
                             <p class="lead fw-normal text-muted mb-0">QnA 답글 쓰기</p>
                         </div>
                         <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
                                 <%-- <form id="contactForm" action="./add" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data"> --%>
-                            	<form:form id="contactForm" modelAttribute="qnaVO" action="./reply" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
+                            	<form:form id="contactForm" modelAttribute="qnaCommentVO" action="./reply" method="post" enctype="multipart/form-data">
+                            	<%-- <form:form id="contactForm" modelAttribute="qnaCommentVO" action="./reply" method="post"enctype="multipart/form-data"> --%>
 	                                    <!-- Title input-->
-	                                    <input type="hidden" name="id" value="${qnaVO.id}">
+	                                    <input type="hidden" name="id" value="${qnaCommentVO.id}">
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="title" name="title" type="text" placeholder="Enter Title..." data-sb-validations="required" /> -->
-	                                        <form:input path="title" id="title" cssClass="form-control"/>
+	                                   <%--      <form:input path="title" id="title" cssClass="form-control"/>
 	                                        <label for="title">제목</label>
 	                                        <form:errors path="title"></form:errors>
-	                                        <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+	                                        <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div> --%>
 	                                    </div>
 	                                    <!-- writer input-->
 	                                    <div class="form-floating mb-3">

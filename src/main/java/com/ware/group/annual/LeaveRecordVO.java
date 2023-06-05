@@ -10,11 +10,13 @@ import lombok.Setter;
 public class LeaveRecordVO {
 
 	private Long id;
-	private String memberId;
+	private Long memberId;
 	private String reason;
 	private String type;
 	private Long count;
-	private Date date;
+	private String useDate;
+	private Long approvalId;
+	private Long degree;
 	
 	
 }

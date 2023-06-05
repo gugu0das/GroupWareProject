@@ -14,4 +14,7 @@ public class QnaCommentVO {
 	private String contents;
 	private String writer;
 	private Date regDate;
+	private Long ref;
+	private Long step;
+	private Long depth;
 }

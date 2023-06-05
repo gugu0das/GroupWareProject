@@ -21,8 +21,5 @@ public class QnaVO {
 	private String writer;
 	private Date regDate;
 	private Long hit;
-	private Long ref;
-	private Long step;
-	private Long depth;
 	private List<QnaFileVO> boardFileVOs;
 }

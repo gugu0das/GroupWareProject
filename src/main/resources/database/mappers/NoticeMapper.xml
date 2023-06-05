@@ -59,13 +59,12 @@
 		
 	</resultMap>
   	
-	
-	
+
 	<insert id="setInsert" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO NOTICE (id, member_id, title, contents, writer, reg_date, hit)
-		VALUES( #{id} , #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0)
+	INSERT INTO NOTICE ( member_id, title, contents, writer, reg_date, hit)
+	VALUES ( #{memberId}, #{title}, #{contents}, #{writer}, now(), 0)
 	</insert>
-	
+
 	<delete id="setDelete" parameterType="NoticeVO">
   		DELETE FROM NOTICE WHERE ID = #{id}
   	</delete>

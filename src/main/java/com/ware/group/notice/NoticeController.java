@@ -6,16 +6,19 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ware.group.board.BoardFileVO;
+import com.ware.group.member.MemberVO;
 import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +31,38 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
+	
+	
+	
 	@ModelAttribute("board")
 	public String getNotice() {
 		return "notice";
 	}
+	
+	@PostMapping("moveToTop")
+	public ModelAndView moveToTop(@RequestParam("postId") Long postId) throws Exception {
+	    ModelAndView mv = new ModelAndView();
+	    
+	    // 게시글 조회
+	    NoticeVO noticeVO = new NoticeVO();
+	    noticeVO.setId(postId);
+	    NoticeVO targetPost = noticeService.getDetail(noticeVO);
+	    
+	    // 게시글을 리스트에서 삭제
+	    noticeService.setDelete(noticeVO);
+	    
+	    // 리스트의 맨 앞에 게시글 추가
+	    Pager pager = new Pager();
+	    pager.setPerPage(2L); // 최근 게시글 1개만 조회
+	    List<NoticeVO> currentPosts = noticeService.getList(pager);
+	    currentPosts.add(0, targetPost);
+	    
+	    mv.addObject("list", currentPosts);
+	    mv.setViewName("common/noticeTop");
+	    
+	    return mv;
+	}
+	
 	//메인화면에 공지사항 리스트 뜨게 하는 컨트롤러
 	@GetMapping("listTop")
 	public ModelAndView getNoticeListTop(Pager pager)throws Exception{
@@ -61,8 +92,15 @@ public class NoticeController {
 	}
 	
 	@GetMapping("add")
-	public ModelAndView setInsert(@ModelAttribute NoticeVO noticeVO) throws Exception {
+	public ModelAndView setInsert(@ModelAttribute NoticeVO noticeVO, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		//session.getAttribute 를 하고싶지만 SEcurity Session으로 바뀌어서 이렇게 받아와야 session에 있는 데이터를 얻을 수 있다.
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		
+		
+		noticeVO.setWriter(memberVO.getAccountId());
 		mv.setViewName("notice/add");
 		
 		return mv;
@@ -92,6 +130,13 @@ public class NoticeController {
 	@PostMapping("add")
 	public ModelAndView setInsert(@Valid NoticeVO noticeVO, BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		
+		/*
+		 * MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		 * noticeVO.setMemberId(memberVO.getId());
+		 */
+		
+		
 		
 		if(bindingResult.hasErrors()) {
 			

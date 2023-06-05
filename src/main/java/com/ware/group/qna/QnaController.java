@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ware.group.board.BoardFileVO;
+import com.ware.group.member.MemberVO;
 import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,8 +48,17 @@ public class QnaController {
 		return mv;
 }
 		@GetMapping("add")
-		public ModelAndView setInsert(@ModelAttribute QnaVO qnaVO) throws Exception {
+		public ModelAndView setInsert(@ModelAttribute QnaVO qnaVO,HttpSession session) throws Exception {
 			ModelAndView mv = new ModelAndView();
+			
+			Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+			SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+				
+			qnaVO.setWriter(memberVO.getAccountId());
+			
+			
+			
 			mv.setViewName("qna/add");
 			
 			return mv;
@@ -74,27 +85,38 @@ public class QnaController {
 //			
 //			return mv;
 //		}
-		@PostMapping("add")
-		public ModelAndView setInsert(@Valid QnaVO qnaVO, BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
-			ModelAndView mv = new ModelAndView();
-			
-			if(bindingResult.hasErrors()) {
-				
-				mv.setViewName("qna/add");
-				
-				return mv;
-			}
-			System.out.println(files[0].getName());
-			System.out.println("orginalFileName :  "+files[0].getOriginalFilename());
-			for(MultipartFile multipartFile : files) {
-				log.error("{} ::",multipartFile.getOriginalFilename());
-				}
-			int result = qnaService.setInsert(qnaVO, files);
-//						 qnaService.setRefUpdate(qnaVO);
-			mv.setViewName("redirect:./list");
-			
-			return mv;
-		}
+		
+		  @PostMapping("add") 
+		  public ModelAndView setInsert(@Valid QnaVO qnaVO,BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
+		  
+	      ModelAndView mv = new ModelAndView();
+		  
+			/*
+			 * MemberVO memberVO = (MemberVO)session.getAttribute("member");
+			 * 
+			 * qnaVO.setMemberId(memberVO.getId()); qnaVO.setWriter(memberVO.getName());
+			 */
+		  
+		  if(bindingResult.hasErrors()) {
+		  
+		  mv.setViewName("qna/add");
+		  
+		  return mv; 
+		  
+		  }
+		  
+		  for(MultipartFile multipartFile : files) {
+		  log.error("{} ::",multipartFile.getOriginalFilename()); 
+		} 
+		  int result = qnaService.setInsert(qnaVO, files);
+		  
+		  mv.setViewName("redirect:./list");
+		  
+		  return mv; 
+		  
+		  }
+		 
+		
 		
 		@GetMapping("detail")
 		public ModelAndView getDetail(QnaVO qnaVO) throws Exception {
@@ -159,30 +181,30 @@ public class QnaController {
 			return mv;
 			
 		}
-		@GetMapping("reply")
-		public ModelAndView setReplyAdd(QnaVO qnaVO,ModelAndView modelAndView)throws Exception{
-			
-			
-			
-			modelAndView.setViewName("qna/reply");
-			return modelAndView;
-		}
-		@PostMapping("reply")
-		public ModelAndView setReplyAdd(QnaVO qnaVO)throws Exception{
-			ModelAndView mv = new ModelAndView();
-			
-			int result= qnaService.setReplyAdd(qnaVO);
-			
-			String message="등록 실패";
-			
-			if(result>0) {
-				message = "글이 등록 되었습니다";
-			}
-			
-			
-			mv.setViewName("common/result");
-			mv.addObject("result", message);
-			mv.addObject("url","./detail?id="+qnaVO.getId());
-			return mv;
-		}
-	}
+		
+		/*
+		 * @GetMapping("reply") public ModelAndView setReplyAdd(QnaVO qnaVO,ModelAndView
+		 * modelAndView)throws Exception{
+		 * 
+		 * System.out.println("들어감?"); System.out.println("들어감?");
+		 * System.out.println("들어감?");
+		 * 
+		 * modelAndView.setViewName("qna/reply"); return modelAndView; }
+		 * 
+		 * @PostMapping("reply") public ModelAndView setReplyAdd(QnaVO qnaVO)throws
+		 * Exception{
+		 * 
+		 * ModelAndView mv = new ModelAndView();
+		 * 
+		 * int result= qnaService.setReplyAdd(qnaVO);
+		 * 
+		 * String message="등록 실패";
+		 * 
+		 * if(result>0) { message = "글이 등록 되었습니다"; }
+		 * 
+		 * 
+		 * mv.setViewName("common/result"); mv.addObject("result", message);
+		 * mv.addObject("url","./detail?id="+qnaVO.getId()); return mv; }
+		 */
+		 
+}

@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+    .upperCategory a{cursor:pointer;}
+    .upperCategory .hide{display:none;}
+</style>
 <!-- Sidebar -->
 <ul
 	class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
@@ -40,11 +45,20 @@
 			data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Custom Components:</h6>
-				<a class="collapse-item" href="buttons.html">결제</a> <a
-					class="collapse-item" href="buttons.html">휴가</a> <a
-					class="collapse-item" href="buttons.html">경조사</a> <a
-					class="collapse-item" href="buttons.html">결제</a> <a
-					class="collapse-item" href="cards.html">확인</a>
+				<ul>
+					<c:forEach items="${categoryList0}" var="upper">
+						<li class="upperCategory">
+							<span class="collapse-item" href="#" id="${upper.id}">${upper.name}</span>
+							<ul class="hide">
+								<c:forEach items="${categoryList1}" var="under">
+									<c:if test="${upper.id == under.ref}">
+										<li id="${under.id}"><a class="collapse-item" href="">${under.name}</a></li>
+									</c:if> 
+								</c:forEach>
+							</ul>
+						</li>
+					</c:forEach>
+				</ul>
 			</div>
 		</div></li>
 
@@ -123,3 +137,4 @@
 
 </ul>
 <!-- End of Sidebar -->
+

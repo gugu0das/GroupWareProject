@@ -2,19 +2,105 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="com.ware.group.department.DepartmentDAO">
 
 	<select id="getDepartmentList" resultType="DepartmentVO">
-	select * from DEPARTMENT
+		select * from
+		(select max(d.`level`+1) as next_level from DEPARTMENT d )
+		max_level,DEPARTMENT d3
+	</select>
+
+	<select id="getDepartmentChildId" parameterType="DepartmentVO"
+		resultType="DepartmentVO">
+		select id from DEPARTMENT WHERE upper=#{id}
+	</select>
+	<select id="getDepartmentDetail" parameterType="DepartmentVO"
+		resultMap="DepartmentDetailResult">
+		select
+		d.id as d_id, d.name as d_name ,d.manager ,d.upper
+		,d.create_date ,d.level,
+		m.id as
+		m_id, m.employee_id ,m.name as m_name,
+		m.hire_date,j.name as j_name,
+		d2.name as up_name
+		from DEPARTMENT d
+		left
+		outer join
+		`MEMBER` m
+		on(m.department_id=d.id)
+		left outer join
+		JOB j
+		on(m.job_id=j.id)
+		left
+		outer JOIN
+		DEPARTMENT d2
+		on(d2.id=d.upper)
+		where
+		d.id =#{id}
+		order by m.hire_date
+
+
 	</select>
 
 	<insert id="setDepartmentAdd" parameterType="DepartmentVO">
-	INSERT INTO DEPARTMENT(name,manager,upper,`level`,create_date)
-		values(#{name},#{manager},#{upper},#{level},now())
+		INSERT INTO
+		DEPARTMENT(name,manager,upper,`level`,create_date,update_date)
+		values(#{name},#{manager, jdbcType=INTEGER},#{upper,
+		jdbcType=INTEGER},#{level},now(),now())
 	</insert>
-	
-	
+	<delete id="setDepartmentDelete" parameterType="DepartmentVO">
+		delete from
+		DEPARTMENT where id = #{id}
 
+	</delete>
+
+	<update id="setDepartmentUpdate" parameterType="DepartmentVO">
+
+		UPDATE DEPARTMENT set name =#{name}, manager =#{manager}, upper =#{upper}
+		,`level` =#{level},update_date =now() where id=#{id}
+
+	</update>
+
+	<sql id="levelTree">
+		<trim prefix="where">
+			level=#{level}
+			<if test="level>0">
+				and upper=#{id}
+			</if>
+
+		</trim>
+	</sql>
+
+	<!-- DepartmentTree -->
+	<select id="getDeparmentTree" parameterType="DepartmentVO" resultType="DepartmentVO">
+		select * from DEPARTMENT
+		<include refid="levelTree"></include>
+
+	</select>
+
+
+	<resultMap type="DepartmentVO" id="DepartmentDetailResult">
+		<id property="id" column="d_id" />
+		<result property="name" column="d_name" />
+		<result property="manager" column="manager" />
+		<result property="upper" column="upper" />
+		<result property="createDate" column="create_date" />
+		<result property="level" column="level" />
+		<association property="upperDepartment"
+			javaType="DepartmentVO">
+			<id property="name" column="up_name" />
+		</association>
+		<collection property="memberVOs" javaType="List"
+			ofType="MemberVO">
+			<id property="id" column="m_id" />
+			<result property="employeeId" column="employee_id" />
+			<result property="name" column="m_name" />
+			<result property="hireDate" column="hire_date" />
+			<association property="jobVO" javaType="JobVO">
+				<id property="name" column="j_name" />
+			</association>
+		</collection>
+	</resultMap>
 
 </mapper>  
