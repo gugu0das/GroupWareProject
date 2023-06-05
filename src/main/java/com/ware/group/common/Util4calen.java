@@ -42,14 +42,20 @@ public class Util4calen {
      *  문자열을 날짜(yyyy-MM-dd)로 변환.
      */
     public static Date str2Date(String date) {
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat oldft = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat netft = new SimpleDateFormat("yyyy-MM-dd");
         Date ret = null;
         try {
-            ret = ft.parse( date ) ;
+            ret = netft.parse(date);
         } catch (ParseException ex) {
-            LOGGER.error("date parse error ");
+            try {
+                ret = oldft.parse(date);
+                ret = netft.parse(netft.format(ret));
+            } catch (ParseException e) {
+                LOGGER.error("date parse error ");
+            }
         }
-        return ret ;
+        return ret;
     }
     
     /**
