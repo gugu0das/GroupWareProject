@@ -3,16 +3,21 @@ package com.ware.group.approval2;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-//@Service
-//@Transactional(rollbackFor=Exception.class)
-public class ApprovalService {
+import com.ware.group.util.Pager;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Transactional(rollbackFor=Exception.class)
+@Slf4j
+public class ApprovalServices {
 	
 	@Autowired
-	private ApprovalDAO approvalDAO;
+	private ApprovalDAOs approvalDAO;
 	
 	public int setApprovalApplication(ApprovalVO approvalVO,String fileName) throws Exception{
 		
@@ -49,8 +54,11 @@ public class ApprovalService {
 		return result;
 	}
 	
-	public List<ApprovalVO> getApprovalList(MemberVO memberVO) throws Exception{
-		List<ApprovalVO> ar = approvalDAO.getApprovalList(memberVO);
+	public List<ApprovalVO> getApprovalList(Pager pager) throws Exception{
+		pager.makeStartRow();
+		pager.makeNum(approvalDAO.getTotalCount(pager));
+		log.error("++++++++++++++++++++++++++{}++++++++++++",pager.getStartRow());
+		List<ApprovalVO> ar = approvalDAO.getApprovalList(pager);
 		
 		return ar;
 	}

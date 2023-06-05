@@ -71,8 +71,7 @@ public class FileManager extends AbstractView {
 			file.mkdirs();
 		}
 		
-		String fileName = UUID.randomUUID().toString();
-		fileName = fileName+"_"+multipartFile.getOriginalFilename();
+		String fileName = multipartFile.getOriginalFilename();
 		
 		file = new File(file, fileName);
 		

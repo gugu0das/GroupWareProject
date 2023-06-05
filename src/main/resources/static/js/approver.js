@@ -12,9 +12,9 @@ $(document).on('click', '#addApprover', function(){
 			}
 		}
 		inputHtml = inputHtml +
-		'</select>&nbsp' +
-		'<button id="addApprover">ADD APPROVER</button>' +
-		'<button id="deleteApprover">DELETE APPROVER</button>';
+		'</select>' +
+		'<button type="button" id="addApprover" class="btn btn-primary">결재자 추가</button>' +
+		'<button type="button" id="deleteApprover" class="btn btn-danger">결재자 삭제</button>';
 	if($(this).parent().attr('class') == 'row upperOption'){
 		$(this).parent().append(inputHtml);
 	}else{		

@@ -5,7 +5,32 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
   
- <mapper namespace="com.ware.group.approval2.ApprovalDAO">
+ <mapper namespace="com.ware.group.approval2.ApprovalDAOs">
+ 	
+ 	
+ 	<sql id="search">
+		<where>
+			<if test="kind == 'title'">
+				CONTENTS LIKE CONCAT('%',#{search},'%')
+			</if>
+					
+			
+		</where>
+	</sql>
+	
+	<select id="getTotalCount" parameterType="Pager" resultType="Long">
+			SELECT COUNT(a.id) FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
+			<if test="categoryId !=null">
+ 			AND a.category_id=#{categoryId}
+ 		</if>
+			<include refid="search"></include>
+	</select>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
  	
  	<insert id="setApprovalApplication" parameterType="ApprovalVO" useGeneratedKeys="true" keyProperty="id">
  		INSERT INTO APPROVAL VALUES(#{id},#{categoryId},#{memberId},#{contents},now(),'대기',null)
@@ -25,8 +50,17 @@
  	<insert id="setApprovalInfo" parameterType="ApprovalInfoVO">
  		INSERT INTO APPROVALINFO(approval_id,member_id,date,`check`) VALUES(#{approvalId},#{memberId},now(),#{check})
  	</insert>
- 	<select id="getApprovalList" resultMap="app" parameterType="MemberVO">
- 		SELECT * FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='대기' AND a3.member_id=#{id}
+ 	<select id="getApprovalList" resultMap="app" parameterType="Pager">
+ 		SELECT * FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) LEFT JOIN APPROVALCATEGORY ac ON(a.category_id = ac.id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
+ 		<include refid="search"></include>
+ 		<if test="categoryId !=null">
+ 			AND category_id=#{categoryId}
+ 		</if>
+ 		<if test="ref !=null">
+ 			AND category_id=#{categoryId}
+ 		</if>
+		ORDER BY a.ID DESC
+		LIMIT #{startRow}, #{perPage}
  	</select>
  	<resultMap type="ApprovalVO" id="app">
  		<id column="id" property="id"/>

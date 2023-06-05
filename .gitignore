@@ -34,6 +34,7 @@ build/
 
 ### MymariaDB ###
 application-dev.properties
+application-dev2.properties
 application-prod.properties
 src/main/resources/static/vendor/fontawesome-free/**
 src/main/resources/application.properties
