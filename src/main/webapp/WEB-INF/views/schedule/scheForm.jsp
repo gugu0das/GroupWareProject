@@ -213,7 +213,7 @@ function repeattypeChange(){
 				</form>	
 		        <button class="btn btn-outline btn-primary" onclick="fn_formSubmit()">저장</button>
 		        <c:if test='${scheInfo.id!=null}'>
-	            	<button class="btn btn-outline btn-primary" onclick="fndelete()">삭제</button>
+	            	<button class="btn btn-outline btn-primary" onclick="fn_delete()">삭제</button>
 	            </c:if>
             </div>
             <!-- /.row -->
