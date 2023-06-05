@@ -172,7 +172,7 @@ public class QnaController {
 		}
 		
 		@GetMapping("update")
-		public ModelAndView setUpdate(QnaVO qnaVO,HttpSession session) throws Exception{
+		public ModelAndView setUpdate(@ModelAttribute QnaVO qnaVO,HttpSession session) throws Exception{
 			ModelAndView mv = new ModelAndView();
 			
 			Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
@@ -180,15 +180,17 @@ public class QnaController {
 		    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 				
 			qnaVO.setWriter(memberVO.getAccountId());
-			
+			log.error("{}",qnaVO.getId());
+			qnaVO = (QnaVO)qnaService.getDetail(qnaVO);
+			log.info(qnaVO.getTitle());
 			 
-			
+			mv.addObject("qnaVO", qnaVO);
 			mv.setViewName("qna/update");
 			
 			return mv;
 		}
 		@PostMapping("update")
-		public ModelAndView setUpdate(QnaVO qnaVO,MultipartFile multipartFiles)throws Exception{
+		public ModelAndView setUpdate(@Valid QnaVO qnaVO,MultipartFile [] multipartFiles,BindingResult bindingResult,HttpSession session)throws Exception{
 			ModelAndView mv = new ModelAndView();
 			
 			int result = qnaService.setUpdate(qnaVO,multipartFiles);
