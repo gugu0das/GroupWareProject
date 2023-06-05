@@ -24,7 +24,7 @@
 
 
 <script type="text/javascript">
-  $("#dd").load("/file/approval/${file}")
+  $("#dd").load("/file/${file}")
  </script> 
  <script type="text/javascript" src="/js/approvalApproval.js">	
  </script>

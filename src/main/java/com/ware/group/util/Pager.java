@@ -6,7 +6,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Pager {
-	
+	private Long memberId;
+	   
+	private Long categoryId;
 	private String kind;
 	private String search;
 	private Long page;

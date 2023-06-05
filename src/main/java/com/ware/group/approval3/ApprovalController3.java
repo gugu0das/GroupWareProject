@@ -203,7 +203,7 @@ public class ApprovalController3 {
 					}
 					for(ApprovalFormFileVO fileVO : approvalCategoryVO2.getFile()) {
 						fileVO.setCategoryId(approvalCategoryVO2.getId());
-						fileVO.setFileId(approvalService.getFileId(fileVO.getFileName()));
+						//fileVO.setFileId(approvalService.getFileId(fileVO.getFileName()));
 						approvalService.addApprovalFormFile(fileVO);
 					}
 				}

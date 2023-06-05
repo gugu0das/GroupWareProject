@@ -5,7 +5,7 @@ $(".appBtn").click(function(){
 	
     let num=$(this).attr("data-category");
     if(num == 1){
-        $("#ttt").load("/file/approvalForm/vacationForm.html");
+        $("#ttt").load("/file/vacationForm.html");
     }else if(num == 2){
         $("#ttt").html("비품")
     }else{
