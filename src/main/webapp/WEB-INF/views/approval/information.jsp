@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +24,8 @@
 
 				<!-- contents 작성 -->
 				<div class="container-fluid">
-					
+					${fn:length(list)}
+					<c:set var="total" value="0"/>
 					<div class="dropdown offset-md-11">
 						<button class="btn btn-secondary dropdown-toggle" type="button"
 							id="dropdownMenuButton1" data-bs-toggle="dropdown"
@@ -134,6 +137,67 @@
 							<div class="card mb-4">
 								
 								<div class="card-body">
+								<!-- if문 돌릴 자리 -->
+								<c:forEach items="${list}" var="vo">
+														<c:choose>
+															<c:when test="${name ne '전체'}">
+																<c:forEach items="${cat2}" var="ss" varStatus="statuss">
+
+																	<c:forEach items="${cat}" var="se" varStatus="status">
+																		<c:if
+																				test="${name eq se.name and se.id eq ss.ref and vo.categoryId eq ss.id}">
+																				<%-- <c:out value="${status.count}"/> --%>
+																				<c:set var="total" value="${total+ 1}"/>
+																				</c:if>
+																	
+																	</c:forEach>
+																	<c:if
+																		test="${ss.name eq name and vo.categoryId eq ss.id}">
+																		<c:set var="total" value="${total+ 1}"/>
+																		
+																		</c:if>
+																	</c:forEach>
+																	</c:when>
+																	<c:otherwise>
+																<c:set var="total" value="${total+ 1}"/>
+																
+																</c:otherwise>
+																	</c:choose>
+																	</c:forEach>
+																	
+																	<c:set var="size" value="${total}"/>
+   <c:set var="division" value="10"/>
+   <c:choose>
+   <c:when test="${size<division}">
+   	<c:set var="divCount" value="1"/>
+   </c:when>
+      <c:when test="${size%division == 0}">
+         <c:set var="divCount" value="${size/division}"/>
+      </c:when>
+      <c:when test="${size%division != 0}">
+         <c:set var="divCount" value="${size/division + 1}"/>
+      </c:when>
+   </c:choose>
+   <fmt:parseNumber var="divCount" value="${divCount}" integerOnly="true" />
+   
+   <c:forEach var="i" begin="0" end="${divCount-1}">
+      <div id="div_${i}">
+         <c:choose>
+            <c:when test="${i*10 + 10 < size}">
+               <c:forEach var="k" begin="${i*10 + 1}" end="${i*10 + 10}">
+                  <span>${k}</span>
+               </c:forEach>
+            </c:when>
+            <c:when test="${i*10 + 10 > size}">
+               <c:forEach var="k" begin="${i*10 + 1}" end="${size}">
+                  <span>${k}</span>
+               </c:forEach>
+            </c:when>
+         </c:choose>   
+      </div>
+   </c:forEach> 
+																	
+								
 									<div
 										class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
 
@@ -152,18 +216,62 @@
 													<c:forEach items="${list}" var="vo">
 														<c:choose>
 															<c:when test="${name ne '전체'}">
-																<c:forEach items="${cat2}" var="ss">
+																<c:forEach items="${cat2}" var="ss" varStatus="statuss">
 
-																	<c:forEach items="${cat}" var="se">
+																	<c:forEach items="${cat}" var="se" varStatus="status">
 																		<c:if
 																			test="${name eq se.name and se.id eq ss.ref and vo.categoryId eq ss.id}">
-
+																			<%-- <c:out value="${status.count}"/> --%>
+																			
 																			<tr>
-
-																				<td>${vo.id}</td>
+																			
+																			<!--  -->
+																			
+																			
+																			<c:set var="size" value="${total}"/>
+   <c:set var="division" value="10"/>
+   <c:choose>
+   <c:when test="${size<division}">
+   	<c:set var="divCount" value="1"/>
+   </c:when>
+      <c:when test="${size%division == 0}">
+         <c:set var="divCount" value="${size/division}"/>
+      </c:when>
+      <c:when test="${size%division != 0}">
+         <c:set var="divCount" value="${size/division + 1}"/>
+      </c:when>
+   </c:choose>
+   <fmt:parseNumber var="divCount" value="${divCount}" integerOnly="true" />
+   
+   <c:forEach var="i" begin="0" end="${divCount-1}">
+      <div id="div_${i}">
+         <c:choose>
+            <c:when test="${i*10 + 10 < size}">
+               																	<td>${vo.id}</td>
 																				<td><a href="./check?id=${vo.id}">${vo.contents}</a></td>
 																				<td>${vo.date}</td>
 																				<td>${vo.memberId}</td>
+            </c:when>
+            <c:when test="${i*10 + 10 > size}">
+               																	<td>${vo.id}</td>
+																				<td><a href="./check?id=${vo.id}">${vo.contents}</a></td>
+																				<td>${vo.date}</td>
+																				<td>${vo.memberId}</td>
+            </c:when>
+         </c:choose>   
+      </div>
+   </c:forEach> 
+																			
+																			
+																			
+																			<!--  -->
+																			
+																			
+
+																				<%-- <td>${vo.id}</td>
+																				<td><a href="./check?id=${vo.id}">${vo.contents}</a></td>
+																				<td>${vo.date}</td>
+																				<td>${vo.memberId}</td> --%>
 
 																			</tr>
 
@@ -171,6 +279,7 @@
 																	</c:forEach>
 																	<c:if
 																		test="${ss.name eq name and vo.categoryId eq ss.id}">
+																		
 																		<tr>
 
 																			<td>${vo.id}</td>
@@ -185,7 +294,8 @@
 																</c:forEach>
 															</c:when>
 															<c:otherwise>
-
+																
+																
 																<tr>
 
 																	<td>${vo.id}</td>
@@ -200,7 +310,11 @@
 												</tbody>
 
 											</table>
+											
+												
+											
 											<div class="row d-flex justify-content-center">
+											<c:out value="${total}"/>
 				<nav aria-label="Page navigation example">
 		 			<ul class="pagination " >
 			    		<li class="page-item ">
@@ -215,7 +329,7 @@
 			        			<span aria-hidden="true">&lsaquo;</span> <!--lsaquo는 꺽쇠 하나 laquo는 꺽쇠 두개  -->
 			      			</a>
 			    		</li>
-			    		<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+			    		<c:forEach begin="${pager.startNum}" end="${divCount}" var="i">
 			    		<li class="page-item"><a class="page-link ${pager.page eq i ? 'active' : '' }" href="#" data-board-page="${i}">${i}</a></li>
 			    		</c:forEach>
 			    		<!-- &gt = <꺽쇠를 표현 &lt는 >꺽쇠를 표현 -->
@@ -233,6 +347,12 @@
 				</nav>
 		
 			</div>
+			<div>
+											
+												
+												</div>
+			
+			
 										</div>
 
 									</div>
@@ -257,11 +377,20 @@
   	 </c:forEach>
   </div>
    </c:forEach> --%>
+   						
 						<c:forEach items="${cat1}" var="s">
 							<div class="tab-pane fade" id="id_${s.id}" role="tabpanel">
+							<c:set var="total" value="0"/>
 								<div class="card mb-4">
 									
 									<div class="card-body">
+									<!-- if문 돌릴 자리 -->
+									<c:forEach items="${list}" var="vo" varStatus="status">
+															<c:if test="${s.id eq vo.categoryId}">
+															
+															<c:set var="total" value="${total+ 1}"/>
+															</c:if>
+															</c:forEach>
 										<div
 											class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
 
@@ -277,8 +406,10 @@
 														</tr>
 													</thead>
 													<tbody>
-														<c:forEach items="${list}" var="vo">
+														<c:forEach items="${list}" var="vo" varStatus="status">
 															<c:if test="${s.id eq vo.categoryId}">
+															
+															<%-- <c:set var="total" value="${total+ 1}"/> --%>
 																<tr>
 																	<td>${vo.id}</td>
 																	<td><a href="./check?id=${vo.id}">${vo.contents}</a></td>
@@ -292,6 +423,7 @@
 
 												</table>
 												<div class="row d-flex justify-content-center">
+												<c:out value="${total}"/>
 				<nav aria-label="Page navigation example">
 		 			<ul class="pagination">
 			    		<li class="page-item ">
@@ -324,6 +456,40 @@
 				</nav>
 		
 			</div>
+			<div>
+												 <c:set var="size" value="${total}"/>
+   <c:set var="division" value="10"/>
+   <c:choose>
+   <c:when test="${size<division}">
+   	<c:set var="divCount" value="1"/>
+   </c:when>
+      <c:when test="${size%division == 0}">
+         <c:set var="divCount" value="${size/division}"/>
+      </c:when>
+      <c:when test="${size%division != 0}">
+         <c:set var="divCount" value="${size/division + 1}"/>
+      </c:when>
+   </c:choose>
+   <fmt:parseNumber var="divCount" value="${divCount}" integerOnly="true" />
+   
+   <c:forEach var="i" begin="0" end="${divCount-1}">
+      <div id="div_${i}">
+         <c:choose>
+            <c:when test="${i*10 + 10 < size}">
+               <c:forEach var="k" begin="${i*10 + 1}" end="${i*10 + 10}">
+                  <span>${k}</span>
+               </c:forEach>
+            </c:when>
+            <c:when test="${i*10 + 10 > size}">
+               <c:forEach var="k" begin="${i*10 + 1}" end="${size}">
+                  <span>${k}</span>
+               </c:forEach>
+            </c:when>
+         </c:choose>   
+      </div>
+   </c:forEach> 
+												
+												</div>
 											</div>
 
 										</div>

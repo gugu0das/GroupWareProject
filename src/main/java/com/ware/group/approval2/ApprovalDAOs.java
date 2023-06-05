@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-//@Mapper
-public interface ApprovalDAO {
+import com.ware.group.util.Pager;
+
+@Mapper
+public interface ApprovalDAOs {
 	
 	public int setApprovalApplication(ApprovalVO approvalVO) throws Exception;
 	
@@ -19,7 +21,9 @@ public interface ApprovalDAO {
 	
 	public int setApprovalInfo(ApprovalInfoVO approvalInfoVO) throws Exception;
 	
-	public List<ApprovalVO> getApprovalList(MemberVO memberVO) throws Exception;
+	public List<ApprovalVO> getApprovalList(Pager pager) throws Exception;
 	
 	public ApprovalUploadFileVO getApprovalFile(ApprovalVO approvalVO) throws Exception;
+	
+	public Long getTotalCount(Pager pager) throws Exception;
 }
