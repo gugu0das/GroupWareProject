@@ -30,6 +30,8 @@ public class QnaController {
 	@Autowired
 	private QnaService qnaService;
 	
+	@Autowired
+	private QnaCommentService qnaCommentService;
 	
 	@ModelAttribute("board")
 	public String getQna() {
@@ -161,11 +163,13 @@ public class QnaController {
 		 
 		
 		@GetMapping("delete")
-		public ModelAndView setDelete(QnaVO qnaVO) throws Exception {
+		public ModelAndView setDelete(QnaVO qnaVO,QnaCommentVO qnaCommentVO,HttpSession session) throws Exception {
 			ModelAndView mv = new ModelAndView();
 			
 			int result = qnaService.setDelete(qnaVO);
+						 qnaCommentService.setQnaCommentDelete(qnaCommentVO, session);
 			
+							
 			mv.setViewName("redirect:./list");
 			
 			return mv;

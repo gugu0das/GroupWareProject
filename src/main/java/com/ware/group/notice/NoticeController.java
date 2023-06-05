@@ -157,7 +157,10 @@ public class NoticeController {
 	    
 	    log.error("{}",noticeVO.getId());
 	    noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
-	    log.error("============={}================S",noticeVO.getBoardFileVOs().size());
+		/*
+		 * log.error("============={}================S",noticeVO.getBoardFileVOs().size(
+		 * ));
+		 */
 	    
 	    
 		for(NoticeFileVO fileVO : noticeVO.getBoardFileVOs()) {
@@ -239,14 +242,32 @@ public class NoticeController {
 		ModelAndView mv = new ModelAndView();
 		log.error("{}",noticeVO.getId());
 		
-		System.out.println("Controller");
-		int result = noticeService.setUpdate(noticeVO,files);
-					 noticeService.setDelete(noticeVO);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	    
 		
+		int result = noticeService.setUpdate(noticeVO,files);
+		if(bindingResult.hasErrors()) {
+			
+			mv.setViewName("notice/update");
+			
+			return mv;
+		}
+		
+		for(MultipartFile multipartFile : files) {
+			log.error("{} ::",multipartFile.getOriginalFilename());
+			}
+		noticeVO.setMemberId(memberVO.getId());
+		
+		/* result = noticeService.setInsert(noticeVO, files); */
 		
 		mv.setViewName("redirect:./list");
 		
-		return mv;
+		return mv;			 
+		
+		
+	
 		
 	}
 }
