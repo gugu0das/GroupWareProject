@@ -29,8 +29,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${list0}" var="upper">
-					<tr id="${upper.id}" class="upperOption" data-count="1">
+				<c:forEach items="${list0}" var="upper" varStatus="status">
+					<c:set var="count" value="${status.count}"/>
+					<tr id="${upper.id}" class="upperOption" data-count="${count}">
 						<td>
 							<span>상위 옵션</span>
 							<button class="btn btn-primary" id="addUnderOption">하위 옵션 추가</button>
@@ -72,9 +73,9 @@
 							</c:if>
 						</td>
 					</tr>
-					<c:forEach items="${list1}" var="under" varStatus="status">
+					<c:forEach items="${list1}" var="under" varStatus="status1">
 						<c:if test="${upper.id == under.ref}">
-							<tr id="${under.id}" class="underOption" data-count="${status.count}">
+							<tr id="${under.id}" class="underOption" data-count="${count}">
 								<td><span>하위 옵션</span></td>
 								<td>
 									<span>${under.id}</span>

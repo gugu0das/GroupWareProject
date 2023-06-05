@@ -388,6 +388,7 @@ $(document).on('click', '#deleteOption', function(){
 					}else{
 						alert('삭제 성공');
 						$(this).parent().parent().remove();
+						window.location.reload();
 					}
 				}
 			})
