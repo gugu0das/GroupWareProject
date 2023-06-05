@@ -84,6 +84,10 @@
   		DELETE FROM NOTICE WHERE ID = #{id}
   	</delete>
   	
+  	<delete id="setFileDelete" parameterType="NoticeVO">
+  		DELETE FROM NOTICEFILES WHERE ID = #{id}
+  	</delete>
+  	
   	<insert id="setNoticeFileAdd" parameterType="BoardFileVO">
   		INSERT INTO NOTICEFILES (notice_id, file_name, ori_name)
   		VALUES( #{noticeId}, #{fileName}, #{oriName})
