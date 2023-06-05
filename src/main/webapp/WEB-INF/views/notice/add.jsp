@@ -44,23 +44,30 @@
 	                                    <!-- writer input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="writer" name="writer" type="text" placeholder="Enter Title..." data-sb-validations="required,email" /> -->
-	                                        <form:input path="writer" id="writer" cssClass="form-control"/>
+	                                        <form:input path="writer" id="writer" cssClass="form-control" readOnly="true" />
 	                                        <label for="writer">작성자</label>
 	                                        <form:errors path="writer"></form:errors>
+	                                        
+	                                   		
+	                                   		<div class="col-md-12 mt-3">
+												<label for="important" class="form-label strongFont2">중요표시</label> 
+												<input type="checkbox" class="form-control" name="important" id="important">
+											</div>
+												
 	                                    </div>
-	                                     <div class="form-floating mb-3">
+	                                    <!--  <div class="form-floating mb-3">
 	                                    	<input type="file" name="files"> 
-	                                    </div>
-	                                    
-	                                    <!-- <div class="form-floating mb-3" id="fileList"> -->
-	                                   
-	                               			<!-- <div class="mb-3">
-	                                    	<label for="files" class="form-label">Image</label>
-	                                    	<input type="file" class="form-control" name="files" name="files">
-	                                    	<button type="button">X</button>
-	                                    	</div>  -->                         
-	                                    <!-- 	<button type="button" id="fileAdd">ADD</button>                                                                                            
 	                                    </div> -->
+	                                    
+	                                    <div class="form-floating mb-3" id="fileList">
+	                                   
+	                               			<div class="mb-3">
+	                                    	<label for="files" class="form-label">Image</label>
+	                                    	<!-- <input type="file" class="form-control" name="files" name="files"> -->
+	                                    	<!-- <button type="button">X</button> -->
+	                                    	</div>                          
+	                                    	<button type="button" id="fileAdd">ADD</button>                                                                                            
+	                                    </div>
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">
 	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
@@ -70,7 +77,9 @@
 	                                    
 	                                    
 	                                                            
-	                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="update" type="submit">Submit</button></div>
+	                                    <div class="d-grid">
+	                                    <button class="btn btn-primary submitButton" id="update" type="submit">Submit</button></div>
+
                                 	</form:form>   
                                 <%-- </form> --%>
                             </div>
@@ -89,6 +98,7 @@
     
     <script type="text/javascript" src="/js/boardForm.js"></script>
     <script type="text/javascript" src="/js/fileManger.js"></script>
+    <script src="/js/noticeImportant.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>

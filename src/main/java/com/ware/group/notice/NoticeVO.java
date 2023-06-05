@@ -3,7 +3,7 @@ package com.ware.group.notice;
 import java.sql.Date;
 import java.util.List;
 
-import com.ware.group.board.BoardFileVO;
+import com.ware.group.member.MemberVO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +22,10 @@ public class NoticeVO {
 	private String writer;
 	private Date regDate;
 	private Long hit;
+	private boolean important;
 	private List<NoticeFileVO> boardFileVOs;
+	private MemberVO memberVO;
+	
 }
 
 

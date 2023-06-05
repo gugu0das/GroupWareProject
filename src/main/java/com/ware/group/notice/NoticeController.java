@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,34 +34,22 @@ public class NoticeController {
 	
 	
 	
-	
 	@ModelAttribute("board")
 	public String getNotice() {
 		return "notice";
 	}
 	
-	@PostMapping("moveToTop")
-	public ModelAndView moveToTop(@RequestParam("postId") Long postId) throws Exception {
-	    ModelAndView mv = new ModelAndView();
-	    
-	    // 게시글 조회
-	    NoticeVO noticeVO = new NoticeVO();
-	    noticeVO.setId(postId);
-	    NoticeVO targetPost = noticeService.getDetail(noticeVO);
-	    
-	    // 게시글을 리스트에서 삭제
-	    noticeService.setDelete(noticeVO);
-	    
-	    // 리스트의 맨 앞에 게시글 추가
-	    Pager pager = new Pager();
-	    pager.setPerPage(2L); // 최근 게시글 1개만 조회
-	    List<NoticeVO> currentPosts = noticeService.getList(pager);
-	    currentPosts.add(0, targetPost);
-	    
-	    mv.addObject("list", currentPosts);
-	    mv.setViewName("common/noticeTop");
-	    
-	    return mv;
+	
+	@GetMapping("importantList")
+	public ModelAndView getImportantList(NoticeVO noticeVO) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		
+		List<NoticeVO> ar = noticeService.getImportantList(noticeVO);
+		
+		mv.addObject("importantList", ar);
+		mv.setViewName("notice/importantList");
+		
+		return mv;
 	}
 	
 	//메인화면에 공지사항 리스트 뜨게 하는 컨트롤러
@@ -70,6 +59,9 @@ public class NoticeController {
 		pager.setPerPage(5L);
 		
 		List<NoticeVO> ar = noticeService.getList(pager);
+		
+		
+		
 		
 		mv.addObject("list", ar);
 		mv.setViewName("common/noticeResult");
@@ -84,6 +76,7 @@ public class NoticeController {
 		log.info("kind : {}", pager.getKind());
 		
 		List<NoticeVO> ar = noticeService.getList(pager);
+		
 		
 		mv.addObject("list", ar);
 		mv.setViewName("notice/list");
@@ -131,11 +124,9 @@ public class NoticeController {
 	public ModelAndView setInsert(@Valid NoticeVO noticeVO, BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
-		/*
-		 * MemberVO memberVO = (MemberVO)session.getAttribute("member");
-		 * noticeVO.setMemberId(memberVO.getId());
-		 */
-		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		
 		
 		if(bindingResult.hasErrors()) {
@@ -148,6 +139,7 @@ public class NoticeController {
 		for(MultipartFile multipartFile : files) {
 			log.error("{} ::",multipartFile.getOriginalFilename());
 			}
+		noticeVO.setMemberId(memberVO.getId());
 		int result = noticeService.setInsert(noticeVO, files);
 		
 		mv.setViewName("redirect:./list");
@@ -156,13 +148,24 @@ public class NoticeController {
 	}
 	
 	@GetMapping("detail")
-	public ModelAndView getDetail(NoticeVO noticeVO) throws Exception {
+	public ModelAndView getDetail(NoticeVO noticeVO,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
-		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
-		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	    
+	    log.error("{}",noticeVO.getId());
+	    noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
+	    log.error("============={}================S",noticeVO.getBoardFileVOs().size());
+	    
+	    
+		for(NoticeFileVO fileVO : noticeVO.getBoardFileVOs()) {
+			log.error("{}",fileVO.getFileName());
+		}
 		int result = noticeService.setNoticeHit(noticeVO);
-	
+		mv.addObject("filess",noticeService.getFileList(noticeVO));
+		mv.addObject("memberVO", memberVO);
 		mv.addObject("noticeVO", noticeVO);
 		mv.setViewName("notice/detail");
 		
@@ -187,7 +190,7 @@ public class NoticeController {
 	@GetMapping("delete")
 	public ModelAndView setDelete(NoticeVO noticeVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		
+		log.error("{}",noticeVO.getId());
 		int result = noticeService.setDelete(noticeVO);
 		
 		mv.setViewName("redirect:./list");
@@ -195,16 +198,36 @@ public class NoticeController {
 		return mv;
 	}
 	
+	@PostMapping("filedelete")
+	@ResponseBody
+	public int setFileDelete(NoticeVO noticeVO) throws Exception {
+		
+		log.error("{}",noticeVO.getId());
+		int result = noticeService.setFileDelete(noticeVO);
+		
+		
+		
+		return result;
+	}
+	
 	@GetMapping("update")
-	public ModelAndView setUpdate(@ModelAttribute NoticeVO noticeVO) throws Exception{
+	public ModelAndView setUpdate(@ModelAttribute NoticeVO noticeVO,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		log.debug("안녕");
-		/*
-		 * noticeVO = noticeService.getDetail(noticeVO);
-		 * 
-		 * mv.addObject("noticeVO", noticeVO);
-		 */
-		mv.addObject("notice", noticeVO);
+		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+			
+		noticeVO.setWriter(memberVO.getAccountId());
+		log.error("{}",noticeVO.getId());
+		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
+		log.error(noticeVO.getTitle());
+		for(BoardFileVO boardFileVO:noticeVO.getBoardFileVOs()) {
+			log.error("=============================={}======================",boardFileVO.getId());;
+		}
+		
+		
+		mv.addObject("noticeVO", noticeVO);
 		
 		mv.setViewName("notice/update");
 		return mv;
@@ -214,10 +237,12 @@ public class NoticeController {
 	@PostMapping("update")
 	public ModelAndView setUpdate(@Valid NoticeVO noticeVO,BindingResult bindingResult, MultipartFile [] files,HttpSession session)throws Exception{
 		ModelAndView mv = new ModelAndView();
+		log.error("{}",noticeVO.getId());
 		
+		System.out.println("Controller");
 		int result = noticeService.setUpdate(noticeVO,files);
+					 noticeService.setDelete(noticeVO);
 		
-		mv.addObject("noticeVO", noticeVO);
 		
 		mv.setViewName("redirect:./list");
 		
