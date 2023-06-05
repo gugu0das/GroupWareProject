@@ -6,9 +6,9 @@
 <mapper namespace="com.ware.group.department.DepartmentDAO">
 
 	<select id="getDepartmentList" resultType="DepartmentVO">
-		select * from 
-		(select max(d.`level`+1) as next_level from DEPARTMENT d ) 
-		max_level,DEPARTMENT d3 
+		select * from
+		(select max(d.`level`+1) as next_level from DEPARTMENT d )
+		max_level,DEPARTMENT d3
 	</select>
 
 	<select id="getDepartmentChildId" parameterType="DepartmentVO"
@@ -18,12 +18,15 @@
 	<select id="getDepartmentDetail" parameterType="DepartmentVO"
 		resultMap="DepartmentDetailResult">
 		select
-		d.id as d_id, d.name as d_name ,d.manager ,d.upper ,d.create_date ,d.level,
+		d.id as d_id, d.name as d_name ,d.manager ,d.upper
+		,d.create_date ,d.level,
 		m.id as
-		m_id, m.employee_id ,m.name as m_name, m.hire_date,j.name as j_name,
+		m_id, m.employee_id ,m.name as m_name,
+		m.hire_date,j.name as j_name,
 		d2.name as up_name
 		from DEPARTMENT d
-		left outer join
+		left
+		outer join
 		`MEMBER` m
 		on(m.department_id=d.id)
 		left outer join
@@ -33,7 +36,8 @@
 		outer JOIN
 		DEPARTMENT d2
 		on(d2.id=d.upper)
-		where d.id =#{id}
+		where
+		d.id =#{id}
 		order by m.hire_date
 
 
@@ -46,54 +50,35 @@
 		jdbcType=INTEGER},#{level},now(),now())
 	</insert>
 	<delete id="setDepartmentDelete" parameterType="DepartmentVO">
-		delete from DEPARTMENT where id = #{id}
+		delete from
+		DEPARTMENT where id = #{id}
 
 	</delete>
 
 	<update id="setDepartmentUpdate" parameterType="DepartmentVO">
-	
-	UPDATE DEPARTMENT set name =#{name}, manager =#{manager}, upper =#{upper} ,`level` =#{level},update_date =now() where id=#{id}
-	
+
+		UPDATE DEPARTMENT set name =#{name}, manager =#{manager}, upper =#{upper}
+		,`level` =#{level},update_date =now() where id=#{id}
+
 	</update>
 
+	<sql id="levelTree">
+		<trim prefix="where">
+			level=#{level}
+			<if test="level>0">
+				and upper=#{id}
+			</if>
 
+		</trim>
+	</sql>
 
 	<!-- DepartmentTree -->
-	<select id="getDepartmentLevel0" resultType="DepartmentVO">
-		select * from
-		DEPARTMENT
-		where level=0
+	<select id="getDeparmentTree" parameterType="DepartmentVO" resultType="DepartmentVO">
+		select * from DEPARTMENT
+		<include refid="levelTree"></include>
+
 	</select>
-	<select id="getDepartmentLevel1" resultType="DepartmentVO"
-		parameterType="DepartmentVO">
-		select * from
-		DEPARTMENT
-		where level=1 and upper=#{id}
-	</select>
-	<select id="getDepartmentLevel2" resultType="DepartmentVO"
-		parameterType="DepartmentVO">
-		select * from
-		DEPARTMENT
-		where level=2 and upper=#{id}
-	</select>
-	<select id="getDepartmentLevel3" resultType="DepartmentVO"
-		parameterType="DepartmentVO">
-		select * from
-		DEPARTMENT
-		where level=3 and upper=#{id}
-	</select>
-	<select id="getDepartmentLevel4" resultType="DepartmentVO"
-		parameterType="DepartmentVO">
-		select * from
-		DEPARTMENT
-		where level=4 and upper=#{id}
-	</select>
-	<select id="getDepartmentLevel5" resultType="DepartmentVO"
-		parameterType="DepartmentVO">
-		select * from
-		DEPARTMENT
-		where level=5 and upper=#{id}
-	</select>
+
 
 	<resultMap type="DepartmentVO" id="DepartmentDetailResult">
 		<id property="id" column="d_id" />

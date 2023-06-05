@@ -151,6 +151,9 @@
  	</insert>
  	<select id="getApprovalList" resultMap="app" parameterType="ApprovalVO">
  		SELECT * FROM APPROVAL a  INNER JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
+ 		<!-- <if test="categoryId !=null">
+ 			AND category_id=#{categoryId}
+ 		</if> -->
  	</select>
  	<resultMap type="ApprovalVO" id="app">
  		<id column="id" property="id"/>
@@ -204,6 +207,26 @@
  	</update>
  	<select id="getMyApproval" parameterType="ApprovalVO" resultType="ApprovalVO">
  		SELECT * FROM APPROVAL WHERE member_id=#{memberId}
+ 		<if test="confirm !=null">
+ 			AND confirm=#{confirm}
+ 		</if>
+ 	</select>
+ 	<select id="getFormFile" resultType="ApprovalFormFileVO" parameterType="ApprovalCategoryVO">
+		SELECT * FROM APPROVALFORMFILE WHERE category_id=#{id}
+	</select>
+ 	
+ 	<delete id="setApprovalDelete" parameterType="Long">
+ 		DELETE FROM APPROVAL WHERE id=#{id1}
+ 	</delete>
+ 	
+ 	<delete id="setApprovalFileDelete" parameterType="Long">
+ 		DELETE FROM APPROVALUPLOADFILE WHERE approval_id=#{id1}
+ 	</delete>
+ 	<delete id="setApprovalInfoDelete" parameterType="Long">
+ 		DELETE FROM APPROVALINFO WHERE approval_id=#{id1}
+ 	</delete>
+ 	<select id="getLeave" parameterType="LeaveRecordVO" resultType="LeaveRecordVO">
+ 		SELECT * FROM LEAVERECODE WHERE type='대기' AND approval_id=#{approvalId}
  	</select>
  	
  	

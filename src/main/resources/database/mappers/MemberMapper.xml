@@ -8,23 +8,29 @@
 	<select id="getMembers" resultType="MemberVO">
 		select * from MEMBER
 	</select>
+	<select id="getStatusMembers" resultType="MemberVO" parameterType="MemberVO">
+	select id from `MEMBER` where status =1
+	</select>
 
 	<select id="getMemberLogin" parameterType="MemberVO"
 		resultMap="getLoginResult">
-		select m.id as m_id, m.employee_id ,m.account_id ,m.password,m.status ,r.id
+		select m.id as m_id, m.employee_id ,m.account_id
+		,m.password,m.status ,r.id
 		as r_id, r.name as r_name from `MEMBER` m
 		inner join
 		MEMBERROLE mr
 		on m.id =mr.member_id
 		INNER JOIN
 		`ROLE` r
-		on mr.role_id =r.id
+		on
+		mr.role_id =r.id
 		where account_id =#{accountId}
 	</select>
 	<!-- userDetail(Profile) -->
 	<select id="getMemberProfile" parameterType="MemberVO"
 		resultMap="getMemberProfile">
-		select m.id as m_id,m.employee_id,m.account_id ,m.name as m_name
+		select m.id as m_id,m.employee_id,m.account_id ,m.name as
+		m_name
 		,m.status,m.birth_date ,m.email ,m.phone ,m.address, m.hire_date
 		,d.name as dep_name,j.name as job_name
 		from `MEMBER` m
@@ -33,16 +39,15 @@
 		on m.department_id =d.id
 		left outer JOIN
 		JOB j
-		on m.job_id =j.id
+		on m.job_id
+		=j.id
 		where account_id =#{accountId};
 	</select>
 
-
-
-
 	<insert id="setMemberJoin" parameterType="MemberVO">
 		<selectKey keyProperty="id" resultType="Long" order="AFTER">
-			select id from `MEMBER` where id=(SELECT MAX(id) from `MEMBER`)
+			select
+			id from `MEMBER` where id=(SELECT MAX(id) from `MEMBER`)
 		</selectKey>
 
 		INSERT INTO `MEMBER`
@@ -58,18 +63,22 @@
 		(role_id, member_id)
 		VALUES(#{roleId}, #{memberId})
 	</insert>
-	
-<!-- profile update -->
+
+	<!-- profile update -->
 	<update id="setMemberUpdate" parameterType="MemberVO">
-	update `MEMBER` SET account_id=#{accountId},name=#{name},address=#{address}, email=#{email},phone=#{phone}, birth_date=#{birthDate}, update_date=now()
-	where id=#{id}
-	
+		update `MEMBER` SET
+		account_id=#{accountId},name=#{name},address=#{address},
+		email=#{email},phone=#{phone}, birth_date=#{birthDate},
+		update_date=now()
+		where id=#{id}
+
 	</update>
-	
-<!-- pwUpdate -->
+
+	<!-- pwUpdate -->
 	<update id="setPasswordUpdate" parameterType="MemberVO">
-	update `MEMBER` SET password=#{password}
-	where id=#{id}
+		update `MEMBER` SET
+		password=#{password}
+		where account_id=#{accountId}
 	</update>
 
 	<!-- select JobList -->
@@ -86,8 +95,6 @@
 		SELECT account_id FROM MEMBER WHERE
 		account_id=#{accountId}
 	</select>
-
-
 
 	<!-- result Map -->
 
@@ -111,10 +118,10 @@
 		<result property="employeeId" column="employee_id" />
 		<result property="accountId" column="account_id" />
 		<result property="name" column="m_name" />
-		<result property="phone" column="phone"/>
+		<result property="phone" column="phone" />
 		<result property="birthDate" column="birth_date" />
 		<result property="email" column="email" />
-		<result property="status" column="status"/>
+		<result property="status" column="status" />
 		<result property="address" column="address" />
 		<result property="hireDate" column="hire_date" />
 		<association property="jobVO" javaType="JobVO">
@@ -127,4 +134,72 @@
 
 	</resultMap>
 	<!-- End Result Map -->
+
+	<!-- ////////////////////////////////////////////////////////////////////////// -->
+	<!-- 근태관리 -->
+	<!-- setting : 일요일 마다 status가 1인 활성화된 직원들의 근태 만들기 -->
+	<!-- 1. 출근 : update --><!-- 퇴근 : update -->
+
+	<insert id="setTimeStempInsert"
+		parameterType="EmployeeStatusVO">
+		insert into
+		EMPLOYEESTATUS(reg,on_time,off_time,status,member_id)
+		values(now(),null,null,'출근전',#{memberId})
+	</insert>
+
+
+
+	<select id="getEmployeeStatus" parameterType="EmployeeStatusVO"
+		resultType="EmployeeStatusVO">
+		select * from EMPLOYEESTATUS e where member_id =#{memberId}
+		and reg =(SELECT
+		DATE_FORMAT(NOW(),'%y-%m-%d')from dual) and status not like '근무시간'
+
+	</select>
+
+
+	<update id="setEmployeeStatusUpdate"
+		parameterType="EmployeeStatusVO">
+
+		update EMPLOYEESTATUS set
+		on_time =#{onTime},off_time=#{offTime,jdbcType=TIMESTAMP},status=#{status,jdbcType=VARCHAR}
+		
+		where id=#{id}
+	</update>
+	
+	<!-- 출근 안한 더미데이터 지우기 -->
+	 <delete id="setWorkNullDelete" parameterType="EmployeeStatusVO">
+	delete from EMPLOYEESTATUS where status='출근전' and member_id =#{memberId}
+	</delete>
+	
+	<!-- 퇴근 안찍은 사람 검색 -->
+	<select id="getNotOffTimeEmployee" parameterType="EmployeeStatusVO" resultType="EmployeeStatusVO">
+	select * from EMPLOYEESTATUS where off_time =null  and member_id=#{memberId} and status Like '지각' or status Like '출근'
+	</select>
+	
+	<!-- 오늘 출근한 데이터 있는지 여부 -->
+	<select id="getWorkIsEmpty" parameterType="EmployeeStatusVO" resultType="EmployeeStatusVO">
+	select * from EMPLOYEESTATUS e where reg =CURDATE() and member_id =#{memberId}
+	</select>
+	
+	<update id="setWorkEmptyUpdate" parameterType="EmployeeStatusVO">
+	update EMPLOYEESTATUS set off_time =#{offTime} where id=#{id}
+	</update>
+	
+	<!-- 기본 근무시간 -->
+	<select id="getDefaultWork" parameterType="EmployeeStatusVO"
+		resultType="EmployeeStatusVO">
+		SELECT * from EMPLOYEESTATUS e where member_id =#{memberId} and status ='근무시간'
+
+	</select>
+	<insert id="setDefaultWorkAdd" parameterType="EmployeeStatusVO">
+	insert into EMPLOYEESTATUS (on_time,off_time,status,member_id)
+		values(#{onTime},#{offTime},'근무시간',#{memberId})
+	</insert>
+
+	<update id="setDefaultWorkUpdate" parameterType="EmployeeStatusVO">
+	update EMPLOYEESTATUS set on_time=#{onTime}, off_time=#{offTime} where member_id=#{memberId} and status='근무시간'
+	</update>
+	
+	
 </mapper>  

@@ -21,6 +21,12 @@ public class Pager {
 	//qna댓글로 인해 추가
 	private Long qnaId;
 	
+	private Long ref;
+	
+	private Long memberId;
+	
+	private Long categoryId;
+	
 	private boolean before;
 	private boolean after;
 	

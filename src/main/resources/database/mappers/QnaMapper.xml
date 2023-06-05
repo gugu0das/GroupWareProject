@@ -27,6 +27,8 @@
 	
 	
 	<select id="getList" parameterType="Pager" resultType="QnaVO" >
+		
+		
 		SELECT * FROM QNA 
 		<include refid="search"></include>
 		ORDER BY ID DESC
@@ -66,10 +68,6 @@
 		VALUES(#{id}, #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0)
 	</insert>
 	
-	<!-- <update id="setRefUpdate" parameterType="QnaVO">
-	UPDATE QNA SET ref = #{id}
-	WHERE id = #{id};
-	</update> -->
 	
 	<delete id="setDelete" parameterType="QnaVO">
   		DELETE FROM QNA WHERE ID = #{id}
@@ -93,6 +91,8 @@
   		UPDATE QNA SET TITLE = #{title}, WRITER = #{writer}, CONTENTS = #{contents}
   		WHERE ID = #{id}
   	</update>
-  	
+  	<select id="getCount" parameterType="QnaVO" resultType="Long">
+  	SELECT COUNT(id) FROM QNACOMMENT WHERE qna_id=#{id}
+  	</select>
 
 </mapper>

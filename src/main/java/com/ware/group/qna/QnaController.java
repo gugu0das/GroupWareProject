@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,13 @@ public class QnaController {
 		ModelAndView mv = new ModelAndView();
 		
 		List<QnaVO> ar = qnaService.getList(pager);
+		for(QnaVO qnaVO : ar) {
+		
+			qnaVO.setCount(qnaService.getCount(qnaVO));
+		}
+		for(QnaVO qnaVO : ar) {
+			
+		}
 		
 		mv.addObject("list", ar);
 		mv.setViewName("qna/list");
@@ -47,8 +55,17 @@ public class QnaController {
 		return mv;
 }
 		@GetMapping("add")
-		public ModelAndView setInsert(@ModelAttribute QnaVO qnaVO) throws Exception {
+		public ModelAndView setInsert(@ModelAttribute QnaVO qnaVO,HttpSession session) throws Exception {
 			ModelAndView mv = new ModelAndView();
+			
+			Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+			SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+				
+			qnaVO.setWriter(memberVO.getAccountId());
+			
+			
+			
 			mv.setViewName("qna/add");
 			
 			return mv;
@@ -80,13 +97,10 @@ public class QnaController {
 		  public ModelAndView setInsert(@Valid QnaVO qnaVO,BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
 		  
 	      ModelAndView mv = new ModelAndView();
-		  
-			/*
-			 * MemberVO memberVO = (MemberVO)session.getAttribute("member");
-			 * 
-			 * qnaVO.setMemberId(memberVO.getId()); qnaVO.setWriter(memberVO.getName());
-			 */
-		  
+	      Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+	      SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	      MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	      log.error("{}",memberVO.getId());
 		  if(bindingResult.hasErrors()) {
 		  
 		  mv.setViewName("qna/add");
@@ -98,6 +112,7 @@ public class QnaController {
 		  for(MultipartFile multipartFile : files) {
 		  log.error("{} ::",multipartFile.getOriginalFilename()); 
 		} 
+		  qnaVO.setMemberId(memberVO.getId());
 		  int result = qnaService.setInsert(qnaVO, files);
 		  
 		  mv.setViewName("redirect:./list");
@@ -109,14 +124,21 @@ public class QnaController {
 		
 		
 		@GetMapping("detail")
-		public ModelAndView getDetail(QnaVO qnaVO) throws Exception {
+		public ModelAndView getDetail(QnaVO qnaVO,HttpSession session) throws Exception {
 			ModelAndView mv = new ModelAndView();
+			
+			Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+			SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+			
 			
 			qnaVO = (QnaVO)qnaService.getDetail(qnaVO);
 			
 			int result = qnaService.setQnaHit(qnaVO);
-		
+			
+			mv.addObject("memberVO", memberVO);
 			mv.addObject("qnaVO", qnaVO);
+		
 			mv.setViewName("qna/detail");
 			
 			return mv;
@@ -150,51 +172,33 @@ public class QnaController {
 		}
 		
 		@GetMapping("update")
-		public ModelAndView setUpdate(QnaVO qnaVO) throws Exception{
+		public ModelAndView setUpdate(@ModelAttribute QnaVO qnaVO,HttpSession session) throws Exception{
 			ModelAndView mv = new ModelAndView();
 			
-			
+			Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+			SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+				
+			qnaVO.setWriter(memberVO.getAccountId());
+			log.error("{}",qnaVO.getId());
+			qnaVO = (QnaVO)qnaService.getDetail(qnaVO);
+			log.info(qnaVO.getTitle());
 			 
-			
+			mv.addObject("qnaVO", qnaVO);
 			mv.setViewName("qna/update");
 			
 			return mv;
 		}
 		@PostMapping("update")
-		public ModelAndView setUpdate(QnaVO qnaVO,MultipartFile multipartFiles)throws Exception{
+		public ModelAndView setUpdate(@Valid QnaVO qnaVO,MultipartFile [] multipartFiles,BindingResult bindingResult,HttpSession session)throws Exception{
 			ModelAndView mv = new ModelAndView();
 			
 			int result = qnaService.setUpdate(qnaVO,multipartFiles);
-			
+		
 			mv.setViewName("redirect:./list");
 			
 			return mv;
 			
 		}
-		
-		/*
-		 * @GetMapping("reply") public ModelAndView setReplyAdd(QnaVO qnaVO,ModelAndView
-		 * modelAndView)throws Exception{
-		 * 
-		 * System.out.println("들어감?"); System.out.println("들어감?");
-		 * System.out.println("들어감?");
-		 * 
-		 * modelAndView.setViewName("qna/reply"); return modelAndView; }
-		 * 
-		 * @PostMapping("reply") public ModelAndView setReplyAdd(QnaVO qnaVO)throws
-		 * Exception{
-		 * 
-		 * ModelAndView mv = new ModelAndView();
-		 * 
-		 * int result= qnaService.setReplyAdd(qnaVO);
-		 * 
-		 * String message="등록 실패";
-		 * 
-		 * if(result>0) { message = "글이 등록 되었습니다"; }
-		 * 
-		 * 
-		 * mv.setViewName("common/result"); mv.addObject("result", message);
-		 * mv.addObject("url","./detail?id="+qnaVO.getId()); return mv; }
-		 */
 		 
 }

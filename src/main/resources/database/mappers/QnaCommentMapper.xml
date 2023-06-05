@@ -27,7 +27,7 @@
 		SELECT * FROM (
 			    SELECT *, ROW_NUMBER() OVER (ORDER BY ID ASC) AS R FROM (
 			        SELECT * FROM QNACOMMENT
-			      
+			      WHERE qna_id=#{qnaId}
 			   	 ) AS C
 				) AS D
 		WHERE R BETWEEN #{startRow} AND #{perPage}
@@ -87,6 +87,11 @@
   	</update>
 	
 	<insert id="setReplyAdd" parameterType="QnaCommentVO">
+			<selectKey keyProperty="qnaId" resultType="Long" order="AFTER">
+  				SELECT qna_id FROM QNACOMMENT WHERE id=
+  				(SELECT MAX(id) FROM QNACOMMENT)
+  			</selectKey>
+	
   		INSERT INTO QNACOMMENT (qna_id,  contents, writer, reg_date, ref, step, depth)
 		VALUES( #{qnaId} , #{contents}, #{writer}, now(),#{ref} , #{step}, #{depth})
   	</insert>
