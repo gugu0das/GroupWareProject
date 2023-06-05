@@ -22,104 +22,111 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/qnaComment/*")
 public class QnaCommentController {
-	
+
 	@Autowired
 	private QnaCommentService qnaCommentService;
-	
+
 	@GetMapping("list")
-	public ModelAndView getQnaCommentList(@ModelAttribute QnaCommentVO qnaCommentVO,Pager pager) throws Exception {
+	public ModelAndView getQnaCommentList(@ModelAttribute QnaCommentVO qnaCommentVO, Pager pager,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		
-		List<QnaCommentVO> ar = qnaCommentService.getQnaCommentList(pager);
-		
-		mv.addObject("list", ar);
-		mv.setViewName("common/commentList");
-		
-		return mv;
-	}
-	
-	@PostMapping("add")
-	public ModelAndView setQnaCommentAdd(QnaCommentVO qnaCommentVO, HttpSession session) throws Exception {
-		ModelAndView mv = new ModelAndView();
-		// 나중에 멤버 아이디를 받아서 할때 연결 시켜 봅시다
-		/* MemberVO memberVO = (MemberVO)session.getAttribute("member"); */
-		
-		/* qnaCommentVO.setWriter(memberVO.getId()); */
-		//qnaCommentVO.setWriter("iu");
-		
-		int result = qnaCommentService.setQnaCommentAdd(qnaCommentVO, null, session);
-		
-		mv.addObject("result", result);
-		mv.setViewName("common/ajaxResult");
-		
-		return mv;
-	}
-	
-	@PostMapping("delete")
-	public ModelAndView setQnaCommentDelete(QnaCommentVO qnaCommentVO, HttpSession session) throws Exception {
-		ModelAndView mv = new ModelAndView();
-		
-		int result = qnaCommentService.setQnaCommentDelete(qnaCommentVO, session);
-		
-		mv.addObject("result", result);
-		mv.setViewName("common/ajaxResult");
-		
-		return mv;
-	}
-	
-	@PostMapping("update")
-	public ModelAndView setQnaCommentUpdate(QnaCommentVO qnaCommentVO) throws Exception {
-		ModelAndView mv = new ModelAndView();
-		
-		int result = qnaCommentService.setQnaCommentUpdate(qnaCommentVO);
-		
-		mv.addObject("result", result);
-		mv.setViewName("common/ajaxResult");
-		
-		return mv;
-	}
-	@GetMapping("detail2")
-	public ModelAndView getQnaCommentDetail(QnaCommentVO qnaCommentVO) throws Exception {
-		ModelAndView mv = new ModelAndView();
-		
-		qnaCommentVO = (QnaCommentVO)qnaCommentService.getQnaCommentDetail(qnaCommentVO);
-		
-		
-	
-		mv.addObject("qnaCommentVO", qnaCommentVO);
-		mv.setViewName("qna/detail2");
-		
-		return mv;
-	}
-	
-	@GetMapping("reply")
-	public ModelAndView setReplyAdd(@ModelAttribute QnaCommentVO qnaCommentVO,ModelAndView modelAndView,HttpSession session)throws Exception{
+		log.error("{}",qnaCommentVO.getQnaId());
+		log.error("{}",pager.getQnaId());
 		
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-			
-		qnaCommentVO.setWriter(memberVO.getAccountId());
+		List<QnaCommentVO> ar = qnaCommentService.getQnaCommentList(pager);
 		
+		mv.addObject("memberVO", memberVO);
+		mv.addObject("list", ar);
+		mv.setViewName("common/commentList");
+
+		return mv;
+	}
+
+	@PostMapping("add")
+	public ModelAndView setQnaCommentAdd(QnaCommentVO qnaCommentVO, HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView();
+
+		int result = qnaCommentService.setQnaCommentAdd(qnaCommentVO, null, session);
+
+		mv.addObject("result", result);
+		mv.setViewName("common/ajaxResult");
+
+		return mv;
+	}
+
+	@PostMapping("delete")
+	public ModelAndView setQnaCommentDelete(QnaCommentVO qnaCommentVO, HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView();
+
+		int result = qnaCommentService.setQnaCommentDelete(qnaCommentVO, session);
+
+		mv.addObject("result", result);
+		mv.setViewName("common/ajaxResult");
+
+		return mv;
+	}
+
+	@PostMapping("update")
+	public ModelAndView setQnaCommentUpdate(QnaCommentVO qnaCommentVO) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		log.error(qnaCommentVO.getContents());
+		log.error("{}",qnaCommentVO.getId());
+		int result = qnaCommentService.setQnaCommentUpdate(qnaCommentVO);
+
+		mv.addObject("result", result);
+		mv.setViewName("common/ajaxResult");
+
+		return mv;
+	}
+
+	@GetMapping("detail2")
+	public ModelAndView getQnaCommentDetail(QnaCommentVO qnaCommentVO) throws Exception {
+		ModelAndView mv = new ModelAndView();
+
+		qnaCommentVO = (QnaCommentVO) qnaCommentService.getQnaCommentDetail(qnaCommentVO);
+
+		mv.addObject("qnaCommentVO", qnaCommentVO);
+		mv.setViewName("qna/detail2");
+
+		return mv;
+	}
+
+	@GetMapping("reply")
+	public ModelAndView setReplyAdd(@ModelAttribute QnaCommentVO qnaCommentVO, ModelAndView modelAndView,
+			HttpSession session) throws Exception {
+
+		Object obj = session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl) obj;
+		MemberVO memberVO = (MemberVO) contextImpl.getAuthentication().getPrincipal();
+
+		qnaCommentVO.setWriter(memberVO.getAccountId());
+
 		modelAndView.setViewName("/qna/reply");
 		return modelAndView;
 	}
+
 	@PostMapping("reply")
-	public ModelAndView setReplyAdd(QnaCommentVO qnaCommentVO)throws Exception{
+	public ModelAndView setReplyAdd(QnaCommentVO qnaCommentVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		System.out.println("qnaComment : "+qnaCommentVO.getId());
-		int result= qnaCommentService.setReplyAdd(qnaCommentVO);
+		System.out.println("qnaComment : " + qnaCommentVO.getId());
+		log.error(qnaCommentVO.getContents());
+		qnaCommentVO.setContents(qnaCommentVO.getContents().replaceAll("<p>", ""));
+		qnaCommentVO.setContents(qnaCommentVO.getContents().replaceAll("</p>", ""));
+		log.error(qnaCommentVO.getContents());
+		;
+		int result = qnaCommentService.setReplyAdd(qnaCommentVO);
+
+		String message = "등록 실패";
+
 		
-		String message="등록 실패";
-		
-		if(result>0) {
-			message = "글이 등록 되었습니다";
-		}
-		
-	
+		  if(result>0) { message = "글이 등록 되었습니다"; }
+		 
+
 		mv.setViewName("common/result");
 		mv.addObject("result", message);
-		mv.addObject("url","/qna/detail?id="+qnaCommentVO.getQnaId());
+		mv.addObject("url", "/qna/detail?id=" + qnaCommentVO.getQnaId());
 		return mv;
 	}
 }
