@@ -32,6 +32,7 @@
                             <div class="col-lg-8 col-xl-6">
                                 <%-- <form id="contactForm" action="./add" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data"> --%>
                             	<form:form id="contactForm" modelAttribute="qnaVO" action="./update" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
+	                                    <input type="hidden" name="id" value="${qnaVO.id}"> 
 	                                    <!-- Title input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="title" name="title" type="text" placeholder="Enter Title..." data-sb-validations="required" /> -->
@@ -61,7 +62,7 @@
 	                                    
 	                               <!-- content input-->
 	                                    <div class="form-floating mb-3">
-	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required">${qnaVO.contents}</textarea>
 	                                        <label for="contents">내용</label>
 	                                        <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
 	                                    </div>  
