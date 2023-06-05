@@ -56,7 +56,7 @@
 	                        </div>
 	                    	<div class="row form-group">
 	                            <label class="col-lg-1">공개</label>
-	                            <div class="col-lg-8"><c:out value="${scheInfo.open}"/></div>
+	                            <div class="col-lg-8"><c:out value="${scheInfo.isopen}"/></div>
 	                        </div> 
 	                    	<div class="row form-group">
 	                            <label class="col-lg-1">내용</label>
