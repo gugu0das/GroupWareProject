@@ -23,6 +23,38 @@ public class ApprovalService {
 	@Autowired
 	private ApprovalDAO approvalDAO;
 	
+	public int addUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.addUnderCategory(approvalCategoryVO);
+	}
+	
+	public int deleteUnderFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.deleteUnderFormFile(approvalCategoryVO);
+	}
+	
+	public int deleteUnderApprover(ApproverVO approverVO) throws Exception{
+		return approvalDAO.deleteUnderApprover(approverVO);
+	}
+	
+	public int deleteUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.deleteUnderCategory(approvalCategoryVO);
+	}
+	
+	public List<ApprovalCategoryVO> checkUpperCategory() throws Exception{
+		return approvalDAO.checkUpperCategory();
+	}
+	
+	public long underCategoryCount(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.underCategoryCount(approvalCategoryVO);
+	}
+	
+	public int deleteUpperOptionApprover(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.deleteUpperOptionApprover(approvalCategoryVO);
+	}
+	
+	public int deleteUpperOptionFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.deleteUpperOptionFormFile(approvalCategoryVO);
+	}
+	
 	public int deleteApprover(ApproverVO approverVO) throws Exception{
 		return approvalDAO.deleteApprover(approverVO);
 	}

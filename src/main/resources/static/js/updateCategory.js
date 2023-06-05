@@ -6,7 +6,6 @@ $("#deptId option").map(function(){
 	document.getElementById("hide").style.visibility ='hidden';
 })
 
-
 $(document).on('click', '#updateApprover', function(){
 	let approver = $(this).parent();
 	let categoryId = $(this).parent().parent().parent().attr('id');
@@ -261,16 +260,21 @@ $(document).on('click', '#deleteApprover', function(){
 		alert('결재자의 수는 최소 한명 이상이어야 합니다.');
 	}
 })
-
+let upperOption = 0;
 $(document).on('click', '#addUnderOption', function(){
 	let inputHtml = '<tr>'
 					+ '<td>'
-					+ 	'하위 옵션'
+					+ 	'<span>하위 옵션</span>'
 					+ 	'<button class="btn btn-danger" id="addUnderOption1">추가 완료</button>'
 					+ '</td>'
 					+ '<td></td>'
 					+ '<td><input type="text" id="categoryName"></td>'
-					+ '<td><input type="file" id="fileId"></td>'
+					+ '<td>'
+					+ '<form id="uploadForm" enctype="multipart/form-data" method="post">'
+					+ '<input type="file" name="file" id="oriName">'
+	 				+ '<button id="changeFile" class="btn btn-primary" type="button">파일 변경</button>'
+	 				+ '</form>'
+					+ '</td>'
 					+ '<td>'
 					+ '<button class="btn btn-primary" id="addApprover" data-hide="no">추가하기</button>'
 					+ '<div id="approver" data-approver-depth="1">'
@@ -290,23 +294,240 @@ $(document).on('click', '#addUnderOption', function(){
 	$('.btn').each(function(i,v){
 		 $(v).hide();
 	})						
-	
+	upperOption = $(this).parent().parent().attr('id');
 	$(this).parent().parent().parent().append(inputHtml);
 })
 
+$(document).on('click', '#addUnderOption1', function(){
+	
+	let fileName = '';
+	let categoryName = '';
+	let jobId = [];
+	let departmentId = [];
+	$(this).parent().parent().children().each(function(i,v){
+		if($(v).children('#categoryName').length != 0){
+			categoryName = $(v).children('#categoryName').val();
+		}
+		if($(v).children('form').children('#oriName').length != 0){
+			fileName = $(v).children('form').children('#oriName').val().split('\\').pop();
+		}
+		if($(v).children('#approver').length != 0){
+			$(v).children('#approver').each(function(i2,v2){
+				departmentId.push($(v2).children('#deptIdSelect').val());
+				jobId.push($(v2).children('#jobIdSelect').val());
+			})
+		}
+	})
+	console.log(fileName);
+	console.log(categoryName);
+	console.log(jobId);
+	console.log(departmentId);
+	
+	 if(!confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+     	
+     }else{
+     	$.ajax({
+			type : "POST",
+			url:"/approval/addUnderCategory",
+			data : {
+				ref : upperOption,
+				fileName : fileName,
+				categoryName : categoryName,
+				jobId : jobId,
+				departmentId : departmentId
+			},
+			success : function(data){
+				if(data == 1){
+					window.location.reload();
+				}
+			}
+		})
+     }
+	
+	
+})
+let deleteOptionNum = 0;
 $(document).on('click', '#deleteOption', function(){
-	let id = $(this).parent().children('.span').text().trim();
+	let id = $(this).parent().children('span').text().trim();
+	let text = $(this).parent().parent().children('td:first-child').children('span').text().trim();
+	deleteOptionNum = id;
+	if(text == '상위 옵션'){
+		$.ajax({
+			type : "POST",
+			url:"/approval/deleteCategory",
+			data : {
+				id : id
+			},
+			success : function(data){
+				if(data == 0){
+					alert('삭제 실패');
+				}else{
+					alert('삭제 성공');
+					window.location.reload();
+				}
+			}
+		})
+	}else{
+		let dataCount = $(this).parent().parent().attr('data-count');
+	
+    	let optionCount = $(this).parent().parent().parent().children('.underOption[data-count='+ dataCount +']').length;
+
+		if( optionCount != 1 ){
+			
+			$.ajax({
+				type : "POST",
+				url:"/approval/deleteCategory",
+				data : {
+					id : id
+				},
+				success : function(data){
+					if(data == 0){
+						alert('삭제 실패');
+					}else{
+						alert('삭제 성공');
+						$(this).parent().parent().remove();
+					}
+				}
+			})
+			
+			
+		}else{
+			let inputHtml = '<td>' +
+							'<form id="uploadForm" enctype="multipart/form-data" method="post">' + 
+							'<input type="file" name="file" id="oriName">' + 
+	 						'<input type="hidden" name="fileName" id="fileName" >' +
+	 						'<button type="button" id="updateUpperOption" class="btn btn-primary">설정 완료</button>' +
+	 						'</form>' +
+							'</td>' +
+							'<td>' +
+							'<div id="approver" data-approver-count="1">' +
+							'<select id="deptIdSelect" class="deptId form-control">';
+							for(let i = 0; i < deptNameList.length; i ++){
+								if( i == 0 ){
+									inputHtml = inputHtml + '<option value="부서" selected>부서</option>';
+								}else{
+									inputHtml = inputHtml + '<option value="'+ deptIdList[i] +'">'+ deptNameList[i] +'</option>';
+								}
+							}
+	
+			inputHtml = inputHtml + '</select>' +
+									'<button type="button" id="addApprover11" class="btn btn-primary">결재자 추가</button>' +
+									'<button type="button" id="deleteApprover" class="btn btn-danger">결재자 삭제</button>' +
+									'</div>' +
+									'</td>';
+			
+			$(this).parent().parent().prev().children('td').each(function(i,v){
+				if($(v).children().length == 0){
+					$(v).remove();
+				}
+			})
+			
+			$('.btn').each(function(i,v){
+				$(v).hide();
+			})
+			
+			$(this).parent().parent().prev().append(inputHtml);
+			
+			//$(this).parent().parent().parent().children('.upperOption[data-count='+ dataCount +']').append(inputHtml);
+			
+			$(this).parent().parent().remove();
+
+		}
+	}
+})
+
+$(document).on('click', '#addApprover11', function(){
+	let underCount = $(this).parent().parent().children(":last").attr('data-approver-count')*1 + 1;
+	let inputHtml = 
+		'<div id="approver" data-approver-count="'+ underCount +'">' +
+		'<select id="deptIdSelect" class="form-control">';
+		
+		for(let i = 0; i < deptNameList.length; i ++){
+			if( i == 0 ){
+				inputHtml = inputHtml + '<option value="부서" selected>부서</option>';
+			}else{
+				inputHtml = inputHtml + '<option value="'+ deptIdList[i] +'">'+ deptNameList[i] +'</option>';
+			}
+		}
+		inputHtml = inputHtml +
+		'</select>' +
+		'<button type="button" id="addApprover11" class="btn btn-primary">결재자 추가</button>' +
+		'<button type="button" id="deleteApprover" class="btn btn-danger">결재자 삭제</button>';
+	if($(this).parent().attr('class') == 'row upperOption'){
+		$(this).parent().append(inputHtml);
+	}else{		
+		$(this).parent().parent().append(inputHtml);
+	}
+});
+
+$(document).on('click', '#updateUpperOption', function(){
+	let file = $(this).parent();
+	let categoryId = $(this).parent().parent().parent().attr('id');
+	let formFile = $(this).parent().children('#oriName').val().split('\\').pop();
+	let tempParent = $(this).parent().parent();
+	let fileData = new FormData(file[0]);
+	let deptId = [];
+	let jobId = []; 
+	$(this).parent().parent().next().children('#approver').each(function(i,v){
+		deptId.push($(v).children('#deptIdSelect').val());
+		jobId.push($(v).children('#jobIdSelect').val());
+	})
+	console.log(jobId);
+	let data1 = {   
+	    "categoryId" : categoryId
+	}
+	
+	fileData.append('categoryId', new Blob([ JSON.stringify(data1) ], {type : "application/json"}));
+	
+	
+	
 	$.ajax({
-		type : "POST",
-		url:"/approval/deleteOption",
+		type: "POST",
+		url : "/approval/formFileDuplication",
+		traditional: true,
 		data : {
-			id : id
+			formFileName : formFile
 		},
 		success : function(data){
-			if(data == 0){
-				alert('')
+			if(data.length == 0){
+				duplication = false;
 			}else{
-				
+				duplication = true;
+			}
+			if(duplication){
+				alert('중복된 파일명입니다.');
+			}else{
+				$.ajax({
+					type : "post",
+					url : "/approval/updateUpperFile",
+					data : fileData,
+					contentType : false,
+			        processData : false,
+			        success : function(data){
+						$.ajax({
+							type : "post",
+							url : "/approval/updateUpperOptionApprover",
+							traditional : true,
+							data : {
+								categoryId : categoryId,
+								departmentId : deptId,
+								jobId : jobId
+							},
+							success : function(data){
+								$.ajax({
+									type : "POST",
+									url:"/approval/deleteUnderCategory",
+									data : {
+										id : deleteOptionNum
+									},
+									success : function(data){
+										window.location.reload();
+									}
+								})
+							}
+						})	
+					}
+				})
 			}
 		}
 	})

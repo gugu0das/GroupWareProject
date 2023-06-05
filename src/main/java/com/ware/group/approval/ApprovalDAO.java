@@ -55,6 +55,22 @@ public interface ApprovalDAO {
 	
 	public int deleteApprover(ApproverVO approverVO) throws Exception;
 	
+	public List<ApprovalCategoryVO> checkUpperCategory() throws Exception;
+	
+	public long underCategoryCount(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int deleteUpperOptionApprover(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int deleteUpperOptionFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int deleteUnderFormFile (ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int deleteUnderApprover (ApproverVO approverVO) throws Exception;
+	
+	public int deleteUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int addUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
 	//
 	public List<ApprovalCategoryVO> getListCategory() throws Exception;
 	
