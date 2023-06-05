@@ -28,16 +28,30 @@ public class ScheService {
 
     static final Logger LOGGER = LoggerFactory.getLogger(ScheService.class);
     
-    public List<?> selectCalendar(MonthVO param, Long userId) {
-    	List<?> list = sqlSession.selectList("selectCalendar", param);
+    public List<?> selectCalendar(MonthVO param, String userId) {
+        if(sqlSession == null) {
+            System.out.println("sqlSession is null");
+            return null;
+        }
         
-    	Field3VO fld = new Field3VO();
-    	fld.setField1(userId);
-    	for (int i=0; i<list.size(); i++){
-    		CalendarVO cvo = (CalendarVO) list.get(i);
-    		fld.setField2(cvo.getCalendar_date());
-    		cvo.setList( sqlSession.selectList("selectScheList4Calen", fld) );
-    	}
+        List<CalendarVO> list = sqlSession.selectList("selectCalendar", param);
+
+        if(list == null) {
+            System.out.println("리스트 null");
+            return null;
+        }
+            
+        Field3VO fld = new Field3VO();
+        fld.setField1(userId);
+        for (int i=0; i<list.size(); i++){
+            CalendarVO cvo = (CalendarVO) list.get(i);
+            if(cvo == null) {
+                System.out.println("인덱스 " + i + " null");
+                continue;
+            }
+            fld.setField2(cvo.getCalendardate());
+            cvo.setList( sqlSession.selectList("selectScheList4Calen", fld) );
+        }
         return list;
     }
      
