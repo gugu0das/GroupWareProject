@@ -12,6 +12,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <style>
+        .calendarRow {
+            display: flex;
+            justify-content: space-between;
+        }
+        .calendarColumnHead, .calendarColumnBox {
+            width: 13%;
+            text-align: center;
+            border: 1px solid #ccc;
+            margin: 2px;
+            padding: 5px;
+        }
+        .calendarColumnSunDay {
+            color: red;
+        }
+        .calendarDay {
+            background-color: #f9f9f9;
+            margin: 2px;
+            padding: 2px;
+        }
+        .calendarTooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid black;
+            padding: 5px;
+            display: none;
+        }
+    </style>
+    
 <script>
 function fn_formSubmit(){
 	document.form1.submit();	
