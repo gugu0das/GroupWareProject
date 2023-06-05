@@ -16,8 +16,8 @@
                      <label class="col-lg-2">일시</label>
                      <div class="col-lg-10">
                      	<c:if test='${scheInfo.repeattype=="1"}'> 
-	                     	<c:out value="${scheInfo.startdate}"/> <c:out value="${scheInfo.starthour}"/>:<c:out value="${scheInfo.ssstartminute}"/>
-	                     	~ <c:out value="${scheInfo.startdate}"/> <c:out value="${scheInfo.endhour}"/>:<c:out value="${scheInfo.ssendminute}"/>
+	                     	<c:out value="${scheInfo.startdate}"/> <c:out value="${scheInfo.starthour}"/>:<c:out value="${scheInfo.startminute}"/>
+	                     	~ <c:out value="${scheInfo.startdate}"/> <c:out value="${scheInfo.endhour}"/>:<c:out value="${scheInfo.endminute}"/>
 	                    </c:if>
 	                    <c:if test='${scheInfo.repeattype!="1"}'>
 	                    	<c:out value="${calendardate}"/>
