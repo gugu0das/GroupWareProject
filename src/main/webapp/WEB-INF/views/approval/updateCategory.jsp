@@ -54,6 +54,7 @@
 						</td>
 						<td>
 							<c:set var="check" value="0"/>
+							
 							<c:forEach items="${listApprover}" var="approver" varStatus="i">
 								<c:if test="${approver.categoryId == upper.id}">
 									<c:set var="check" value="1"/>
@@ -94,7 +95,7 @@
 									</c:forEach>
 								</td>
 								<td>
-								<button class="btn btn-primary" id="addApprover" data-hide="yes">추가하기</button>
+								
 									<c:forEach items="${listApprover}" var="approver" varStatus="i">
 										<c:if test="${approver.categoryId == under.id}">
 											<c:forEach items="${approver.departmentVOs}" var="department" varStatus="status">
@@ -108,6 +109,7 @@
 											</c:forEach>
 										</c:if>
 									</c:forEach>
+									<button class="btn btn-primary" id="addApprover" data-hide="yes">추가하기</button>
 								</td>
 							</tr>
 						</c:if>

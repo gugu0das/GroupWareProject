@@ -186,16 +186,12 @@ public class ApprovalController {
 			approvalFormFileVO.setFileName(obj.getOriginalFilename());
 			
 			approvalFormFileVO.setCategoryId(Long.parseLong((String)param.get("categoryId")));
-			result = approvalService.updateFormFile(approvalFormFileVO);
+			result = approvalService.addUpperFormFile(approvalFormFileVO);
 			
 			filemanger.saveFile(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {
-			ApprovalCategoryVO vo = new ApprovalCategoryVO();
-			vo.setRef((Long)param.get("categoryId"));
-			approvalService.deleteUnderFormFile(vo);
-			
 			return "파일 업데이트 성공";
 		}else{
 			return "파일 업데이트 실패";
@@ -428,6 +424,9 @@ public class ApprovalController {
 		ApproverVO vo = new ApproverVO();
 		vo.setCategoryId(categoryVO.getId());
 		approvalService.deleteUnderApprover(vo);
+		ApprovalFormFileVO vo2 = new ApprovalFormFileVO();
+		vo.setCategoryId(categoryVO.getId());
+		approvalService.deleteUnderFormFile(vo2);
 		return result;
 		
 	}
