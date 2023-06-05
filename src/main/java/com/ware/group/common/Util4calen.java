@@ -13,14 +13,64 @@ public class Util4calen {
 	static final Logger LOGGER = LoggerFactory.getLogger(AdminInterceptor.class);
 	static final String[] dayArr = {"일", "월", "화", "수", "목", "금", "토"};
 
-	/**
-	 * 시스템의 오늘 일자 반. 
-	 */
-	public static Date getToday() {
-		Calendar cal = Calendar.getInstance(); 
-		cal.setTime( new Date() );
-		return cal.getTime();
-	}    
+    /**
+     * 문자열을 날짜형으로 변환.
+     */
+    public static Date getToday(String date) {
+        Calendar cal = Calendar.getInstance(); 
+        cal.setTime( str2Date(date) );
+        return cal.getTime();
+    }   
+    
+    /**
+     *  날짜를 문자열로 변환.
+     */
+    public static String date2Str(Date date) {
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        return ft.format( date.getTime() );    
+    }
+    
+    /**
+     *  문자열을 날짜(yyyy-MM-dd)로 변환.
+     */
+    public static Date str2Date(String date) {
+        SimpleDateFormat oldft = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat netft = new SimpleDateFormat("yyyy-MM-dd");
+        Date ret = null;
+        try {
+            ret = netft.parse(date);
+        } catch (ParseException ex) {
+            try {
+                ret = oldft.parse(date);
+                ret = netft.parse(netft.format(ret));
+            } catch (ParseException e) {
+                LOGGER.error("date parse error ");
+            }
+        }
+        return ret;
+    }
+    
+    /**
+     *  날짜를 년월일로 구분하여 저장.
+     */
+    public static DateVO date2VO(Date date) {
+        Calendar cal = Calendar.getInstance(); 
+        cal.setTime( date );
+        
+        DateVO dvo = new DateVO();
+        dvo.setYear( cal.get(Calendar.YEAR) );
+        dvo.setMonth(cal.get(Calendar.MONTH) + 1 );
+        dvo.setDay(  cal.get(Calendar.DAY_OF_MONTH) );
+        dvo.setWeek( dayArr[ cal.get(Calendar.DAY_OF_WEEK) - 1] );
+        return dvo;    
+    }
+    
+    /**
+     * 년도 추출.
+     */
+    public static Integer getYear(Date date) {
+        Calendar cal = Calendar.getInstance(); 
+        cal.setTime( date );
 
 	/**
 	 * 문자열을 날짜형으로 변환.
