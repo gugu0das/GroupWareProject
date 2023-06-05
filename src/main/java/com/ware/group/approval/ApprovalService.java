@@ -23,8 +23,44 @@ public class ApprovalService {
 	@Autowired
 	private ApprovalDAO approvalDAO;
 	
-	public int updateFormFile(DocumentFilesVO documentFilesVO) throws Exception{
-		return approvalDAO.updateFormFile(documentFilesVO);
+	public int addUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.addUnderCategory(approvalCategoryVO);
+	}
+	
+	public int deleteUnderFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.deleteUnderFormFile(approvalCategoryVO);
+	}
+	
+	public int deleteUnderApprover(ApproverVO approverVO) throws Exception{
+		return approvalDAO.deleteUnderApprover(approverVO);
+	}
+	
+	public int deleteUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.deleteUnderCategory(approvalCategoryVO);
+	}
+	
+	public List<ApprovalCategoryVO> checkUpperCategory() throws Exception{
+		return approvalDAO.checkUpperCategory();
+	}
+	
+	public long underCategoryCount(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.underCategoryCount(approvalCategoryVO);
+	}
+	
+	public int deleteUpperOptionApprover(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.deleteUpperOptionApprover(approvalCategoryVO);
+	}
+	
+	public int deleteUpperOptionFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		return approvalDAO.deleteUpperOptionFormFile(approvalCategoryVO);
+	}
+	
+	public int deleteApprover(ApproverVO approverVO) throws Exception{
+		return approvalDAO.deleteApprover(approverVO);
+	}
+	
+	public int updateFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
+		return approvalDAO.updateFormFile(approvalFormFileVO);
 	}
 	public int updateCategoryName(ApprovalCategoryVO approvalCategoryVO) throws Exception{
 		return approvalDAO.updateCategoryName(approvalCategoryVO);
@@ -85,8 +121,8 @@ public class ApprovalService {
 	public List<String> getCategoryDuplication(String[] name) throws Exception{
 		List<String> dup = new ArrayList<String>();
 		for(String str : name) {
-			str = approvalDAO.getCategoryDuplication(str);
-			if(str != null) {
+			List<String> temp = approvalDAO.getCategoryDuplication(str);
+			if(temp.size() != 0) {
 				dup.add(str);
 			}
 		}
@@ -96,8 +132,8 @@ public class ApprovalService {
 	public List<String> getFileDuplication(String[] formFileName) throws Exception{
 		List<String> dup = new ArrayList<String>();
 		for(String str : formFileName) {
-			str = approvalDAO.getFileDuplication(str);
-			if(str != null) {
+			List<String> temp = approvalDAO.getFileDuplication(str);
+			if(temp.size() != 0) {
 				dup.add(str);
 			}
 		}

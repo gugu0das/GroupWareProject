@@ -9,5 +9,4 @@ import lombok.Setter;
 public class ApprovalFormFileVO {
 	private long categoryId;
 	private String fileName;
-
 }
