@@ -5,11 +5,11 @@
 
 <mapper namespace="schedule">
 
-    <select id="selectCalendar" resultType="com.ware.group.schedule.CalendarVO" parameterType="com.ware.group.schedule.MonthVO">
-        SELECT CALEUNDAR_DATE, CALEUNDAR_DD, CALEUNDAR_DAYOFWEEK
+    <select id="selectCalendar" resultType="CalendarVO" parameterType="MonthVO">
+        SELECT CALENDAR_DATE, CALENDAR_DD, CALENDAR_DAYOFWEEK
           FROM DATE
-         WHERE CALEUNDAR_YEAR=#{year} AND CALEUNDAR_MM=#{month}
-         ORDER BY CALEUNDAR_DATE
+         WHERE CALENDAR_YEAR=#{year} AND CALENDAR_MM=#{month}
+         ORDER BY CALENDAR_DATE
     </select> 
 
     <select id="selectScheList4Calen" resultType="com.ware.group.schedule.ScheDetailVO" parameterType="com.ware.group.common.Field3VO">
@@ -27,7 +27,7 @@
           LEFT OUTER JOIN SCHEDULE SS ON SS.ID=SD.ID 
          WHERE DATE=#{field2} AND DELETEFLAG=0 AND ISOPEN=0 AND USERNUM=#{field1}
          ORDER BY HOUR, MINUTE, ID
-    </select> 
+    </select>
 
     
     <sql id="includeSche">
@@ -55,14 +55,14 @@
 	<insert id="insertSche" parameterType="com.ware.group.schedule.ScheVO" useGeneratedKeys="true" keyProperty="id">
 	    INSERT INTO SCHEDULE(TITLE, TYPE, START_DATE, START_HOUR, START_MINUTE, END_DATE, END_HOUR, 
 	    			END_MINUTE, REPEAT_TYPE, REPEAT_OPTION, REPEAT_END, CONTENT, ISOPEN, USERNUM, UPDATEDATE, INSERTDATE, DELETEFLAG)
-	    VALUES (#{title}, #{type}, #{start_date}, #{start_hour}, #{start_minute}, #{end_date}, #{end_hour}, 
-	    		#{end_minute}, #{repeat_type}, #{repeat_option}, #{repeat_end}, #{content}, #{isopen}, #{usernum}, NOW(), NOW(), 0)
+	    VALUES (#{title}, #{type}, #{startdate}, #{starthour}, #{startminute}, #{enddate}, #{endhour}, 
+	    		#{endminute}, #{repeattype}, #{repeatoption}, #{repeatend}, #{content}, #{isopen}, #{usernum}, NOW(), NOW(), 0)
 	</insert>
     
     <update id="updateSche" parameterType="com.ware.group.schedule.ScheVO">
         UPDATE SCHEDULE
-           SET TITLE=#{title}, TYPE=#{type}, START_DATE=#{start_date}, START_HOUR=#{start_hour}, START_MINUTE=#{start_minute}, END_DATE=#{end_date}
-             , END_HOUR=#{end_hour}, END_MINUTE=#{end_minute}, REPEAT_TYPE=#{repeat_type}, REPEAT_OPTION=#{repeat_option}, REPEAT_END=#{repeat_end}
+           SET TITLE=#{title}, TYPE=#{type}, START_DATE=#{startdate}, START_HOUR=#{starthour}, START_MINUTE=#{startminute}, END_DATE=#{enddate}
+             , END_HOUR=#{endhour}, END_MINUTE=#{endminute}, REPEAT_TYPE=#{repeattype}, REPEAT_OPTION=#{repeatoption}, REPEAT_END=#{repeatend}
              , CONTENT=#{content}, ISOPEN=#{isopen}, UPDATEDATE=NOW()
          WHERE ID=#{id} 
     </update> 

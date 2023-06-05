@@ -19,32 +19,32 @@
 <script>
 
 window.onload = function() {
-	$('#start_date').datepicker({
+	$('#startdate').datepicker({
 	    dateFormat: 'yy-mm-dd'
 	}).on('changeDate', function(ev) {
 	    if (ev.viewMode=="days"){
-	        $('#start_date').datepicker('hide');
+	        $('#startdate').datepicker('hide');
 	    }
 	});
 
-	$('#end_date').datepicker({
+	$('#enddate').datepicker({
 	    dateFormat: 'yy-mm-dd'
 	}).on('changeDate', function(ev) {
 	    if (ev.viewMode=="days"){
-	        $('#end_date').datepicker('hide');
+	        $('#enddate').datepicker('hide');
 	    }
 	});
 
-	$('#repeat_end').datepicker({
+	$('#repeatend').datepicker({
 	    dateFormat: 'yy-mm-dd'
 	}).on('changeDate', function(ev) {
 	    if (ev.viewMode=="days"){
-	        $('#repeat_end').datepicker('hide');
+	        $('#repeatend').datepicker('hide');
 	    }
 	});
-    repeat_typeChange();
-    <c:if test='${repeat_option ne ""}'>
-    	$("#repeat_option").val('<c:out value="${scheInfo.repeat_option}"/>');
+    repeattypeChange();
+    <c:if test='${repeatoption ne ""}'>
+    	$("#repeatoption").val('<c:out value="${scheInfo.repeatoption}"/>');
     </c:if> 
 }
 
@@ -73,27 +73,27 @@ function fn_delete(){
 	$("#form1").submit();
 }
 
-function repeat_typeChange(){
-	$("#repeat_option").hide();
-	$("#repeat_end").hide();
-	if ($("#repeat_type").val()==="1") return;
+function repeattypeChange(){
+	$("#repeatoption").hide();
+	$("#repeatend").hide();
+	if ($("#repeattype").val()==="1") return;
 	 
-	$("#repeat_option").show();
-	$("#repeat_end").show(); 
+	$("#repeatoption").show();
+	$("#repeatend").show(); 
 	
-	if ($("#repeat_end").val()==="")	$("#repeat_end").val($("#end_date").val()); 
-	$("#repeat_option").empty();
-	if ($("#repeat_type").val()==="2") {
+	if ($("#repeatend").val()==="")	$("#repeatend").val($("#enddate").val()); 
+	$("#repeatoption").empty();
+	if ($("#repeattype").val()==="2") {
 		var week = ["일", "월", "화", "수", "목", "금", "토"];
 		for (var i=0; i<week.length; i++) {
-			$('<option value="'+ i +'">' + week[i] + '</option>').appendTo($("#repeat_option"));
+			$('<option value="'+ i +'">' + week[i] + '</option>').appendTo($("#repeatoption"));
 		}
 	} else 
-	if ($("#repeat_type").val()==="3") {
+	if ($("#repeattype").val()==="3") {
 		for (var i=1; i<=31; i++) {
 			var str = "0" + String(i);
 			str = str.substring(str.length-2);
-			$('<option value="'+ str +'">' + str + '</option>').appendTo($("#repeat_option"));
+			$('<option value="'+ str +'">' + str + '</option>').appendTo($("#repeatoption"));
 		} 
 	}  
 }
@@ -129,7 +129,7 @@ function repeat_typeChange(){
 	                    	<div class="row form-group">
 	                            <label class="col-lg-1">구분</label>
 	                            <div class="col-lg-8">
-									<c:forEach var="listview" items="${type_list}" varStatus="status">
+									<c:forEach var="listview" items="${typelist}" varStatus="status">
 		                            	<label style="margin-right: 5px"><input type="radio"  <c:if test='${listview.codecd==scheInfo.type}'>checked</c:if> 
 		                            		 id="type" name="type" value="<c:out value="${listview.codecd}"/>"> <c:out value="${listview.codenm}"/></label>
 		                            </c:forEach>
@@ -138,40 +138,40 @@ function repeat_typeChange(){
 	                    	<div class="row form-group">
 	                            <label class="col-lg-1">일시</label>
 	                            <div class="col-lg-2">
-	                            	<input class="form-control" size="16" id="start_date" name="start_date" value="<c:out value="${scheInfo.start_date}"/>" readonly>
+	                            	<input class="form-control" size="16" id="startdate" name="startdate" value="<c:out value="${scheInfo.startdate}"/>" readonly>
 	                            </div>
 	                            <div class="col-lg-1">
-		                           	<select id="start_hour" name="start_hour" class="form-control">
+		                           	<select id="starthour" name="starthour" class="form-control">
 										<c:forEach var="item" begin="1" end="24">
 											<c:set var="hour" value="0${item}"/>
 											<c:set var="hour" value="${fn:substring(hour, fn:length(hour)-2, 3)}"/>
-			                           		<option value="${hour}" <c:if test='${hour==scheInfo.start_hour}'>selected</c:if>>${hour}</option>
+			                           		<option value="${hour}" <c:if test='${hour==scheInfo.starthour}'>selected</c:if>>${hour}</option>
 									 	</c:forEach>
 									</select>						 
 								 </div>  
 	                            <div class="col-lg-1">
-		                           	<select id="start_minute" name="start_minute" class="form-control">
+		                           	<select id="startminute" name="startminute" class="form-control">
 										<c:forTokens var="item" items="00,10,20,30,40,50" delims=",">
-			                           		<option value="${item}" <c:if test='${item==scheInfo.start_minute}'>selected</c:if>>${item}</option>
+			                           		<option value="${item}" <c:if test='${item==scheInfo.startminute}'>selected</c:if>>${item}</option>
 									 	</c:forTokens>
 									</select>						
 								 </div>		            
 	                             <div class="col-lg-2">
-	                            	<input class="form-control" size="16" id="end_date" name="end_date" value="<c:out value="${scheInfo.end_date}"/>" readonly>
+	                            	<input class="form-control" size="16" id="enddate" name="enddate" value="<c:out value="${scheInfo.enddate}"/>" readonly>
 	                             </div> 
 	                            <div class="col-lg-1">
-		                           	<select id="end_hour" name="end_hour" class="form-control">
+		                           	<select id="endhour" name="endhour" class="form-control">
 										<c:forEach var="item" begin="1" end="24">
 											<c:set var="hour" value="0${item}"/>
 											<c:set var="hour" value="${fn:substring(hour, fn:length(hour)-2, 3)}"/>
-			                           		<option value="${hour}" <c:if test='${hour==scheInfo.end_hour}'>selected</c:if>>${hour}</option>
+			                           		<option value="${hour}" <c:if test='${hour==scheInfo.endhour}'>selected</c:if>>${hour}</option>
 									 	</c:forEach>
 									</select>						
 								 </div>
 	                            <div class="col-lg-1">
-		                           	<select id="end_minute" name="end_minute" class="form-control">
+		                           	<select id="endminute" name="endminute" class="form-control">
 										<c:forTokens var="item" items="00,10,20,30,40,50" delims=",">
-			                           		<option value="${item}" <c:if test='${item==scheInfo.end_minute}'>selected</c:if>>${item}</option>
+			                           		<option value="${item}" <c:if test='${item==scheInfo.endminute}'>selected</c:if>>${item}</option>
 									 	</c:forTokens>
 									</select>						
 								 </div>		                            
@@ -179,18 +179,18 @@ function repeat_typeChange(){
 	                    	<div class="row form-group">
 	                            <label class="col-lg-1">반복</label>
 	                            <div class="col-lg-2">
-		                           	<select id="repeat_type" name="repeat_type" class="form-control" onchange="repeat_typeChange()">
-		                           		<option value="1" <c:if test='${scheInfo.repeat_type==1}'>selected</c:if>>반복없음</option>
-		                           		<option value="2" <c:if test='${scheInfo.repeat_type==2}'>selected</c:if>>주간반복</option>
-		                           		<option value="3" <c:if test='${scheInfo.repeat_type==3}'>selected</c:if>>월간반복</option>
+		                           	<select id="repeattype" name="repeattype" class="form-control" onchange="repeattypeChange()">
+		                           		<option value="1" <c:if test='${scheInfo.repeattype==1}'>selected</c:if>>반복없음</option>
+		                           		<option value="2" <c:if test='${scheInfo.repeattype==2}'>selected</c:if>>주간반복</option>
+		                           		<option value="3" <c:if test='${scheInfo.repeattype==3}'>selected</c:if>>월간반복</option>
 									</select>						
 	                            </div> 
 	                            <div class="col-lg-1">
-		                           	<select id="repeat_option" name="repeat_option" class="form-control" style="display:none">
+		                           	<select id="repeatoption" name="repeatoption" class="form-control" style="display:none">
 									</select>						
 	                            </div> 
 	                            <div class="col-lg-2">
-	                            	<input class="form-control" size="16" id="repeat_end" name="repeat_end" value="<c:out value="${scheInfo.repeat_end}"/>"  style="display:none" readonly>
+	                            	<input class="form-control" size="16" id="repeatend" name="repeatend" value="<c:out value="${scheInfo.repeatend}"/>"  style="display:none" readonly>
 	                            </div>
 	                        </div>
 	                    	<div class="row form-group">
@@ -211,9 +211,9 @@ function repeat_typeChange(){
 	                    </div>
 	                </div>
 				</form>	
-		        <button class="btn btn-outline btn-primary" onclick="fn_formSubmit()">저장</button>
+		        <button class="btn btn-outline btn-primary" onclick="fnformSubmit()">저장</button>
 		        <c:if test='${scheInfo.id!=null}'>
-	            	<button class="btn btn-outline btn-primary" onclick="fn_delete()">삭제</button>
+	            	<button class="btn btn-outline btn-primary" onclick="fndelete()">삭제</button>
 	            </c:if>
             </div>
             <!-- /.row -->

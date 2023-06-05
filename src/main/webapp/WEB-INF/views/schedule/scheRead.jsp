@@ -45,14 +45,14 @@
 	                    	<div class="row form-group">
 	                            <label class="col-lg-1">일시</label>
 	                            <div class="col-lg-8"> 
-	                            	<c:out value="${scheInfo.start_date}"/> <c:out value="${scheInfo.start_hour}"/>:<c:out value="${scheInfo.start_minute}"/>
+	                            	<c:out value="${scheInfo.startdate}"/> <c:out value="${scheInfo.starthour}"/>:<c:out value="${scheInfo.startminute}"/>
 	                             ~
-	                             	<c:out value="${scheInfo.end_date}"/> <c:out value="${scheInfo.end_hour}"/>:<c:out value="${scheInfo.end_minute}"/>
+	                             	<c:out value="${scheInfo.enddate}"/> <c:out value="${scheInfo.endhour}"/>:<c:out value="${scheInfo.endminute}"/>
 	                            </div>
 	                        </div>
 	                    	<div class="row form-group">
 	                            <label class="col-lg-1">반복</label>
-	                            <div class="col-lg-8"><c:out value="${scheInfo.repeat_type}"/></div>
+	                            <div class="col-lg-8"><c:out value="${scheInfo.repeattype}"/></div>
 	                        </div>
 	                    	<div class="row form-group">
 	                            <label class="col-lg-1">공개</label>

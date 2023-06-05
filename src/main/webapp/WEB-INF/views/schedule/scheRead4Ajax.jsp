@@ -15,18 +15,18 @@
              	<div class="row form-group">
                      <label class="col-lg-2">일시</label>
                      <div class="col-lg-10">
-                     	<c:if test='${scheInfo.repeat_type=="1"}'> 
-	                     	<c:out value="${scheInfo.start_date}"/> <c:out value="${scheInfo.start_hour}"/>:<c:out value="${scheInfo.ssstartminute}"/>
-	                     	~ <c:out value="${scheInfo.start_date}"/> <c:out value="${scheInfo.end_hour}"/>:<c:out value="${scheInfo.ssendminute}"/>
+                     	<c:if test='${scheInfo.repeattype=="1"}'> 
+	                     	<c:out value="${scheInfo.startdate}"/> <c:out value="${scheInfo.starthour}"/>:<c:out value="${scheInfo.ssstartminute}"/>
+	                     	~ <c:out value="${scheInfo.startdate}"/> <c:out value="${scheInfo.endhour}"/>:<c:out value="${scheInfo.ssendminute}"/>
 	                    </c:if>
-	                    <c:if test='${scheInfo.repeat_type!="1"}'>
-	                    	<c:out value="${cddate}"/>
+	                    <c:if test='${scheInfo.repeattype!="1"}'>
+	                    	<c:out value="${calendardate}"/>
 	                    </c:if>
                       </div> 
                  </div>
              	<div class="row form-group">
                      <label class="col-lg-2">반복</label>
-                     <div class="col-lg-10"><c:out value="${scheInfo.repeat_type_nm}"/></div>
+                     <div class="col-lg-10"><c:out value="${scheInfo.repeattypenm}"/></div>
                  </div>
              	<div class="row form-group">
                      <label class="col-lg-2">공개</label>

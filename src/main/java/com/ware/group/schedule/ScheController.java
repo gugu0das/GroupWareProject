@@ -36,7 +36,7 @@ public class ScheController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-        	LOGGER.error("인증 값 null");
+            LOGGER.error("인증 값 null");
             return modelAndView;
         }
 
@@ -52,7 +52,7 @@ public class ScheController {
         }
 
         if (searchVO == null) {
-        	LOGGER.error("searchVO null");
+            LOGGER.error("searchVO null");
         } else {
             if (searchVO.getYear() == null || "".equals(searchVO.getYear())) {
                 Date today = Util4calen.getToday();
@@ -100,17 +100,17 @@ public class ScheController {
         if (scheInfo.getId() != null) {
             scheInfo = scheSvc.selectScheOne(scheInfo);
         } else {
-            scheInfo.setType("1");
+            scheInfo.setType(1);
             scheInfo.setIsopen(1);
 
-            String calendar_date = request.getParameter("calendar_date");
-            if (calendar_date == null || "".equals(calendar_date)) {
-                calendar_date = Util4calen.date2Str(Util4calen.getToday());
+            String calendardate = request.getParameter("calendardate");
+            if (calendardate == null || "".equals(calendardate)) {
+                calendardate = Util4calen.date2Str(Util4calen.getToday());
             }
-            scheInfo.setStart_date(calendar_date);
-            scheInfo.setStart_hour("09");
-            scheInfo.setEnd_date(calendar_date);
-            scheInfo.setEnd_hour("18");
+            scheInfo.setStartdate(calendardate);
+            scheInfo.setStarthour("09");
+            scheInfo.setEnddate(calendardate);
+            scheInfo.setEndhour("18");
         }
 
         modelAndView.addObject("scheInfo", scheInfo);

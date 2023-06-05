@@ -18,7 +18,7 @@ function fn_formSubmit(){
 }
 
 var oldid = null;
-function calendarDayMouseover(event, id, calendar_date){
+function calendarDayMouseover(event, id, calendardate){
 	if (!id) {
 		return;
 	}
@@ -30,7 +30,7 @@ function calendarDayMouseover(event, id, calendar_date){
     $.ajax({
     	url: "scheRead4Ajax",
     	cache: false,
-    	data: { id : id, calendar_date:calendar_date },
+    	data: { id : id, calendardate:calendardate },
 	    success: function(result){
 	    	$(".calendarTooltip").html(result);
 		}    
@@ -93,18 +93,18 @@ function calendarDayMouseout(){
 				 	</c:forEach>	
 				 	
 					<c:forEach var="listview" items="${listview}" varStatus="status">
-						<c:set var="calendar_dayofweek" value="${listview.calendar_dayofweek}"/>
-						<c:if test='${calendar_dayofweek=="1"}'> 
+						<c:set var="calendardayofweek" value="${listview.calendardayofweek}"/>
+						<c:if test='${calendardayofweek=="1"}'> 
 							</div>
 							<div class="calendarRow">
 						</c:if>  
 						 
 			             <div class="calendarColumnBox">
-			             	<div class="calendarColumnDay <c:if test='${listview.calendar_dayofweek=="1"}'>calendarColumnSunDay</c:if>">
-			             		<a href="scheForm?calendar_date=<c:out value="${listview.calendar_date}"/>"><c:out value="${listview.calendar_dd}"/></a>
+			             	<div class="calendarColumnDay <c:if test='${listview.calendardayofweek=="1"}'>calendarColumnSunDay</c:if>">
+			             		<a href="scheForm?calendardate=<c:out value="${listview.calendardate}"/>"><c:out value="${listview.calendardd}"/></a>
 			             	</div>
 							<c:forEach var="items" items="${listview.list}" varStatus="status">
-				             	<div class="calendarDay" onmouseover="calendarDayMouseover(event, '<c:out value="${items.id}"/>', '<c:out value="${listview.calendar_date}"/>')" onmouseout="calendarDayMouseout()">
+				             	<div class="calendarDay" onmouseover="calendarDayMouseover(event, '<c:out value="${items.id}"/>', '<c:out value="${listview.calendardate}"/>')" onmouseout="calendarDayMouseout()">
 					             	<c:if test='${items.usernum==sessionScope.usernum}'> 
 					             		<a href="scheForm?id=<c:out value="${items.id}"/>&seq=<c:out value="${items.seq}"/>"><c:out value="${items.title}"/></a>
 				             		</c:if>
@@ -118,7 +118,7 @@ function calendarDayMouseout(){
 				             </c:forEach>
 			             </div>
 					</c:forEach> 
-					<c:forEach begin="${calendar_dayofweek}" end="6">
+					<c:forEach begin="${calendardayofweek}" end="6">
 			             <div class="calendarColumnBox">
 			             	<div class="calendarColumnDay">
 			             	</div>

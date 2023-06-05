@@ -71,23 +71,23 @@ public class ScheService {
 
             ScheDetailVO param2 = new ScheDetailVO();
             param2.setId(param.getId());
-            param2.setHour(param.getStart_hour());
-            param2.setMinute(param.getStart_minute());
+            param2.setHour(param.getStarthour());
+            param2.setMinute(param.getStartminute());
 
             Integer inx = 1;
-            Date sdate = Util4calen.str2Date(param.getStart_date());
-            if ("1".equals(param.getRepeat_type())) { //반복없음
-                Date edate = Util4calen.str2Date(param.getEnd_date());
+            Date sdate = Util4calen.str2Date(param.getStartdate());
+            if ("1".equals(param.getRepeattype())) { //반복없음
+                Date edate = Util4calen.str2Date(param.getEnddate());
                 while (!sdate.after(edate)) {
                     param2.setSeq(inx++);
                     param2.setDate(Util4calen.date2Str(sdate));
                     sqlSession.insert("insertScheDetail", param2);
                     sdate = Util4calen.dateAdd(sdate, 1);
                 }
-            } else if ("2".equals(param.getRepeat_type())) { //주간반복
-                Date edate = Util4calen.str2Date(param.getRepeat_end());
+            } else if ("2".equals(param.getRepeattype())) { //주간반복
+                Date edate = Util4calen.str2Date(param.getRepeatend());
 
-                Integer dayofweek = Integer.parseInt(param.getRepeat_option());
+                Integer dayofweek = Integer.parseInt(param.getRepeatoption());
                 while (!sdate.after(edate)) {
                     if (Util4calen.getDayOfWeek(sdate) == dayofweek) break;
                     sdate = Util4calen.dateAdd(sdate, 1);
@@ -98,12 +98,12 @@ public class ScheService {
                     sqlSession.insert("insertScheDetail", param2);
                     sdate = Util4calen.dateAdd(sdate, 7);
                 }
-            } else if ("3".equals(param.getRepeat_type())) { //월간반복
-                Date edate = Util4calen.str2Date(param.getRepeat_end());
+            } else if ("3".equals(param.getRepeattype())) { //월간반복
+                Date edate = Util4calen.str2Date(param.getRepeatend());
 
                 Integer iYear = Util4calen.getYear(sdate);
                 Integer iMonth = Util4calen.getMonth(sdate);
-                String sday = param.getRepeat_option();
+                String sday = param.getRepeatoption();
 
                 Date ndate = Util4calen.str2Date(iYear + "-" + iMonth + "-" + sday);
                 if (sdate.after(ndate))
