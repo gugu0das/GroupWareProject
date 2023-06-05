@@ -41,11 +41,11 @@ public class ScheController {
         }
 
         Object principal = authentication.getPrincipal();
-        Long userId = null;
+        String userId = null;
 
         if (principal instanceof MemberVO) {
             MemberVO member = (MemberVO) principal;
-            userId = member.getId();
+            userId = String.valueOf(member.getId());
         } else {
             LOGGER.error("MemberVO 보안 에러.");
             return modelAndView;
@@ -86,10 +86,11 @@ public class ScheController {
         }
 
         Object principal = authentication.getPrincipal();
+        String userId = null;
 
         if (principal instanceof MemberVO) {
             MemberVO member = (MemberVO) principal;
-            long userId = member.getId();
+            userId = String.valueOf(member.getId());
 
         } else {
             LOGGER.error("MemberVO 보안 에러");
@@ -126,17 +127,17 @@ public class ScheController {
         }
 
         Object principal = authentication.getPrincipal();
-        long userId = -1;
+        String userId = null;
         
         if (principal instanceof MemberVO) {
             MemberVO member = (MemberVO) principal;
-            userId = member.getId();
+            userId = String.valueOf(member.getId());
         } else {
             LOGGER.error("MemberVO 보안 에러.");
             return new ModelAndView("redirect:/schedule/scheList");
         }
 
-        if (userId == -1) {
+        if (userId == null) {
             LOGGER.error("ID 에러.");
             return new ModelAndView("redirect:/schedule/scheList");
         }
