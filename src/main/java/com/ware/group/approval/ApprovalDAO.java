@@ -120,4 +120,6 @@ public interface ApprovalDAO {
 	public int setApprovalFileDelete(Long id1) throws Exception;
 	
 	public int setApprovalInfoDelete(Long id1) throws Exception;
+	
+	public LeaveRecordVO getLeave(LeaveRecordVO leaveRecordVO) throws Exception;
 }

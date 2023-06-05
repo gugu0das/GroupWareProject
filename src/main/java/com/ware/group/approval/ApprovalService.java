@@ -266,12 +266,14 @@ public class ApprovalService {
 					
 					LeaveRecordVO leaveRecordVO = new LeaveRecordVO();
 					leaveRecordVO.setApprovalId(approvalVO.getId());
+					leaveRecordVO = approvalDAO.getLeave(leaveRecordVO);
+					if(leaveRecordVO !=null) {
 					log.error("{}::::::::::::::::::::::::",approvalVO.getId());
 					approvalVO = approvalDAO.getApprovalId(approvalVO);
 					leaveRecordVO.setMemberId(approvalVO.getMemberId());
 					leaveRecordVO = approvalDAO.getLeaverCode(leaveRecordVO);
 					leaveRecordVO.setType(ApprovalStatus.APPROVAL);
-									
+					}			
 					result = approvalDAO.setLeaverCode(leaveRecordVO);
 					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
 					
@@ -285,14 +287,17 @@ public class ApprovalService {
 			approvalInfoVO.setMemberId(memberVO.getId());
 			result = approvalDAO.setInfoUpdate(approvalInfoVO);
 			result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
+			
 			LeaveRecordVO leaveRecordVO = new LeaveRecordVO();
 			leaveRecordVO.setApprovalId(approvalVO.getId());
+			leaveRecordVO = approvalDAO.getLeave(leaveRecordVO);
+			if(leaveRecordVO !=null) {
 			approvalVO = approvalDAO.getApprovalId(approvalVO);
 			leaveRecordVO.setMemberId(approvalVO.getMemberId());
 			leaveRecordVO = approvalDAO.getLeaverCode(leaveRecordVO);
 			leaveRecordVO.setType(ApprovalStatus.REFUSE);
-			
 			result = approvalDAO.setLeaverCode(leaveRecordVO);
+			}
 			approvalVO.setConfirm(ApprovalStatus.REFUSE);
 			
 			result = approvalDAO.setApprovalUpdate(approvalVO);

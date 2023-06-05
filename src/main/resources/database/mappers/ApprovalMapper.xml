@@ -225,6 +225,9 @@
  	<delete id="setApprovalInfoDelete" parameterType="Long">
  		DELETE FROM APPROVALINFO WHERE approval_id=#{id1}
  	</delete>
+ 	<select id="getLeave" parameterType="LeaveRecordVO" resultType="LeaveRecordVO">
+ 		SELECT * FROM LEAVERECODE WHERE type='대기' AND approval_id=#{approvalId}
+ 	</select>
  	
  	
  	
