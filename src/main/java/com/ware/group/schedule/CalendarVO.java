@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 public class CalendarVO {
 
-    private String  calendar_date;    	//  날짜
-    private Integer calendar_dd;
-    private Integer calendar_dayofweek;
+    private String  calendardate;    	//  날짜
+    private Integer calendardd;
+    private Integer calendardayofweek;
     private List<?> list;
 }

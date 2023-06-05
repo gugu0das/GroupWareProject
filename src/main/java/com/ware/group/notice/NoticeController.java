@@ -85,13 +85,14 @@ public class NoticeController {
 	}
 	
 	@GetMapping("add")
-	public ModelAndView setInsert(@ModelAttribute NoticeVO noticeVO,HttpSession session) throws Exception {
+	public ModelAndView setInsert(@ModelAttribute NoticeVO noticeVO, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		
+		//session.getAttribute 를 하고싶지만 SEcurity Session으로 바뀌어서 이렇게 받아와야 session에 있는 데이터를 얻을 수 있다.
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-			
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		
+		
 		noticeVO.setWriter(memberVO.getAccountId());
 		mv.setViewName("notice/add");
 		

@@ -1,16 +1,11 @@
 package com.ware.group.member;
 
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ware.group.common.ScheduleService;
 import com.ware.group.department.DepartmentService;
 import com.ware.group.department.DepartmentVO;
 
@@ -34,43 +30,10 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@Autowired
+	private ScheduleService employeeService;
+	@Autowired
 	private DepartmentService departmentService;
-	
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
-//	@GetMapping("info")
-//	public void info(HttpSession session) {
-////		String pw="5";
-////		
-////		MemberVO memberVO=(MemberVO)memberService.loadUserByUsername("5");
-////		
-////		log.error("{} ::::: ", memberVO.getPassword());
-////		log.error("{} ::::: ", passwordEncoder.encode(pw));
-////		log.error("{} :::::", memberVO.getPassword().equals(passwordEncoder.encode(pw)));
-////		
-////		boolean check = passwordEncoder.matches(pw, memberVO.getPassword());
-////		log.error("{} :::: ", check);
-////		
-////		
-////		log.error("======== Login Info ===========");
-//		//SPRING_SECURITY_CONTEXT
-//		Enumeration<String> names = session.getAttributeNames();
-//		while(names.hasMoreElements()) {
-//			log.error("==== {} === ", names.nextElement());
-//		}
-//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-//		log.error("========== {} =========", obj);
-//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-//		Authentication authentication= contextImpl.getAuthentication();
-//
-//		
-//		log.error("====== USERNAME :  {} ======", authentication.getName());
-//		log.error("====== Detail :  {} ======", authentication.getDetails());
-//		log.error("====== MemberVO :  {} ======", authentication.getPrincipal());
-//		MemberVO  meb =  (MemberVO)authentication.getPrincipal();
-//		System.out.println(meb.getAccountId());
-//		
-//	}
+
 
 	@GetMapping("join")
 	public ModelAndView setMemberJoin(@ModelAttribute MemberVO memberVO, ModelAndView mv)throws Exception{
@@ -112,9 +75,8 @@ public class MemberController {
 	
 	@GetMapping("profile")
 	public ModelAndView getProfile(@ModelAttribute MemberVO memberVO, ModelAndView mv,HttpSession session)throws Exception{
-		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+
+		memberVO = memberService.getMemberProfile(memberVO, session);
 		
 		mv.addObject("memberVO", memberVO);
 		mv.setViewName("member/profile");
@@ -131,11 +93,11 @@ public class MemberController {
 	@PostMapping("security")
 	public ModelAndView setPasswordUpdate(ModelAndView mv, MemberVO memberVO,HttpSession session, BindingResult bindingResult)throws Exception{
 		
-		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO2 =(MemberVO)contextImpl.getAuthentication().getPrincipal(); 
-		memberVO.setId(memberVO2.getId());
-		memberService.setPasswordUpdate(memberVO, bindingResult);
+//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+//		MemberVO memberVO2 =(MemberVO)contextImpl.getAuthentication().getPrincipal(); 
+//		memberVO.setId(memberVO2.getId());
+		memberService.setPasswordUpdate(memberVO,session, bindingResult);
 		mv.setViewName("redirect:/member/logout");
 		return mv;
 	}
@@ -149,6 +111,36 @@ public class MemberController {
 
 		return check;
 		
+	}
+
+	//----------------근태------------------------------------
+
+	@PostMapping("statusUpdate")
+	public ModelAndView employeeStatusUpdate(ModelAndView mv,MemberVO memberVO,EmployeeStatusVO employeeStatusVO,HttpSession session,String timeStatus)throws Exception{
+		employeeStatusVO.setStatus(timeStatus);
+		int result =  memberService.setStatusUpdate(memberVO, employeeStatusVO, session);
+		
+		mv.setViewName("redirect:/");
+		return mv;
+	}
+	@PostMapping("testStatusUp")
+	public void testStatusUp(ModelAndView mv,MemberVO memberVO, HttpSession session, EmployeeStatusVO employeeStatusVO) throws Exception{
+		int result = employeeService.testTimeStempInsert(memberVO, employeeStatusVO, session);
+		
+	}
+	@GetMapping("statusList")
+	public ModelAndView getStatusList(ModelAndView mv,MemberVO memberVO, HttpSession session, EmployeeStatusVO employeeStatusVO)throws Exception{
+		memberVO = memberService.getMemberProfile(memberVO, session);
+		employeeStatusVO =  memberService.getEmployeeStatus(session);
+		mv.addObject("employeeVO", employeeStatusVO);
+		List<String> ar = memberService.getEmployeeStatusBtn(employeeStatusVO, session);
+		if(ar!=null&&ar.size()>0) {
+
+			mv.addObject("btns",ar);
+		}
+		mv.addObject("memberVO",memberVO);
+		mv.setViewName("member/statusList");
+		return mv;
 	}
 	
 }

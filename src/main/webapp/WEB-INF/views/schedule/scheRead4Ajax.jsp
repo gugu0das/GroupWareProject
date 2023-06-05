@@ -6,39 +6,39 @@
              <div class="panel-body">
              	<div class="row form-group">
                      <label class="col-lg-2">일정명</label>
-                     <div class="col-lg-10"><c:out value="${schInfo.sstitle}"/></div>
+                     <div class="col-lg-10"><c:out value="${scheInfo.title}"/></div>
                  </div>
              	<div class="row form-group">
                      <label class="col-lg-2">구분</label>
-                     <div class="col-lg-10"><c:out value="${schInfo.sstype}"/></div>
+                     <div class="col-lg-10"><c:out value="${scheInfo.type}"/></div>
                  </div>
              	<div class="row form-group">
                      <label class="col-lg-2">일시</label>
                      <div class="col-lg-10">
-                     	<c:if test='${schInfo.ssrepeattype=="1"}'> 
-	                     	<c:out value="${schInfo.ssstartdate}"/> <c:out value="${schInfo.ssstarthour}"/>:<c:out value="${schInfo.ssstartminute}"/>
-	                     	~ <c:out value="${schInfo.ssstartdate}"/> <c:out value="${schInfo.ssendhour}"/>:<c:out value="${schInfo.ssendminute}"/>
+                     	<c:if test='${scheInfo.repeattype=="1"}'> 
+	                     	<c:out value="${scheInfo.startdate}"/> <c:out value="${scheInfo.starthour}"/>:<c:out value="${scheInfo.ssstartminute}"/>
+	                     	~ <c:out value="${scheInfo.startdate}"/> <c:out value="${scheInfo.endhour}"/>:<c:out value="${scheInfo.ssendminute}"/>
 	                    </c:if>
-	                    <c:if test='${schInfo.ssrepeattype!="1"}'>
-	                    	<c:out value="${cddate}"/>
+	                    <c:if test='${scheInfo.repeattype!="1"}'>
+	                    	<c:out value="${calendardate}"/>
 	                    </c:if>
                       </div> 
                  </div>
              	<div class="row form-group">
                      <label class="col-lg-2">반복</label>
-                     <div class="col-lg-10"><c:out value="${schInfo.ssrepeattypenm}"/></div>
+                     <div class="col-lg-10"><c:out value="${scheInfo.repeattypenm}"/></div>
                  </div>
              	<div class="row form-group">
                      <label class="col-lg-2">공개</label>
-                     <div class="col-lg-10"><c:out value="${schInfo.ssisopen}"/></div>
+                     <div class="col-lg-10"><c:out value="${scheInfo.isopen}"/></div>
                  </div> 
              	<div class="row form-group">
                      <label class="col-lg-2">작성자</label> 
-                     <div class="col-lg-10"><c:out value="${schInfo.usernm}"/></div>
+                     <div class="col-lg-10"><c:out value="${scheInfo.usernum}"/></div>
                  </div> 
              	<div class="row form-group">
                      <label class="col-lg-2">내용</label>
-                     <div class="col-lg-10" style="max-height:100px; overflow:hidden"><c:out value="${schInfo.sscontents}"/></div> 
+                     <div class="col-lg-10" style="max-height:100px; overflow:hidden"><c:out value="${scheInfo.content}"/></div> 
                  </div>
              </div>
          </div>
