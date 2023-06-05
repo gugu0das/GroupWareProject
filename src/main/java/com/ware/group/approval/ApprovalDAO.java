@@ -6,14 +6,14 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.approval3.DocumentFilesVO;
-import com.ware.group.approval3.JobVO;
 import com.ware.group.department.DepartmentVO;
+import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
 
 @Mapper
 public interface ApprovalDAO {
 	
-public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public int addApprover(ApproverVO approverVO) throws Exception;
 	
@@ -39,19 +39,37 @@ public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public long getFileId(String fileName) throws Exception;
 	
-	public String getCategoryDuplication(String name) throws Exception;
+	public List<String> getCategoryDuplication(String name) throws Exception;
 	
-	public String getFileDuplication(String formFileName) throws Exception;
+	public List<String> getFileDuplication(String formFileName) throws Exception;
 	
 	public List<ApprovalFormFileVO> getListFormFile() throws Exception;
 	
 	public List<ApproverVO> getListApprover() throws Exception;
 	
-	public int updateFormFile(DocumentFilesVO documentFilesVO) throws Exception;
+	public int updateFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception;
 	
 	public int updateCategoryName(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public int updateApprover(ApproverVO approverVO) throws Exception;
+	
+	public int deleteApprover(ApproverVO approverVO) throws Exception;
+	
+	public List<ApprovalCategoryVO> checkUpperCategory() throws Exception;
+	
+	public long underCategoryCount(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int deleteUpperOptionApprover(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int deleteUpperOptionFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int deleteUnderFormFile (ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int deleteUnderApprover (ApproverVO approverVO) throws Exception;
+	
+	public int deleteUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int addUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	//
 	public List<ApprovalCategoryVO> getListCategory() throws Exception;
@@ -94,4 +112,14 @@ public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	public int setAnnual(LeaveRecordVO leaveRecordVO) throws Exception;
 	
 	public List<ApprovalVO> getMyApproval(ApprovalVO approvalVO) throws Exception;
+	
+	public ApprovalFormFileVO getFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int setApprovalDelete(Long id1) throws Exception;
+	
+	public int setApprovalFileDelete(Long id1) throws Exception;
+	
+	public int setApprovalInfoDelete(Long id1) throws Exception;
+	
+	public LeaveRecordVO getLeave(LeaveRecordVO leaveRecordVO) throws Exception;
 }

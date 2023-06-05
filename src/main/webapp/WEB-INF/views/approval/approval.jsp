@@ -8,5 +8,6 @@
 </head>
 <body>
 	도착
+	 <c:import url="../temp/header2.jsp"></c:import>
 </body>
 </html>

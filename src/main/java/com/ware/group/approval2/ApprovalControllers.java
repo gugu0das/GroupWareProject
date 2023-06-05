@@ -4,8 +4,10 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+
 import java.util.List;
 import java.util.UUID;
+import com.ware.group.approval2.ApprovalVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,14 +17,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ware.group.approval.ApprovalCategoryVO;
+import com.ware.group.approval.ApprovalService;
+
+
+import com.ware.group.util.Pager;
+
 import lombok.extern.slf4j.Slf4j;
 
 //import org.junit.jupiter.api.Assertions;
-//@Controller
-//@RequestMapping("/approval/*")
+@Controller
+@RequestMapping("/approvals/*")
 @Slf4j
-public class ApprovalController {
+public class ApprovalControllers {
 	
+	
+	@Autowired
+	private ApprovalServices approvalServices;
 	
 	@Autowired
 	private ApprovalService approvalService;
@@ -73,27 +84,72 @@ public class ApprovalController {
         //br.close(); //출력스트림 닫기
         pw.close();
         fw.close();
-        int result = approvalService.setApprovalApplication(approvalVO,fileName);
+        int result = approvalServices.setApprovalApplication(approvalVO,fileName);
 		mv.setViewName("redirect:./myInformation");
 		return mv;
 	}
 	@GetMapping("information")
 	//list
-	public ModelAndView getApprovalInformation() throws Exception{
+	public ModelAndView getApprovalInformation(Pager pager) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		MemberVO memberVO = new MemberVO();
+		pager.setMemberId(0L);
 		memberVO.setId(4L);
-		List<ApprovalVO> ar = approvalService.getApprovalList(memberVO);
 		
+		List<ApprovalVO> ar = approvalServices.getApprovalList(pager);
+		
+		//cat
+		List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
+		//cat2
+		List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
+		//cat1
+		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+		mv.addObject("pager", pager);
+		
+		log.error("======================{}=============",ar.size() ==0);
+		
+		
+		
+		for(ApprovalCategoryVO approvalCategoryVO : arr) {
+			if(pager.getCategoryId() != null &&approvalCategoryVO.getId() == pager.getCategoryId()) {
+				mv.addObject("name", approvalCategoryVO.getName());
+				break;
+			}else {
+				mv.addObject("name", "전체");
+			}
+		}
+		
+		
+		if(ar.size() ==0) {
+			
+			
+			for(ApprovalCategoryVO approvalCategoryVO : arrr) {
+				if(approvalCategoryVO.getRef() == pager.getCategoryId()) {
+					pager.setCategoryId(approvalCategoryVO.getId());
+					List<ApprovalVO> av = approvalServices.getApprovalList(pager);
+							for(ApprovalVO a : av) {
+								ar.add(a);
+								}
+							}
+					
+				}
+				
+			}
+			
+		mv.addObject("cat", arr);
+		mv.addObject("cat2", arrrr);
+		mv.addObject("cat1", arrr);
 		mv.addObject("list", ar);
-		mv.setViewName("approval/information");
+		
+			mv.setViewName("approval/information2");
+		
 		return mv;
 	}
 	@GetMapping("check")
 	//detail
 	public ModelAndView setApprovalCheck(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		ApprovalUploadFileVO approvalUploadFileVO=approvalService.getApprovalFile(approvalVO);
+		ApprovalUploadFileVO approvalUploadFileVO=approvalServices.getApprovalFile(approvalVO);
 		mv.addObject("file", approvalUploadFileVO.getName());
 		mv.addObject("id",approvalVO.getId());
 		mv.setViewName("approval/check");
@@ -117,7 +173,7 @@ public class ApprovalController {
 //        //br.close(); //출력스트림 닫기
 //        pw.close();
 //        writer.close();
-		approvalService.setApprovalApproval(memberVO, approvalVO, approval);
+		approvalServices.setApprovalApproval(memberVO, approvalVO, approval);
 		
 		log.error("{} ::::::::::::", approval);
 		mv.setViewName("approval/approval");

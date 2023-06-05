@@ -1,20 +1,22 @@
 package com.ware.group.approval;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -22,9 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.ware.group.annual.LeaveRecordVO;
-import com.ware.group.approval3.DocumentFilesVO;
-import com.ware.group.approval3.JobVO;
 import com.ware.group.department.DepartmentVO;
+import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
 import com.ware.group.util.FileManager;
 
@@ -38,14 +39,48 @@ public class ApprovalController {
 	@Autowired
 	private ApprovalService approvalService;
 
+	@Value("${app.upload.approvalFormFile}")
+	private String formFilePath;
 	@Value("${app.upload.base}")
 	private String basePath;
+	@Value("${app.upload.bass}")
+	private String basePaths;
 	
 	@Autowired
 	private FileManager filemanger;
 	/*
 	 * @Autowired TemplateEngine templateEngine;
 	 */
+	
+	@GetMapping("test")
+	public ModelAndView test(ApprovalVO approvalVO) throws Exception{
+		ModelAndView mv = new ModelAndView();
+	      log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());      
+	      approvalVO.setMemberId(0L);
+	      
+	      List<ApprovalVO> approvalList = approvalService.getApprovalList(approvalVO);
+	      //cat
+	      List<ApprovalCategoryVO> ref0 = approvalService.getListCategoryRef0();
+	      //cat2
+	      List<ApprovalCategoryVO> categoryList = approvalService.getListCategory();
+	      //cat1
+	      List<ApprovalCategoryVO> ref1 =approvalService.getListCategoryRef1();
+
+	      for(ApprovalCategoryVO approvalCategoryVO : ref0) {
+	         if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
+	            mv.addObject("name", approvalCategoryVO.getName());
+	            break;
+	         }else {
+	            mv.addObject("name", "전체");
+	         }
+	      }
+	      mv.addObject("cat", ref0);
+	      mv.addObject("cat2", categoryList);
+	      mv.addObject("cat1", ref1);
+	      mv.addObject("list", approvalList);
+	      mv.setViewName("approval/test");
+	      return mv;
+	}
 	
 	@GetMapping("listCategory")
 	public ModelAndView getListCategory() throws Exception{
@@ -84,6 +119,9 @@ public class ApprovalController {
 		List<ApprovalFormFileVO> listFormFile = approvalService.getListFormFile();
 		
 		List<ApproverVO> listApprover =  approvalService.getListApprover();
+		
+		List<DepartmentVO> listDepartment = approvalService.getDepartmentList();
+		
 		log.error("=={}==", listApprover.get(0).getDepartmentId());
 		log.error("=={}==", listApprover.get(0).getJobId());
 		log.error("=={}==", listApprover.get(0).getDepartmentVOs().get(0).getName());
@@ -92,6 +130,7 @@ public class ApprovalController {
 		mv.addObject("list1", listCategoryRef1);
 		mv.addObject("listFormFile", listFormFile);
 		mv.addObject("listApprover", listApprover);
+		mv.addObject("listDepartment", listDepartment);
 		
 		
 		
@@ -103,24 +142,25 @@ public class ApprovalController {
 	
 	@PostMapping("updateFormFile")
 	@ResponseBody
-	public String updateFormFile(MultipartHttpServletRequest request, Long fileId) throws Exception{
+	public String updateFormFile(MultipartHttpServletRequest request) throws Exception{
 		log.error("=======test=======");
 		
 		
 		List<MultipartFile> file = request.getFiles("file");
 		
 		log.error("=={}==", file.size());
-		log.error("=={}==", fileId);
-		DocumentFilesVO documentFilesVO = new DocumentFilesVO();
+		//log.error("=={}==", categoryId);
+		ApprovalFormFileVO approvalFormFileVO = new ApprovalFormFileVO();
 		int result = 0;
 		String fileName = "";
 		
 		for(MultipartFile obj : file) {
-			documentFilesVO.setFileName(obj.getOriginalFilename());
-			documentFilesVO.setOriName(obj.getOriginalFilename());
-			documentFilesVO.setId(fileId);
-			result = approvalService.updateFormFile(documentFilesVO);
-			filemanger.saveFile(basePath + "/approvalFormFile", obj);
+			approvalFormFileVO.setFileName(obj.getOriginalFilename());
+			
+			approvalFormFileVO.setCategoryId(3L);
+			result = approvalService.updateFormFile(approvalFormFileVO);
+			
+			filemanger.saveFile(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {
@@ -129,6 +169,70 @@ public class ApprovalController {
 			return "파일 업데이트 실패";
 		}
 	}
+	
+	@PostMapping("updateUpperFile")
+	@ResponseBody
+	public String updateUpperFile(@RequestPart(value = "categoryId") Map<String, Object> param, MultipartHttpServletRequest request) throws Exception{
+		
+		List<MultipartFile> file = request.getFiles("file");
+		
+		log.error("=={}==", param.get("categoryId"));
+		//log.error("=={}==", categoryId);
+		ApprovalFormFileVO approvalFormFileVO = new ApprovalFormFileVO();
+		int result = 0;
+		String fileName = "";
+		
+		for(MultipartFile obj : file) {
+			approvalFormFileVO.setFileName(obj.getOriginalFilename());
+			
+			approvalFormFileVO.setCategoryId(Long.parseLong((String)param.get("categoryId")));
+			result = approvalService.updateFormFile(approvalFormFileVO);
+			
+			filemanger.saveFile(formFilePath, obj);
+		}
+		
+		if(result == 1 && fileName != null) {
+			ApprovalCategoryVO vo = new ApprovalCategoryVO();
+			vo.setRef((Long)param.get("categoryId"));
+			approvalService.deleteUnderFormFile(vo);
+			
+			return "파일 업데이트 성공";
+		}else{
+			return "파일 업데이트 실패";
+		}
+	}
+	
+	@PostMapping("updateUpperOptionApprover")
+	@ResponseBody
+	public int updateUpperOptionApprover(String categoryId, String departmentId[] , String jobId[]) throws Exception{
+		
+		log.error("====");
+		log.error("=={}==", departmentId.length);
+		log.error("====");
+		
+		List<ApproverVO> approverVOs = new ArrayList<>();
+		
+		for(int i = 0; i < departmentId.length; i ++) {
+			ApproverVO vo = new ApproverVO();
+			vo.setCategoryId(Long.parseLong(categoryId));
+			vo.setDepartmentId(Long.parseLong(departmentId[i]));
+			vo.setJobId(Long.parseLong(jobId[i]));
+			vo.setDepth(i);
+			approverVOs.add(vo);
+		}
+		
+		int result = 0;
+		
+		for(ApproverVO approver : approverVOs) {
+			result = approvalService.addApprover(approver);
+		}
+		
+		
+		
+		return result;
+	}
+	
+	
 	
 	@GetMapping("addCategory")
 	public ModelAndView addCategory() throws Exception{
@@ -178,23 +282,17 @@ public class ApprovalController {
 		boolean check = false;
 		
 		for(MultipartFile multipartFile : fileId) {
-			//중복검사 먼저 하기
-			DocumentFilesVO documentFilesVO = new DocumentFilesVO();
-			
-			documentFilesVO.setFileName(multipartFile.getOriginalFilename());
-			documentFilesVO.setOriName(multipartFile.getOriginalFilename());
-			
-			
-			approvalService.addFormFile(documentFilesVO);
-				
-			filemanger.saveFile(basePath + "/approvalFormFile", multipartFile);
+			filemanger.saveFile(formFilePath + "/approvalFormFile", multipartFile);
 		}
 		
 		
 		Gson gson = new Gson();
-			
+		log.error(json1);
 		ApprovalCategoryVO [] approvalCategoryVOs = gson.fromJson(json1, ApprovalCategoryVO[].class);
-			
+		log.error("============");
+		log.error("============{}",approvalCategoryVOs.length);
+		
+		
 		for(ApprovalCategoryVO approvalCategoryVO1 : approvalCategoryVOs) {
 			approvalCategoryVO1.setRef(0L);
 			approvalService.addCategory(approvalCategoryVO1);
@@ -217,7 +315,6 @@ public class ApprovalController {
 					}
 					for(ApprovalFormFileVO fileVO : approvalCategoryVO2.getFile()) {
 						fileVO.setCategoryId(approvalCategoryVO2.getId());
-						fileVO.setFileId(approvalService.getFileId(fileVO.getFileName()));
 						approvalService.addApprovalFormFile(fileVO);
 					}
 				}
@@ -234,10 +331,11 @@ public class ApprovalController {
 //		}else {
 //			mv.setViewName("/approval/addCategory");
 //		}
-		mv.addObject("url", "/");
+		mv.setViewName("redirect:./updateCategory");
 		
 		return mv;
 	}
+
 	
 //	@GetMapping("updateCategory")
 //	public ModelAndView updateCategory() throws Exception{
@@ -282,34 +380,101 @@ public class ApprovalController {
 	@PostMapping("updateApprover")
 	@ResponseBody
 	public int updateApprover(ApproverVO approverVO) throws Exception{
-		
+
 		int result = approvalService.updateApprover(approverVO);
 		
 		return result;
 		
 	}
 	
-	@PostMapping("deleteCategory")
-	public ModelAndView deleteCategory(ApprovalCategoryVO categoryVO) throws Exception{
+	@PostMapping("addApprover")
+	@ResponseBody
+	public int addApprover(ApproverVO approverVO) throws Exception{
+		List<ApproverVO> ar = approvalService.getListApprover();
+		boolean check = false;
+		for(ApproverVO approver : ar) {
+			if(approver.getCategoryId() == approverVO.getCategoryId()) {
+				if(approver.getDepartmentId() == approverVO.getDepartmentId()) {
+					if(approver.getJobId() == approverVO.getJobId()) {
+						check = true;
+					}
+				}	
+			}
+		}
 		
-		ModelAndView mv = new ModelAndView();
+		int result = 0;
 		
-		int result = approvalService.deleteCategory(categoryVO);
+		if(!check) {
+			result = approvalService.addApprover(approverVO);
+		}
 		
+		return result;
 		
-		mv.setViewName("/approval/deleteCategory");
+	}
+	
+	@PostMapping("deleteApprover")
+	@ResponseBody
+	public int deleteApprover(ApproverVO approverVO) throws Exception{
+		int result = approvalService.deleteApprover(approverVO);
 		
-		return mv;
+		return result;
+	}
+	
+	
+	@PostMapping("deleteUnderCategory")
+	@ResponseBody
+	public int deleteUnderCategory(ApprovalCategoryVO categoryVO) throws Exception{
+		int result = approvalService.deleteUnderCategory(categoryVO);
+		ApproverVO vo = new ApproverVO();
+		vo.setCategoryId(categoryVO.getId());
+		approvalService.deleteUnderApprover(vo);
+		return result;
 		
 	}
 	
 	
+	@PostMapping("deleteCategory")
+	@ResponseBody
+	public int deleteCategory(ApprovalCategoryVO categoryVO) throws Exception{
+
+		int result = approvalService.deleteCategory(categoryVO);
+		
+		List<ApprovalCategoryVO> approvalCategoryVOList = new ArrayList<>();
+		
+		if(result == 1) {
+			for(ApprovalCategoryVO categoryVO1 : approvalService.checkUpperCategory()) {
+				long count = approvalService.underCategoryCount(categoryVO1);
+				if( count > 0 ) {
+					approvalCategoryVOList.add(categoryVO1);
+				}
+			}
+			if( approvalCategoryVOList.size() != 0 ) {
+				for(ApprovalCategoryVO categoryVO2 : approvalCategoryVOList) {
+					approvalService.deleteUpperOptionApprover(categoryVO2);
+					approvalService.deleteUpperOptionFormFile(categoryVO2);
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	@PostMapping("addUnderCategory")
+	public int addUnderCategory(ApprovalCategoryVO categoryVO) throws Exception{
+
+		int result = approvalService.addUnderCategory(categoryVO);
+
+		return result;
+	}
 	//
 	
 	@GetMapping("application")
-	public ModelAndView setApprovalApplication() throws Exception {
+	public ModelAndView setApprovalApplication(ApprovalCategoryVO categoryVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-
+		log.error("{}:::",categoryVO.getId());
+		ApprovalFormFileVO approvalFormFileVO = approvalService.getFormFile(categoryVO);
+		mv.addObject("cat", categoryVO.getId());
+		mv.addObject("file", approvalFormFileVO.getFileName());
 		mv.setViewName("approval/application");
 		return mv;
 	}
@@ -317,7 +482,12 @@ public class ApprovalController {
 	@PostMapping("application")
 	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
+		log.error("vo {} ", leaveRecordVO);
 		
+		if(leaveRecordVO.getReason() =="" && leaveRecordVO.getUseDate()=="") {
+			leaveRecordVO.setReason(null);
+			leaveRecordVO.setUseDate(null);
+		}
 		//예시
 		approvalVO.setMemberId(1L);
 		
@@ -338,7 +508,11 @@ public class ApprovalController {
         String fileName = UUID.randomUUID().toString();
         fileName=fileName+".html";
         System.out.println("==================1============================");
-        PrintWriter fw = new PrintWriter(new FileOutputStream("c:/sm/approval/"+fileName));
+        File file = new File(basePaths+"/approval");
+        if(!file.exists()) {
+			file.mkdirs();
+		}
+        PrintWriter fw = new PrintWriter(new FileOutputStream(basePaths+"approval/"+fileName));
         fw.println(dd);
         System.out.println("===================2===========================");
         //is.close(); //입력 스트림 닫기
@@ -356,26 +530,38 @@ public class ApprovalController {
 	//list
 	public ModelAndView getApprovalInformation(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		
-		
-		approvalVO.setMemberId(1L);
+	   
+		log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());		
+		approvalVO.setMemberId(0L);
 		
 		List<ApprovalVO> ar = approvalService.getApprovalList(approvalVO);
-		List<ApprovalCategoryVO> arr = approvalService.getListCategory();
-		if(approvalVO.getCategoryId() !=null) {
-		for(ApprovalCategoryVO approvalCategoryVO : arr) {
-			if( approvalCategoryVO.getRef() == approvalVO.getCategoryId()) {
-				ApprovalVO vo = new ApprovalVO();
-				vo.setCategoryId(approvalCategoryVO.getId());
-				vo.setMemberId(1L);
-				List<ApprovalVO> arrr = approvalService.getApprovalList(vo);
-				log.error("{}...",arrr);
-				for(ApprovalVO er : arrr) {
-					ar.add(er);
-				}
-			}
-		}
-		}
+		//cat
+		List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
+		//cat2
+		List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
+		//cat1
+		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+		
+		
+//		for(ApprovalVO approvalVO2 : ar) {
+//			log.error("1");
+//			for(ApprovalCategoryVO approvalCategoryVO : arrr) {
+//				log.error("2");
+//				log.error("{}",approvalCategoryVO.getRef());
+//				if(approvalVO.getCategoryId() !=null && approvalVO.getCategoryId() == approvalCategoryVO.getRef()) {
+//					log.error("3");
+//					approvalVO2.setCategoryId(approvalCategoryVO.getRef());
+//					
+//					
+//					ars.add(approvalService.getApprovalList(approvalVO2));
+//					approvalVO2.getAr().add(approvalService.getApprovalList(approvalVO2));			
+//					
+//				}
+//
+//				
+//			}
+//		}
+
 		for(ApprovalCategoryVO approvalCategoryVO : arr) {
 			if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
 				mv.addObject("name", approvalCategoryVO.getName());
@@ -385,6 +571,8 @@ public class ApprovalController {
 			}
 		}
 		mv.addObject("cat", arr);
+		mv.addObject("cat2", arrrr);
+		mv.addObject("cat1", arrr);
 		mv.addObject("list", ar);
 		mv.setViewName("approval/information");
 		return mv;
@@ -397,6 +585,19 @@ public class ApprovalController {
 		ApprovalUploadFileVO approvalUploadFileVO = approvalService.getApprovalFile(approvalVO);
 		mv.addObject("file", approvalUploadFileVO.getName());
 		mv.addObject("id", approvalVO.getId());
+		mv.addObject("checkNum", 1);
+		mv.setViewName("approval/check");
+		return mv;
+	}
+	@GetMapping("myPayment")
+	// detail
+	public ModelAndView getMyPayment(ApprovalVO approvalVO) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		ApprovalUploadFileVO approvalUploadFileVO = approvalService.getApprovalFile(approvalVO);
+		mv.addObject("file", approvalUploadFileVO.getName());
+		mv.addObject("checkNum", 2);
+		mv.addObject("id", approvalVO.getId());
+		mv.addObject("confirm", approvalVO.getConfirm());
 		mv.setViewName("approval/check");
 		return mv;
 	}
@@ -415,7 +616,7 @@ public class ApprovalController {
         //파일 수정 모드 있는 파일을 불러오기
 		
         //PrintWriter fw = new PrintWriter(new FileOutputStream("c:/sm/approval/"+fileName,true));
-        BufferedWriter writer = new BufferedWriter(new FileWriter("c:/sm/approval/"+fileName));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(basePaths+"approval/"+fileName));
         //fw.println(dd);
         //덮어 쓰기
         writer.write(ddd);
@@ -432,15 +633,38 @@ public class ApprovalController {
         writer.close();
 		return mv;
 	}
+	
 
 	@GetMapping("myInformation")
 	public ModelAndView getMyInformation(ApprovalVO approvalVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		
+		approvalVO.setMemberId(1L);
 		List<ApprovalVO> ar = approvalService.getMyApproval(approvalVO);
+		
+		
+		if(approvalVO.getConfirm() != null) {
+		mv.addObject("name", approvalVO.getConfirm());
+		}else {
+			mv.addObject("name", "전체");
+		}
+		
 		
 		mv.addObject("list", ar);
 		mv.setViewName("approval/myInformation");
+		return mv;
+	}
+	
+	
+	@PostMapping("delete")
+	public ModelAndView setDelete(Long id1) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		MemberVO memberVO = new MemberVO();
+		memberVO.setId(1L);
+		log.error("========================================{}====================================================",id1);
+		int result = approvalService.setApprovalDelete(id1,memberVO);
+		result = approvalService.setApprovalFileDelete(id1);
+		approvalService.setApprovalInfoDelete(id1);
+		mv.setViewName("redirect:./myInformation");
 		return mv;
 	}
 }
