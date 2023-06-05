@@ -155,7 +155,7 @@ public class MemberService implements UserDetailsService{
 	public int setStatusUpdate(MemberVO memberVO, EmployeeStatusVO employeeStatusVO, HttpSession session)throws Exception{
 		int result =0;
 
-		//1. 빈테이블이면 출근버튼만 활성화
+		//1. 빈테이블이면 출근버튼만 활성화 
 		//2. 근무시간이 초과하면 알아서 
 		//3. 근무시간 초과 전에 버튼 누르면 외근, 조퇴 로 status='외근','조퇴'받음
 		//4. if 조퇴 = 그상태로 status 조퇴로 끝
@@ -166,7 +166,7 @@ public class MemberService implements UserDetailsService{
 
 		//DB status에 나오는 것 :출근,지각, 초과근무, 외근, 조퇴   
 
-		//1.form 에서 받아온 status : 외근인지, 조퇴인지
+		// form 에서 받아온 status : 외근인지, 조퇴인지 등
 		String getstatus = employeeStatusVO.getStatus();
 
 		
