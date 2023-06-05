@@ -16,7 +16,7 @@ public class ScheVO {
 				    endhour,			//종료일-시간
 				    endminute,			//종료일-분
 				    repeattype,			//반복
-				    repeattype_nm,
+				    repeattypenm,
 				    repeatoption,		//반복 옵션- 주
 				    repeatend,			//반복종료
 				    content,			//내용
