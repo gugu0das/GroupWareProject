@@ -125,8 +125,8 @@
 	<delete id="deleteCategory" parameterType="ApprovalCategoryVO">
 		DELETE FROM APPROVALCATEGORY WHERE id = #{id}
 	</delete>
-	<insert id="addUnderCategory" parameterType="ApprovalCategoryVO">
-		INSERT INTO APPROVALCATEGORY (name, ref) VALUES (#{name}, #{ref})
+	<insert id="addUnderCategory" parameterType="ApprovalCategoryVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO APPROVALCATEGORY (id, name, ref) VALUES (#{id}, #{name}, #{ref})
 	</insert>
 	
 	
