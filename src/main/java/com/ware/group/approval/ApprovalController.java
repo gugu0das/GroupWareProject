@@ -24,10 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.ware.group.annual.LeaveRecordVO;
+
 import com.ware.group.department.DepartmentVO;
 import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
 import com.ware.group.util.FileManager;
+import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,35 +54,26 @@ public class ApprovalController {
 	 * @Autowired TemplateEngine templateEngine;
 	 */
 	
-	@GetMapping("test")
-	public ModelAndView test(ApprovalVO approvalVO) throws Exception{
-		ModelAndView mv = new ModelAndView();
-	      log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());      
-	      approvalVO.setMemberId(0L);
-	      
-	      List<ApprovalVO> approvalList = approvalService.getApprovalList(approvalVO);
-	      //cat
-	      List<ApprovalCategoryVO> ref0 = approvalService.getListCategoryRef0();
-	      //cat2
-	      List<ApprovalCategoryVO> categoryList = approvalService.getListCategory();
-	      //cat1
-	      List<ApprovalCategoryVO> ref1 =approvalService.getListCategoryRef1();
-
-	      for(ApprovalCategoryVO approvalCategoryVO : ref0) {
-	         if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
-	            mv.addObject("name", approvalCategoryVO.getName());
-	            break;
-	         }else {
-	            mv.addObject("name", "전체");
-	         }
-	      }
-	      mv.addObject("cat", ref0);
-	      mv.addObject("cat2", categoryList);
-	      mv.addObject("cat1", ref1);
-	      mv.addObject("list", approvalList);
-	      mv.setViewName("approval/test");
-	      return mv;
-	}
+	/*
+	 * @GetMapping("test") public ModelAndView test(ApprovalVO approvalVO) throws
+	 * Exception{ ModelAndView mv = new ModelAndView();
+	 * log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId()
+	 * ); approvalVO.setMemberId(0L);
+	 * 
+	 * List<ApprovalVO> approvalList = approvalService.getApprovalList(approvalVO);
+	 * //cat List<ApprovalCategoryVO> ref0 = approvalService.getListCategoryRef0();
+	 * //cat2 List<ApprovalCategoryVO> categoryList =
+	 * approvalService.getListCategory(); //cat1 List<ApprovalCategoryVO> ref1
+	 * =approvalService.getListCategoryRef1();
+	 * 
+	 * for(ApprovalCategoryVO approvalCategoryVO : ref0) {
+	 * if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() ==
+	 * approvalVO.getCategoryId()) { mv.addObject("name",
+	 * approvalCategoryVO.getName()); break; }else { mv.addObject("name", "전체"); } }
+	 * mv.addObject("cat", ref0); mv.addObject("cat2", categoryList);
+	 * mv.addObject("cat1", ref1); mv.addObject("list", approvalList);
+	 * mv.setViewName("approval/test"); return mv; }
+	 */
 	
 	@GetMapping("listCategory")
 	public ModelAndView getListCategory() throws Exception{
@@ -528,53 +521,88 @@ public class ApprovalController {
 
 	@GetMapping("information")
 	//list
-	public ModelAndView getApprovalInformation(ApprovalVO approvalVO) throws Exception{
+	public ModelAndView getApprovalInformation(Pager pager) throws Exception{
 		ModelAndView mv = new ModelAndView();
-	   
-		log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());		
-		approvalVO.setMemberId(0L);
+		MemberVO memberVO = new MemberVO();
+		pager.setMemberId(0L);
+		memberVO.setId(4L);
 		
-		List<ApprovalVO> ar = approvalService.getApprovalList(approvalVO);
+		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
+		
 		//cat
 		List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
 		//cat2
 		List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
 		//cat1
 		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+		mv.addObject("pager", pager);
+		
+		log.error("======================{}=============",ar.size() ==0);
 		
 		
-//		for(ApprovalVO approvalVO2 : ar) {
-//			log.error("1");
-//			for(ApprovalCategoryVO approvalCategoryVO : arrr) {
-//				log.error("2");
-//				log.error("{}",approvalCategoryVO.getRef());
-//				if(approvalVO.getCategoryId() !=null && approvalVO.getCategoryId() == approvalCategoryVO.getRef()) {
-//					log.error("3");
-//					approvalVO2.setCategoryId(approvalCategoryVO.getRef());
-//					
-//					
-//					ars.add(approvalService.getApprovalList(approvalVO2));
-//					approvalVO2.getAr().add(approvalService.getApprovalList(approvalVO2));			
-//					
-//				}
-//
-//				
-//			}
-//		}
-
+		
 		for(ApprovalCategoryVO approvalCategoryVO : arr) {
-			if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
+			if(pager.getCategoryId() != null &&approvalCategoryVO.getId() == pager.getCategoryId()) {
+				log.error("-------------{}=========",approvalCategoryVO.getName());
 				mv.addObject("name", approvalCategoryVO.getName());
 				break;
 			}else {
 				mv.addObject("name", "전체");
 			}
 		}
+		
+		
+		if(ar.size() ==0) {
+			
+			
+			for(ApprovalCategoryVO approvalCategoryVO : arrr) {
+				if(approvalCategoryVO.getRef() == pager.getCategoryId()) {
+					pager.setCategoryId(approvalCategoryVO.getId());
+					List<ApprovalVO> av = approvalService.getApprovalList(pager);
+							for(ApprovalVO a : av) {
+								ar.add(a);
+								}
+							}
+					
+				}
+				
+			}
+			
 		mv.addObject("cat", arr);
 		mv.addObject("cat2", arrrr);
 		mv.addObject("cat1", arrr);
 		mv.addObject("list", ar);
-		mv.setViewName("approval/information");
+		
+		mv.setViewName("approval/information2");
+//			
+		
+		
+		return mv;
+	}
+	@PostMapping("information")
+	public ModelAndView getApprovalInformation(Pager pager,ModelAndView mv) throws Exception{
+		
+		MemberVO memberVO = new MemberVO();
+		pager.setMemberId(0L);
+		memberVO.setId(4L);
+		
+		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
+		
+		//cat2
+		
+		//cat1
+		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+		mv.addObject("pager", pager);
+	
+		
+		
+		
+		mv.addObject("cat1", arrr);
+		mv.addObject("list", ar);
+		
+		mv.setViewName("common/commonApprovalList");
+			
+		
 		return mv;
 	}
 

@@ -19,7 +19,7 @@
 		<typeAlias type="com.ware.group.common.SearchVO" alias="SearchVO"/>
 		<typeAlias type="com.ware.group.common.Util4calen" alias="Util4calen"/>
 		
-		<typeAlias type="com.ware.group.approval2.ApprovalVO" alias="ApprovalVO"/>
+		<typeAlias type="com.ware.group.approval.ApprovalVO" alias="ApprovalVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalCategoryVO" alias="ApprovalCategoryVO"/>
 		<typeAlias type="com.ware.group.approval.ApprovalFormFileVO" alias="ApprovalFormFileVO"/>
 		<typeAlias type="com.ware.group.approval.ApproverVO" alias="ApproverVO"/>

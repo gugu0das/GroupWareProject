@@ -9,6 +9,7 @@ import com.ware.group.approval3.DocumentFilesVO;
 import com.ware.group.department.DepartmentVO;
 import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
+import com.ware.group.util.Pager;
 
 @Mapper
 public interface ApprovalDAO {
@@ -86,7 +87,7 @@ public interface ApprovalDAO {
 	
 	public int setApprovalInfo(ApprovalInfoVO approvalInfoVO) throws Exception;
 	
-	public List<ApprovalVO> getApprovalList(ApprovalVO approvalVO) throws Exception;
+	public List<ApprovalVO> getApprovalList(Pager pager) throws Exception;
 	
 	public ApprovalUploadFileVO getApprovalFile(ApprovalVO approvalVO) throws Exception;
 	
@@ -122,4 +123,6 @@ public interface ApprovalDAO {
 	public int setApprovalInfoDelete(Long id1) throws Exception;
 	
 	public LeaveRecordVO getLeave(LeaveRecordVO leaveRecordVO) throws Exception;
+	
+	public Long getTotalCount(Pager pager) throws Exception;
 }

@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ware.group.annual.LeaveRecordVO;
+
 import com.ware.group.approval3.DocumentFilesVO;
 import com.ware.group.department.DepartmentVO;
 import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
+import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -226,8 +228,11 @@ public class ApprovalService {
 		return result;
 	}
 	
-	public List<ApprovalVO> getApprovalList(ApprovalVO approvalVO) throws Exception{
-		List<ApprovalVO> ar = approvalDAO.getApprovalList(approvalVO);
+	public List<ApprovalVO> getApprovalList(Pager pager) throws Exception{
+		pager.makeStartRow();
+		pager.makeNum(approvalDAO.getTotalCount(pager));
+		log.error("++++++++++++++++++++++++++{}++++++++++++",pager.getStartRow());
+		List<ApprovalVO> ar = approvalDAO.getApprovalList(pager);
 		
 		return ar;
 	}

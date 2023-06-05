@@ -3,6 +3,10 @@
 
 <mapper namespace="com.ware.group.approval.ApprovalDAO">
 	
+	
+	
+	
+	
 	<insert id="addCategory" parameterType="ApprovalCategoryVO" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO APPROVALCATEGORY (id, name, ref) VALUES (#{id}, #{name}, #{ref})
 	</insert>
@@ -149,11 +153,17 @@
  	<insert id="setApprovalInfo" parameterType="ApprovalInfoVO">
  		INSERT INTO APPROVALINFO(approval_id,member_id,date,`check`,depth) VALUES(#{approvalId},#{memberId},now(),#{check},#{depth})
  	</insert>
- 	<select id="getApprovalList" resultMap="app" parameterType="ApprovalVO">
- 		SELECT * FROM APPROVAL a  INNER JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
- 		<!-- <if test="categoryId !=null">
+ 	<select id="getApprovalList" resultMap="app" parameterType="Pager">
+ 		SELECT * FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) LEFT JOIN APPROVALCATEGORY ac ON(a.category_id = ac.id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
+ 		<!-- <include refid="search"></include> -->
+ 		<if test="categoryId !=null">
  			AND category_id=#{categoryId}
- 		</if> -->
+ 		</if>
+ 		<if test="ref !=null">
+ 			AND category_id=#{categoryId}
+ 		</if>
+		ORDER BY a.ID DESC
+		LIMIT #{startRow}, #{perPage}
  	</select>
  	<resultMap type="ApprovalVO" id="app">
  		<id column="id" property="id"/>
@@ -228,6 +238,13 @@
  	<select id="getLeave" parameterType="LeaveRecordVO" resultType="LeaveRecordVO">
  		SELECT * FROM LEAVERECODE WHERE type='대기' AND approval_id=#{approvalId}
  	</select>
+ 	<select id="getTotalCount" parameterType="Pager" resultType="Long">
+			SELECT COUNT(a.id) FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
+			<if test="categoryId !=null">
+ 			AND a.category_id=#{categoryId}
+ 		</if>
+			<!-- <include refid="search"></include> -->
+	</select>
  	
  	
  	
