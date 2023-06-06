@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -103,7 +104,10 @@ public class QnaController {
 	      SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	      MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 	      log.error("{}",memberVO.getId());
-		  if(bindingResult.hasErrors()) {
+		  
+	      
+	      
+	      if(bindingResult.hasErrors()) {
 		  
 		  mv.setViewName("qna/add");
 		  
@@ -175,6 +179,18 @@ public class QnaController {
 			return mv;
 		}
 		
+		@PostMapping("filedelete")
+		@ResponseBody
+		public int setDelete(QnaVO qnaVO,HttpSession session) throws Exception {
+			log.error("{}",qnaVO.getId());
+			int result = qnaService.setFileDelete(qnaVO);
+			
+			
+			
+			return result;
+		}
+		
+		
 		@GetMapping("update")
 		public ModelAndView setUpdate(@ModelAttribute QnaVO qnaVO,HttpSession session) throws Exception{
 			ModelAndView mv = new ModelAndView();
@@ -194,14 +210,32 @@ public class QnaController {
 			return mv;
 		}
 		@PostMapping("update")
-		public ModelAndView setUpdate(@Valid QnaVO qnaVO,MultipartFile [] multipartFiles,BindingResult bindingResult,HttpSession session)throws Exception{
+		public ModelAndView setUpdate(@Valid QnaVO qnaVO,MultipartFile [] files,BindingResult bindingResult,HttpSession session)throws Exception{
 			ModelAndView mv = new ModelAndView();
 			
-			int result = qnaService.setUpdate(qnaVO,multipartFiles);
-		
+			Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+			SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		    
+			
+			int result = qnaService.setUpdate(qnaVO,files);
+			if(bindingResult.hasErrors()) {
+				
+				mv.setViewName("notice/update");
+				
+				return mv;
+			}
+			
+			for(MultipartFile multipartFile : files) {
+				log.error("{} ::",multipartFile.getOriginalFilename());
+				}
+			qnaVO.setMemberId(memberVO.getId());
+			
+			/* result = noticeService.setInsert(noticeVO, files); */
+			
 			mv.setViewName("redirect:./list");
 			
-			return mv;
+			return mv;			 
 			
 		}
 		 
