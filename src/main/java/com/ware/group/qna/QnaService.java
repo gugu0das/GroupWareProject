@@ -50,8 +50,8 @@ public class QnaService {
 					QnaFileVO qnaFileVO = new QnaFileVO();
 					qnaFileVO.setFileName(fileName);
 					qnaFileVO.setOriName(multipartFile.getOriginalFilename());
-					qnaFileVO.setId(qnaVO.getId());
-					System.out.println("힘들다");
+					qnaFileVO.setQnaId(qnaVO.getId());
+					
 					result = qnaDAO.setQnaFileAdd(qnaFileVO);
 				}
 			}
@@ -79,7 +79,7 @@ public class QnaService {
 		QnaFileVO qnaFileVO = new QnaFileVO();
 		qnaFileVO.setFileName(fileName);
 		qnaFileVO.setOriName(multipartFile.getOriginalFilename());
-		qnaFileVO.setId(qnaVO.getId());
+		qnaFileVO.setQnaId(qnaVO.getId());
 	
 		result = qnaDAO.setQnaFileAdd(qnaFileVO);
 		System.out.println("Service");
@@ -94,8 +94,10 @@ public class QnaService {
 	public int setDelete(QnaVO qnaVO) throws Exception {
 		return qnaDAO.setDelete(qnaVO);
 	}
-
-	
+	//사진 파일 삭제용 Delete
+	public int setFileDelete(QnaVO qnaVO) throws Exception {
+		return qnaDAO.setFileDelete(qnaVO);
+	}
 	 
 	 public BoardFileVO getFileDetail(BoardFileVO boardFileVO) throws Exception { 
 		 return qnaDAO.getFileDetail(boardFileVO); 
