@@ -1,5 +1,6 @@
 package com.ware.group.common;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -189,15 +190,15 @@ public class Util4calen {
    /*
       시간만 비교하기 : 날짜 동일, 분단위로 계산
    */
-   public static Long TimeDiff(Timestamp timestamp1, Timestamp timestamp2) {
+   public static Long TimeDiff(Timestamp timestamp1, Time timestamp2) {
       //timeStamp1 = 비교받는 대상
       //timeStamp2 = 비교할 대상 (timestamp1 보다 이후시간)
 
-      Timestamp diff1 = new Timestamp(timestamp1.getTime());
+      Time diff1 = new Time(timestamp1.getHours(), timestamp1.getMinutes(), timestamp1.getSeconds());
       Timestamp diff2 = new Timestamp(timestamp2.getTime());
-      diff1.setDate(diff2.getDate());
-      diff1.setYear(diff2.getYear());
-      diff1.setMonth(diff2.getMonth());
+//      diff1.setDate(diff2.getDate());
+//      diff1.setYear(diff2.getYear());
+//      diff1.setMonth(diff2.getMonth());
       
       Long diffTime =(diff1.getTime()-diff2.getTime())/ (60 * 1000);   
       System.out.println(diffTime+"분 차이");
@@ -214,13 +215,14 @@ public class Util4calen {
    /*
       Defualt 근무시간을 현재 근태에 넣기위해 날짜 정제 
     */
-   public static Timestamp getStatusTime(Timestamp timestamp, Date date)throws Exception {
+   public static Timestamp getStatusTime(Time timestamp, Date date)throws Exception {
       
-      Timestamp getTime = new Timestamp(timestamp.getTime());
-      getTime.setDate(date.getDate());
-      getTime.setYear(date.getYear());
-      getTime.setMonth(date.getMonth());
-      return getTime;
+      Timestamp getTime = new Timestamp(date.getYear(), date.getMonth(), date.getDate(), timestamp.getHours(), timestamp.getMinutes(), timestamp.getSeconds(), 0);
+//      getTime.setDate(date.getDate());
+//      getTime.setYear(date.getYear());
+//      getTime.setMonth(date.getMonth());
+      Timestamp resultTime = new Timestamp(getTime.getTime());
+      return resultTime;
       
    }
    

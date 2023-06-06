@@ -116,9 +116,9 @@ public class MemberController {
 	//----------------근태------------------------------------
 
 	@PostMapping("statusUpdate")
-	public ModelAndView employeeStatusUpdate(ModelAndView mv,MemberVO memberVO,EmployeeStatusVO employeeStatusVO,HttpSession session,String timeStatus)throws Exception{
+	public ModelAndView employeeStatusUpdate(ModelAndView mv,MemberVO memberVO,EmployeeStatusVO employeeStatusVO,HttpSession session,String timeStatus,WorkTimeVO workTimeVO)throws Exception{
 		employeeStatusVO.setStatus(timeStatus);
-		int result =  memberService.setStatusUpdate(memberVO, employeeStatusVO, session);
+		int result =  memberService.setStatusUpdate(memberVO, employeeStatusVO,workTimeVO, session);
 		
 		mv.setViewName("redirect:/");
 		return mv;

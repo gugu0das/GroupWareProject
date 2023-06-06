@@ -32,7 +32,7 @@ public interface MemberDAO {
 	
 	
 	///근태관리
-	public EmployeeStatusVO getDefaultWork(EmployeeStatusVO employeeStatusVO)throws Exception;
+	public WorkTimeVO getDefaultWork(WorkTimeVO workTimeVO)throws Exception;
 	
 	public EmployeeStatusVO getEmployeeStatus(EmployeeStatusVO employeeStatusVO) throws Exception;
 
@@ -41,8 +41,8 @@ public interface MemberDAO {
 	public int setWorkNullDelete(EmployeeStatusVO employeeStatusVO)throws Exception;
 	public int setWorkEmptyUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
 	
-	public int setDefaultWorkAdd(EmployeeStatusVO employeeStatusVO)throws Exception;
-	public int setDefaultWorkUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
+	public int setDefaultWorkAdd(WorkTimeVO workTimeVO)throws Exception;
+	public int setDefaultWorkUpdate(WorkTimeVO workTimeVO)throws Exception;
 
 	public int setEmployeeStatusUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
 	public int setTimeStempInsert(EmployeeStatusVO employeeStatusVO) throws Exception;

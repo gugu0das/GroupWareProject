@@ -152,7 +152,7 @@ public class MemberService implements UserDetailsService{
 
 	}
 	//근태 업데이트
-	public int setStatusUpdate(MemberVO memberVO, EmployeeStatusVO employeeStatusVO, HttpSession session)throws Exception{
+	public int setStatusUpdate(MemberVO memberVO, EmployeeStatusVO employeeStatusVO,WorkTimeVO workTimeVO, HttpSession session)throws Exception{
 		int result =0;
 
 		//1. 빈테이블이면 출근버튼만 활성화 
@@ -175,7 +175,9 @@ public class MemberService implements UserDetailsService{
 		
 		// 현재 있는 근태 가져오기(오늘날짜)
 		employeeStatusVO = this.getEmployeeStatus(session);
-		EmployeeStatusVO defaultWork=memberDAO.getDefaultWork(employeeStatusVO);
+		//기본 근무시간 가져오기
+		workTimeVO.setMemberId(employeeStatusVO.getMemberId());
+		workTimeVO=memberDAO.getDefaultWork(workTimeVO);
 		if(employeeStatusVO==null) {
 			return 0;
 		}
@@ -185,7 +187,7 @@ public class MemberService implements UserDetailsService{
 		if(employeeStatusVO.getOnTime()==null) {
 			
 			employeeStatusVO.setOnTime(nowTime);
-			Long diffTime = Util4calen.TimeDiff(nowTime,defaultWork.getOnTime());
+			Long diffTime = Util4calen.TimeDiff(nowTime,workTimeVO.getStartTime());
 			if(diffTime>10) {//기본시간보다 10분이 지나면
 				employeeStatusVO.setStatus("지각");
 			}
@@ -197,7 +199,7 @@ public class MemberService implements UserDetailsService{
 		//2. 출근상태일때
 		else {
 			
-			Long diffTime = Util4calen.TimeDiff(nowTime,defaultWork.getOffTime());
+			Long diffTime = Util4calen.TimeDiff(nowTime,workTimeVO.getFinishTime());
 
 			employeeStatusVO.setOffTime(nowTime);	
 			if(diffTime<0||diffTime>60) {//근무시간을 지나지 않았을때 혹은 근무시간이 지나고 1시간이 지났을때
@@ -205,7 +207,7 @@ public class MemberService implements UserDetailsService{
 			}
 
 			if(getstatus.equals("외근")) {//외근은 정상퇴근
-				employeeStatusVO.setOffTime(Util4calen.getStatusTime(defaultWork.getOffTime(), employeeStatusVO.getReg()));
+				employeeStatusVO.setOffTime(Util4calen.getStatusTime(workTimeVO.getFinishTime(), employeeStatusVO.getReg()));
 			}
 		}
 		
@@ -218,13 +220,17 @@ public class MemberService implements UserDetailsService{
 	//	근태 버튼 생성
 	public List<String> getEmployeeStatusBtn(EmployeeStatusVO employeeStatusVO, HttpSession session)throws Exception{
 		
-		//근무할 시간 가져오기(기본 근무시간)
-		EmployeeStatusVO defaultWork=memberDAO.getDefaultWork(employeeStatusVO);
+
 
 		employeeStatusVO =this.getEmployeeStatus(session);
 		if(employeeStatusVO==null) {
 			return null;
 		}
+		//근무할 시간 가져오기(기본 근무시간)
+		WorkTimeVO workTimeVO  = new WorkTimeVO();
+		workTimeVO.setMemberId(employeeStatusVO.getMemberId());
+		workTimeVO=memberDAO.getDefaultWork(workTimeVO);
+		
 		Timestamp nowTime = Util4calen.getNowTime();
 		List<String> ar = new ArrayList<>();
 		// 1. 출근 안했을시 
@@ -234,7 +240,7 @@ public class MemberService implements UserDetailsService{
 		}
 		//2. 출근상태일때
 		else if(employeeStatusVO.getOffTime()==null){
-			Long diffTime = Util4calen.TimeDiff(nowTime,defaultWork.getOffTime());
+			Long diffTime = Util4calen.TimeDiff(nowTime,workTimeVO.getFinishTime());
 			
 			if(diffTime<0) {//근무시간을 지나지 않았을때 혹은 근무시간이 지나고 1시간이 지났을때
 				ar.add("조퇴");
