@@ -42,4 +42,7 @@ public interface QnaDAO {
 	public int setQnaHit(QnaVO qnaVO) throws Exception;
 	
 	public Long getCount(QnaVO qnaVO) throws Exception;
+	
+	//사진 파일삭제
+	public int setFileDelete(QnaVO qnaVO) throws Exception;
 }
