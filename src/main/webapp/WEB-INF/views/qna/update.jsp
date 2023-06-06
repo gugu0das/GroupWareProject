@@ -48,17 +48,19 @@
 	                                        <label for="writer">작성자</label>
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
-	                                   <%--  <div class="form-floating mb-3">
-	                                    	<input type="file" name="files">
-	                                    	<c:forEach items="${qnaVO.boardFileVOs}" var="qnafileVO">
-													<div class="input-group mb-3 my-3">
-														<div class="input-group-text">
-															<input class="form-check-input mt-0 deleteCheck" type="checkbox" name="fileNum" value="${QnaFileVO.id}" aria-label="Checkbox for following text input">
-														</div>
-														<input type="text" disabled value="${QnaFileVO.oriName}" class="form-control" aria-label="Text input with checkbox">
-													</div>
-												</c:forEach>	                                                                                                                              
-	                                    </div> --%>
+	                                  	<div class="form-floating mb-3" id="fileList">
+										<c:forEach items="${qnaVO.boardFileVOs}" var="fileVO">
+										
+										<div>
+										<input type="text" disabled value="${fileVO.oriName}" class="form-control" aria-label="Text input with checkbox">
+										<button type="button" class="btn btn-primary fileDelete" data-fileId="${fileVO.id}">삭제</button>
+										</div>
+										</c:forEach>
+										
+										<!-- <label for="files" class="form-label">Image</label> -->
+	                                    <button type="button" id="fileAdd">ADD</button>
+	                                   
+	                                    </div>
 	                                    
 	                               <!-- content input-->
 	                                    <div class="form-floating mb-3">
@@ -90,11 +92,13 @@
     <!-- Footer -->
     
     <script type="text/javascript" src="/js/boardForm.js"></script>
+    <script type="text/javascript" src="/js/fileManger.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>
 		$("#contents").summernote();
-		
+		setMax(3);
+		setParam('files')
 		
 	</script>
 </body>
