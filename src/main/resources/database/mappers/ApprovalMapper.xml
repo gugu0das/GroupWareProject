@@ -220,6 +220,7 @@
  		<if test="confirm !=null">
  			AND confirm=#{confirm}
  		</if>
+ 		<!-- <include refid="search"></include> -->
  		ORDER BY ID DESC
 		LIMIT #{startRow}, #{perPage}
  	</select>
@@ -260,10 +261,22 @@
 	</select>
 	<select id="getMyTotal" parameterType="Pager" resultType="Long">
 		SELECT COUNT(a.id) FROM APPROVAL a  WHERE member_id=#{memberId}
+		<!-- <include refid="search"></include> -->
 		<if test="confirm !=null">
  			AND `confirm`=#{confirm}
  		</if>
+ 		
 	</select>
+	
+	<sql id="search">
+		<where>
+			<if test="kind == 'contents'">
+				contents LIKE CONCAT('%',#{search},'%')
+			</if>
+					
+			
+		</where>
+	</sql>
  	
  	
  	

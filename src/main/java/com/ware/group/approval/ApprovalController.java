@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +30,7 @@ import com.ware.group.annual.LeaveRecordVO;
 
 import com.ware.group.department.DepartmentVO;
 import com.ware.group.member.JobVO;
+import com.ware.group.member.MemberService;
 import com.ware.group.member.MemberVO;
 import com.ware.group.util.FileManager;
 import com.ware.group.util.Pager;
@@ -50,6 +54,10 @@ public class ApprovalController {
 	
 	@Autowired
 	private FileManager filemanger;
+	
+	
+	@Autowired
+	private MemberService memberService;
 	/*
 	 * @Autowired TemplateEngine templateEngine;
 	 */
@@ -473,8 +481,12 @@ public class ApprovalController {
 	}
 
 	@PostMapping("application")
-	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO) throws Exception{
+	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		
 		log.error("vo {} ", leaveRecordVO);
 		
 		if(leaveRecordVO.getReason() =="" && leaveRecordVO.getUseDate()=="") {
@@ -482,8 +494,7 @@ public class ApprovalController {
 			leaveRecordVO.setUseDate(null);
 		}
 		//예시
-		approvalVO.setMemberId(1L);
-		
+		approvalVO.setMemberId(memberVO.getId());		
 		
 		//log.error(dd);
 		
@@ -521,13 +532,15 @@ public class ApprovalController {
 
 	@GetMapping("information")
 	//list
-	public ModelAndView getApprovalInformation(Pager pager) throws Exception{
+	public ModelAndView getApprovalInformation(Pager pager,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		MemberVO memberVO = new MemberVO();
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
 		log.error("page--------------{}-----------------",pager.getPage());
 		Long pa = pager.getPage();
-		pager.setMemberId(0L);
-		memberVO.setId(4L);
+		pager.setMemberId(memberVO.getId());
+		
 		mv.addObject("caa", pager.getCategoryId());
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
@@ -573,11 +586,13 @@ public class ApprovalController {
 		return mv;
 	}
 	@PostMapping("information")
-	public ModelAndView getApprovalInformation(Pager pager,ModelAndView mv) throws Exception{
+	public ModelAndView getApprovalInformation(Pager pager,ModelAndView mv,HttpSession session) throws Exception{
 		
-		MemberVO memberVO = new MemberVO();
-		pager.setMemberId(0L);
-		memberVO.setId(4L);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		pager.setMemberId(memberVO.getId());
+		
 		
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
@@ -624,13 +639,15 @@ public class ApprovalController {
 	}
 
 	@PostMapping("approval")
-	public ModelAndView setApprovalApproval(Long id1,Long id2,int approval,String fileName,String ddd) throws Exception{
+	public ModelAndView setApprovalApproval(Long id1,Long id2,int approval,String fileName,String ddd,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		
 		ApprovalVO approvalVO = new ApprovalVO();
 		approvalVO.setId(id1);
-		MemberVO memberVO = new MemberVO();
-		memberVO.setId(1L);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		
 		log.error("들어오냐");
 		log.error("{}::::::::::",approval);
 		PrintWriter pw = new PrintWriter(System.out, true);
@@ -657,9 +674,12 @@ public class ApprovalController {
 	
 
 	@GetMapping("myInformation")
-	public ModelAndView getMyInformation(Pager pager) throws Exception{
+	public ModelAndView getMyInformation(Pager pager,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		pager.setMemberId(1L);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		pager.setMemberId(memberVO.getId());
 		
 		
 		log.error("{}",pager.getConfirm());
@@ -684,10 +704,14 @@ public class ApprovalController {
 	
 	
 	@PostMapping("delete")
-	public ModelAndView setDelete(Long id1) throws Exception{
+	public ModelAndView setDelete(Long id1,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		MemberVO memberVO = new MemberVO();
-		memberVO.setId(1L);
+		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		
+		
 		log.error("========================================{}====================================================",id1);
 		int result = approvalService.setApprovalDelete(id1,memberVO);
 		result = approvalService.setApprovalFileDelete(id1);

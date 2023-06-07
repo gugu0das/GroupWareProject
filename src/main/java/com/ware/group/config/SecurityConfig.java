@@ -27,7 +27,7 @@ public class SecurityConfig{
 		//Security에서 무시해야하는 URL 패턴 등록
 		return web -> web
 				.ignoring()
-				.antMatchers("/**")
+				//.antMatchers("/**")
 				.antMatchers("/images/**")
 				.antMatchers("/js/**")
 				.antMatchers("/css/**")
@@ -46,8 +46,8 @@ public class SecurityConfig{
 			.authorizeRequests()
 				//URL과 권한 매칭
 			
-				//.antMatchers("/**").hasRole("USER")
 //				.permitAll()
+//			.antMatchers("/**").hasRole("USER")
 				.antMatchers("/member/join").permitAll()
 //				.antMatchers("/notice/add").hasRole("MEMBER")
 //				.antMatchers("/notice/update").hasRole("ADMIN")
@@ -56,7 +56,7 @@ public class SecurityConfig{
 //				.antMatchers("/admin/**").hasRole("ADMIN")
 //				.antMatchers("/qna/add").hasAnyRole("ADMIN", "MANAGER", "MEMBER")
 				//.anyRequest().authenticated()
-				.anyRequest().permitAll()
+				.anyRequest().hasRole("USER")
 				.and()
 			.formLogin()
 			.usernameParameter("accountId")

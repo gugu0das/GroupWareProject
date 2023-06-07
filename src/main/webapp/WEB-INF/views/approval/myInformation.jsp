@@ -124,21 +124,19 @@
 			<form class="row g-3" action="./myInformation" method="get" id="searchForm">
 			<input type="hidden" name="confirm" value="${caa}" id="cdt">
 				<input type="hidden" name="page" value="1" id="page">
-				<div class="col-auto">
+				<%-- <div class="col-auto">
 					<label for="kind" class="visually-hidden">Kind</label>
 					<select class="form-select" name="kind" id="kind" aria-label="Default select example">
-						<option value="title" ${pager.kind eq 'title' ? 'selected' : '' }>제목</option>
 						<option value="contents" ${pager.kind eq 'contents' ? 'selected' : '' }>내용</option>
-						<option value="wrtier" ${pager.kind eq 'writer' ? 'selected' : '' }>작성자</option>
 					</select>
+				</div> --%>
+				<div class="col-auto row">
+					<!-- <label for="Search" class="visually-hidden">Search</label> -->
+					<input type="hidden" class="form-control" name="search" id="search" placeholder="검색어 입력" value="${pager.search}">
 				</div>
-				<div class="col-auto">
-					<label for="Search" class="visually-hidden">Search</label>
-					<input type="text" class="form-control" name="search" id="search" placeholder="검색어 입력" value="${pager.search}">
-				</div>
-				<div class="col-auto">
+				<!-- <div class="col-auto">
 					<button type="submit" class="btn btn-primary mb-3">검색</button>
-				</div>
+				</div> -->
 			</form>
 										
 									</div>
