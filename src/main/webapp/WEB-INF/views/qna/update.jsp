@@ -32,6 +32,7 @@
                             <div class="col-lg-8 col-xl-6">
                                 <%-- <form id="contactForm" action="./add" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data"> --%>
                             	<form:form id="contactForm" modelAttribute="qnaVO" action="./update" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
+	                                    <input type="hidden" name="id" value="${qnaVO.id}"> 
 	                                    <!-- Title input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="title" name="title" type="text" placeholder="Enter Title..." data-sb-validations="required" /> -->
@@ -43,23 +44,37 @@
 	                                    <!-- writer input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="writer" name="writer" type="text" placeholder="Enter Title..." data-sb-validations="required,email" /> -->
-	                                        <form:input path="writer" id="writer" cssClass="form-control"/>
+	                                        <form:input path="writer" id="writer" cssClass="form-control" readOnly="true"/>
 	                                        <label for="writer">작성자</label>
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
-	                                    <div class="form-floating mb-3">
-	                                    	<input type="file" name="files">                                                                                                                              >
+	                                  	<div class="form-floating mb-3" id="fileList">
+										<c:forEach items="${qnaVO.boardFileVOs}" var="fileVO">
+										
+										<div>
+										<input type="text" disabled value="${fileVO.oriName}" class="form-control" aria-label="Text input with checkbox">
+										<button type="button" class="btn btn-primary fileDelete" data-fileId="${fileVO.id}">삭제</button>
+										</div>
+										</c:forEach>
+										
+										<!-- <label for="files" class="form-label">Image</label> -->
+	                                    <button type="button" id="fileAdd">ADD</button>
+	                                   
 	                                    </div>
-	                                    <!-- content input-->
+	                                    
+	                               <!-- content input-->
 	                                    <div class="form-floating mb-3">
-	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required">${qnaVO.contents}</textarea>
 	                                        <label for="contents">내용</label>
 	                                        <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
 	                                    </div>  
 	                                    
 	                                    
 	                                                            
-	                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button></div>
+	                                    <div class="d-grid">
+	                                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit" value="수정">Submit</button>
+	                                    </div>
+	                    
                                 	</form:form>   
                                 <%-- </form> --%>
                             </div>
@@ -77,11 +92,13 @@
     <!-- Footer -->
     
     <script type="text/javascript" src="/js/boardForm.js"></script>
+    <script type="text/javascript" src="/js/fileManger.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>
 		$("#contents").summernote();
-		
+		setMax(3);
+		setParam('files')
 		
 	</script>
 </body>

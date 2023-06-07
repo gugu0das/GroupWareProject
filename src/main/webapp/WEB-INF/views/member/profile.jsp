@@ -100,6 +100,7 @@ to {
 						<a class="nav-link active ms-0" href="/member/profile">Profile</a>
 						<a class="nav-link" href="/member/security">Security</a> <a
 							class="nav-link" href="/department/add">AddDepartment</a>
+							<a class="nav-link active ms-0" href="/member/statusList">근태</a>
 					</nav>
 					<hr class="mt-0 mb-4">
 					<div class="row">

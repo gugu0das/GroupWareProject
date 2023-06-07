@@ -7,14 +7,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ware.group.common.Util4calen;
 import com.ware.group.etc.EtcService;
+import com.ware.group.member.MemberVO;
 
 @Controller
 @RequestMapping("/schedule/*")
@@ -23,27 +28,45 @@ public class ScheController {
     @Autowired
     private ScheService scheSvc;
 
-    @Autowired
-    private EtcService etcSvc;
-
     static final Logger LOGGER = LoggerFactory.getLogger(ScheController.class);
 
     @GetMapping("/scheList")
     public ModelAndView scheList(HttpServletRequest request, MonthVO searchVO) {
         ModelAndView modelAndView = new ModelAndView("schedule/scheList");
 
-        String usernum = request.getSession().getAttribute("usernum").toString();
-
-        etcSvc.setCommonAttribute(usernum, modelAndView);
-
-        if (searchVO.getYear() == null || "".equals(searchVO.getYear())) {
-            Date today = Util4calen.getToday();
-            searchVO.setYear(Util4calen.getYear(today).toString());
-            searchVO.setMonth(Util4calen.getMonth(today).toString());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            LOGGER.error("인증 값 null");
+            return modelAndView;
         }
+
+        Object principal = authentication.getPrincipal();
+        String userId = null;
+
+        if (principal instanceof MemberVO) {
+            MemberVO member = (MemberVO) principal;
+            userId = String.valueOf(member.getId());
+        } else {
+            LOGGER.error("MemberVO 보안 에러.");
+            return modelAndView;
+        }
+
+        if (searchVO == null) {
+            LOGGER.error("searchVO null");
+        } else {
+            if (searchVO.getYear() == null || "".equals(searchVO.getYear())) {
+                Date today = Util4calen.getToday();
+                searchVO.setYear(Util4calen.getYear(today).toString());
+                searchVO.setMonth(Util4calen.getMonth(today).toString());
+            }
+        }
+
         Integer dayofweek = Util4calen.getDayOfWeek(Util4calen.str2Date(searchVO.getYear() + "-" + searchVO.getMonth() + "-01"));
 
-        List<?> listview = scheSvc.selectCalendar(searchVO, usernum);
+        List<?> listview = scheSvc.selectCalendar(searchVO, userId);
+        if (listview == null) {
+        	LOGGER.error("리스트 뷰 null.");
+        }
 
         modelAndView.addObject("listview", listview);
         modelAndView.addObject("searchVO", searchVO);
@@ -56,39 +79,70 @@ public class ScheController {
     public ModelAndView scheForm(HttpServletRequest request, ScheVO scheInfo) {
         ModelAndView modelAndView = new ModelAndView("schedule/scheForm");
 
-        String usernum = request.getSession().getAttribute("usernum").toString();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+        	LOGGER.error("인증 값 null");
+            return modelAndView;
+        }
 
-        etcSvc.setCommonAttribute(usernum, modelAndView);
+        Object principal = authentication.getPrincipal();
+        String userId = null;
+
+        if (principal instanceof MemberVO) {
+            MemberVO member = (MemberVO) principal;
+            userId = String.valueOf(member.getId());
+
+        } else {
+            LOGGER.error("MemberVO 보안 에러");
+            return modelAndView;
+        }
 
         if (scheInfo.getId() != null) {
             scheInfo = scheSvc.selectScheOne(scheInfo);
         } else {
-            scheInfo.setType("1");
-            scheInfo.setOpen("Y");
+            scheInfo.setType(1);
+            scheInfo.setIsopen(1);
 
-            String calendar_date = request.getParameter("calendar_date");
-            if (calendar_date == null || "".equals(calendar_date)) {
-                calendar_date = Util4calen.date2Str(Util4calen.getToday());
+            String calendardate = request.getParameter("calendardate");
+            if (calendardate == null || "".equals(calendardate)) {
+                calendardate = Util4calen.date2Str(Util4calen.getToday());
             }
-            scheInfo.setStart_date(calendar_date);
-            scheInfo.setStart_hour("09");
-            scheInfo.setEnd_date(calendar_date);
-            scheInfo.setEnd_hour("18");
+            scheInfo.setStartdate(calendardate);
+            scheInfo.setStarthour("09");
+            scheInfo.setEnddate(calendardate);
+            scheInfo.setEndhour("18");
         }
 
         modelAndView.addObject("scheInfo", scheInfo);
-
-        List<?> typelist = etcSvc.selectClassCode("4");
-        modelAndView.addObject("typelist", typelist);
 
         return modelAndView;
     }
 
     @PostMapping("/scheSave")
     public ModelAndView scheSave(HttpServletRequest request, ScheVO scheInfo) {
-        String usernum = request.getSession().getAttribute("usernum").toString();
-        scheInfo.setUsernum(usernum);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            LOGGER.error("인증 값 Null.");
+            return new ModelAndView("redirect:/schedule/scheList");
+        }
 
+        Object principal = authentication.getPrincipal();
+        String userId = null;
+        
+        if (principal instanceof MemberVO) {
+            MemberVO member = (MemberVO) principal;
+            userId = String.valueOf(member.getId());
+        } else {
+            LOGGER.error("MemberVO 보안 에러.");
+            return new ModelAndView("redirect:/schedule/scheList");
+        }
+
+        if (userId == null) {
+            LOGGER.error("ID 에러.");
+            return new ModelAndView("redirect:/schedule/scheList");
+        }
+
+        scheInfo.setUsernum(userId);
         scheSvc.insertSche(scheInfo);
 
         return new ModelAndView("redirect:/schedule/scheList");
@@ -113,9 +167,11 @@ public class ScheController {
     public ModelAndView scheRead(HttpServletRequest request, ScheVO scheVO) {
         ModelAndView modelAndView = new ModelAndView("schedule/scheRead");
 
-        String usernum = request.getSession().getAttribute("usernum").toString();
-
-        etcSvc.setCommonAttribute(usernum, modelAndView);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            LOGGER.error("인증 값 null");
+            return modelAndView;
+        }
 
         ScheVO scheInfo = scheSvc.selectScheOne4Read(scheVO);
 
