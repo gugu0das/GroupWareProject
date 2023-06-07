@@ -485,7 +485,7 @@ public class ApprovalController {
 		ModelAndView mv = new ModelAndView();
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		
 		log.error("vo {} ", leaveRecordVO);
 		
@@ -536,7 +536,7 @@ public class ApprovalController {
 		ModelAndView mv = new ModelAndView();
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		log.error("page--------------{}-----------------",pager.getPage());
 		Long pa = pager.getPage();
 		pager.setMemberId(memberVO.getId());
@@ -590,7 +590,7 @@ public class ApprovalController {
 		
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		pager.setMemberId(memberVO.getId());
 		
 		
@@ -646,7 +646,7 @@ public class ApprovalController {
 		approvalVO.setId(id1);
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		
 		log.error("들어오냐");
 		log.error("{}::::::::::",approval);
@@ -678,7 +678,7 @@ public class ApprovalController {
 		ModelAndView mv = new ModelAndView();
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		pager.setMemberId(memberVO.getId());
 		
 		
@@ -709,7 +709,7 @@ public class ApprovalController {
 		
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO= memberService.getMemberProfile((MemberVO)contextImpl.getAuthentication().getPrincipal());
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		
 		
 		log.error("========================================{}====================================================",id1);
