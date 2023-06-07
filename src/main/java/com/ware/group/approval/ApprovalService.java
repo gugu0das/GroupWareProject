@@ -313,8 +313,11 @@ public class ApprovalService {
 		
 		return result;
 	}
-	public List<ApprovalVO> getMyApproval(ApprovalVO approvalVO) throws Exception{
-		return approvalDAO.getMyApproval(approvalVO);
+	public List<ApprovalVO> getMyApproval(Pager pager) throws Exception{
+		
+		pager.makeStartRow();
+		pager.makeNum(approvalDAO.getMyTotal(pager));
+		return approvalDAO.getMyApproval(pager);
 	}
 	
 	public ApprovalFormFileVO getFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{

@@ -524,9 +524,11 @@ public class ApprovalController {
 	public ModelAndView getApprovalInformation(Pager pager) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		MemberVO memberVO = new MemberVO();
+		log.error("page--------------{}-----------------",pager.getPage());
+		Long pa = pager.getPage();
 		pager.setMemberId(0L);
 		memberVO.setId(4L);
-		
+		mv.addObject("caa", pager.getCategoryId());
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
 		//cat
@@ -535,11 +537,8 @@ public class ApprovalController {
 		List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
 		//cat1
 		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
-		mv.addObject("pager", pager);
-		
-		log.error("======================{}=============",ar.size() ==0);
-		
-		
+		log.error("-------------{}----------------",pager.getCategoryId());
+		log.error("--------------{}-----------------",pager.getPage());
 		
 		for(ApprovalCategoryVO approvalCategoryVO : arr) {
 			if(pager.getCategoryId() != null &&approvalCategoryVO.getId() == pager.getCategoryId()) {
@@ -550,30 +549,24 @@ public class ApprovalController {
 				mv.addObject("name", "전체");
 			}
 		}
-		
+		log.error("-----------{}------------",ar);
 		
 		if(ar.size() ==0) {
-			
-			
-			for(ApprovalCategoryVO approvalCategoryVO : arrr) {
-				if(approvalCategoryVO.getRef() == pager.getCategoryId()) {
-					pager.setCategoryId(approvalCategoryVO.getId());
-					List<ApprovalVO> av = approvalService.getApprovalList(pager);
-							for(ApprovalVO a : av) {
-								ar.add(a);
-								}
-							}
-					
-				}
-				
+			pager.setRef(pager.getCategoryId());
+			pager.setCategoryId(null);
+			pager.setPage(pa);
+			ar = approvalService.getApprovalList(pager);
 			}
+		mv.addObject("list", ar);
+		pager.setCategoryId(pager.getRef());
+		mv.addObject("pager", pager);
 			
 		mv.addObject("cat", arr);
 		mv.addObject("cat2", arrrr);
 		mv.addObject("cat1", arrr);
-		mv.addObject("list", ar);
 		
-		mv.setViewName("approval/information2");
+		
+		mv.setViewName("approval/information");
 //			
 		
 		
@@ -664,19 +657,26 @@ public class ApprovalController {
 	
 
 	@GetMapping("myInformation")
-	public ModelAndView getMyInformation(ApprovalVO approvalVO) throws Exception{
+	public ModelAndView getMyInformation(Pager pager) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		approvalVO.setMemberId(1L);
-		List<ApprovalVO> ar = approvalService.getMyApproval(approvalVO);
+		pager.setMemberId(1L);
 		
 		
-		if(approvalVO.getConfirm() != null) {
-		mv.addObject("name", approvalVO.getConfirm());
+		log.error("{}",pager.getConfirm());
+		if(pager.getConfirm()=="") {
+			pager.setConfirm(null);
+			log.error("null입니다");
+			
+		}
+		List<ApprovalVO> ar = approvalService.getMyApproval(pager);
+		log.error("{}",pager.getConfirm());
+		if(pager.getConfirm() != null) {
+		mv.addObject("name", pager.getConfirm());
 		}else {
 			mv.addObject("name", "전체");
 		}
-		
-		
+		mv.addObject("pager", pager);
+		mv.addObject("caa", pager.getConfirm());
 		mv.addObject("list", ar);
 		mv.setViewName("approval/myInformation");
 		return mv;

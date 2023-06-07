@@ -48,28 +48,28 @@
 				<nav aria-label="Page navigation example">
 		 			<ul class="pagination">
 			    		<li class="page-item ">
-			      			<a class="page-link" href="#" aria-label="Previous" data-board-page="1">
+			      			<a class="page-link s" href="#" aria-label="Previous" data-board-page="1">
 			        			<!-- 						==page=1 -->
 			        			
 			        			<span aria-hidden="true">&laquo;</span>
 			      			</a>
 			    		</li>
 			    		<li class="page-item ${pager.before ? 'disabled' : ''}">
-			      			<a class="page-link" href="#" aria-label="Previous" data-board-page="${pager.startNum-1}">
+			      			<a class="page-link s" href="#" aria-label="Previous" data-board-page="${pager.startNum-1}">
 			        			<span aria-hidden="true">&lsaquo;</span> <!--lsaquo는 꺽쇠 하나 laquo는 꺽쇠 두개  -->
 			      			</a>
 			    		</li>
 			    		<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
-			    		<li class="page-item"><a class="page-link ${pager.page eq i ? 'active' : '' }" href="#" data-board-page="${i}">${i}</a></li>
+			    		<li class="page-item"><a class="page-link s ${pager.page eq i ? 'active' : '' }" href="#" data-board-page="${i}">${i}</a></li>
 			    		</c:forEach>
 			    		<!-- &gt = <꺽쇠를 표현 &lt는 >꺽쇠를 표현 -->
 			    		<li class="page-item ${pager.after eq false ? 'disabled' : ''}"> <!--  -->
-			      			<a class="page-link " href="#"  aria-label="Next" data-board-page="${pager.lastNum+1}">
+			      			<a class="page-link  s" href="#"  aria-label="Next" data-board-page="${pager.lastNum+1}">
 			        			<span aria-hidden="true">&rsaquo;</span>
 			      			</a>
 			    		</li>
 			    		<li class="page-item "> <!--  -->
-			      			<a class="page-link " href="#"  aria-label="Next" data-board-page="${pager.totalPage}">
+			      			<a class="page-link s " href="#"  aria-label="Next" data-board-page="${pager.totalPage}">
 			        			<span aria-hidden="true">&raquo;</span>
 			      			</a>
 			    		</li>
@@ -77,7 +77,8 @@
 				</nav>
 		
 			</div>
-			<form class="row g-3" action="./information" method="get" id="searchForm">
+			<form class="row g-3 searchForm" action="./information" method="post" id="searchForms">
+				<input type="hidden" name="categoryId" value="${pager.categoryId}" id="ct">
 				<input type="hidden" name="page" value="1" id="page">
 				<div class="col-auto">
 					<label for="kind" class="visually-hidden">Kind</label>

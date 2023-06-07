@@ -21,6 +21,8 @@ public class Pager {
 	
 	private Long ref;
 	
+	private String confirm;
+	
 	private Long memberId;
 	
 	private Long categoryId;

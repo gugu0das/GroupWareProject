@@ -157,6 +157,7 @@
 			</div>
 			
 			<form class="row g-3" action="./information" method="get" id="searchForm">
+			<input type="hidden" name="categoryId" value="${caa}" id="cdt">
 				<input type="hidden" name="page" value="1" id="page">
 				<div class="col-auto">
 					<label for="kind" class="visually-hidden">Kind</label>

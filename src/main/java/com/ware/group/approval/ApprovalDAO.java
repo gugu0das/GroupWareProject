@@ -112,7 +112,7 @@ public interface ApprovalDAO {
 	
 	public int setAnnual(LeaveRecordVO leaveRecordVO) throws Exception;
 	
-	public List<ApprovalVO> getMyApproval(ApprovalVO approvalVO) throws Exception;
+	public List<ApprovalVO> getMyApproval(Pager pager) throws Exception;
 	
 	public ApprovalFormFileVO getFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
@@ -125,4 +125,6 @@ public interface ApprovalDAO {
 	public LeaveRecordVO getLeave(LeaveRecordVO leaveRecordVO) throws Exception;
 	
 	public Long getTotalCount(Pager pager) throws Exception;
+	
+	public Long getMyTotal(Pager pager) throws Exception;
 }
