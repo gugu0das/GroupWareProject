@@ -21,26 +21,53 @@
 <form:form modelAttribute="qnaCommentVO" method="post" action="./update" id="updateForm">
 <div class="comment_box">
 <ul class="cmt_list">									
-
+<!-- break -->
+<%-- <c:set var="loop_flag" value="true" /> --%>
 
 <c:forEach items="${list}" var="qnaCommentVO">
+<c:set var="qnadepth" value=""></c:set>
+		<c:forEach items="${list}" var="vo">
 		
-		<li>${qnaCommentVO.id}</li>
+		
+			<c:if test="${vo.id eq vo.ref and qnaCommentVO.ref eq vo.id}">
+				<c:set var="qnadepth" value="${vo.writer}"></c:set>
+				<c:set var="loop_flag" value="true" />
+			</c:if>
+		</c:forEach>
+		<ul >
+		
 		<li>${qnaCommentVO.writer}</li>
 		
 		<p>
-		<c:forEach begin="1" end="${qnaCommentVO.depth}">ㄴ></c:forEach>
-		<span>${qnaCommentVO.contents}</span>
+		
+		<c:choose>
+		
+		<c:when test="${qnaCommentVO.id ne qnaCommentVO.ref}">
+		<span>${qnadepth}</span><span class=form-control> ${qnaCommentVO.contents}</span>
+		</c:when>
+		<c:otherwise>
+		<span class=form-control> ${qnaCommentVO.contents}</span>
+		</c:otherwise>
+		</c:choose>
+		
+		
 		</p>
+		<div class="text">
 		
-		
-		<a href="/qnaComment/reply?id=${qnaCommentVO.id}" class="btn btn-danger">댓글</a>
-		<c:if test="${memberVO.accountId eq qnaCommentVO.writer}">
-		<div class="col-sm-3">
-		<button type="button" class="btn btn-primary del" id="commentListResult" data-qna-qna="${qnaCommentVO.id}">삭제</button>
 		</div>
-		<button type="button" class="btn btn-primary edit" id="contentsConfirm" data-comment-num="${qnaCommentVO.id}">수정</button>
+		<div class="col row">
+		<button type="button" class="btn btn-danger upup" data-qna-down="${qnaCommentVO.id}">댓글</button>
+		
+		
+		<c:if test="${memberVO.accountId eq qnaCommentVO.writer}">
+		
+		<button type="button" class="btn btn-primary del" id="commentListResult" data-qna-qna="${qnaCommentVO.id}" style="width : 58px; height : 38px; ">삭제</button>
+
+		<button type="button" class="btn btn-primary edit" id="contentsConfirm" data-comment-num="${qnaCommentVO.id}" >수정</button>
+		
 		</c:if>
+		</div>
+		</ul>
 </c:forEach>
 </ul>
 </div>

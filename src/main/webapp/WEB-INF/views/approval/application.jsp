@@ -80,7 +80,7 @@
 	<c:import url="../temp/logoutModal.jsp"></c:import>
 	<c:import url="../temp/common_js.jsp"></c:import>
 	<script type="text/javascript">
-	 $("#ttt").load("/file/approvalForm/${file}");
+	 $("#ttt").load("/file/approvalFormFile/${file}");
 	 $("#fr").append('<SPAN>결재 상세 내용</SPAN><input type="text" name="contents"><br>')
 	    $("#fr").append('<button type="button" id="btn">전송</button>');
 	</script>

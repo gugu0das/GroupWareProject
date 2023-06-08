@@ -48,10 +48,10 @@ public class NoticeService{
 	}
 	
 	
-	public List<NoticeVO> getImportantList(NoticeVO noticeVO) throws Exception {
-		return noticeDAO.getImportantList(noticeVO);
-	}
-
+	/*
+	 * public List<NoticeVO> getImportantList(NoticeVO noticeVO) throws Exception {
+	 * return noticeDAO.getImportantList(noticeVO); }
+	 */
 
 	public NoticeVO getDetail(NoticeVO noticeVO) throws Exception {
 		return noticeDAO.getDetail(noticeVO);

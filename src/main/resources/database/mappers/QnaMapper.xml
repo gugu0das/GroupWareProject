@@ -72,6 +72,13 @@
 	<delete id="setDelete" parameterType="QnaVO">
   		DELETE FROM QNA WHERE ID = #{id}
   	</delete>
+  	<delete id="setCommentDelete" parameterType="QnaVO">
+  		DELETE FROM QNACOMMENT WHERE qna_id  = #{id}
+  	</delete>
+  	
+  	<delete id="setFileDelete" parameterType="QnaVO">
+  		DELETE FROM QNAFILES WHERE ID = #{id}
+  	</delete>
   	
   	<insert id="setQnaFileAdd" parameterType="BoardFileVO">
   		INSERT INTO QNAFILES (id, qna_id, file_name, ori_name)

@@ -45,6 +45,8 @@
 		LIMIT #{startRow}, #{perPage}
 	</select> -->
 	
+	
+	
 	<select id="getQnaCommentDetail" parameterType="QnaCommentVO" resultMap="qnaCommentResultMap">
   		SELECT *
 		FROM QNACOMMENT
@@ -74,6 +76,10 @@
 	
 	<delete id="setQnaCommentDelete" parameterType="QnaCommentVO">
   			DELETE FROM QNACOMMENT WHERE ID = #{id}
+  	</delete>
+  	
+  	<delete id="setQnaCommentDeleteDelete" parameterType="QnaCommentVO">
+  			DELETE FROM QNACOMMENT WHERE REF = #{id}
   	</delete>
   	
   	<update id="setQnaCommentUpdate" parameterType="QnaCommentVO">

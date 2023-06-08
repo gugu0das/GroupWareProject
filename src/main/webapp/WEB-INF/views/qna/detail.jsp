@@ -47,10 +47,10 @@
                     <div class="row gx-5">
                         <div class="col-lg-3">
                             <div class="d-flex align-items-center mt-lg-5 mb-4">
-                                <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+                                <!-- <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /> -->
                                 <div class="ms-3">
-                                    <div class="fw-bold">${qnaVO.writer}</div>
-                                   	<div class="fw-bold">${memberVO.accountId}</div>
+                                    <div class="fw-bold">작성자 : ${qnaVO.writer}</div>
+                                   	<%-- <div class="fw-bold">${memberVO.accountId}</div> --%>
                                     <!-- <div class="text-muted">커뮤니티 디테일</div> -->
                                 </div>
                             </div>
@@ -60,25 +60,25 @@
                             <article>
                                 <!-- Post header-->
                                 <header class="mb-4">
-                                    <!-- Post title-->
-                                    <h1 class="fw-bolder mb-1">${qnaVO.title}</h1>
-                                    <!-- Post meta content-->
-                                    <div class="text-muted fst-italic mb-2">${qnaVO.regDate}</div>
-                                    <!-- Post categories-->
+                                    
+                                    <h1 class="fw-bolder mb-1">제 목 :${qnaVO.title}</h1>
+                                    
+                                    <div class="text-muted fst-italic mb-2">작성일 : ${qnaVO.regDate}</div>
+                                    
                                   
-                                </header>
+                               </header>
                                 <!-- Preview image figure-->
                                 
                                 <!-- Post content-->
                                 <section class="mb-5">
-                                    ${qnaVO.contents}
+                                    내 용 : ${qnaVO.contents}
                                       
                                      
                                        <c:forEach items="${qnaVO.boardFileVOs}" var="boardFileVO">
                                     	
-                                    	<img alt="2" src="/file/qna/${boardFileVO.fileName}">
+                                    	사 진 :<img alt="2" src="/file/qna/${boardFileVO.fileName}">
                                     	
-                                    	<a href="./fileDown?id=${boardFileVO.id}">${boardFileVO.oriName}</a>
+                                    	클릭시 다운로드 가능 :<a href="./fileDown?id=${boardFileVO.id}">${boardFileVO.oriName}</a>
                                     	
                                     </c:forEach>
                                     
@@ -87,6 +87,7 @@
                                 </section>
                                
                             </article>
+                             
                             	<%-- <c:if test="${qnaDetail ne 'notice'}"> --%>
                            
                             	<%-- </c:if> --%>

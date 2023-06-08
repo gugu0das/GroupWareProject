@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -500,7 +503,7 @@ public class ApprovalController {
 	}
 
 	@PostMapping("application")
-	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO) throws Exception{
+	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		log.error("vo {} ", leaveRecordVO);
 		
@@ -509,9 +512,12 @@ public class ApprovalController {
 			leaveRecordVO.setUseDate(null);
 		}
 		//예시
-		approvalVO.setMemberId(1L);
+//		approvalVO.setMemberId(1L);
 		
-		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	    approvalVO.setMemberId(memberVO.getId());
 		//log.error(dd);
 		
 		/* String urlStr = "http://localhost/approval/application"; */
