@@ -19,5 +19,6 @@ public class QnaCommentVO {
 	private Long ref;
 	private Long step;
 	private Long depth;
+	private Long master;
 	private MemberVO memberVO;
 }

@@ -31,7 +31,7 @@
 			   	 ) AS C
 				) AS D
 		WHERE R BETWEEN #{startRow} AND #{perPage}
-		ORDER BY ref ,step,depth
+		ORDER BY ref DESC ,step ASC
 	</select>
 	
 	<!-- <select id="getQnaCommentList" parameterType="Pager" resultType="QnaCommentVO" >
@@ -67,12 +67,13 @@
 </resultMap>
 	
 	<insert id="setQnaCommentAdd" parameterType="QnaCommentVO" useGeneratedKeys="true" keyProperty="id">
-  			<selectKey keyProperty="id" resultType="Long" order="BEFORE">
-  				SELECT MAX(id)+1 FROM QNACOMMENT
-  			</selectKey>
-  			INSERT INTO QNACOMMENT (id, qna_id, contents, reg_date, writer,ref,step,depth)
-  			VALUES ( #{id} , #{qnaId}, #{contents}, now(), #{writer},#{id},0,0)
+  			
+  			INSERT INTO QNACOMMENT (qna_id, contents, reg_date, writer,step,depth,master)
+  			VALUES (#{qnaId}, #{contents}, now(), #{writer},0,0,0)
   		</insert>
+  		<update id="setRefUp" parameterType="QnaCommentVO">
+  			UPDATE QNACOMMENT SET ref=#{id} WHERE id=#{id}
+  		</update>
 	
 	<delete id="setQnaCommentDelete" parameterType="QnaCommentVO">
   			DELETE FROM QNACOMMENT WHERE ID = #{id}
@@ -98,7 +99,7 @@
   				(SELECT MAX(id) FROM QNACOMMENT)
   			</selectKey>
 	
-  		INSERT INTO QNACOMMENT (qna_id,  contents, writer, reg_date, ref, step, depth)
-		VALUES( #{qnaId} , #{contents}, #{writer}, now(),#{ref} , #{step}, #{depth})
+  		INSERT INTO QNACOMMENT (qna_id,  contents, writer, reg_date, ref, step, depth, master)
+		VALUES( #{qnaId} , #{contents}, #{writer}, now(),#{ref} , #{step}, #{depth}, #{master})
   	</insert>
 </mapper>

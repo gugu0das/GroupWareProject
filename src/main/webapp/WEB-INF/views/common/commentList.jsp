@@ -29,7 +29,7 @@
 		<c:forEach items="${list}" var="vo">
 		
 		
-			<c:if test="${vo.id eq vo.ref and qnaCommentVO.ref eq vo.id}">
+			<c:if test="${qnaCommentVO.master eq vo.id}">
 				<c:set var="qnadepth" value="${vo.writer}"></c:set>
 				<c:set var="loop_flag" value="true" />
 			</c:if>

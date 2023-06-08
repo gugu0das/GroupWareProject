@@ -32,4 +32,6 @@ public interface QnaCommentDAO {
 	public int setQnaCommentDeleteDelete(QnaCommentVO qnaCommentVO)throws Exception;
 	
 	
+	public int setRefUp(QnaCommentVO qnaCommentVO)throws Exception;
+	
 }
