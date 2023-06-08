@@ -107,7 +107,7 @@ public class NoticeService{
 		NoticeFileVO noticeFileVO = new NoticeFileVO();
 		noticeFileVO.setFileName(fileName);
 		noticeFileVO.setOriName(multipartFile.getOriginalFilename());
-		noticeFileVO.setId(noticeVO.getId());
+		noticeFileVO.setNoticeId(noticeVO.getId());
 	
 		result = noticeDAO.setNoticeFileAdd(noticeFileVO);
 		System.out.println("Service");

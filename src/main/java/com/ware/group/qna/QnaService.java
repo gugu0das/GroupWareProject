@@ -41,19 +41,19 @@ public class QnaService {
 	}
 
 	
-	public int setInsert(QnaVO qnaVO, MultipartFile [] multipartFiles) throws Exception {
+	public int setInsert(QnaVO qnaVO, MultipartFile [] files) throws Exception {
 		int result = qnaDAO.setInsert(qnaVO);
 		
-		if(multipartFiles != null) {
-			for(MultipartFile multipartFile : multipartFiles) {
+		if(files != null) {
+			for(MultipartFile multipartFile : files) {
 				
 				if(!multipartFile.isEmpty()) {
 					String fileName = fileManager.saveFile(path, multipartFile);
 					QnaFileVO qnaFileVO = new QnaFileVO();
 					qnaFileVO.setFileName(fileName);
 					qnaFileVO.setOriName(multipartFile.getOriginalFilename());
-					qnaFileVO.setId(qnaVO.getId());
-					System.out.println("힘들다");
+					qnaFileVO.setQnaId(qnaVO.getId());
+					
 					result = qnaDAO.setQnaFileAdd(qnaFileVO);
 				}
 			}
@@ -63,11 +63,11 @@ public class QnaService {
 	}
 
 	
-	public int setUpdate(QnaVO qnaVO,MultipartFile [] multipartFiles) throws Exception {
+	public int setUpdate(QnaVO qnaVO,MultipartFile [] files) throws Exception {
 		
 		int result =  qnaDAO.setUpdate(qnaVO);
-		if(multipartFiles != null) {
-			for(MultipartFile multipartFile : multipartFiles) {
+		if(files != null) {
+			for(MultipartFile multipartFile : files) {
 			
 			//1. File을 HDD에 저장 경로
 			// Project 경로가 아닌 OS가 이용하는 경로
@@ -81,7 +81,7 @@ public class QnaService {
 		QnaFileVO qnaFileVO = new QnaFileVO();
 		qnaFileVO.setFileName(fileName);
 		qnaFileVO.setOriName(multipartFile.getOriginalFilename());
-		qnaFileVO.setId(qnaVO.getId());
+		qnaFileVO.setQnaId(qnaVO.getId());
 	
 		result = qnaDAO.setQnaFileAdd(qnaFileVO);
 		System.out.println("Service");
