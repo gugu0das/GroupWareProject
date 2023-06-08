@@ -113,8 +113,8 @@
 	<delete id="deleteUpperOptionFormFile" parameterType="ApprovalCategoryVO">
 		DELETE FROM APPROVALFORMFILE WHERE category_id = #{id}
 	</delete>
-	<delete id="deleteUnderFormFile" parameterType="ApprovalCategoryVO">
-		DELETE FROM APPROVALFORMFILE WHERE ref = #{ref}
+	<delete id="deleteUnderFormFile" parameterType="ApprovalFormFileVO">
+		DELETE FROM APPROVALFORMFILE WHERE category_id = #{categoryId}
 	</delete>
 	<delete id="deleteUnderApprover" parameterType="ApproverVO">
 		DELETE FROM APPROVER WHERE category_id = #{categoryId}
@@ -125,8 +125,11 @@
 	<delete id="deleteCategory" parameterType="ApprovalCategoryVO">
 		DELETE FROM APPROVALCATEGORY WHERE id = #{id}
 	</delete>
-	<insert id="addUnderCategory" parameterType="ApprovalCategoryVO">
-		INSERT INTO APPROVALCATEGORY (name, ref) VALUES (#{name}, #{ref})
+	<insert id="addUnderCategory" parameterType="ApprovalCategoryVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO APPROVALCATEGORY (id, name, ref) VALUES (#{id}, #{name}, #{ref})
+	</insert>
+	<insert id="addUpperFormFile" parameterType="ApprovalFormFileVO">
+		INSERT INTO APPROVALFORMFILE (category_id, file_name) VALUES (#{categoryId}, #{fileName})
 	</insert>
 	
 	

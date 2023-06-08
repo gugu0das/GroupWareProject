@@ -6,7 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Pager {
-	
 	private String kind;
 	private String search;
 	private Long page;
@@ -16,6 +15,9 @@ public class Pager {
 	private Long totalPage;
 	private Long startNum;
 	private Long lastNum;
+	
+	private boolean important;
+	
 	//qna댓글로 인해 추가
 	private Long qnaId;
 	
@@ -53,6 +55,7 @@ public class Pager {
 		this.lastNum = curBlock * this.getPerBlock();
 		 
 		this.after = true;
+		//이것 때문에 현재 페이지에서 무조건 그거에 갯수에 맞게 되고 이걸 빼면 자기가 원하는 갯수가된다
 		if(curBlock == totalBlock) {
 			lastNum = totalPage;
 			this.after = false;

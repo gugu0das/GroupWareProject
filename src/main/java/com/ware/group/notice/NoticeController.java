@@ -41,10 +41,10 @@ public class NoticeController {
 	
 	
 	@GetMapping("importantList")
-	public ModelAndView getImportantList(NoticeVO noticeVO) throws Exception {
+	public ModelAndView getImportantList(NoticeVO noticeVO,Pager pager) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
-		List<NoticeVO> ar = noticeService.getImportantList(noticeVO);
+		List<NoticeVO> ar = noticeService.getList(pager);
 		
 		mv.addObject("importantList", ar);
 		mv.setViewName("notice/importantList");
@@ -57,7 +57,7 @@ public class NoticeController {
 	public ModelAndView getNoticeListTop(Pager pager)throws Exception{
 		ModelAndView mv = new ModelAndView();
 		pager.setPerPage(5L);
-		
+		;
 		List<NoticeVO> ar = noticeService.getList(pager);
 		
 		
@@ -74,12 +74,17 @@ public class NoticeController {
 		ModelAndView mv = new ModelAndView();
 		log.info("search : {}", pager.getSearch());
 		log.info("kind : {}", pager.getKind());
-		
+		pager.setPerPage(5L);
 		List<NoticeVO> ar = noticeService.getList(pager);
-		
-		
+		 log.error("{}",pager.isImportant());
+		/* log.error("{}",pager.getImportant()); */
+		 if(pager.getLastNum()<5L) {
+			 pager.setLastNum(5L);
+		 }
 		mv.addObject("list", ar);
+		mv.addObject("pager",pager);
 		mv.setViewName("notice/list");
+		
 		
 		return mv;
 	}
@@ -148,7 +153,7 @@ public class NoticeController {
 	}
 	
 	@GetMapping("detail")
-	public ModelAndView getDetail(NoticeVO noticeVO,HttpSession session) throws Exception {
+	public ModelAndView getDetail(NoticeVO noticeVO,HttpSession session,MultipartFile [] files) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
@@ -156,17 +161,12 @@ public class NoticeController {
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 	    
 	    log.error("{}",noticeVO.getId());
+	    log.error("{}",noticeVO.getContents());
 	    noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
-		/*
-		 * log.error("============={}================S",noticeVO.getBoardFileVOs().size(
-		 * ));
-		 */
+		
 	    
-	    
-		for(NoticeFileVO fileVO : noticeVO.getBoardFileVOs()) {
-			log.error("{}",fileVO.getFileName());
-		}
 		int result = noticeService.setNoticeHit(noticeVO);
+		
 		mv.addObject("filess",noticeService.getFileList(noticeVO));
 		mv.addObject("memberVO", memberVO);
 		mv.addObject("noticeVO", noticeVO);

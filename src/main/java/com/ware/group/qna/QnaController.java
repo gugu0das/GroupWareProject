@@ -51,7 +51,9 @@ public class QnaController {
 		for(QnaVO qnaVO : ar) {
 			
 		}
-		
+		 if(pager.getLastNum()<5L) {
+			 pager.setLastNum(5L);
+		 }
 		mv.addObject("list", ar);
 		mv.setViewName("qna/list");
 		

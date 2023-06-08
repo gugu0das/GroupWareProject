@@ -29,8 +29,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${list0}" var="upper">
-					<tr id="${upper.id}" class="upperOption" data-count="1">
+				<c:forEach items="${list0}" var="upper" varStatus="status">
+					<c:set var="count" value="${status.count}"/>
+					<tr id="${upper.id}" class="upperOption" data-count="${count}">
 						<td>
 							<span>상위 옵션</span>
 							<button class="btn btn-primary" id="addUnderOption">하위 옵션 추가</button>
@@ -53,6 +54,7 @@
 						</td>
 						<td>
 							<c:set var="check" value="0"/>
+							
 							<c:forEach items="${listApprover}" var="approver" varStatus="i">
 								<c:if test="${approver.categoryId == upper.id}">
 									<c:set var="check" value="1"/>
@@ -72,9 +74,9 @@
 							</c:if>
 						</td>
 					</tr>
-					<c:forEach items="${list1}" var="under" varStatus="status">
+					<c:forEach items="${list1}" var="under" varStatus="status1">
 						<c:if test="${upper.id == under.ref}">
-							<tr id="${under.id}" class="underOption" data-count="${status.count}">
+							<tr id="${under.id}" class="underOption" data-count="${count}">
 								<td><span>하위 옵션</span></td>
 								<td>
 									<span>${under.id}</span>
@@ -93,7 +95,7 @@
 									</c:forEach>
 								</td>
 								<td>
-								<button class="btn btn-primary" id="addApprover" data-hide="yes">추가하기</button>
+								
 									<c:forEach items="${listApprover}" var="approver" varStatus="i">
 										<c:if test="${approver.categoryId == under.id}">
 											<c:forEach items="${approver.departmentVOs}" var="department" varStatus="status">
@@ -107,6 +109,7 @@
 											</c:forEach>
 										</c:if>
 									</c:forEach>
+									<button class="btn btn-primary" id="addApprover" data-hide="yes">추가하기</button>
 								</td>
 							</tr>
 						</c:if>

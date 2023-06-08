@@ -57,10 +57,13 @@
 								</c:forEach>
 							</ul>
 						</li>
-						
 					</c:forEach>
-					<li><a href="/approval/information">결재 승인</a></li>
-					<li><a href="/approval/myInformation">내 결재 정보</a></li>
+					<li>
+						<span class="collapse-item" id="information"><a href="/approval/information" class="link">결재 승인</a></span>
+					</li>
+					<li>
+						<span class="collapse-item" id="myInformation"><a href="/approval/myInformation" class="link">내 결재 정보</a></span>
+					</li>
 				</ul>
 			</div>
 		</div></li>

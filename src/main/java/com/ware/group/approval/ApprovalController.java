@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -186,16 +189,12 @@ public class ApprovalController {
 			approvalFormFileVO.setFileName(obj.getOriginalFilename());
 			
 			approvalFormFileVO.setCategoryId(Long.parseLong((String)param.get("categoryId")));
-			result = approvalService.updateFormFile(approvalFormFileVO);
+			result = approvalService.addUpperFormFile(approvalFormFileVO);
 			
 			filemanger.saveFile(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {
-			ApprovalCategoryVO vo = new ApprovalCategoryVO();
-			vo.setRef((Long)param.get("categoryId"));
-			approvalService.deleteUnderFormFile(vo);
-			
 			return "파일 업데이트 성공";
 		}else{
 			return "파일 업데이트 실패";
@@ -428,6 +427,9 @@ public class ApprovalController {
 		ApproverVO vo = new ApproverVO();
 		vo.setCategoryId(categoryVO.getId());
 		approvalService.deleteUnderApprover(vo);
+		ApprovalFormFileVO vo2 = new ApprovalFormFileVO();
+		vo.setCategoryId(categoryVO.getId());
+		approvalService.deleteUnderFormFile(vo2);
 		return result;
 		
 	}
@@ -460,12 +462,33 @@ public class ApprovalController {
 	}
 	
 	@PostMapping("addUnderCategory")
-	public int addUnderCategory(ApprovalCategoryVO categoryVO) throws Exception{
-
-		int result = approvalService.addUnderCategory(categoryVO);
-
+	@ResponseBody
+	public int addUnderCategory(String ref, String name , Long jobId[], Long departmentId[], String fileName) throws Exception{
+		int result = 1;
+		ApprovalCategoryVO categoryVO = new ApprovalCategoryVO();
+		categoryVO.setRef(Long.parseLong(ref));
+		categoryVO.setName(name);
+		
+		approvalService.addUnderCategory(categoryVO);
+		
+		if(categoryVO.getId() > 0) {
+			for(int i = 0; i < jobId.length; i++) {
+				ApproverVO approverVO = new ApproverVO();
+				approverVO.setCategoryId(categoryVO.getId());
+				approverVO.setJobId(jobId[i]);
+				approverVO.setDepartmentId(departmentId[i]);
+				approverVO.setDepth(i);
+				approvalService.addApprover(approverVO);
+			}
+			ApprovalFormFileVO approvalFormFileVO = new ApprovalFormFileVO();
+			approvalFormFileVO.setCategoryId(categoryVO.getId());
+			approvalFormFileVO.setFileName(fileName);
+			approvalService.addApprovalFormFile(approvalFormFileVO);
+		}
 		return result;
 	}
+	
+	
 	//
 	
 	@GetMapping("application")
@@ -480,7 +503,7 @@ public class ApprovalController {
 	}
 
 	@PostMapping("application")
-	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO) throws Exception{
+	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		log.error("vo {} ", leaveRecordVO);
 		
@@ -489,9 +512,12 @@ public class ApprovalController {
 			leaveRecordVO.setUseDate(null);
 		}
 		//예시
-		approvalVO.setMemberId(1L);
+//		approvalVO.setMemberId(1L);
 		
-		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	    approvalVO.setMemberId(memberVO.getId());
 		//log.error(dd);
 		
 		/* String urlStr = "http://localhost/approval/application"; */
