@@ -231,6 +231,9 @@ public class ApprovalService {
 	public List<ApprovalVO> getApprovalList(Pager pager) throws Exception{
 		pager.makeStartRow();
 		pager.makeNum(approvalDAO.getTotalCount(pager));
+		if(approvalDAO.getTotalCount(pager)<1) {
+			pager.setLastNum(1L);
+			}
 		log.error("++++++++++++++++++++++++++{}++++++++++++",pager.getStartRow());
 		List<ApprovalVO> ar = approvalDAO.getApprovalList(pager);
 		
