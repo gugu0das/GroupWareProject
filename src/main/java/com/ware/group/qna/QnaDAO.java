@@ -41,12 +41,8 @@ public interface QnaDAO {
 	// 조회수
 	public int setQnaHit(QnaVO qnaVO) throws Exception;
 	
-	//REF 댓글
-	/* public int setStepUpdate(QnaVO qnaVO)throws Exception; */
+	public Long getCount(QnaVO qnaVO) throws Exception;
 	
-	//댓글 더하기
-	/* public int setReplyAdd(QnaVO qnaVO)throws Exception; */
-	
-	//REF UPDATE
-	//public int setRefUpdate(QnaVO qnaVO)throws Exception;
+	//사진 파일삭제
+	public int setFileDelete(QnaVO qnaVO) throws Exception;
 }

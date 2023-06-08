@@ -153,14 +153,27 @@
  	<insert id="setApprovalInfo" parameterType="ApprovalInfoVO">
  		INSERT INTO APPROVALINFO(approval_id,member_id,date,`check`,depth) VALUES(#{approvalId},#{memberId},now(),#{check},#{depth})
  	</insert>
- 	<select id="getApprovalList" resultMap="app" parameterType="Pager">
+ 	<!-- <select id="getApprovalList" resultMap="app" parameterType="Pager">
  		SELECT * FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) LEFT JOIN APPROVALCATEGORY ac ON(a.category_id = ac.id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
- 		<!-- <include refid="search"></include> -->
+ 		<include refid="search"></include>
  		<if test="categoryId !=null">
  			AND category_id=#{categoryId}
  		</if>
  		<if test="ref !=null">
  			AND `ref`=#{ref}
+ 		</if>
+		ORDER BY a.ID DESC
+		LIMIT #{startRow}, #{perPage}
+ 	</select> -->
+ 	<select id="getApprovalList" resultMap="app" parameterType="Pager">
+ 		SELECT * FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) LEFT JOIN APPROVALCATEGORY ac ON(a.category_id = ac.id) WHERE `check`='승인중' 
+ 		
+ 		<if test="memberId !=null">
+ 			AND a3.member_id=#{memberId}
+ 		</if>
+ 		<if test="categoryId !=null">
+ 			AND category_id=#{categoryId}
+ 			OR `ref`=#{categoryId}
  		</if>
 		ORDER BY a.ID DESC
 		LIMIT #{startRow}, #{perPage}
@@ -241,13 +254,25 @@
  	<select id="getLeave" parameterType="LeaveRecordVO" resultType="LeaveRecordVO">
  		SELECT * FROM LEAVERECODE WHERE type='대기' AND approval_id=#{approvalId}
  	</select>
- 	<select id="getTotalCount" parameterType="Pager" resultType="Long">
+ 	<!-- <select id="getTotalCount" parameterType="Pager" resultType="Long">
 			SELECT COUNT(a.id) FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) LEFT JOIN APPROVALCATEGORY ac ON(a.category_id = ac.id) WHERE `check`='승인중' AND a3.member_id=#{memberId}
 			<if test="categoryId !=null">
  			AND a.category_id=#{categoryId}
  		</if>
  		<if test="ref !=null">
  			AND `ref`=#{ref}
+ 		</if>
+ 		
+			<include refid="search"></include>
+	</select> -->
+	<select id="getTotalCount" parameterType="Pager" resultType="Long">
+			SELECT COUNT(a.id) FROM APPROVAL a  LEFT JOIN APPROVALINFO a3 ON(a.id = a3.approval_id) LEFT JOIN APPROVALCATEGORY ac ON(a.category_id = ac.id) WHERE `check`='승인중' 
+			<if test="memberId !=null">
+ 				AND a3.member_id=#{memberId}
+ 			</if>
+			<if test="categoryId !=null">
+ 				AND a.category_id=#{categoryId}
+ 				OR `ref`=#{categoryId}
  		</if>
  		
 			<!-- <include refid="search"></include> -->

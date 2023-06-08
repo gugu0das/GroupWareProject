@@ -54,7 +54,7 @@
 
 												</c:when>
 												<c:otherwise>
-													<c:if test="${confirm eq '대기'}">
+													<c:if test="${confirm eq '대기'|| num >1}">
 														<button type="button" id="del" data-id="${id}" class="btn">결재 취소</button>
 													</c:if>
 												</c:otherwise>

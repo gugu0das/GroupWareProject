@@ -27,6 +27,8 @@
 	
 	
 	<select id="getList" parameterType="Pager" resultType="QnaVO" >
+		
+		
 		SELECT * FROM QNA 
 		<include refid="search"></include>
 		ORDER BY ID DESC
@@ -34,12 +36,12 @@
 	</select>
 	
 	<select id="getDetail" parameterType="QnaVO" resultMap="getDetailResult">
-  		SELECT *
-		FROM QNA
+  		SELECT n.*, nf.id as 'nf.id', nf.file_name, nf.ori_name
+		FROM QNA n
 			 LEFT JOIN
-			 QNAFILES 
-			 USING(id) 
-		WHERE ID = #{id}
+			 QNAFILES nf
+			 on (n.id = nf.qna_id) 
+		WHERE nf.qna_id = #{id};
   	</select>
   	
   	<resultMap type="QnaVO" id="getDetailResult">
@@ -52,7 +54,7 @@
 		<result property="hit" column="hit"/>
 		
 		<collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
-			<id property="id" column="id"/>
+			<id property="id" column="nf.id"/>
 			<result property="fileName" column="file_name"/>
 			<result property="oriName" column="ori_name"/>
 		</collection>
@@ -66,13 +68,13 @@
 		VALUES(#{id}, #{memberId} ,#{title}, #{contents}, #{writer}, now(), 0)
 	</insert>
 	
-	<!-- <update id="setRefUpdate" parameterType="QnaVO">
-	UPDATE QNA SET ref = #{id}
-	WHERE id = #{id};
-	</update> -->
 	
 	<delete id="setDelete" parameterType="QnaVO">
   		DELETE FROM QNA WHERE ID = #{id}
+  	</delete>
+  	
+  	<delete id="setFileDelete" parameterType="NoticeVO">
+  		DELETE FROM QNAFILES WHERE ID = #{id}
   	</delete>
   	
   	<insert id="setQnaFileAdd" parameterType="BoardFileVO">
@@ -93,6 +95,8 @@
   		UPDATE QNA SET TITLE = #{title}, WRITER = #{writer}, CONTENTS = #{contents}
   		WHERE ID = #{id}
   	</update>
-  	
+  	<select id="getCount" parameterType="QnaVO" resultType="Long">
+  	SELECT COUNT(id) FROM QNACOMMENT WHERE qna_id=#{id}
+  	</select>
 
 </mapper>

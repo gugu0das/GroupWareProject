@@ -4,6 +4,7 @@
 const replyAdd = document.getElementById("replyAdd");
 const replyContents = document.getElementById("replyContents");
 const commentListResult = document.getElementById("commentListResult")
+const contentsConfirm = document.getElementById("contentsConfirm")
 
 
 replyAdd.addEventListener("click", function(){
@@ -51,24 +52,158 @@ function getList(){
     })
 }
 
-/*$("#commentListResult").on("click", ".del", () => {
-    let id = $(".del").attr("data-qna-qna");
+$("#commentListResult").on("click", ".del", function(e) {
+    let id = $(this).attr("data-qna-qna");
 
     $.ajax({
         url: "/qnaComment/delete",
         type: "POST",
-         data: {
-             id: id
-         },
-         success: function() {
-             alert('댓글이 삭제 되었습니다');
-             getList();
+        data: {
+            id: id
+        },
+        success: function() {
+            alert('댓글이 삭제 되었습니다');
+            getList();
         },
         error: function() {
-           alert('삭제가 실패했습니다');
-         }
-     });
- });*/
+            alert('삭제가 실패했습니다');
+        }
+    });
+});
+$(document).on("click", ".clear",function() {
+    // 수정 완료 버튼 클릭 시 동작
+    let id = $(this).attr("data-comment-num");
+    let contents = $(this).prev().prev().prev().children("span").children("textarea").val();
+    console.log(contents)
+   
+    console.log($(this).prev().prev().prev().children("span").children("textarea").val());
+    console.log("수정 완료 동작");
+    $.ajax({
+        url: "/qnaComment/update",
+        type: "POST",
+        data: {
+            id: id,
+            contents: contents
+        },
+        success: function(data) {
+           
+            if(data == 1){
+            alert('댓글이 수정되었습니다.');
+            $("#closeModal").click();
+            getList();
+        }else{
+            alert('댓글 수정을 실패했습니다.');
+        }
+        },
+        error: function() {
+            alert('관리자 문의 필요.');
+        }
+    });
+});
+
+
+$(document).on("click", ".edit", function(e) {
+    
+    $(this).addClass("clear");
+
+$(this).removeClass("edit");
+
+    // 수정 가능한 상태로 변경
+   console.log($(this).prev().prev().prev().children("span").text());
+    
+    $(this).prev().prev().prev().children("span").html('<textarea>'+$(this).prev().prev().prev().children("span").text()+'</textarea>');
+    // 버튼 텍스트 변경
+
+    console.log($(this).prev().prev().prev().children("span").children("textarea").text());
+    
+
+    $(this).text("수정 완료");
+    
+    // 수정 완료 버튼 클릭 이벤트 핸들러 등록
+   
+});
+
+// $(document).on("click", ".edit", function() {
+//     let commentId = $(this).attr("data-comment-num");
+//     let textarea = $("#contentsConfirm" + commentId);
+    
+//     // 수정 가능한 상태로 변경
+//     textarea.prop("readonly", false);
+    
+//     // 버튼 텍스트 변경
+//     $(this).text("수정 완료");
+    
+//     // 수정 완료 버튼 클릭 이벤트 핸들러 등록
+//     $(this).off("click").on("click", function() {
+//         let commentId = $(this).attr("data-comment-num");
+//         let textarea = $("#contentsConfirm" + commentId);
+//         let commentContent = textarea.val();
+        
+//         // 수정 완료 버튼 클릭 시 동작
+//         $.ajax({
+//             url: "/qnaComment/update",
+//             type: "POST",
+//             data: {
+//                 id: id,
+//                 contents: contents
+//             },
+//             success: function(response) {
+//                 // 댓글 수정 성공 시 처리
+//                 textarea.prop("readonly", true);
+//                 $(".edit[data-comment-num='" + commentId + "']").text("수정");
+//             },
+//             error: function() {
+//                 // 댓글 수정 실패 시 처리
+//                 alert("댓글 수정을 실패했습니다.");
+//             }
+//         });
+//     });
+// });
+
+// $("#contentsConfirm").click(function(){
+//     let id = $(this).attr("data-comment-num");
+//     let contents = $("#contents").val();
+
+//     $.ajax({
+//         url: "/qnaComment/update",
+//         type: "POST",
+//         data: {
+//             id: id,
+//             contents: contents
+//         },
+//         success: function() {
+//             alert('댓글이 수정 되었습니다');
+//             $("#closeModal").click();
+//             getList();
+//         },
+//         error: function() {
+//             alert('댓글 수정을 실패했습니다');
+//         }
+//     });
+// });
+// 수정 버튼 클릭 시 이벤트 처리
+
+//  $("#contentsConfirm").click(function(){
+//     let commentNum = $(this).attr("data-comment-num");
+//     let contents = $("#contents").val();
+
+//     $.ajax({
+//         url: "/qnaComment/qnaCommentUpdate",
+//         type: "POST",
+//         data: {
+//             commentNum: commentNum,
+//             contents: contents
+//         },
+//         success: function() {
+//             alert('댓글이 수정 되었습니다');
+//             $("#closeModal").click();
+//             getList(1);
+//         },
+//         error: function() {
+//             alert('댓글 수정을 실패했습니다');
+//         }
+//     });
+// });
 
 //  $("#replyAdd").on("click", function(){
 //     let contents = $("#replyContents").val();
@@ -171,3 +306,20 @@ function getList(){
 //         }
 //     });
 // });
+
+$("#updatebtn").click(function(){
+    $(".change").each(function(index,data){
+
+        $(data).prop("readonly",false)
+        $(data).removeClass("change")
+    })
+    $("#updatebtn").text("수정완료")
+    if(!click){
+        click=true;
+    }
+    else{
+        $("#updateForm").submit();
+    }
+    
+})
+

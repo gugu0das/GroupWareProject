@@ -145,11 +145,11 @@
             </div>
 
             <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
+           <!--  <div class="sidebar-card d-none d-lg-flex">
                 <img class="sidebar-card-illustration mb-2" src="/images/undraw_rocket.svg" alt="...">
                 <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
                 <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
@@ -372,6 +372,11 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="login.html">Logout</a>
+                    
+                    
+                   
+                    
+                    
                 </div>
             </div>
         </div>
@@ -379,7 +384,7 @@
 
   <!-- Bootstrap core JavaScript-->
    
-   <script src="/vendor/jquery/jquery.min.js"></script>
+  <!--  <script src="/vendor/jquery/jquery.min.js"></script>
     
 
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -397,7 +402,7 @@
    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     
      
-   <script src="/js/datatables-demo.js"></script>
+   <script src="/js/datatables-demo.js"></script>  -->
  
    
 

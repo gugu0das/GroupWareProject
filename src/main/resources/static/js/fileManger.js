@@ -114,6 +114,28 @@ $("#fileAdd").click(()=>{
     idx++;
     
 });
+// filedelete 수정에서 파일 삭제할때
+$(document).on("click",".fileDelete",function(){
+    let fileId=$(this).attr("data-fileId");
+    let this1 = $(this);
+    console.log(fileId)
+    $.ajax({
+        url: "./filedelete",
+        type: "post",
+        data : {
+            id : fileId
+        },
+        success: function(result) {
+        if(result == 1){
+            this1.parent().remove();
+            alert("삭제 되었습니다");
+        }else{
+            alert("삭제 실패");
+        }
+        }
+    })
+
+})
 
 // //fileAdd.addEventListener("click", function(){
 
