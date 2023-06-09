@@ -131,6 +131,7 @@
 			javaType="DepartmentVO">
 			<id property="name" column="dep_name" />
 		</association>
+		
 
 	</resultMap>
 	<!-- End Result Map -->
@@ -200,5 +201,17 @@
 	update WORKTIME set start_time =#{startTime}, finish_time={finishTime} where member_id=#{memberId}
 	</update>
 	
+	<select id="getEmployeeStatusList" parameterType="EmployeeStatusVO" resultType="EmployeeStatusVO">
+	select * from EMPLOYEESTATUS where member_id=#{memberId}
+	</select>
+	<select id="getWorkingList" parameterType="WorkTimeStatusVO" resultType="EmployeeStatusVO">
+	SELECT * from EMPLOYEESTATUS e   where reg between#{startDate} and #{endDate} and member_id =#{memberId} and off_time is not null;
+	</select>
+		
+	<!--공휴일 불러오기 -->
+	<select id="getHolidayList" parameterType="HolidayVO" resultType="HolidayVO">
+	select HOL_DATE  from HOLIDAY where HOL_MONTH =#{holMonth}
+	</select>
+	<!--  -->
 	
 </mapper>  
