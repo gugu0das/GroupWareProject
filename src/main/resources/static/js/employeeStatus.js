@@ -54,3 +54,9 @@ $("#statusBtns").on("click",".btn",function(){
     $("#timeHistory").submit();
 })
 
+// $(".monthItem").each(function(index,data){
+//     let employeeStatusVOsData =$(data).find("#employeeStatusBodys").html();
+//     if(employeeStatusVOsData==null|| employeeStatusVOsData.trim()==''){
+//         $(data).remove();
+//     }
+// })
