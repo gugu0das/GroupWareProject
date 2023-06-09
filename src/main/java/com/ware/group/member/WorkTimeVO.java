@@ -12,5 +12,6 @@ public class WorkTimeVO {
 	private Long id;
 	private Time startTime;
 	private Time finishTime;
+	private boolean mealTime;
 	private Long memberId;
 }

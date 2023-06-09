@@ -4,11 +4,17 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.ware.group.member.EmployeeStatusVO;
+import com.ware.group.member.WorkTimeVO;
+import com.ware.group.schedule.MonthVO;
 @SuppressWarnings("deprecation")
 public class Util4calen {
    static final Logger LOGGER = LoggerFactory.getLogger(AdminInterceptor.class);
@@ -196,15 +202,60 @@ public class Util4calen {
 
       Time diff1 = new Time(timestamp1.getHours(), timestamp1.getMinutes(), timestamp1.getSeconds());
       Timestamp diff2 = new Timestamp(timestamp2.getTime());
-//      diff1.setDate(diff2.getDate());
-//      diff1.setYear(diff2.getYear());
-//      diff1.setMonth(diff2.getMonth());
-      
       Long diffTime =(diff1.getTime()-diff2.getTime())/ (60 * 1000);   
-      System.out.println(diffTime+"분 차이");
+      
       return diffTime;
       
    }
+
+	/*
+	 * TimeStamp 비교해서 분으로 리턴
+	*/
+   public static Long TimeDiff(EmployeeStatusVO employeeStatusVO) {
+	   Timestamp onTime = employeeStatusVO.getOnTime();
+	   Timestamp offTime = employeeStatusVO.getOffTime();
+	   Long result = (offTime.getTime()/(60*1000)-onTime.getTime()/(60*1000));//분
+	   return  result;
+	   
+   }
+   public static Time TimeDiff(Time lowTime, Time highTime)throws Exception{
+	   Long time =  highTime.getTime()-lowTime.getTime();
+	   Time resultTime = new Time(time);
+	   return resultTime;
+   }
+   //밀리세컨드로 리턴
+   public static Long TimeDiff(Time defult, Timestamp overTime)throws Exception{
+	   Timestamp time  = new Timestamp(defult.getTime());
+	   
+	   time.setYear(overTime.getYear());
+	   time.setMonth(overTime.getMonth());
+	   time.setDate(overTime.getDate());
+	   Time timeresult = new Time(time.getTime());
+	   
+	   return overTime.getTime()/ (60 * 1000)-timeresult.getTime()/ (60 * 1000);
+	   
+   }
+   //기본 근무시간 분으로 빼서 리턴
+   public static Long TimeDiff(WorkTimeVO workTimeVO)throws Exception{
+//	   식사시간
+	   Time mealTime = new Time(1, 0, 0);
+	   
+	   Time startTime = workTimeVO.getStartTime();
+	   Time finishTime = workTimeVO.getFinishTime();
+	   
+	   //Timestamp로 변환
+	   Timestamp startTimeStamp = new Timestamp(startTime.getTime());
+	   Timestamp finishTimeStamp = new Timestamp(finishTime.getTime());
+	   if(startTime.getTime()>finishTime.getTime()) {//근무가 오후에 시작해서 다음날에 종료될수 있기때문
+		   finishTimeStamp.setDate(finishTimeStamp.getDate()+1);
+	   }
+	   Long diffTime = (finishTimeStamp.getTime()/ (60 * 1000)-startTimeStamp.getTime()/ (60 * 1000));
+	   
+	   if(workTimeVO.isMealTime())
+		   diffTime-=60;
+	   return diffTime;//분
+   }
+   
    /*
       현재시간 Timestamp로 가져오기
    */
@@ -218,12 +269,29 @@ public class Util4calen {
    public static Timestamp getStatusTime(Time timestamp, Date date)throws Exception {
       
       Timestamp getTime = new Timestamp(date.getYear(), date.getMonth(), date.getDate(), timestamp.getHours(), timestamp.getMinutes(), timestamp.getSeconds(), 0);
-//      getTime.setDate(date.getDate());
-//      getTime.setYear(date.getYear());
-//      getTime.setMonth(date.getMonth());
+
       Timestamp resultTime = new Timestamp(getTime.getTime());
       return resultTime;
       
    }
+   public static EmployeeStatusVO setMonthVO(EmployeeStatusVO employeeStatusVO)throws Exception{
+	   MonthVO monthVO  = new MonthVO();
+	   Date date = employeeStatusVO.getReg();
+	   //년 월 추출
+	   Integer year = getYear(date);
+	   Integer month = getMonth(date);
+	   monthVO.setYear(year.toString());
+	   monthVO.setMonth(month.toString());
+	   employeeStatusVO.setMonthVO(monthVO);
+	   return employeeStatusVO;
+   }
+   public static EmployeeStatusVO setFirstReg(EmployeeStatusVO employeeStatusVO)throws Exception{
+	   java.sql.Date date =  employeeStatusVO.getReg();
+	   date.setDate(1);
+	   employeeStatusVO.setReg(date);
+	   return employeeStatusVO;
+	   
+   }
+  
    
 }

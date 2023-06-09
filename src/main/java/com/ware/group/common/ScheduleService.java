@@ -36,7 +36,7 @@ public class ScheduleService {
 		//비어있는 근태 생셩 매일 반복
 		//휴일에 근무하는 회사도 있을 수 있음
 //		@Scheduled(cron = "0 0 7 * * *", zone = "Asia/Seoul") //매일 7시에 근태 생성
-		@Scheduled(cron = "1 * * * * *", zone = "Asia/Seoul") //test 1분마다 01초에 실행
+//		@Scheduled(cron = "1 * * * * *", zone = "Asia/Seoul") //test 1분마다 01초에 실행
 		public void setEmployeeWeekStatus() throws Exception{
 			
 			//근무 가능한 사원들 리스트
