@@ -187,14 +187,20 @@
 	</update>
 	
 	<!-- 기본 근무시간 -->
+	<!-- 현재 날짜의 기본 근무시간 -->
 	<select id="getDefaultWork" parameterType="WorkTimeVO"
 		resultType="WorkTimeVO">
-		select * from WORKTIME where member_id=#{memberId}
+		select * from WORKTIME where reg_date=(SELECT max(reg_date) from WORKTIME where member_id=#{memberId})and member_id =#{memberId}
 
 	</select>
+	<!-- 날짜별로 기본 근무시간 -->
+	<select id="getDefaultWorkFilter" parameterType="WorkTimeVO" resultType="workTimeVO">
+	select * from WORKTIME where id =(SELECT id from WORKTIME where reg_date <![CDATA[ <= ]]>#{regDate} and member_id=#{memberId}  order by reg_date asc LIMIT 1) 
+	</select>
+	
 	<insert id="setDefaultWorkAdd" parameterType="WorkTimeVO">
-	insert into WORKTIME (start_time,finish_time,member_id)
-		values(#{startTime},#{finishTime},#{memberId})
+	insert into WORKTIME (start_time,finish_time,meal_time,reg_date,member_id)
+		values(#{startTime},#{finishTime},#{mealTime},#{regDate}#{memberId})
 	</insert>
 
 	<update id="setDefaultWorkUpdate" parameterType="WorkTimeVO">

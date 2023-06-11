@@ -1,5 +1,6 @@
 package com.ware.group.member;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -39,8 +40,6 @@ public class MemberService implements UserDetailsService{
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private ScheService scheService; 
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -301,9 +300,9 @@ public class MemberService implements UserDetailsService{
 		//------------------------
 
 
-		workTimeVO=memberDAO.getDefaultWork(workTimeVO);
-		// 1일당 근무해야 하는 시간 -> 분
-		Long defaultMin = Util4calen.TimeDiff(workTimeVO);
+//		workTimeVO=memberDAO.getDefaultWork(workTimeVO);
+//		// 1일당 근무해야 하는 시간 -> 분
+//		Long defaultMin = Util4calen.TimeDiff(workTimeVO);
 		//근무 한 년 월 내역 가져오기 
 		List<EmployeeStatusVO> ar = this.getEmployeeStatusList(employeeStatusVO, session);
 		List<MonthVO> monthList = new ArrayList<>();
@@ -327,17 +326,19 @@ public class MemberService implements UserDetailsService{
 		}
 		//monthVO마다 각 월의 데이터들 반환
 		List<WorkTimeStatusVO> workTimeStatusVOs = new ArrayList<WorkTimeStatusVO>();
-		WorkTimeStatusVO workTimeStatusVO = this.setWorkTimeStatus(monthList.get(0), defaultMin,employeeStatusVO,workTimeVO);
+//		WorkTimeStatusVO workTimeStatusVO = this.setWorkTimeStatus(monthList.get(0),employeeStatusVO,workTimeVO);
 		for(MonthVO monthVO:monthList) {
-			workTimeStatusVOs.add(this.setWorkTimeStatus(monthVO, defaultMin,employeeStatusVO,workTimeVO)); 
+			workTimeStatusVOs.add(this.setWorkTimeStatus(monthVO,employeeStatusVO,workTimeVO)); 
 		}
 		return workTimeStatusVOs;
 		//캘린더에서 총 평일만 가져와 각 8시간씩 
 	}
 	//MonthVO 년 월 가지고 해당 근무의 WorkTimeStatusVO가져오기
-	public WorkTimeStatusVO setWorkTimeStatus(MonthVO monthVO,Long defaultMin,EmployeeStatusVO employeeStatusVO,WorkTimeVO workTimeVO)throws Exception{
+	public WorkTimeStatusVO setWorkTimeStatus(MonthVO monthVO,EmployeeStatusVO employeeStatusVO,WorkTimeVO workTimeVO)throws Exception{
 
+		
 
+//		
 		WorkTimeStatusVO workTimeStatusVO =new WorkTimeStatusVO();
 		workTimeStatusVO.setMemberId(employeeStatusVO.getMemberId());
 
@@ -353,41 +354,63 @@ public class MemberService implements UserDetailsService{
 		workTimeStatusVO.setStartDate(startDate);
 		workTimeStatusVO.setEndDate(endDate.minusDays(1));
 
+		
+		//주말을 뺀 평일리스트
 		List<LocalDate> dateList = new ArrayList<LocalDate>();
 		// 2. monthTotalWork 넣기
 		//		주말 및 공휴일 일 수 구하기
+		
+		Long defaultMin=0L;
 		while(!startDate.getMonth().equals(endDate.getMonth())) {
 			if(startDate.getDayOfWeek().getValue()>=6) {
 				startDate= startDate.plusDays(1);
 				continue;
 			}
 			dateList.add(startDate);
+			
+			workTimeVO.setRegDate(Util4calen.setLocalDateToDate(startDate));//employeeStatus의 해당 날짜 대입시키기
+			WorkTimeVO resultWorkTimeVO=memberDAO.getDefaultWorkFilter(workTimeVO);
+			// 1일당 근무해야 하는 시간 -> 분
+			
+			if(resultWorkTimeVO!=null) {
+				defaultMin += Util4calen.TimeDiff(resultWorkTimeVO);
+				
+
+			}
 			startDate=startDate.plusDays(1);
 		}
+		
+		
 		//  hoilday 가져와서 일수 더 빼기
-		HolidayVO holidayVO = new HolidayVO();
-		holidayVO.setHolMonth(month);
-		int totalCount  = dateList.size()-memberDAO.getHolidayList(holidayVO).size();
-		final int defaultHour= ((Long.valueOf(defaultMin).intValue()/60)*totalCount);
+//		HolidayVO holidayVO = new HolidayVO();
+//		holidayVO.setHolMonth(month);
+//		int totalCount  = dateList.size()-memberDAO.getHolidayList(holidayVO).size();
+//		final int defaultHour= ((Long.valueOf(defaultMin).intValue()/60)*totalCount);
 		// 일수 시간으로 게산 default*totalCount
+		Long defaultHour = defaultMin/60;
 		workTimeStatusVO.setMonthTotalWork(defaultHour+"시간");
 		//Persent계산시 필요
-		workTimeStatusVO.setTotalWork(defaultMin*totalCount);
+		workTimeStatusVO.setTotalWork(defaultMin);
 		//3. monthStatusWork 넣기
 		List<EmployeeStatusVO> ar = memberDAO.getWorkingList(workTimeStatusVO);
 		workTimeStatusVO.setEmployeeStatusVOs(ar);
 
 		Long workTime = 0L;
 		Long overTime = 0L;//분
-		for(EmployeeStatusVO vo:ar) {
+		for(EmployeeStatusVO vo:ar) { 
 			if (vo.getOffTime()!=null) {
-
 				Long workTimeStatus= Util4calen.TimeDiff(vo);
-
+				workTimeVO.setRegDate(vo.getReg());
+				workTimeVO = memberDAO.getDefaultWorkFilter(workTimeVO);
 				if(workTimeVO.isMealTime()&&workTimeStatus>300) {
 					workTimeStatus-=60;
 				}
 				workTime = workTime+workTimeStatus;
+				if(Util4calen.TimeDiff(workTimeVO.getStartTime(), vo.getOnTime())<0) {
+					workTime = workTime+Util4calen.TimeDiff(vo.getOnTime(), workTimeVO.getStartTime());
+
+				}
+		
 				if (vo.getStatus().equals("조퇴")) {
 					workTimeStatusVO.setLeaveCount(workTimeStatusVO.getLeaveCount()+1);
 				}

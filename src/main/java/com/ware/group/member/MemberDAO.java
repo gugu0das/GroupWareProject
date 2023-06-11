@@ -37,7 +37,9 @@ public interface MemberDAO {
 	
 	///근태관리
 	public WorkTimeVO getDefaultWork(WorkTimeVO workTimeVO)throws Exception;
-	
+	//근태 모든 리스트 가져올때 사용
+	public WorkTimeVO getDefaultWorkFilter(WorkTimeVO workTimeVO)throws Exception;
+
 	public EmployeeStatusVO getEmployeeStatus(EmployeeStatusVO employeeStatusVO) throws Exception;
 
 	public List<EmployeeStatusVO> getWorkIsEmpty(EmployeeStatusVO employeeStatusVO)throws Exception;

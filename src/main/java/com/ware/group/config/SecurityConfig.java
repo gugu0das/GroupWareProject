@@ -32,6 +32,7 @@ public class SecurityConfig{
 				.antMatchers("/js/**")
 				.antMatchers("/css/**")
 				.antMatchers("/favicon/**")
+				.antMatchers("/vendor/**")
 //				
 				;
 	}

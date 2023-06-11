@@ -2,13 +2,17 @@ package com.ware.group.common;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.naming.java.javaURLContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -201,8 +205,8 @@ public class Util4calen {
       //timeStamp2 = 비교할 대상 (timestamp1 보다 이후시간)
 
       Time diff1 = new Time(timestamp1.getHours(), timestamp1.getMinutes(), timestamp1.getSeconds());
-      Timestamp diff2 = new Timestamp(timestamp2.getTime());
-      Long diffTime =(diff1.getTime()-diff2.getTime())/ (60 * 1000);   
+//      Timestamp diff2 = new Timestamp(timestamp2.getTime());
+      Long diffTime =(diff1.getTime()/ (60 * 1000)-timestamp2.getTime()/ (60 * 1000));   
       
       return diffTime;
       
@@ -223,7 +227,7 @@ public class Util4calen {
 	   Time resultTime = new Time(time);
 	   return resultTime;
    }
-   //밀리세컨드로 리턴
+   
    public static Long TimeDiff(Time defult, Timestamp overTime)throws Exception{
 	   Timestamp time  = new Timestamp(defult.getTime());
 	   
@@ -291,6 +295,18 @@ public class Util4calen {
 	   employeeStatusVO.setReg(date);
 	   return employeeStatusVO;
 	   
+   }
+   //LocalDate -> Date
+   public static java.sql.Date setLocalDateToDate(LocalDate localDate)throws Exception{
+//	   DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+//	   String localDateString = localDate.format(dateTimeFormatter);
+//	   
+//	   DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+//	   Date date = dateFormat.parse(localDateString);
+	   java.sql.Date returnDate= java.sql.Date.valueOf(localDate);
+//	   java.sql.Date returnDate = new java.sql.Date(date.getTime());
+	   return returnDate;
+
    }
   
    

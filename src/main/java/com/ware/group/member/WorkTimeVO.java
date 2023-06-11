@@ -1,5 +1,6 @@
 package com.ware.group.member;
 
+import java.sql.Date;
 import java.sql.Time;
 
 import lombok.Getter;
@@ -13,5 +14,6 @@ public class WorkTimeVO {
 	private Time startTime;
 	private Time finishTime;
 	private boolean mealTime;
+	private Date regDate;
 	private Long memberId;
 }
