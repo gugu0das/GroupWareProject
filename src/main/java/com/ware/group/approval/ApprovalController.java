@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +28,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.ware.group.annual.LeaveRecordVO;
+
 import com.ware.group.department.DepartmentVO;
 import com.ware.group.member.JobVO;
+import com.ware.group.member.MemberService;
 import com.ware.group.member.MemberVO;
 import com.ware.group.util.FileManager;
+import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,39 +55,11 @@ public class ApprovalController {
 	
 	@Autowired
 	private FileManager filemanger;
-	/*
-	 * @Autowired TemplateEngine templateEngine;
-	 */
 	
-	@GetMapping("test")
-	public ModelAndView test(ApprovalVO approvalVO) throws Exception{
-		ModelAndView mv = new ModelAndView();
-	      log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());      
-	      approvalVO.setMemberId(0L);
-	      
-	      List<ApprovalVO> approvalList = approvalService.getApprovalList(approvalVO);
-	      //cat
-	      List<ApprovalCategoryVO> ref0 = approvalService.getListCategoryRef0();
-	      //cat2
-	      List<ApprovalCategoryVO> categoryList = approvalService.getListCategory();
-	      //cat1
-	      List<ApprovalCategoryVO> ref1 =approvalService.getListCategoryRef1();
+	
+	@Autowired
+	private MemberService memberService;
 
-	      for(ApprovalCategoryVO approvalCategoryVO : ref0) {
-	         if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
-	            mv.addObject("name", approvalCategoryVO.getName());
-	            break;
-	         }else {
-	            mv.addObject("name", "전체");
-	         }
-	      }
-	      mv.addObject("cat", ref0);
-	      mv.addObject("cat2", categoryList);
-	      mv.addObject("cat1", ref1);
-	      mv.addObject("list", approvalList);
-	      mv.setViewName("approval/test");
-	      return mv;
-	}
 	
 	@GetMapping("listCategory")
 	public ModelAndView getListCategory() throws Exception{
@@ -189,16 +165,12 @@ public class ApprovalController {
 			approvalFormFileVO.setFileName(obj.getOriginalFilename());
 			
 			approvalFormFileVO.setCategoryId(Long.parseLong((String)param.get("categoryId")));
-			result = approvalService.updateFormFile(approvalFormFileVO);
+			result = approvalService.addUpperFormFile(approvalFormFileVO);
 			
 			filemanger.saveFile(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {
-			ApprovalCategoryVO vo = new ApprovalCategoryVO();
-			vo.setRef((Long)param.get("categoryId"));
-			approvalService.deleteUnderFormFile(vo);
-			
 			return "파일 업데이트 성공";
 		}else{
 			return "파일 업데이트 실패";
@@ -431,6 +403,9 @@ public class ApprovalController {
 		ApproverVO vo = new ApproverVO();
 		vo.setCategoryId(categoryVO.getId());
 		approvalService.deleteUnderApprover(vo);
+		ApprovalFormFileVO vo2 = new ApprovalFormFileVO();
+		vo.setCategoryId(categoryVO.getId());
+		approvalService.deleteUnderFormFile(vo2);
 		return result;
 		
 	}
@@ -463,12 +438,33 @@ public class ApprovalController {
 	}
 	
 	@PostMapping("addUnderCategory")
-	public int addUnderCategory(ApprovalCategoryVO categoryVO) throws Exception{
-
-		int result = approvalService.addUnderCategory(categoryVO);
-
+	@ResponseBody
+	public int addUnderCategory(String ref, String name , Long jobId[], Long departmentId[], String fileName) throws Exception{
+		int result = 1;
+		ApprovalCategoryVO categoryVO = new ApprovalCategoryVO();
+		categoryVO.setRef(Long.parseLong(ref));
+		categoryVO.setName(name);
+		
+		approvalService.addUnderCategory(categoryVO);
+		
+		if(categoryVO.getId() > 0) {
+			for(int i = 0; i < jobId.length; i++) {
+				ApproverVO approverVO = new ApproverVO();
+				approverVO.setCategoryId(categoryVO.getId());
+				approverVO.setJobId(jobId[i]);
+				approverVO.setDepartmentId(departmentId[i]);
+				approverVO.setDepth(i);
+				approvalService.addApprover(approverVO);
+			}
+			ApprovalFormFileVO approvalFormFileVO = new ApprovalFormFileVO();
+			approvalFormFileVO.setCategoryId(categoryVO.getId());
+			approvalFormFileVO.setFileName(fileName);
+			approvalService.addApprovalFormFile(approvalFormFileVO);
+		}
 		return result;
 	}
+	
+	
 	//
 	
 	@GetMapping("application")
@@ -483,16 +479,21 @@ public class ApprovalController {
 	}
 
 	@PostMapping("application")
-	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO) throws Exception{
+	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO,HttpSession session,String annualType1) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		log.error("vo {} ", leaveRecordVO);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		
+		
+		log.error("vo {} ", leaveRecordVO.getAnnualType());
 		
 		if(leaveRecordVO.getReason() =="" && leaveRecordVO.getUseDate()=="") {
 			leaveRecordVO.setReason(null);
 			leaveRecordVO.setUseDate(null);
 		}
 		//예시
-		approvalVO.setMemberId(1L);
+		approvalVO.setMemberId(memberVO.getId());		
 		
 		
 		//log.error(dd);
@@ -529,55 +530,137 @@ public class ApprovalController {
 		return mv;
 	}
 
+//	@GetMapping("information")
+//	//list
+//	public ModelAndView getApprovalInformation(Pager pager,HttpSession session) throws Exception{
+//		ModelAndView mv = new ModelAndView();
+//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+//		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+//		log.error("page--------------{}-----------------",pager.getPage());
+//		Long pa = pager.getPage();
+//		pager.setMemberId(memberVO.getId());
+//		
+//		mv.addObject("caa", pager.getCategoryId());
+//		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
+//		
+//		//cat
+//		List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
+//		//cat2
+//		List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
+//		//cat1
+//		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+//		log.error("-------------{}----------------",pager.getCategoryId());
+//		log.error("--------------{}-----------------",pager.getPage());
+//		
+//		for(ApprovalCategoryVO approvalCategoryVO : arr) {
+//			if(pager.getCategoryId() != null &&approvalCategoryVO.getId() == pager.getCategoryId()) {
+//				log.error("-------------{}=========",approvalCategoryVO.getName());
+//				mv.addObject("name", approvalCategoryVO.getName());
+//				break;
+//			}else {
+//				mv.addObject("name", "전체");
+//			}
+//		}
+//		log.error("-----------{}------------",ar);
+//		
+//		if(ar.size() ==0) {
+//			pager.setRef(pager.getCategoryId());
+//			pager.setCategoryId(null);
+//			pager.setPage(pa);
+//			ar = approvalService.getApprovalList(pager);
+//			}
+//		mv.addObject("list", ar);
+//		pager.setCategoryId(pager.getRef());
+//		mv.addObject("pager", pager);
+//			
+//		mv.addObject("cat", arr);
+//		mv.addObject("cat2", arrrr);
+//		mv.addObject("cat1", arrr);
+//		
+//		
+//		mv.setViewName("approval/information");
+////			
+//		
+//		
+//		return mv;
+//	}
 	@GetMapping("information")
 	//list
-	public ModelAndView getApprovalInformation(ApprovalVO approvalVO) throws Exception{
+	public ModelAndView getApprovalInformation(Pager pager,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-	   
-		log.error("{}::::::::::::::::::::::::::::::::::::",approvalVO.getCategoryId());		
-		approvalVO.setMemberId(0L);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		
-		List<ApprovalVO> ar = approvalService.getApprovalList(approvalVO);
+		
+		pager.setMemberId(memberVO.getId());
+//		pager.setMemberId(0L);
+		mv.addObject("caa", pager.getCategoryId());
+		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
+		
 		//cat
 		List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
 		//cat2
 		List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
 		//cat1
 		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+		log.error("-------------{}----------------",pager.getCategoryId());
+		log.error("--------------{}-----------------",pager.getPage());
 		
-		
-//		for(ApprovalVO approvalVO2 : ar) {
-//			log.error("1");
-//			for(ApprovalCategoryVO approvalCategoryVO : arrr) {
-//				log.error("2");
-//				log.error("{}",approvalCategoryVO.getRef());
-//				if(approvalVO.getCategoryId() !=null && approvalVO.getCategoryId() == approvalCategoryVO.getRef()) {
-//					log.error("3");
-//					approvalVO2.setCategoryId(approvalCategoryVO.getRef());
-//					
-//					
-//					ars.add(approvalService.getApprovalList(approvalVO2));
-//					approvalVO2.getAr().add(approvalService.getApprovalList(approvalVO2));			
-//					
-//				}
-//
-//				
-//			}
-//		}
-
 		for(ApprovalCategoryVO approvalCategoryVO : arr) {
-			if(approvalVO.getCategoryId() != null &&approvalCategoryVO.getId() == approvalVO.getCategoryId()) {
+			if(pager.getCategoryId() != null &&approvalCategoryVO.getId() == pager.getCategoryId()) {
+				log.error("-------------{}=========",approvalCategoryVO.getName());
 				mv.addObject("name", approvalCategoryVO.getName());
 				break;
 			}else {
 				mv.addObject("name", "전체");
 			}
 		}
+		log.error("-----------{}------------",ar);
+		
+		
+		mv.addObject("list", ar);
+		
+		mv.addObject("pager", pager);
+			
 		mv.addObject("cat", arr);
 		mv.addObject("cat2", arrrr);
 		mv.addObject("cat1", arrr);
-		mv.addObject("list", ar);
+		
+		
 		mv.setViewName("approval/information");
+//			
+		
+		
+		return mv;
+	}
+	@PostMapping("information")
+	public ModelAndView getApprovalInformation(Pager pager,ModelAndView mv,HttpSession session) throws Exception{
+		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		pager.setMemberId(memberVO.getId());
+		//pager.setMemberId(0L);
+		
+		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
+		
+		//cat2
+		
+		//cat1
+		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+		mv.addObject("pager", pager);
+	
+		
+		
+		
+		mv.addObject("cat1", arrr);
+		mv.addObject("list", ar);
+		
+		mv.setViewName("common/commonApprovalList");
+			
+		
 		return mv;
 	}
 
@@ -606,13 +689,15 @@ public class ApprovalController {
 	}
 
 	@PostMapping("approval")
-	public ModelAndView setApprovalApproval(Long id1,Long id2,int approval,String fileName,String ddd) throws Exception{
+	public ModelAndView setApprovalApproval(Long id1,Long id2,int approval,String fileName,String ddd,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		
 		ApprovalVO approvalVO = new ApprovalVO();
 		approvalVO.setId(id1);
-		MemberVO memberVO = new MemberVO();
-		memberVO.setId(1L);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		
 		log.error("들어오냐");
 		log.error("{}::::::::::",approval);
 		PrintWriter pw = new PrintWriter(System.out, true);
@@ -639,19 +724,29 @@ public class ApprovalController {
 	
 
 	@GetMapping("myInformation")
-	public ModelAndView getMyInformation(ApprovalVO approvalVO) throws Exception{
+	public ModelAndView getMyInformation(Pager pager,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		approvalVO.setMemberId(1L);
-		List<ApprovalVO> ar = approvalService.getMyApproval(approvalVO);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		pager.setMemberId(memberVO.getId());
 		
 		
-		if(approvalVO.getConfirm() != null) {
-		mv.addObject("name", approvalVO.getConfirm());
+		log.error("{}",pager.getConfirm());
+		if(pager.getConfirm()=="") {
+			pager.setConfirm(null);
+			log.error("null입니다");
+			
+		}
+		List<ApprovalVO> ar = approvalService.getMyApproval(pager);
+		log.error("{}",pager.getConfirm());
+		if(pager.getConfirm() != null) {
+		mv.addObject("name", pager.getConfirm());
 		}else {
 			mv.addObject("name", "전체");
 		}
-		
-		
+		mv.addObject("pager", pager);
+		mv.addObject("caa", pager.getConfirm());
 		mv.addObject("list", ar);
 		mv.setViewName("approval/myInformation");
 		return mv;
@@ -659,10 +754,14 @@ public class ApprovalController {
 	
 	
 	@PostMapping("delete")
-	public ModelAndView setDelete(Long id1) throws Exception{
+	public ModelAndView setDelete(Long id1,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		MemberVO memberVO = new MemberVO();
-		memberVO.setId(1L);
+		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		
+		
 		log.error("========================================{}====================================================",id1);
 		int result = approvalService.setApprovalDelete(id1,memberVO);
 		result = approvalService.setApprovalFileDelete(id1);
@@ -670,4 +769,87 @@ public class ApprovalController {
 		mv.setViewName("redirect:./myInformation");
 		return mv;
 	}
+	@GetMapping("managerInformation")
+	public ModelAndView getManager(HttpSession session,Pager pager) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		mv.addObject("caa", pager.getCategoryId());
+		pager.setMemberId(null);
+		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
+		//cat
+		List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
+		//cat2
+		List<ApprovalCategoryVO> arrrr = approvalService.getListCategory();
+		//cat1
+		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();	
+				
+		for(ApprovalCategoryVO approvalCategoryVO : arr) {
+			if(pager.getCategoryId() != null &&approvalCategoryVO.getId() == pager.getCategoryId()) {
+				log.error("-------------{}=========",approvalCategoryVO.getName());
+					mv.addObject("name", approvalCategoryVO.getName());
+					break;
+			}else {
+					mv.addObject("name", "전체");
+					}
+				}
+				
+		mv.addObject("cat", arr);
+		mv.addObject("cat2", arrrr);
+		mv.addObject("cat1", arrr);
+		mv.addObject("caa", pager.getConfirm());
+		
+		mv.addObject("pager", pager);
+		mv.addObject("list", ar);
+		mv.setViewName("approval/managerInformation");
+		
+		return mv;
+	}
+	@PostMapping("managerInformation")
+	public ModelAndView getManager(Pager pager,ModelAndView mv,HttpSession session) throws Exception{
+		
+//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+//		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+//		pager.setMemberId(memberVO.getId());
+		pager.setMemberId(null);
+		
+		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
+		
+		//cat2
+		
+		//cat1
+		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+		mv.addObject("pager", pager);
+	
+
+		mv.addObject("cat1", arrr);
+		mv.addObject("list", ar);
+		
+		mv.setViewName("common/commonApprovalList");
+			
+		
+		return mv;
+	}
+	
+	
+	@GetMapping("managerCheck")
+	public ModelAndView getManagerCheck(HttpSession session,ApprovalVO approvalVO) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		log.error("{}",memberVO.getRoleVOs().size());
+		ApprovalUploadFileVO approvalUploadFileVO = approvalService.getApprovalFile(approvalVO);
+		mv.addObject("file", approvalUploadFileVO.getName());
+		mv.addObject("num", memberVO.getRoleVOs().size());
+		mv.addObject("id", approvalVO.getId());
+		mv.setViewName("approval/check");
+		
+		return mv;
+	}
+	
 }

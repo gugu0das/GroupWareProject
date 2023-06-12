@@ -299,7 +299,6 @@ $(document).on('click', '#addUnderOption', function(){
 })
 
 $(document).on('click', '#addUnderOption1', function(){
-	
 	let fileName = '';
 	let categoryName = '';
 	let jobId = [];
@@ -329,16 +328,19 @@ $(document).on('click', '#addUnderOption1', function(){
      	$.ajax({
 			type : "POST",
 			url:"/approval/addUnderCategory",
+			traditional : true,
 			data : {
 				ref : upperOption,
 				fileName : fileName,
-				categoryName : categoryName,
+				name : categoryName,
 				jobId : jobId,
 				departmentId : departmentId
 			},
 			success : function(data){
 				if(data == 1){
-					window.location.reload();
+					$('#changeFile').click();
+					
+					window.location.reload();	
 				}
 			}
 		})
@@ -386,6 +388,7 @@ $(document).on('click', '#deleteOption', function(){
 					}else{
 						alert('삭제 성공');
 						$(this).parent().parent().remove();
+						window.location.reload();
 					}
 				}
 			})

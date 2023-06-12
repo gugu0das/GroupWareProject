@@ -29,8 +29,8 @@
                             <div class="d-flex align-items-center mt-lg-5 mb-4">
                                 <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
                                 <div class="ms-3">
-                                    <div class="fw-bold">${noticeVO.writer}</div>
-                                    <div class="text-muted">공지사항 디테일</div>
+                                    <div class="fw-bold">작성자 : ${noticeVO.writer}</div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -40,33 +40,35 @@
                                 <!-- Post header-->
                                 <header class="mb-4">
                                     <!-- Post title-->
-                                    <h1 class="fw-bolder mb-1">${noticeVO.title}</h1>
+                                    <h1 class="fw-bolder mb-1">제목 : ${noticeVO.title}</h1>
                                     <!-- Post meta content-->
-                                    <div class="text-muted fst-italic mb-2">${noticeVO.regDate}</div>
+                                    <div class="text-muted fst-italic mb-2">작성일 : ${noticeVO.regDate}</div>
                                     <!-- Post categories-->
                                     
                                 </header>
                                 <!-- Preview image figure-->
                                
                                 <!-- Post content-->
-                                <section class="mb-5">
-                                    ${noticeVO.contents};                                                                           
+                                <div class="mb-5">
+                                    내 용 : ${noticeVO.contents};                                                                           
                                                             
                               <%--  <img alt="zz" src="/file/notice/${noticeVO.boardFileVOs[0].fileName}">
                                <img alt="z" src="/file/notice/${noticeVO.boardFileVOs[1].fileName}"> --%>
                               <%--  <img alt="zd" src="/file/notice/${filess[0].fileName}">
                                <img alt="zdd" src="/file/notice/${filess[1].fileName}"> --%>
+                                     
                                      <c:forEach items="${noticeVO.boardFileVOs}" var="boardFileVO">
-                                    	
+                                    	<c:if test="${boardFileVO ne null}">	
                                     	<img alt="2" src="/file/notice/${boardFileVO.fileName}">
                                     	<%-- <img alt="3" src="/file/notice/${boardFileVO.fileName}">
                                     	<img alt="4" src="/file/notice/${boardFileVO.fileName}"> --%>
+                                    	클릭시 다운로드 가능 : 
                                     	<a href="./fileDown?id=${boardFileVO.id}">${boardFileVO.oriName}</a>
-                                    	
+                                    	</c:if>
                                     </c:forEach>
                                  
                                     
-                                </section>
+                                </div>
                             </article>
                           	<c:if test="${memberVO.id eq noticeVO.memberId}">
                             <a class="btn btn-primary" href="./delete?id=${noticeVO.id}">글 삭제</a>

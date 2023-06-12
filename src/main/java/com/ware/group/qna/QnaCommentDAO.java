@@ -28,6 +28,8 @@ public interface QnaCommentDAO {
 	//댓글 더하기
 	public int setReplyAdd(QnaCommentVO qnaCommentVO)throws Exception;
 	
+	//댓글 삭제시 대댓글도 삭제
+	public int setQnaCommentDeleteDelete(QnaCommentVO qnaCommentVO)throws Exception;
 	
 	
 }

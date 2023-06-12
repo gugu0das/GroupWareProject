@@ -5,7 +5,7 @@
 $(document).on("click","#btn",function(){
     let a =true;
     if($('input:radio').lengh){
-    if(!$('input:radio[name=degree]').is(':checked')){
+    if(!$('input:radio[name=annualType]').is(':checked')){
        
             alert("종류는 필수 사항입니다");
             a=false;
@@ -59,7 +59,7 @@ if(a){
                 if($(index).is(':checked')){
 					$(this).attr("style","accent-color: black;");
                     console.log("radio 선택",$(index).val());
-                    $("#type").val($(index).val());
+                    // $("#type").val($(index).val());
                     $(index).attr("checked","checked")
                    
                 }
@@ -68,19 +68,19 @@ if(a){
                     console.log("zz :",$(index).val());
                     console.log("아씨 :",$(index).parent().text())
                     
-                    $("#vacation").val($(index).val());
+                     $("#vacation").val($(index).val());
                     
                     $(index).parent().text($(index).val()+$(index).parent().text());
                     return
                 }else if($(index).attr("name")=="useDate"){
                     
                     $(index).parent().text($(index).val())
-                    $("#useDate").val($(index).val());
+                     $("#useDate").val($(index).val());
                     console.log($("#useDate").val());
                     console.log("아씨 :",$(index).parent().text())
                     
                 }else if($(index).attr("name")=="reason"){
-                    $("#reason").val($(index).val());
+                     $("#reason").val($(index).val());
                     console.log("콘솔",$("#reason").val());
                 }
                 $(index).parent().text($(index).val());
@@ -96,8 +96,10 @@ if(a){
     console.log($("#ttt").html());
     console.log($("#reason").val());
     console.log($("#useDate").val());
+    console.log($("#type").val());
     $("#ddd").val($("#ttt").html());
     $("#fr").submit();
+    console.log($("#type").val());
 }else{
     return false;
 }

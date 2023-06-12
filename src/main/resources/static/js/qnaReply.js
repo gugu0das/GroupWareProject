@@ -7,6 +7,75 @@ const commentListResult = document.getElementById("commentListResult")
 const contentsConfirm = document.getElementById("contentsConfirm")
 
 
+
+
+
+
+$(document).on("click", ".upup", function(e) {
+    console.log("clsdf");
+    console.log( $(this).parents().prev(".text"));
+    console.log( $(this));
+    console.log( $(this).parents());
+    $(this).parents().prev(".text").html('<textarea class="form-control" id="contents"></textarea>')
+    $(this).text("답글쓰기")
+    $(this).addClass("down")
+    $(this).removeClass("upup")
+    $("input").each(function (upup, item) {
+        if($(item).get()==$(this).get()){
+            console.log("클릭");
+        }
+    
+        // var result = '';
+    
+        // result += index +' : ' + item.title + ', ' + item.url;
+    
+        // console.log(result);
+    
+      
+    
+    })
+    // $.ajax({
+    //     url: "/qnaComment/delete",
+    //     type: "POST",
+    //     data: {
+    //         id: id
+    //     },
+    //     success: function() {
+    //         alert('댓글이 삭제 되었습니다');
+    //         getList();
+    //     },
+    //     error: function() {
+    //         alert('삭제가 실패했습니다');
+    //     }
+    // });
+});
+$(".down")
+$(document).on("click", ".down", function(e) {
+  let id =$(this).attr("data-qna-down")
+  
+  let contents = $("#contents").val()
+  console.log(contents)
+  
+    $.ajax({
+        url: "/qnaComment/reply",
+        type: "POST",
+         data: {
+            id: id,
+            contents : contents,
+
+
+         },
+        success: function() {
+             alert('댓글이 등록 되었습니다');
+             getList();
+        },
+         error: function() {
+             alert('댓글 등록이 실패했습니다');
+         }
+     });    
+});
+
+
 replyAdd.addEventListener("click", function(){
 
 
@@ -73,10 +142,10 @@ $("#commentListResult").on("click", ".del", function(e) {
 $(document).on("click", ".clear",function() {
     // 수정 완료 버튼 클릭 시 동작
     let id = $(this).attr("data-comment-num");
-    let contents = $(this).prev().prev().prev().children("span").children("textarea").val();
+    let contents = $(this).parents().prev().prev().children("span").children("textarea").val();
     console.log(contents)
    
-    console.log($(this).prev().prev().prev().children("span").children("textarea").val());
+    console.log($(this).parents().prev().prev().children("span").children("textarea").val());
     console.log("수정 완료 동작");
     $.ajax({
         url: "/qnaComment/update",
@@ -109,12 +178,12 @@ $(document).on("click", ".edit", function(e) {
 $(this).removeClass("edit");
 
     // 수정 가능한 상태로 변경
-   console.log($(this).prev().prev().prev().children("span").text());
+   console.log($(this).parents().prev().prev().children("span").text());
     
-    $(this).prev().prev().prev().children("span").html('<textarea>'+$(this).prev().prev().prev().children("span").text()+'</textarea>');
+    $(this).parents().prev().prev().children("span").html('<textarea class="form-control">'+$(this).parents().prev().prev().children("span").text()+'</textarea>');
     // 버튼 텍스트 변경
 
-    console.log($(this).prev().prev().prev().children("span").children("textarea").text());
+    console.log($(this).parents().prev().prev().children("span").children("textarea").text());
     
 
     $(this).text("수정 완료");
