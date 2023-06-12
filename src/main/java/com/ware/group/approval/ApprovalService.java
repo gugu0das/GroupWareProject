@@ -92,8 +92,9 @@ public class ApprovalService {
 		return approvalDAO.addCategory(approvalCategoryVO);
 	}
 	public int addApprover(ApproverVO approverVO) throws Exception{
-		return approvalDAO.addApprover(approverVO);
-	}
+	      approverVO.setDepth(approverVO.getDepth() + 1L);
+	      return approvalDAO.addApprover(approverVO);
+	   }
 	public int addApprovalFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
 		return approvalDAO.addApprovalFormFile(approvalFormFileVO);
 	}
@@ -195,7 +196,7 @@ public class ApprovalService {
 					}
 					ApprovalInfoVO approvalInfoVO = new ApprovalInfoVO();
 					approvalInfoVO.setApprovalId(approvalVO.getId());
-					approvalInfoVO.setDepth(1);
+					approvalInfoVO.setDepth(0);
 					approvalInfoVO.setCheck(ApprovalStatus.APPROVALING);
 					MemberVO memberVO = approvalDAO.memberDepart(approvalVO);
 					DepartmentVO departmentVO = approvalDAO.departManager(memberVO);
@@ -284,7 +285,7 @@ public class ApprovalService {
 					}			
 					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
 					
-					result = approvalDAO.setApprovalUpdate(approvalVO);
+//					result = approvalDAO.setApprovalUpdate(approvalVO);
 					result = approvalDAO.setAnnual(leaveRecordVO);
 					}
 		}else {
@@ -339,15 +340,16 @@ public class ApprovalService {
 			leaveRecordVO.setType(ApprovalStatus.CANCEL);
 			approvalDAO.setAnnual(leaveRecordVO);
 		
+		}else {
+			leaveRecordVO = new LeaveRecordVO();
+			leaveRecordVO.setApprovalId(id1);
+			List<LeaveRecordVO> ar=approvalDAO.getLeaverCode(leaveRecordVO);
+			if(ar.size() < 0){
+				leaveRecordVO.setMemberId(memberVO.getId());
+				leaveRecordVO.setType(ApprovalStatus.CANCEL);
+				approvalDAO.setAnnual(leaveRecordVO);
+			}
 		}
-		leaveRecordVO.setApprovalId(id1);
-		List<LeaveRecordVO> ar=approvalDAO.getLeaverCode(leaveRecordVO);
-		if(ar.size() < 0){
-			leaveRecordVO.setMemberId(memberVO.getId());
-			leaveRecordVO.setType(ApprovalStatus.CANCEL);
-			approvalDAO.setAnnual(leaveRecordVO);
-		}
-		
 		return approvalDAO.setApprovalDelete(id1);
 	}
 	

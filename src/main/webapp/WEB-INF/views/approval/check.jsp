@@ -100,7 +100,7 @@
 
 
 	<script type="text/javascript">
-		$("#dd").load("/file/approval/${file}")
+		$("#dd").load("/files/approval/${file}")
 	</script>
 	<script type="text/javascript" src="/js/approvalApproval.js">
 		
