@@ -99,7 +99,8 @@
 														<th>id</th>
 														<th>내용</th>
 														<th>날짜</th>
-														<th>회원 번호</th>
+														<th>회원 이름</th>
+														<th>부서</th>
 
 													</tr>
 												</thead>
@@ -112,7 +113,8 @@
 																	<td>${vo.id}</td>
 																	<td><a href="./check?id=${vo.id}">${vo.contents}</a></td>
 																	<td>${vo.date}</td>
-																	<td>${vo.memberId}</td>
+																	<td>${vo.memberVO.name}</td>
+																	<td>${vo.memberVO.departmentId}</td>
 
 																</tr>
 	

@@ -3,6 +3,8 @@ package com.ware.group.approval;
 import java.sql.Date;
 import java.util.List;
 
+import com.ware.group.member.MemberVO;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +22,6 @@ public class ApprovalVO {
 	private ApprovalInfoVO approvalInfoVO;
 	
 	private List<ApprovalVO> ar;
+	
+	private MemberVO memberVO;
 }
