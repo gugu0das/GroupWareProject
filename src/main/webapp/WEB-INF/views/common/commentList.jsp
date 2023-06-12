@@ -11,6 +11,7 @@
 
 
 <link rel="stylesheet" href="/main/resources/static/css/commentWriter.css" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
 <style type="text/css">
 
 
@@ -24,9 +25,9 @@
 <!-- break -->
 <%-- <c:set var="loop_flag" value="true" /> --%>
 
-<c:forEach items="${list}" var="qnaCommentVO">
+<c:forEach items="${commentList}" var="qnaCommentVO">
 <c:set var="qnadepth" value=""></c:set>
-		<c:forEach items="${list}" var="vo">
+		<c:forEach items="${commentList}" var="vo">
 		
 		
 			<c:if test="${qnaCommentVO.master eq vo.id}">
@@ -56,23 +57,68 @@
 		
 		</div>
 		<div class="col row">
-		<button type="button" class="btn btn-danger upup" data-qna-down="${qnaCommentVO.id}">댓글</button>
+		<button type="button"  class="btn btn-danger upup All" data-qna-down="${qnaCommentVO.id}">댓글</button>
 		
 		
 		<c:if test="${memberVO.accountId eq qnaCommentVO.writer}">
 		
-		<button type="button" class="btn btn-primary del" id="commentListResult" data-qna-qna="${qnaCommentVO.id}" style="width : 58px; height : 38px; ">삭제</button>
+		<button type="button" class="btn btn-primary del All" id="commentListResult" data-qna-qna="${qnaCommentVO.id}" style="width : 58px; height : 38px; ">삭제</button>
 
-		<button type="button" class="btn btn-primary edit" id="contentsConfirm" data-comment-num="${qnaCommentVO.id}" >수정</button>
+		<button type="button" class="btn btn-primary edit All" id="contentsConfirm" data-comment-num="${qnaCommentVO.id}" >수정</button>
 		
 		</c:if>
 		</div>
 		</ul>
+		
 </c:forEach>
+
+			
 </ul>
 </div>
+<div class="row d-flex justify-content-between">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination  d-flex justify-content-center wow fadeIn"
+								data-wow-delay="0.1s"">
+								<li class=" page-item ${pager.before ? 'disabled' : '' }">
+									<a class="page-link"
+									href="./commentList?page=1&kind=${pager.kind}&search=${pager.search}"
+									aria-label="Previous" data-board-page="1"> <span
+										aria-hidden="true">&laquo;</span>
+								</a>
+								</li>
+								<li class="page-item ${pager.before ? 'disabled' : ''}"><a
+									class="page-link"
+									href="./commentList?page=${pager.startNum-1}&kind=${pager.kind}&search=${pager.search}"
+									aria-label="Previous" data-board-page="${pager.startNum-1}">
+										<span aria-hidden="true">&lsaquo;</span>
+								</a></li>
+								<c:forEach begin="${pager.startNum}" end="${pager.lastNum}"
+									var="i">
+									<li class="page-item"><a class="page-link"
+										href="./commentList?page=${i}&kind=${pager.kind}&search=${pager.search}"
+										data-board-page="${i}">${i}</a></li>
+								</c:forEach>
+								<li class="page-item ${pager.after eq false ? 'disabled' : ''}">
+									<a class="page-link"
+									href="./commentList?page=${pager.lastNum+1}&kind=${pager.kind}&search=${pager.search}"
+									aria-label="Next" data-board-page="${pager.lastNum+1}"> <span
+										aria-hidden="true">&rsaquo;</span>
+								</a>
+								</li>
+								<li class="page-item ${pager.after eq false ? 'disabled' : ''}">
+									<a class="page-link"
+									href="./commentList?page=${pager.totalPage}&kind=${pager.kind}&search=${pager.search}"
+									aria-label="Next" data-board-page="${pager.totalPage}"> <span
+										aria-hidden="true">&raquo;</span>
+								</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+
 
 </form:form>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
 <script src="/js/qnaReply.js"></script>
 
 </body>

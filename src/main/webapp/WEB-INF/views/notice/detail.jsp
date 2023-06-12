@@ -9,6 +9,8 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>Modern Business - Start Bootstrap Template</title>
+
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
 <!-- css, favicon -->
 
 <!-- css, favicon -->
@@ -71,7 +73,7 @@
                                 </div>
                             </article>
                           	<c:if test="${memberVO.id eq noticeVO.memberId}">
-                            <a class="btn btn-primary" href="./delete?id=${noticeVO.id}">글 삭제</a>
+                            <a class="btn btn-primary" id="delete" href="./delete?id=${noticeVO.id}">글 삭제</a>
                             
                              
                              
@@ -89,6 +91,7 @@
 	</main>
 	
 	<!-- Footer -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
  <script src="/js/noticeImportant.js"></script>
     <!-- Footer -->
 </body>

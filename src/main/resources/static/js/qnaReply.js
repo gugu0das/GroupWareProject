@@ -6,8 +6,16 @@ const replyContents = document.getElementById("replyContents");
 const commentListResult = document.getElementById("commentListResult")
 const contentsConfirm = document.getElementById("contentsConfirm")
 
-
-
+document.querySelectorAll('.All').forEach(function(button) {
+    button.addEventListener('click', function() {
+      // 클릭된 버튼을 제외한 다른 버튼들을 비활성화
+      document.querySelectorAll('.All').forEach(function(btn) {
+        if (btn !== button) {
+          btn.disabled = true;
+        }
+      });
+    });
+  });
 
 
 
@@ -24,31 +32,11 @@ $(document).on("click", ".upup", function(e) {
         if($(item).get()==$(this).get()){
             console.log("클릭");
         }
-    
-        // var result = '';
-    
-        // result += index +' : ' + item.title + ', ' + item.url;
-    
-        // console.log(result);
-    
-      
-    
     })
-    // $.ajax({
-    //     url: "/qnaComment/delete",
-    //     type: "POST",
-    //     data: {
-    //         id: id
-    //     },
-    //     success: function() {
-    //         alert('댓글이 삭제 되었습니다');
-    //         getList();
-    //     },
-    //     error: function() {
-    //         alert('삭제가 실패했습니다');
-    //     }
-    // });
+   
 });
+
+
 $(".down")
 $(document).on("click", ".down", function(e) {
   let id =$(this).attr("data-qna-down")
@@ -74,7 +62,13 @@ $(document).on("click", ".down", function(e) {
          }
      });    
 });
-
+$("#delete2").click(function() {
+    Swal.fire(
+        '삭제할께요?',
+        '진짜로',
+        '네?'
+      )
+})
 
 replyAdd.addEventListener("click", function(){
 
@@ -92,11 +86,11 @@ replyAdd.addEventListener("click", function(){
     xhttp.addEventListener('readystatechange', function(){
         if(this.readyState==4&&this.status==200){
             if(this.responseText.trim()==1){
-            	alert('댓글이 등록 되었습니다')
+                	 Swal.fire('댓글이 등록 되었습니다♡')
             	replyContents.value="";
                  getList();
         	}else {
-            	alert('댓글 등록에 실패 했습니다')
+            		Swal.fire('☆댓글이 등록에 실패 했습니다☆')
        		}
         }
     })
@@ -121,6 +115,7 @@ function getList(){
     })
 }
 
+
 $("#commentListResult").on("click", ".del", function(e) {
     let id = $(this).attr("data-qna-qna");
 
@@ -131,7 +126,24 @@ $("#commentListResult").on("click", ".del", function(e) {
             id: id
         },
         success: function() {
-            alert('댓글이 삭제 되었습니다');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                }
+              })
+            // alert('댓글이 삭제 되었습니다');
             getList();
         },
         error: function() {
@@ -171,26 +183,39 @@ $(document).on("click", ".clear",function() {
 });
 
 
-$(document).on("click", ".edit", function(e) {
-    
+$(document).on("click", ".edit", function (e) {
+
     $(this).addClass("clear");
 
-$(this).removeClass("edit");
+    $(this).removeClass("edit");
 
     // 수정 가능한 상태로 변경
-   console.log($(this).parents().prev().prev().children("span").text());
-    
-    $(this).parents().prev().prev().children("span").html('<textarea class="form-control">'+$(this).parents().prev().prev().children("span").text()+'</textarea>');
+    console.log($(this).parents().prev().prev().children("span").text());
+
+    $(this).parents().prev().prev().children("span").html('<textarea class="form-control">' + $(this).parents().prev().prev().children("span").text() + '</textarea>');
     // 버튼 텍스트 변경
 
     console.log($(this).parents().prev().prev().children("span").children("textarea").text());
-    
+
 
     $(this).text("수정 완료");
-    
+
     // 수정 완료 버튼 클릭 이벤트 핸들러 등록
-   
+
 });
+// $("#commentListResult").on("click",".edit",function(e){
+//     console.log("Asdf")
+//     let ptg = $(this).parent().parent().children("p");
+//     console.log(ptg)
+//     let parentLi = ptg.parent();
+//     let data=ptg.text().trim();
+//     ptg.empty();
+//     ptg.html('<textarea  class="form-control" id="editArea" ></textarea>')
+//     $("#editArea").html(data);
+
+// })
+
+
 
 // $(document).on("click", ".edit", function() {
 //     let commentId = $(this).attr("data-comment-num");

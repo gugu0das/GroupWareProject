@@ -14,7 +14,8 @@
 <!-- css, favicon -->
 
 <link rel="stylesheet" href="/css/qnaReply.css">
-<link href="/css/commentWriter.css" rel="stylesheet">
+<!-- <link href="/css/commentWriter.css" rel="stylesheet"> -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100">
 	<main class="flex-shrink-0">
@@ -103,11 +104,11 @@
                                   	
                                   	
                             </div>
-                           
+                           	<button type="button" id="delete2">시발</button>
                             
          							
 											<c:if test="${memberVO.id eq qnaVO.memberId}">	
-											  <a class="btn btn-primary" href="./delete?id=${qnaVO.id}">글 삭제</a>
+											  <a class="btn btn-primary" id="onon" href="./delete?id=${qnaVO.id}">글 삭제</a>
 											  
 											    
 											    <a id="update" type="submit" class="btn btn-outline-primary" href="./update?id=${qnaVO.id}">상품 수정</a>
@@ -118,12 +119,13 @@
                     </div>
                 </div>
             </section>
+            <textarea  class="form-control" id="editArea" ></textarea>
   
 	</main>
 	
 	<!-- Footer -->
  <script src="/js/qnaReply.js"></script>
-	
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>	
  <!-- <script src="/js/commentListResult.js"></script> -->
     <!-- Footer -->
 </body>

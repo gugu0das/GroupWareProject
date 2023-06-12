@@ -37,7 +37,7 @@ public class QnaCommentController {
 		List<QnaCommentVO> ar = qnaCommentService.getQnaCommentList(pager);
 		
 		mv.addObject("memberVO", memberVO);
-		mv.addObject("list", ar);
+		mv.addObject("commentList", ar);
 		mv.setViewName("common/commentList");
 
 		return mv;
