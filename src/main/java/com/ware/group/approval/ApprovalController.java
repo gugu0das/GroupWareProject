@@ -495,10 +495,7 @@ public class ApprovalController {
 		//예시
 		approvalVO.setMemberId(memberVO.getId());		
 		
-		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-	    approvalVO.setMemberId(memberVO.getId());
+		
 		//log.error(dd);
 		
 		/* String urlStr = "http://localhost/approval/application"; */
