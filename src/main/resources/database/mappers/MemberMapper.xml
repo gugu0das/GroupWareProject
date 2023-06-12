@@ -147,7 +147,13 @@
 		EMPLOYEESTATUS(reg,on_time,off_time,status,member_id)
 		values(now(),null,null,'출근전',#{memberId})
 	</insert>
-
+	
+	<insert id="setVacation"
+		parameterType="EmployeeStatusVO">
+		insert into
+		EMPLOYEESTATUS(reg,on_time,off_time,status,member_id)
+		values(#{reg},#{onTime},#{offTime},#{status},#{memberId})
+	</insert>
 
 
 	<select id="getEmployeeStatus" parameterType="EmployeeStatusVO"
@@ -213,6 +219,11 @@
 	<select id="getWorkingList" parameterType="WorkTimeStatusVO" resultType="EmployeeStatusVO">
 	SELECT * from EMPLOYEESTATUS e   where reg between#{startDate} and #{endDate} and member_id =#{memberId} and off_time is not null;
 	</select>
+<!-- 연차 승인 -->		
+	<select id="getHolidays" parameterType="EmployeeStatusVO" resultType="LeaveRecordVO">
+      select * from LEAVERECODE where use_date = #{reg} and type = '승인' and member_id =#{memberId}
+   </select>
+		
 		
 	<!--공휴일 불러오기 -->
 	<select id="getHolidayList" parameterType="HolidayVO" resultType="HolidayVO">

@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.schedule.HolidayVO;
-import com.ware.group.schedule.MonthVO;
 import com.ware.group.schedule.ScheDetailVO;
 
 
@@ -63,5 +63,9 @@ public interface MemberDAO {
 	public List<EmployeeStatusVO> getWorkingList(WorkTimeStatusVO workTimeStatusVO)throws Exception;
 // 공휴일 가져오기
 	public List<ScheDetailVO> getHolidayList(HolidayVO holidayVO)throws Exception;
-	
+	//연차 유무
+	public LeaveRecordVO getHolidays(EmployeeStatusVO employeeStatusVO) throws Exception;
+	//연차 추가
+	public int setVacation(EmployeeStatusVO employeeStatusVO)throws Exception;
+
 }

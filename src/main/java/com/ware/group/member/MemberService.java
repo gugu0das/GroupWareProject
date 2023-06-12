@@ -140,7 +140,6 @@ public class MemberService implements UserDetailsService{
 			check=true;
 		}
 		return check;
-
 	}
 	//pw체크 pw두개가 같으면 false 다르면 true
 	public boolean pwCheck(MemberVO memberVO)throws Exception{
