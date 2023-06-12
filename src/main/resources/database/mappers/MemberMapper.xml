@@ -201,5 +201,7 @@
 	update EMPLOYEESTATUS set on_time=#{onTime}, off_time=#{offTime} where member_id=#{memberId} and status='근무시간'
 	</update>
 	
-	
+	<select id="getHolidays" parameterType="EmployeeStatusVO">
+		select * from LEAVERECODE where use_date = #{ref} and type = '승인됨'
+	</select>
 </mapper>  

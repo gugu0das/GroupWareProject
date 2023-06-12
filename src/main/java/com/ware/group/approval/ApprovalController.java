@@ -450,6 +450,7 @@ public class ApprovalController {
 					approvalCategoryVOList.add(categoryVO1);
 				}
 			}
+			System.out.println("Sdfsdf");
 			if( approvalCategoryVOList.size() != 0 ) {
 				for(ApprovalCategoryVO categoryVO2 : approvalCategoryVOList) {
 					approvalService.deleteUpperOptionApprover(categoryVO2);

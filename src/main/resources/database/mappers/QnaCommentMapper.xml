@@ -31,7 +31,7 @@
 			   	 ) AS C
 				) AS D
 		WHERE R BETWEEN #{startRow} AND #{perPage}
-		ORDER BY ref ,step,depth
+		ORDER BY master DESC, step ASC
 	</select>
 	
 	<!-- <select id="getQnaCommentList" parameterType="Pager" resultType="QnaCommentVO" >
@@ -101,4 +101,14 @@
   		INSERT INTO QNACOMMENT (qna_id,  contents, writer, reg_date, ref, step, depth)
 		VALUES( #{qnaId} , #{contents}, #{writer}, now(),#{ref} , #{step}, #{depth})
   	</insert>
+  	
+  	<select id="getMaxStep" parameterType="QnaCommentVO" resultType="Long">
+  		SELECT IFNULL(max(step),0) FROM QNACOMMENT q WHERE REF = ${id}
+  	</select>
+  	<select id="getMaxDepth" resultType="Long">
+  		SELECT MAX(depth) FROM QNACOMMENT
+  	</select>
+  	<select id="getQnaCommentListByDepth" parameterType="Long" resultType="QnaCommentVO">
+  		SELECT * FROM QNACOMMENT WHERE depth = #{i}
+  	</select>
 </mapper>

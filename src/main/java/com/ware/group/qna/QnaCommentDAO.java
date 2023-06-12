@@ -31,5 +31,7 @@ public interface QnaCommentDAO {
 	//댓글 삭제시 대댓글도 삭제
 	public int setQnaCommentDeleteDelete(QnaCommentVO qnaCommentVO)throws Exception;
 	
-	
+	public long getMaxStep(QnaCommentVO qnaCommentVO) throws Exception;
+	public long getMaxDepth() throws Exception;
+	public List<QnaCommentVO> getQnaCommentListByDepth(long i) throws Exception;
 }

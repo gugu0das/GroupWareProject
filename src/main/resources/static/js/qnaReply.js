@@ -16,7 +16,11 @@ $(document).on("click", ".upup", function(e) {
     console.log( $(this).parents().prev(".text"));
     console.log( $(this));
     console.log( $(this).parents());
-    $(this).parents().prev(".text").html('<textarea class="form-control" id="contents"></textarea>')
+    let ref = $(this).parent().parent().children('li').attr('id');
+    console.log(ref);
+    let inputHtml = '<textarea class="form-control" id="contents"></textarea>'
+    				+ '<input type="hidden" id="ref" value = "'+ ref +'">';
+    $(this).parents().prev(".text").html(inputHtml);
     $(this).text("답글쓰기")
     $(this).addClass("down")
     $(this).removeClass("upup")
@@ -54,6 +58,7 @@ $(document).on("click", ".down", function(e) {
   let id =$(this).attr("data-qna-down")
   
   let contents = $("#contents").val()
+  
   console.log(contents)
   
     $.ajax({
@@ -62,7 +67,7 @@ $(document).on("click", ".down", function(e) {
          data: {
             id: id,
             contents : contents,
-
+			
 
          },
         success: function() {

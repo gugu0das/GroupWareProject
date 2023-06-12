@@ -1,5 +1,6 @@
 package com.ware.group.qna;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -35,7 +36,14 @@ public class QnaCommentController {
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		List<QnaCommentVO> ar = qnaCommentService.getQnaCommentList(pager);
-		
+		long maxDepth = qnaCommentService.getMaxDepth();
+		List<List<QnaCommentVO>> arrayList = new ArrayList<>();
+		for(long i = 0; i < maxDepth + 1; i ++) {
+			List<QnaCommentVO> array = qnaCommentService.getQnaCommentListByDepth(i);
+			arrayList.add(array);
+		}
+		mv.addObject("listByDepth" + arrayList);
+		mv.addObject("maxDepth", maxDepth);
 		mv.addObject("memberVO", memberVO);
 		mv.addObject("list", ar);
 		mv.setViewName("common/commentList");

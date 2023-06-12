@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ware.group.annual.LeaveRecordVO;
+
 
 
 @Mapper
@@ -48,5 +50,5 @@ public interface MemberDAO {
 	public int setTimeStempInsert(EmployeeStatusVO employeeStatusVO) throws Exception;
 	public List<EmployeeStatusVO> getNotOffTimeEmployee(EmployeeStatusVO employeeStatusVO)throws Exception;
 	
-	
+	public LeaveRecordVO getHolidays(EmployeeStatusVO employeeStatusVO) throws Exception;
 }

@@ -1,8 +1,10 @@
 package com.ware.group.common;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
-
+import java.util.Date;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.member.EmployeeStatusVO;
 import com.ware.group.member.MemberDAO;
 import com.ware.group.member.MemberService;
@@ -61,6 +64,23 @@ public class ScheduleService {
 				//	-오늘날짜로 근무한 내역이 있는지 확인 
 				List<EmployeeStatusVO> works = memberDAO.getWorkIsEmpty(employeeStatusVO);
 				if(works.size()>0) {
+					LeaveRecordVO holidays = memberDAO.getHolidays(employeeStatusVO);
+					if(holidays != null) {
+						//getworktimeVO로 출/퇴근 시간 받아서 null 안에 넣어주기
+						employeeStatusVO.setOnTime(null);
+						employeeStatusVO.setOffTime(null);
+						employeeStatusVO.setStatus("휴가");
+						for(int i = 0; i < holidays.getCount()-1; i ++) {
+							String date = holidays.getUseDate();
+							
+							String addDay = AddDate(date, 0, 0, i);
+							
+							employeeStatusVO.setReg(java.sql.Date.valueOf(addDay));
+							
+							memberDAO.setTimeStempInsert(employeeStatusVO);
+						}
+						break;
+					}
 					continue;
 				}
 				memberDAO.setTimeStempInsert(employeeStatusVO);
@@ -68,5 +88,21 @@ public class ScheduleService {
 			}
 			
 			
+		}
+		public String AddDate(String strDate, int year, int month, int day) throws Exception {
+			
+	        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        
+			Calendar cal = Calendar.getInstance();
+	        
+			Date dt = dtFormat.parse(strDate);
+	        
+			cal.setTime(dt);
+	        
+			cal.add(Calendar.YEAR,  year);
+			cal.add(Calendar.MONTH, month);
+			cal.add(Calendar.DATE,  day);
+	        
+			return dtFormat.format(cal.getTime());
 		}
 }
