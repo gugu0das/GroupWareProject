@@ -51,7 +51,9 @@ public class QnaController {
 		for(QnaVO qnaVO : ar) {
 			
 		}
-		
+		 if(pager.getLastNum()<5L) {
+			 pager.setLastNum(5L);
+		 }
 		mv.addObject("list", ar);
 		mv.setViewName("qna/list");
 		
@@ -167,12 +169,12 @@ public class QnaController {
 		 
 		
 		@GetMapping("delete")
-		public ModelAndView setDelete(QnaVO qnaVO,QnaCommentVO qnaCommentVO,HttpSession session) throws Exception {
+		public ModelAndView setDelete(QnaVO qnaVO,HttpSession session) throws Exception {
 			ModelAndView mv = new ModelAndView();
 			
 			int result = qnaService.setDelete(qnaVO);
-						 qnaCommentService.setQnaCommentDelete(qnaCommentVO, session);
-			
+						 
+						 
 							
 			mv.setViewName("redirect:./list");
 			
@@ -181,7 +183,7 @@ public class QnaController {
 		
 		@PostMapping("filedelete")
 		@ResponseBody
-		public int setDelete(QnaVO qnaVO,HttpSession session) throws Exception {
+		public int setFileDelete(QnaVO qnaVO,HttpSession session) throws Exception {
 			log.error("{}",qnaVO.getId());
 			int result = qnaService.setFileDelete(qnaVO);
 			

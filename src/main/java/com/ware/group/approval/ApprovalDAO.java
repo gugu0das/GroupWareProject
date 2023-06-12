@@ -64,13 +64,15 @@ public interface ApprovalDAO {
 	
 	public int deleteUpperOptionFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
-	public int deleteUnderFormFile (ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	public int deleteUnderFormFile (ApprovalFormFileVO approvalFormFileVO) throws Exception;
 	
 	public int deleteUnderApprover (ApproverVO approverVO) throws Exception;
 	
 	public int deleteUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public int addUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int addUpperFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception;
 	
 	//
 	public List<ApprovalCategoryVO> getListCategory() throws Exception;

@@ -24,13 +24,15 @@ public class ApprovalService {
 	
 	@Autowired
 	private ApprovalDAO approvalDAO;
-	
+	public int addUpperFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
+		return approvalDAO.addUpperFormFile(approvalFormFileVO);
+	};
 	public int addUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{
 		return approvalDAO.addUnderCategory(approvalCategoryVO);
 	}
 	
-	public int deleteUnderFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{
-		return approvalDAO.deleteUnderFormFile(approvalCategoryVO);
+	public int deleteUnderFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
+		return approvalDAO.deleteUnderFormFile(approvalFormFileVO);
 	}
 	
 	public int deleteUnderApprover(ApproverVO approverVO) throws Exception{
