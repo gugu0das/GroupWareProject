@@ -174,7 +174,7 @@ public class ApprovalService {
 					//연차 기록에 결재 번호 입력
 					log.error("1{}::::::::::::",leaveRecordVO);
 					log.error("2{}::::::::::::",leaveRecordVO.getCount());
-					log.error("3{}::::::::::::",leaveRecordVO.getDegree());
+					log.error("3{}::::::::::::",leaveRecordVO.getAnnualType());
 					log.error("4{}::::::::::::",leaveRecordVO.getApprovalId());
 					log.error("5{}::::::::::::",leaveRecordVO.getId());
 					log.error("6{}::::::::::::",leaveRecordVO.getMemberId());
@@ -185,9 +185,6 @@ public class ApprovalService {
 					log.error("{}::::::::::::",leaveRecordVO == null);
 					log.error("{}::::::::::::",leaveRecordVO != null);
 					if(leaveRecordVO.getCount() != null) {
-						if(leaveRecordVO.getDegree() !=null &&leaveRecordVO.getDegree() !=1) {
-							leaveRecordVO.setCount(0L);
-						}
 						leaveRecordVO.setApprovalId(approvalVO.getId());
 						leaveRecordVO.setMemberId(approvalVO.getMemberId());
 						leaveRecordVO.setType(ApprovalStatus.PENDING);
@@ -279,10 +276,9 @@ public class ApprovalService {
 					log.error("{}::::::::::::::::::::::::",approvalVO.getId());
 					approvalVO = approvalDAO.getApprovalId(approvalVO);
 					leaveRecordVO.setMemberId(approvalVO.getMemberId());
-					leaveRecordVO = approvalDAO.getLeaverCode(leaveRecordVO);
 					leaveRecordVO.setType(ApprovalStatus.APPROVAL);
-					}			
 					result = approvalDAO.setLeaverCode(leaveRecordVO);
+					}			
 					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
 					
 					result = approvalDAO.setApprovalUpdate(approvalVO);
@@ -302,7 +298,6 @@ public class ApprovalService {
 			if(leaveRecordVO !=null) {
 			approvalVO = approvalDAO.getApprovalId(approvalVO);
 			leaveRecordVO.setMemberId(approvalVO.getMemberId());
-			leaveRecordVO = approvalDAO.getLeaverCode(leaveRecordVO);
 			leaveRecordVO.setType(ApprovalStatus.REFUSE);
 			result = approvalDAO.setLeaverCode(leaveRecordVO);
 			}
@@ -335,12 +330,19 @@ public class ApprovalService {
 		approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
 		LeaveRecordVO leaveRecordVO = new LeaveRecordVO();
 		leaveRecordVO.setApprovalId(id1);
-		leaveRecordVO.setMemberId(memberVO.getId());
-		leaveRecordVO = approvalDAO.getLeaverCode(leaveRecordVO);
+		leaveRecordVO = approvalDAO.getLeave(leaveRecordVO);
 		if(leaveRecordVO !=null) {
+			leaveRecordVO.setMemberId(memberVO.getId());
 			leaveRecordVO.setType(ApprovalStatus.CANCEL);
 			approvalDAO.setAnnual(leaveRecordVO);
 		
+		}
+		leaveRecordVO.setApprovalId(id1);
+		List<LeaveRecordVO> ar=approvalDAO.getLeaverCode(leaveRecordVO);
+		if(ar.size() < 0){
+			leaveRecordVO.setMemberId(memberVO.getId());
+			leaveRecordVO.setType(ApprovalStatus.CANCEL);
+			approvalDAO.setAnnual(leaveRecordVO);
 		}
 		
 		return approvalDAO.setApprovalDelete(id1);

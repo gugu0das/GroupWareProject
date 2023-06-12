@@ -13,5 +13,5 @@ public class ApprovalInfoVO {
 	private Long memberId;
 	private Date date;
 	private String check;
-	private Integer depth;
+	private int depth;
 }

@@ -16,7 +16,7 @@ public class LeaveRecordVO {
 	private Long count;
 	private String useDate;
 	private Long approvalId;
-	private Long degree;
+	private String annualType;
 	
 	
 }

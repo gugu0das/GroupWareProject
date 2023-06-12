@@ -106,7 +106,7 @@ public interface ApprovalDAO {
 	
 	public DepartmentVO departManager(MemberVO memberVO) throws Exception;
 	
-	public LeaveRecordVO getLeaverCode(LeaveRecordVO leaveRecordVO) throws Exception;
+	public List<LeaveRecordVO> getLeaverCode(LeaveRecordVO leaveRecordVO) throws Exception;
 	
 	public ApprovalVO getApprovalId(ApprovalVO approvalVO) throws Exception;
 	

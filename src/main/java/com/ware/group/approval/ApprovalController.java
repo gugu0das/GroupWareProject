@@ -481,13 +481,14 @@ public class ApprovalController {
 	}
 
 	@PostMapping("application")
-	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO,HttpSession session) throws Exception{
+	public ModelAndView setApprovalApplication(ApprovalVO approvalVO, String dd,LeaveRecordVO leaveRecordVO,HttpSession session,String annualType1) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		
-		log.error("vo {} ", leaveRecordVO);
+		
+		log.error("vo {} ", leaveRecordVO.getAnnualType());
 		
 		if(leaveRecordVO.getReason() =="" && leaveRecordVO.getUseDate()=="") {
 			leaveRecordVO.setReason(null);
@@ -589,13 +590,13 @@ public class ApprovalController {
 	//list
 	public ModelAndView getApprovalInformation(Pager pager,HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-//		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-//		
-//		
-//		pager.setMemberId(memberVO.getId());
-		pager.setMemberId(0L);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		
+		
+		pager.setMemberId(memberVO.getId());
+//		pager.setMemberId(0L);
 		mv.addObject("caa", pager.getCategoryId());
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
@@ -638,11 +639,11 @@ public class ApprovalController {
 	@PostMapping("information")
 	public ModelAndView getApprovalInformation(Pager pager,ModelAndView mv,HttpSession session) throws Exception{
 		
-//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-//		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-//		pager.setMemberId(memberVO.getId());
-		pager.setMemberId(0L);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		pager.setMemberId(memberVO.getId());
+		//pager.setMemberId(0L);
 		
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
