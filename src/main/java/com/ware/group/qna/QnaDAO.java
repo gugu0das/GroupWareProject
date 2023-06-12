@@ -31,7 +31,8 @@ public interface QnaDAO {
 	
 	// 글삭제
 	public int setDelete(QnaVO qnaVO) throws Exception;
-	
+	// QNA 삭제
+	public int setCommentDelete(QnaVO qnaVO)throws Exception;
 	// 파일 등록
 	public int setQnaFileAdd(QnaFileVO qnaFileVO) throws Exception;
 	
@@ -45,4 +46,5 @@ public interface QnaDAO {
 	
 	//사진 파일삭제
 	public int setFileDelete(QnaVO qnaVO) throws Exception;
+	
 }

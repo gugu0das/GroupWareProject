@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -462,6 +463,8 @@ public class ApprovalController {
 		}
 		return result;
 	}
+	
+	
 	//
 	
 	@GetMapping("application")
@@ -492,6 +495,10 @@ public class ApprovalController {
 		//예시
 		approvalVO.setMemberId(memberVO.getId());		
 		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	    approvalVO.setMemberId(memberVO.getId());
 		//log.error(dd);
 		
 		/* String urlStr = "http://localhost/approval/application"; */

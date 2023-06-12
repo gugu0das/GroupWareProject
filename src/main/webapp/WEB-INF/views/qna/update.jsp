@@ -48,20 +48,18 @@
 	                                        <label for="writer">작성자</label>
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
-	                                  	<div class="form-floating mb-3" id="fileList">
+	                                   <div class="form-floating mb-3" id="fileList">
 										<c:forEach items="${qnaVO.boardFileVOs}" var="fileVO">
 										
 										<div>
-										<input type="text" disabled value="${fileVO.oriName}" class="form-control" aria-label="Text input with checkbox">
+										<input type="text" disabled value="${fileVO.fileName}" class="form-control" aria-label="Text input with checkbox">
 										<button type="button" class="btn btn-primary fileDelete" data-fileId="${fileVO.id}">삭제</button>
 										</div>
 										</c:forEach>
 										
 										<!-- <label for="files" class="form-label">Image</label> -->
 	                                    <button type="button" id="fileAdd">ADD</button>
-	                                   
-	                                    </div>
-	                                    
+	                                     </div>
 	                               <!-- content input-->
 	                                    <div class="form-floating mb-3">
 	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required">${qnaVO.contents}</textarea>

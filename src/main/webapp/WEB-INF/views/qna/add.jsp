@@ -49,10 +49,7 @@
 	                                        <label for="writer">작성자</label>
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
-	                                    <!-- <div class="form-floating mb-3">
-	                                    	<input type="file" name="files">
-	                                    </div> -->
-	                                    <div class="form-floating mb-3" id="fileList">
+	                                   <div class="form-floating mb-3" id="fileList">
 	                                   
 	                               			<div class="mb-3">
 	                                    	<label for="files" class="form-label">Image</label>

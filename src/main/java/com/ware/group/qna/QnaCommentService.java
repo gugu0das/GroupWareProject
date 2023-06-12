@@ -39,8 +39,10 @@ public class QnaCommentService {
 	public int setQnaCommentUpdate(QnaCommentVO qnaCommentVO) throws Exception {
 		return qnaCommentDAO.setQnaCommentUpdate(qnaCommentVO);
 	}
-	
+	//댓글 삭제시 대댓글도 같이 삭제됨
 	public int setQnaCommentDelete(QnaCommentVO qnaCommentVO, HttpSession session) throws Exception {
+		
+		qnaCommentDAO.setQnaCommentDeleteDelete(qnaCommentVO);
 		return qnaCommentDAO.setQnaCommentDelete(qnaCommentVO);
 	}
 	public QnaCommentVO getQnaCommentDetail(QnaCommentVO qnaCommentVO)throws Exception{
@@ -56,10 +58,14 @@ public class QnaCommentService {
 		 //ref :  부모의 ref
 		qnaCommentVO.setQnaId(parent.getQnaId());
 		 System.out.println(parent);//여기부분에서 에러 발생
-		 qnaCommentVO.setRef(parent.getRef());
+		 qnaCommentVO.setRef(parent.getId());
 		 //step : 부모의 step+1
 		 System.out.println(parent);
+		 if(parent.getStep() !=0) {
 		 qnaCommentVO.setStep(parent.getStep()+1);
+		 }else {
+			 qnaCommentVO.setStep(parent.getStep()+1);
+		 }
 		 //depth : 부모의 depth+1
 		 qnaCommentVO.setDepth(parent.getDepth()+1);
 		 //2. Step update

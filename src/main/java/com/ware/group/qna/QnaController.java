@@ -51,7 +51,9 @@ public class QnaController {
 		for(QnaVO qnaVO : ar) {
 			
 		}
-		
+		 if(pager.getLastNum()<5L) {
+			 pager.setLastNum(5L);
+		 }
 		mv.addObject("list", ar);
 		mv.setViewName("qna/list");
 		
@@ -167,12 +169,12 @@ public class QnaController {
 		 
 		
 		@GetMapping("delete")
-		public ModelAndView setDelete(QnaVO qnaVO,QnaCommentVO qnaCommentVO,HttpSession session) throws Exception {
+		public ModelAndView setDelete(QnaVO qnaVO,HttpSession session) throws Exception {
 			ModelAndView mv = new ModelAndView();
 			
 			int result = qnaService.setDelete(qnaVO);
-						 qnaCommentService.setQnaCommentDelete(qnaCommentVO, session);
-			
+						 
+						 
 							
 			mv.setViewName("redirect:./list");
 			
@@ -181,7 +183,7 @@ public class QnaController {
 		
 		@PostMapping("filedelete")
 		@ResponseBody
-		public int setDelete(QnaVO qnaVO,HttpSession session) throws Exception {
+		public int setFileDelete(QnaVO qnaVO,HttpSession session) throws Exception {
 			log.error("{}",qnaVO.getId());
 			int result = qnaService.setFileDelete(qnaVO);
 			
@@ -213,26 +215,28 @@ public class QnaController {
 		public ModelAndView setUpdate(@Valid QnaVO qnaVO,MultipartFile [] files,BindingResult bindingResult,HttpSession session)throws Exception{
 			ModelAndView mv = new ModelAndView();
 			
-			Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-			SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-		    
 			
-			int result = qnaService.setUpdate(qnaVO,files);
-			if(bindingResult.hasErrors()) {
-				
-				mv.setViewName("notice/update");
-				
-				return mv;
-			}
+			 Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		      SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		      MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		      log.error("{}",memberVO.getId());
+			  if(bindingResult.hasErrors()) {
+			  
+			  mv.setViewName("qna/add");
+			  
+			  return mv; 
+			  
+			  }
+			  
+			  for(MultipartFile multipartFile : files) {
+			  log.error("{} ::",multipartFile.getOriginalFilename()); 
+			} 
+			  qnaVO.setMemberId(memberVO.getId());
+			  int result = qnaService.setUpdate(qnaVO, files);
+			  
+			/* mv.setViewName("redirect:./list"); */
 			
-			for(MultipartFile multipartFile : files) {
-				log.error("{} ::",multipartFile.getOriginalFilename());
-				}
-			qnaVO.setMemberId(memberVO.getId());
-			
-			/* result = noticeService.setInsert(noticeVO, files); */
-			
+		
 			mv.setViewName("redirect:./list");
 			
 			return mv;			 

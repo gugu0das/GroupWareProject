@@ -76,6 +76,11 @@ public class FileManager extends AbstractView {
 	    fileName=fileName+"_"+multipartFile.getOriginalFilename();
 		
 		
+		//2. 저장할 파일명 생성
+	    String fileName = UUID.randomUUID().toString();
+	    fileName=fileName+"_"+multipartFile.getOriginalFilename();
+		
+		
 		file = new File(file, fileName);
 		
 		multipartFile.transferTo(file);

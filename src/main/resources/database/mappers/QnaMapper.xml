@@ -41,7 +41,7 @@
 			 LEFT JOIN
 			 QNAFILES nf
 			 on (n.id = nf.qna_id) 
-		WHERE nf.qna_id = #{id};
+		WHERE n.id = #{id}
   	</select>
   	
   	<resultMap type="QnaVO" id="getDetailResult">
@@ -53,7 +53,7 @@
 		<result property="regDate" column="reg_date"/>
 		<result property="hit" column="hit"/>
 		
-		<collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
+		<collection property="boardFileVOs" javaType="List" ofType="QnaFileVO">
 			<id property="id" column="nf.id"/>
 			<result property="fileName" column="file_name"/>
 			<result property="oriName" column="ori_name"/>
@@ -71,6 +71,13 @@
 	
 	<delete id="setDelete" parameterType="QnaVO">
   		DELETE FROM QNA WHERE ID = #{id}
+  	</delete>
+  	<delete id="setCommentDelete" parameterType="QnaVO">
+  		DELETE FROM QNACOMMENT WHERE qna_id  = #{id}
+  	</delete>
+  	
+  	<delete id="setFileDelete" parameterType="QnaVO">
+  		DELETE FROM QNAFILES WHERE ID = #{id}
   	</delete>
   	
   	<delete id="setFileDelete" parameterType="NoticeVO">
