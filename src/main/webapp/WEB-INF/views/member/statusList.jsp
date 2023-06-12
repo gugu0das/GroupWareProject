@@ -80,16 +80,26 @@
 											<div class="d-flex align-items-center mb-3">
 												<h5 class="font-weight-bold mb-0">이번달 근무시간</h5>
 											</div>
-											<h4 class="small font-weight-bold">
-												Server Migration <span class="float-right">20%</span>
-											</h4>
-											<div class="progress mb-4">
-												<div class="progress-bar bg-danger" role="progressbar"
-													style="width: 20%" aria-valuenow="20" aria-valuemin="0"
-													aria-valuemax="100"></div>
-											</div>
+											<h6 class="text small">
+												시작시간 : ${memberVO.workTimeVO.startTime}<span
+													class="float-right">종료시간 :
+													${memberVO.workTimeVO.finishTime}</span>
+											</h6>
 
 
+											<c:forEach items="${workTimeStatusVOs }" var="vo">
+												<c:if test="${vo.monthVO.year eq  employeeVO.monthVO.year && vo.monthVO.month eq employeeVO.monthVO.month}">
+													<h4 class="small font-weight-bold">
+														이번달 총 근무 <span class="float-right">${vo.persent}%</span>
+													</h4>
+													<div class="progress mb-4">
+														<div class="progress-bar bg-success" role="progressbar"
+															style="width: ${vo.persent}%" aria-valuenow="${vo.persent}" aria-valuemin="0"
+															aria-valuemax="100">${vo.monthStatusWork }</div>
+													</div>
+													<span class="float-right">${vo.monthTotalWork }</span>
+												</c:if>
+											</c:forEach>
 										</div>
 									</div>
 								</div>
@@ -142,28 +152,91 @@
 
 						</div>
 						<div class="card-body">
-							<div class="accordion accordion-flush" id="EmployeeList">
-								<div class="accordion-item">
-									<h2 class="accordion-header" id="flush-headingOne">
-										<button class="accordion-button collapsed" type="button"
-											data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-											aria-expanded="false" aria-controls="flush-collapseOne">
-											Accordion Item #1</button>
-									</h2>
-									<div id="flush-collapseOne" class="accordion-collapse collapse"
-										aria-labelledby="flush-headingOne"
-										data-bs-parent="#EmployeeList">
-										<div class="accordion-body">
-											Placeholder content for this accordion, which is intended to
-											demonstrate the
-											<code>.accordion-flush</code>
-											class. This is the first item's accordion body.
+							<!-- accodion -->
+							<div class="accordion accordion-flush" id="yearsList">
+
+								<c:forEach items="${years }" var="year">
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="flush-headingOne">
+											<button class="accordion-button collapsed" type="button"
+												data-bs-toggle="collapse"
+												data-bs-target="#f${year }" aria-expanded="false"
+												aria-controls="f${year }">${year }년</button>
+										</h2>
+										<div id="f${year }"
+											class="accordion-collapse collapse"
+											aria-labelledby="flush-headingOne"
+											data-bs-parent="#yearsList">
+											<div class="accordion-body">
+												<!-- 월 아코디언 -->
+												<div class="accordion accordion-flush" id="monthList">
+													<c:forEach items="${workTimeStatusVOs }" var="workTimeStatusVO">
+													<c:if test="${workTimeStatusVO.monthVO.year eq year }">
+														<div class="accordion-item monthItem">
+															<h2 class="accordion-header" id="flush-bodyOne">
+																<button class="accordion-button collapsed" type="button"
+																	data-bs-toggle="collapse" data-bs-target="#f${workTimeStatusVO.monthVO.month +year}"
+																	aria-expanded="false" aria-controls="flush-collapseOne">${workTimeStatusVO.monthVO.month}월</button>
+															</h2>
+																<div id="f${workTimeStatusVO.monthVO.month +year}"
+																	class="accordion-collapse collapse"
+																	data-bs-parent="#monthList">
+																	<div class="accordion-body">
+																		
+																			<h4 class="small font-weight-bold">
+																				${year }년 ${workTimeStatusVO.monthVO.month }월 총 근무 <span class="float-right">${workTimeStatusVO.persent}%</span>
+																			</h4>
+																			<div class="progress mb-4">
+																				<div class="progress-bar bg-success"
+																					role="progressbar" style="width: ${workTimeStatusVO.persent}%"
+																					aria-valuenow="${workTimeStatusVO.persent}" aria-valuemin="0"
+																					aria-valuemax="100">${workTimeStatusVO.monthStatusWork }</div>
+																			</div>
+																			<span class="float-right">${workTimeStatusVO.monthTotalWork }</span>
+																		
+																		<table class="table table-bordered" id="dataTable"
+																			width="100%">
+																			<thead>
+																				<tr>
+																					<th>날짜</th>
+																					<th>출근시간</th>
+																					<th>퇴근시간</th>
+																					<th>상태</th>
+
+
+																				</tr>
+																			</thead>
+																			<tbody id="employeeStatusBodys">
+																				<c:forEach
+																					items="${workTimeStatusVO.employeeStatusVOs}"
+																					var="employeeStatusVO">
+																					<%-- <c:if
+																					test="${employeeStatusVO.monthVO.year eq year && employeeStatusVO.monthVO.month eq i}"> --%>
+																					<tr>
+																						<td>${employeeStatusVO.reg }</td>
+																						<td>${employeeStatusVO.strOnTime }</td>
+																						<td>${employeeStatusVO.strOffTime }</td>
+																						<td>${employeeStatusVO.status }</td>
+																					</tr>
+
+																					<%-- </c:if> --%>
+																				</c:forEach>
+																			</tbody>
+																		</table>
+																	</div>
+																</div>
+															</div>
+													</c:if>
+													</c:forEach>
+												</div>
+												<!-- /월 아코딩 -->
+											</div>
 										</div>
 									</div>
-								</div>
-
+								</c:forEach>
 
 							</div>
+							<!-- /accodion -->
 						</div>
 					</div>
 					<div class="row"></div>
@@ -187,7 +260,7 @@
 		</div>
 		<!-- End of Page Wrapper -->
 	</div>
-	<script src="/js/employeeStatus.js"></script>
+	 <script src="/js/employeeStatus.js"></script> 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

@@ -57,6 +57,7 @@ public class MemberVO implements UserDetails{
 	
 	private JobVO jobVO;
 	private DepartmentVO departmentVO;
+	private WorkTimeVO workTimeVO;
 	
 	private List<RoleVO> roleVOs;
 

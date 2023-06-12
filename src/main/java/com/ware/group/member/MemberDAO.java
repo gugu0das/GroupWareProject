@@ -5,6 +5,10 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ware.group.schedule.HolidayVO;
+import com.ware.group.schedule.MonthVO;
+import com.ware.group.schedule.ScheDetailVO;
+
 
 
 @Mapper
@@ -32,21 +36,32 @@ public interface MemberDAO {
 	
 	
 	///근태관리
-	public EmployeeStatusVO getDefaultWork(EmployeeStatusVO employeeStatusVO)throws Exception;
-	
+	public WorkTimeVO getDefaultWork(WorkTimeVO workTimeVO)throws Exception;
+	//근태 모든 리스트 가져올때 사용
+	public WorkTimeVO getDefaultWorkFilter(WorkTimeVO workTimeVO)throws Exception;
+
 	public EmployeeStatusVO getEmployeeStatus(EmployeeStatusVO employeeStatusVO) throws Exception;
 
 	public List<EmployeeStatusVO> getWorkIsEmpty(EmployeeStatusVO employeeStatusVO)throws Exception;
+
+	public List<EmployeeStatusVO> getEmployeeStatusList(EmployeeStatusVO employeeStatusVO)throws Exception;
 	
 	public int setWorkNullDelete(EmployeeStatusVO employeeStatusVO)throws Exception;
+	
 	public int setWorkEmptyUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
 	
-	public int setDefaultWorkAdd(EmployeeStatusVO employeeStatusVO)throws Exception;
-	public int setDefaultWorkUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
+	public int setDefaultWorkAdd(WorkTimeVO workTimeVO)throws Exception;
+	
+	public int setDefaultWorkUpdate(WorkTimeVO workTimeVO)throws Exception;
 
 	public int setEmployeeStatusUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
-	public int setTimeStempInsert(EmployeeStatusVO employeeStatusVO) throws Exception;
-	public List<EmployeeStatusVO> getNotOffTimeEmployee(EmployeeStatusVO employeeStatusVO)throws Exception;
 	
+	public int setTimeStempInsert(EmployeeStatusVO employeeStatusVO) throws Exception;
+	
+	public List<EmployeeStatusVO> getNotOffTimeEmployee(EmployeeStatusVO employeeStatusVO)throws Exception;
+//	이번달 근태기록
+	public List<EmployeeStatusVO> getWorkingList(WorkTimeStatusVO workTimeStatusVO)throws Exception;
+// 공휴일 가져오기
+	public List<ScheDetailVO> getHolidayList(HolidayVO holidayVO)throws Exception;
 	
 }
