@@ -9,7 +9,7 @@ const page=document.getElementById("page");
 //js 향상된 for문
 for(let p of pl){
     p.addEventListener("click",function(e){
-        
+        console.log("클릭");
         let v=p.getAttribute("data-board-page");
         page.value=v;
         console.log(v);
@@ -17,3 +17,26 @@ for(let p of pl){
         
     });
 }
+
+$(document).on("click",".s",function(){
+	console.log($(this).parents(".d-flex").next().children("#ct").val());
+	console.log($(this).attr("data-board-page"));
+	let a = $(this).parents(".d-flex").next().children("#ct").val()
+ $.ajax({
+    type : "post",
+    url : "./information",
+    data :{
+        categoryId : $(this).parents(".d-flex").next().children("#ct").val(),
+        page : $(this).attr("data-board-page")
+    },
+    success :function(result){
+       $("#id_"+a).html(result)
+    },
+    error:function(){
+       console.log('error')
+   }
+ })
+ 
+ 
+ 
+})

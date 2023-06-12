@@ -35,7 +35,7 @@
 							</c:if>
 							<c:forEach items="${cat}" var="s">
 								<c:if test="${name ne s.name}">
-									<li data-id="${s.id}"><a class="dropdown-item dropbtn"  href="./information?categoryId=${s.id}"
+									<li data-id="${s.id}"><a class="dropdown-item"  href="./information?categoryId=${s.id}"
 									>${s.name}</a></li>
 								</c:if>
 							</c:forEach>
@@ -48,8 +48,8 @@
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item" role="presentation">
 							<button class="nav-link active" id="home-tab"
-								data-bs-toggle="tab" data-bs-target="#home" type="button"
-								role="tab" aria-controls="home" aria-selected="true">전체</button>
+								data-bs-toggle="tab" data-bs-target="#home1" type="button"
+								role="tab" aria-controls="home1" aria-selected="true">전체</button>
 						</li>
 						<!-- cat1 ==  ref 1-->
 					<!-- cat ==  ref 0-->
@@ -60,9 +60,9 @@
 									<c:forEach items="${cat1}" var="ss">
 										<c:if test="${ss.ref eq s.id}">
 											<li class="nav-item" role="presentation">
-												<a class="nav-link tabName" id="${ss.id}" data-bs-toggle="tab"
+												<button class="nav-link tabName tabar" id="${ss.id}" data-bs-toggle="tab" class="tabar"
 													data-bs-target="#id_${ss.id}" type="button" role="tab"
-													aria-controls="${ss.id}" aria-selected="false">${ss.name}</a>
+													aria-controls="${ss.id}" aria-selected="false">${ss.name}</button>
 											</li>
 										</c:if>
 									</c:forEach>
@@ -83,7 +83,7 @@
 					<!-- cat2 ==  전부-->
 					<div class="tab-content" id="myTabContent">
 						
-						<div class="tab-pane fade show active" id="home" role="tabpanel"
+						<div class="tab-pane fade show active" id="home1" role="tabpanel"
 							aria-labelledby="home-tab">
 							<div class="card mb-4">
 								
@@ -103,7 +103,7 @@
 
 													</tr>
 												</thead>
-												<tbody id="allList">
+												<tbody>
 												
 													<c:forEach items="${list}" var="vo">
 
@@ -186,7 +186,7 @@
 						
 						<c:forEach items="${cat1}" var="s">
 							<div class="tab-pane fade" id="id_${s.id}" role="tabpanel">
-								<div class="card mb-4">
+								<%-- <div class="card mb-4">
 									
 									<div class="card-body">
 										<div
@@ -278,7 +278,7 @@
 
 										</div>
 									</div>
-								</div>
+								</div> --%>
 							</div>
 						</c:forEach>
 

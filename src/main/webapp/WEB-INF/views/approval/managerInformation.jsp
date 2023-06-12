@@ -31,11 +31,11 @@
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 							<c:if test="${name ne '전체'}">
 								<li data-id=${s.id}><a class="dropdown-item"
-									href="./information">전체</a></li>
+									href="./managerInformation">전체</a></li>
 							</c:if>
 							<c:forEach items="${cat}" var="s">
 								<c:if test="${name ne s.name}">
-									<li data-id="${s.id}"><a class="dropdown-item"  href="./information?categoryId=${s.id}"
+									<li data-id="${s.id}"><a class="dropdown-item"  href="./managerInformation?categoryId=${s.id}"
 									>${s.name}</a></li>
 								</c:if>
 							</c:forEach>
@@ -99,8 +99,7 @@
 														<th>id</th>
 														<th>내용</th>
 														<th>날짜</th>
-														<th>회원 이름</th>
-														<th>부서</th>
+														<th>회원 번호</th>
 
 													</tr>
 												</thead>
@@ -111,10 +110,9 @@
 																<tr>
 
 																	<td>${vo.id}</td>
-																	<td><a href="./check?id=${vo.id}">${vo.contents}</a></td>
+																	<td><a href="./managerCheck?id=${vo.id}">${vo.contents}</a></td>
 																	<td>${vo.date}</td>
-																	<td>${vo.memberVO.name}</td>
-																	<td>${vo.memberVO.departmentId}</td>
+																	<td>${vo.memberId}</td>
 
 																</tr>
 	
@@ -158,7 +156,7 @@
 		
 			</div>
 			
-			<form class="row g-3" action="./information" method="get" id="searchForm">
+			<form class="row g-3" action="./managerinformation" method="get" id="searchForm">
 			<input type="hidden" name="categoryId" value="${caa}" id="cdt">
 				<input type="hidden" name="page" value="1" id="page">
 				<%-- <div class="col-auto">

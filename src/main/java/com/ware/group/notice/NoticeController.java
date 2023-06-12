@@ -263,10 +263,27 @@ public class NoticeController {
 		
 					 
 		
+		int result = noticeService.setUpdate(noticeVO,files);
+		if(bindingResult.hasErrors()) {
+			
+			mv.setViewName("notice/update");
+			
+			return mv;
+		}
+		
+		for(MultipartFile multipartFile : files) {
+			log.error("{} ::",multipartFile.getOriginalFilename());
+			}
+		noticeVO.setMemberId(memberVO.getId());
+		
+		/* result = noticeService.setInsert(noticeVO, files); */
 		
 		mv.setViewName("redirect:./list");
 		
-		return mv;
+		return mv;			 
+		
+		
+	
 		
 	}
 }

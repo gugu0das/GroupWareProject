@@ -45,8 +45,7 @@
 										type="hidden" name="categoryId" value="${cat}"> <input
 										type="hidden" name="count" id="vacation"> <input
 										type="hidden" name="reason" id="reason"> <input
-										type="hidden" name="useDate" id="useDate"> <input
-										type="hidden" name="degree" id="type">
+										type="hidden" name="useDate" id="useDate"> 
 										 
 									<div id="ttt">
 										

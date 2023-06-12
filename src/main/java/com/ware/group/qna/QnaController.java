@@ -31,6 +31,8 @@ public class QnaController {
 	@Autowired
 	private QnaService qnaService;
 	
+	@Autowired
+	private QnaCommentService qnaCommentService;
 	
 	@ModelAttribute("board")
 	public String getQna() {
@@ -104,7 +106,10 @@ public class QnaController {
 	      SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	      MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 	      log.error("{}",memberVO.getId());
-		  if(bindingResult.hasErrors()) {
+		  
+	      
+	      
+	      if(bindingResult.hasErrors()) {
 		  
 		  mv.setViewName("qna/add");
 		  
@@ -234,7 +239,7 @@ public class QnaController {
 		
 			mv.setViewName("redirect:./list");
 			
-			return mv;
+			return mv;			 
 			
 		}
 		 

@@ -80,6 +80,10 @@
   		DELETE FROM QNAFILES WHERE ID = #{id}
   	</delete>
   	
+  	<delete id="setFileDelete" parameterType="NoticeVO">
+  		DELETE FROM QNAFILES WHERE ID = #{id}
+  	</delete>
+  	
   	<insert id="setQnaFileAdd" parameterType="BoardFileVO">
   		INSERT INTO QNAFILES (id, qna_id, file_name, ori_name)
   		VALUES(#{id}, #{qnaId}, #{fileName}, #{oriName})

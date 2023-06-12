@@ -83,7 +83,6 @@
 	<!-- Footer -->
     <%-- <c:import url="../temp/footer.jsp"></c:import> --%>
     <!-- Footer -->
-    
     <script type="text/javascript" src="/js/boardForm.js"></script>
     <script type="text/javascript" src="/js/fileManger.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>

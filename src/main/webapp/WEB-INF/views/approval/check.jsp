@@ -50,13 +50,20 @@
 												<c:when test="${checkNum eq 1}">
 													<button type="button" value="1" class="btn btn1">승인</button>
 													<button type="button" value="0" class="btn btn1">거절</button>
-													
-
+													<a href="./information">돌아가기</a>
 												</c:when>
 												<c:otherwise>
-													<c:if test="${confirm eq '대기'}">
+													<c:if test="${confirm eq '대기'|| num >1}">
 														<button type="button" id="del" data-id="${id}" class="btn">결재 취소</button>
 													</c:if>
+													<c:choose>
+													<c:when test="${num >1}">
+														<a href="./managerInformation">돌아가기</a>
+													</c:when>
+													<c:otherwise>
+														<a href="./myInformation">돌아가기</a>
+													</c:otherwise>
+													</c:choose>
 												</c:otherwise>
 											</c:choose>
 												<button type="button" id="pdf" data-id="${id}" class="btn">pdf 다운</button>
