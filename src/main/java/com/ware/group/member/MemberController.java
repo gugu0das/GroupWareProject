@@ -84,6 +84,9 @@ public class MemberController {
 		return mv;
 		
 	}
+	
+	
+	
 	@GetMapping("security")
 	public ModelAndView getSecurity(@ModelAttribute MemberVO memberVO, ModelAndView mv)throws Exception{
 		

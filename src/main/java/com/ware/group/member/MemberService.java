@@ -128,6 +128,10 @@ public class MemberService implements UserDetailsService{
 		return memberDAO.getJobList();
 
 	}
+	public int setJobAdd(JobVO jobVO)throws Exception{
+		return memberDAO.setJobAdd(jobVO);
+		
+	}
 	public MemberVO getMemberLogin(MemberVO memberVO)throws Exception{
 		return memberDAO.getMemberLogin(memberVO);
 

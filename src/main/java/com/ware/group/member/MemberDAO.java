@@ -22,6 +22,8 @@ public interface MemberDAO {
 	
 	public List<JobVO> getJobList()throws Exception;
 	
+	public int setJobAdd(JobVO jobVO)throws Exception;
+	
 	public MemberVO idDuplicateCheck(MemberVO memberVO)throws Exception;
 	
 	public MemberVO getMemberLogin(MemberVO memberVO)throws Exception;
@@ -33,6 +35,7 @@ public interface MemberDAO {
 	public int setMemberUpdate(MemberVO memberVO) throws Exception;
 	
 	public int setPasswordUpdate(MemberVO memberVO)throws Exception;
+	
 	
 	
 	///근태관리
