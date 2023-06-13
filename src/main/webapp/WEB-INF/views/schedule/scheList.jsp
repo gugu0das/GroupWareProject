@@ -154,17 +154,21 @@ function calendarDayMouseout(){
                                 </div>
                                 <c:forEach var="items" items="${listview.list}" varStatus="status">
                                     <div class="calendarDay" onmouseover="calendarDayMouseover(event, '<c:out value="${items.id}"/>', '<c:out value="${listview.calendardate}"/>')" onmouseout="calendarDayMouseout()">
-                                        <c:if test='${items.usernum==sessionScope.usernum}'> 
-                                            <a href="scheForm?id=<c:out value="${items.id}"/>&seq=<c:out value="${items.seq}"/>"><c:out value="${items.title}"/></a>
-                                        </c:if>
-                                        <c:if test='${items.id!=null and items.usernum!=sessionScope.usernum}'> 
-                                            <a href="scheRead?id=<c:out value="${items.id}"/>&seq=<c:out value="${items.seq}"/>"><c:out value="${items.title}"/></a>
-                                        </c:if>
-                                        <c:if test='${items.id==null}'> 
-                                            <span style="color:<c:out value="${items.fontcolor}"/>"><c:out value="${items.title}"/></span>
-                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${items.id == null}">
+                                                <span style="color:<c:out value="${items.fontcolor}"/>"><c:out value="${items.title}"/></span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:if test='${items.usernum==sessionScope.usernum}'> 
+                                                    <a href="scheForm?id=<c:out value="${items.id}"/>&seq=<c:out value="${items.seq}"/>"><c:out value="${items.title}"/></a>
+                                                </c:if>
+                                                <c:if test='${items.id!=null and items.usernum!=sessionScope.usernum}'> 
+                                                    <a href="scheRead?id=<c:out value="${items.id}"/>&seq=<c:out value="${items.seq}"/>"><c:out value="${items.title}"/></a>
+                                                </c:if>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
-                                </c:forEach>
+                                </c:forEach>                                                              
                             </div>
                         </c:forEach> 
 
