@@ -47,13 +47,17 @@
 	        margin: 2px;
 	        padding: 2px;
 	    }
-	    .calendarTooltip {
-	        position: absolute;
-	        background-color: white;
-	        border: 1px solid black;
-	        padding: 5px;
-	        display: none;
-	    }
+        .calendarTooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid black;
+            padding: 10px;
+            display: flex; /* display 속성 값을 flex로 변경 */
+            flex-direction: column; /* flex-direction 속성 값을 column으로 변경 */
+            align-items: flex-start; /* 툴팁 내용을 왼쪽 정렬로 설정 */
+            justify-content: flex-start; /* 툴팁 내용을 위쪽 정렬로 설정 */
+            white-space: nowrap; /* 툴팁 내용이 한 줄로 출력되도록 설정 */
+        }
 	</style>
 <script>
 function fn_formSubmit(){
