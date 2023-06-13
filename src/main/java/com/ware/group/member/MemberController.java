@@ -48,9 +48,10 @@ public class MemberController {
 		
 	}
 	@PostMapping("join")
-	public ModelAndView setMemberJoin(ModelAndView mv, @Valid MemberVO memberVO, BindingResult bindingResult)throws Exception{
+	public ModelAndView setMemberJoin(ModelAndView mv, @Valid MemberVO memberVO,WorkTimeVO workTimeVO, BindingResult bindingResult)throws Exception{
 
-		int result = memberService.setMemeberJoin(memberVO);
+		
+		int result = memberService.setMemeberJoin(memberVO, workTimeVO);
 		
 		
 		mv.setViewName("redirect:/");

@@ -12,6 +12,7 @@
 
 <!-- Custom styles for this template-->
 <c:import url="../temp/style.jsp"></c:import>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 </head>
 <body class="bg-gradient-primary">
 	<div class="container">
@@ -20,8 +21,8 @@
 				<!-- Nested Row within Card Body -->
 				<div class="row">
 					<div class=""></div>
-					<div class="col-lg-7 mx-auto">
-						<div class="p-5 c">
+					<div class="col-lg-8 mx-auto">
+						<div class="p-5">
 							<div class="text-center">
 								<h1 class="h4 text-gray-900 mb-4">사원 생성 페이지</h1>
 							</div>
@@ -121,14 +122,29 @@
 											</c:forEach>
 
 										</form:select>
-
 										<form:errors path="jobId"></form:errors>
 									</div>
 								</div>
+								<div class="form-group row">
+									<div class="col-10">
+								<label for="workTime">근무시간 </label>
+										 <input id="startTime"
+											name="startTimeString"> ~ <input id="finishTime"
+											name="finishTimeString">
 
+									</div>
+									<div class="col-2">
+									<label for="mealTime">식사 </label>
+										<input type="checkbox" checked="checked"
+											name="mealTime"> 
+
+									
+									</div>
+								</div>
 								<button class="btn btn-primary btn-user btn-block">Join
 									Member</button>
 								<hr>
+								
 							</form:form>
 							<%-- </form> --%>
 
@@ -140,7 +156,8 @@
 		</div>
 
 	</div>
-
+	<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<script type="text/javascript" src="/js/memberJoin.js"></script>
 	<c:import url="../temp/common_js.jsp"></c:import>
 </body>
 </html>

@@ -8,8 +8,12 @@
 	<select id="getMembers" resultType="MemberVO">
 		select * from MEMBER
 	</select>
-	<select id="getStatusMembers" resultType="MemberVO" parameterType="MemberVO">
-	select id from `MEMBER` where status =1
+	<select id="getStatusMembers" resultType="MemberVO" parameterType="WorkTimeVO">
+	select DISTINCT m.id  from `MEMBER` m
+	inner join
+	WORKTIME w
+	on(m.id = w.member_id)
+	where m.status =1 and w.reg_date <![CDATA[ <= ]]> #{regDate}
 	</select>
 
 	<select id="getMemberLogin" parameterType="MemberVO"
@@ -206,7 +210,7 @@
 	
 	<insert id="setDefaultWorkAdd" parameterType="WorkTimeVO">
 	insert into WORKTIME (start_time,finish_time,meal_time,reg_date,member_id)
-		values(#{startTime},#{finishTime},#{mealTime},#{regDate}#{memberId})
+		values(#{startTime},#{finishTime},#{mealTime},#{regDate},#{memberId})
 	</insert>
 
 	<update id="setDefaultWorkUpdate" parameterType="WorkTimeVO">

@@ -16,7 +16,7 @@ public interface MemberDAO {
 
 	public List<MemberVO> getMembers() throws Exception;
 	
-	public List<MemberVO> getStatusMembers() throws Exception;
+	public List<MemberVO> getStatusMembers(WorkTimeVO workTimeVO) throws Exception;
 	
 	public int setMemberJoin(MemberVO memberVO) throws Exception;
 	
