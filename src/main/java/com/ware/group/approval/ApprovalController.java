@@ -266,7 +266,7 @@ public class ApprovalController {
 		ApprovalCategoryVO [] approvalCategoryVOs = gson.fromJson(json1, ApprovalCategoryVO[].class);
 		log.error("============");
 		log.error("============{}",approvalCategoryVOs.length);
-		
+		int result = 0;
 		
 		for(ApprovalCategoryVO approvalCategoryVO1 : approvalCategoryVOs) {
 			approvalCategoryVO1.setRef(0L);
@@ -290,7 +290,7 @@ public class ApprovalController {
 					}
 					for(ApprovalFormFileVO fileVO : approvalCategoryVO2.getFile()) {
 						fileVO.setCategoryId(approvalCategoryVO2.getId());
-						approvalService.addApprovalFormFile(fileVO);
+						result = approvalService.addApprovalFormFile(fileVO);
 					}
 				}
 			}
@@ -306,7 +306,9 @@ public class ApprovalController {
 //		}else {
 //			mv.setViewName("/approval/addCategory");
 //		}
-		mv.setViewName("redirect:./updateCategory");
+		mv.addObject("result", result);
+		mv.addObject("url", "/approval/updateCategory");
+		mv.setViewName("common/alert");
 		
 		return mv;
 	}

@@ -17,7 +17,7 @@ if(${result} == 1){
 	 Swal.fire({
 	      icon: 'success',
 	      title: '${msg}',
-	      text: '버튼을 누르면 돌아갑니다',
+	      text: '버튼을 누르면 다음 페이지로 이동합니다.',
 	      showClass: {
 	    	    popup: 'animate__animated animate__fadeInDown'
 	    	  },
@@ -33,7 +33,7 @@ if(${result} == 1){
 	 Swal.fire({
 	      icon: 'error',
 	      title: '${msg}',
-	      text: '버튼을 누르면 돌아갑니다',
+	      text: '버튼을 누르면 돌아갑니다.',
 	      showClass: {
 	    	    popup: 'animate__animated animate__fadeInDown'
 	    	  },
