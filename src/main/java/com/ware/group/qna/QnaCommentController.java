@@ -29,14 +29,14 @@ public class QnaCommentController {
 	@GetMapping("list")
 	public ModelAndView getQnaCommentList(@ModelAttribute QnaCommentVO qnaCommentVO, Pager pager,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		log.error("{}",qnaCommentVO.getQnaId());
-		log.error("{}",pager.getQnaId());
+		
 		
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	    pager.setPerPage(5L);
 		List<QnaCommentVO> ar = qnaCommentService.getQnaCommentList(pager);
-		
+		log.error("{}",pager.getPage());
 		mv.addObject("memberVO", memberVO);
 		mv.addObject("list", ar);
 		mv.setViewName("common/commentList");
@@ -71,8 +71,7 @@ public class QnaCommentController {
 	@PostMapping("update")
 	public ModelAndView setQnaCommentUpdate(QnaCommentVO qnaCommentVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		log.error(qnaCommentVO.getContents());
-		log.error("{}",qnaCommentVO.getId());
+	
 		int result = qnaCommentService.setQnaCommentUpdate(qnaCommentVO);
 
 		mv.addObject("result", result);
@@ -108,14 +107,18 @@ public class QnaCommentController {
 	}
 
 	@PostMapping("reply")
-	public ModelAndView setReplyAdd(QnaCommentVO qnaCommentVO) throws Exception {
+	public ModelAndView setReplyAdd(QnaCommentVO qnaCommentVO,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		System.out.println("qnaComment : " + qnaCommentVO.getId());
-		log.error(qnaCommentVO.getContents());
+		Object obj = session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl) obj;
+		MemberVO memberVO = (MemberVO) contextImpl.getAuthentication().getPrincipal();
+		qnaCommentVO.setWriter(memberVO.getAccountId());
+		
+		
 		qnaCommentVO.setContents(qnaCommentVO.getContents().replaceAll("<p>", ""));
 		qnaCommentVO.setContents(qnaCommentVO.getContents().replaceAll("</p>", ""));
-		log.error(qnaCommentVO.getContents());
-		;
+		
+		
 		int result = qnaCommentService.setReplyAdd(qnaCommentVO);
 
 		String message = "등록 실패";

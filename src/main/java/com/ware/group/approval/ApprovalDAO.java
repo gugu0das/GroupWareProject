@@ -9,13 +9,18 @@ import com.ware.group.approval3.DocumentFilesVO;
 import com.ware.group.department.DepartmentVO;
 import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
+import com.ware.group.util.Pager;
 
 @Mapper
 public interface ApprovalDAO {
 	
+	public int updateApproverDepth(ApproverVO approverVO) throws Exception;
+	
 	public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public int addApprover(ApproverVO approverVO) throws Exception;
+	
+	public int addApprover1(ApproverVO approverVO) throws Exception;
 	
 	public int addApprovalFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception;
 	
@@ -63,13 +68,15 @@ public interface ApprovalDAO {
 	
 	public int deleteUpperOptionFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
-	public int deleteUnderFormFile (ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	public int deleteUnderFormFile (ApprovalFormFileVO approvalFormFileVO) throws Exception;
 	
 	public int deleteUnderApprover (ApproverVO approverVO) throws Exception;
 	
 	public int deleteUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public int addUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	
+	public int addUpperFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception;
 	
 	//
 	public List<ApprovalCategoryVO> getListCategory() throws Exception;
@@ -86,7 +93,7 @@ public interface ApprovalDAO {
 	
 	public int setApprovalInfo(ApprovalInfoVO approvalInfoVO) throws Exception;
 	
-	public List<ApprovalVO> getApprovalList(ApprovalVO approvalVO) throws Exception;
+	public List<ApprovalVO> getApprovalList(Pager pager) throws Exception;
 	
 	public ApprovalUploadFileVO getApprovalFile(ApprovalVO approvalVO) throws Exception;
 	
@@ -105,13 +112,13 @@ public interface ApprovalDAO {
 	
 	public DepartmentVO departManager(MemberVO memberVO) throws Exception;
 	
-	public LeaveRecordVO getLeaverCode(LeaveRecordVO leaveRecordVO) throws Exception;
+	public List<LeaveRecordVO> getLeaverCode(LeaveRecordVO leaveRecordVO) throws Exception;
 	
 	public ApprovalVO getApprovalId(ApprovalVO approvalVO) throws Exception;
 	
 	public int setAnnual(LeaveRecordVO leaveRecordVO) throws Exception;
 	
-	public List<ApprovalVO> getMyApproval(ApprovalVO approvalVO) throws Exception;
+	public List<ApprovalVO> getMyApproval(Pager pager) throws Exception;
 	
 	public ApprovalFormFileVO getFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
@@ -122,4 +129,8 @@ public interface ApprovalDAO {
 	public int setApprovalInfoDelete(Long id1) throws Exception;
 	
 	public LeaveRecordVO getLeave(LeaveRecordVO leaveRecordVO) throws Exception;
+	
+	public Long getTotalCount(Pager pager) throws Exception;
+	
+	public Long getMyTotal(Pager pager) throws Exception;
 }

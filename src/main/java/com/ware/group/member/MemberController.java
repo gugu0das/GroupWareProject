@@ -48,9 +48,10 @@ public class MemberController {
 		
 	}
 	@PostMapping("join")
-	public ModelAndView setMemberJoin(ModelAndView mv, @Valid MemberVO memberVO, BindingResult bindingResult)throws Exception{
+	public ModelAndView setMemberJoin(ModelAndView mv, @Valid MemberVO memberVO,WorkTimeVO workTimeVO, BindingResult bindingResult)throws Exception{
 
-		int result = memberService.setMemeberJoin(memberVO);
+		
+		int result = memberService.setMemeberJoin(memberVO, workTimeVO);
 		
 		
 		mv.setViewName("redirect:/");
@@ -83,6 +84,9 @@ public class MemberController {
 		return mv;
 		
 	}
+	
+	
+	
 	@GetMapping("security")
 	public ModelAndView getSecurity(@ModelAttribute MemberVO memberVO, ModelAndView mv)throws Exception{
 		
@@ -116,9 +120,9 @@ public class MemberController {
 	//----------------근태------------------------------------
 
 	@PostMapping("statusUpdate")
-	public ModelAndView employeeStatusUpdate(ModelAndView mv,MemberVO memberVO,EmployeeStatusVO employeeStatusVO,HttpSession session,String timeStatus)throws Exception{
+	public ModelAndView employeeStatusUpdate(ModelAndView mv,MemberVO memberVO,EmployeeStatusVO employeeStatusVO,HttpSession session,String timeStatus,WorkTimeVO workTimeVO)throws Exception{
 		employeeStatusVO.setStatus(timeStatus);
-		int result =  memberService.setStatusUpdate(memberVO, employeeStatusVO, session);
+		int result =  memberService.setStatusUpdate(memberVO, employeeStatusVO,workTimeVO, session);
 		
 		mv.setViewName("redirect:/");
 		return mv;
@@ -129,16 +133,32 @@ public class MemberController {
 		
 	}
 	@GetMapping("statusList")
-	public ModelAndView getStatusList(ModelAndView mv,MemberVO memberVO, HttpSession session, EmployeeStatusVO employeeStatusVO)throws Exception{
+	public ModelAndView getStatusList(ModelAndView mv,MemberVO memberVO, HttpSession session, EmployeeStatusVO employeeStatusVO,WorkTimeVO workTimeVO)throws Exception{
+		
+		//필요한 파라미터
+		//1.내정보
 		memberVO = memberService.getMemberProfile(memberVO, session);
+		mv.addObject("memberVO",memberVO);
+		//2. 지금 현재 근무상태
 		employeeStatusVO =  memberService.getEmployeeStatus(session);
 		mv.addObject("employeeVO", employeeStatusVO);
+		//  2-1 근무상태 버튼
 		List<String> ar = memberService.getEmployeeStatusBtn(employeeStatusVO, session);
 		if(ar!=null&&ar.size()>0) {
-
+			
 			mv.addObject("btns",ar);
 		}
-		mv.addObject("memberVO",memberVO);
+		//3. 총 근무 내역
+		List<EmployeeStatusVO> employeeStatusVOs = memberService.getEmployeeStatusList(employeeStatusVO, session);
+//		mv.addObject("employeeStatusVOs", employeeStatusVOs);   4번의 list에 있음 사실상 3번은 4번에 추가하여 없어도됨
+		//  3-1 근무 내역이 있는 년도
+		List<String> years = memberService.getEmployeeStatusYears(employeeStatusVOs);
+		mv.addObject("years",years);
+		
+		//4. 근무 내역의 총 시간 및 필요한 시간, 
+		List<WorkTimeStatusVO> workTimeStatusVOs =  memberService.getWorkTimeStatusTotal(workTimeVO,employeeStatusVO, session);
+		mv.addObject("workTimeStatusVOs",workTimeStatusVOs);
+		
 		mv.setViewName("member/statusList");
 		return mv;
 	}

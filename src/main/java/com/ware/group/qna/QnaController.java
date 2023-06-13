@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,6 +31,8 @@ public class QnaController {
 	@Autowired
 	private QnaService qnaService;
 	
+	@Autowired
+	private QnaCommentService qnaCommentService;
 	
 	@ModelAttribute("board")
 	public String getQna() {
@@ -48,7 +51,9 @@ public class QnaController {
 		for(QnaVO qnaVO : ar) {
 			
 		}
-		
+		 if(pager.getLastNum()<5L) {
+			 pager.setLastNum(5L);
+		 }
 		mv.addObject("list", ar);
 		mv.setViewName("qna/list");
 		
@@ -101,7 +106,10 @@ public class QnaController {
 	      SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	      MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 	      log.error("{}",memberVO.getId());
-		  if(bindingResult.hasErrors()) {
+		  
+	      
+	      
+	      if(bindingResult.hasErrors()) {
 		  
 		  mv.setViewName("qna/add");
 		  
@@ -161,15 +169,29 @@ public class QnaController {
 		 
 		
 		@GetMapping("delete")
-		public ModelAndView setDelete(QnaVO qnaVO) throws Exception {
+		public ModelAndView setDelete(QnaVO qnaVO,HttpSession session) throws Exception {
 			ModelAndView mv = new ModelAndView();
 			
 			int result = qnaService.setDelete(qnaVO);
-			
+						 
+						 
+							
 			mv.setViewName("redirect:./list");
 			
 			return mv;
 		}
+		
+		@PostMapping("filedelete")
+		@ResponseBody
+		public int setFileDelete(QnaVO qnaVO,HttpSession session) throws Exception {
+			log.error("{}",qnaVO.getId());
+			int result = qnaService.setFileDelete(qnaVO);
+			
+			
+			
+			return result;
+		}
+		
 		
 		@GetMapping("update")
 		public ModelAndView setUpdate(@ModelAttribute QnaVO qnaVO,HttpSession session) throws Exception{
@@ -190,14 +212,34 @@ public class QnaController {
 			return mv;
 		}
 		@PostMapping("update")
-		public ModelAndView setUpdate(@Valid QnaVO qnaVO,MultipartFile [] multipartFiles,BindingResult bindingResult,HttpSession session)throws Exception{
+		public ModelAndView setUpdate(@Valid QnaVO qnaVO,MultipartFile [] files,BindingResult bindingResult,HttpSession session)throws Exception{
 			ModelAndView mv = new ModelAndView();
 			
-			int result = qnaService.setUpdate(qnaVO,multipartFiles);
+			
+			 Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		      SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		      MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		      log.error("{}",memberVO.getId());
+			  if(bindingResult.hasErrors()) {
+			  
+			  mv.setViewName("qna/add");
+			  
+			  return mv; 
+			  
+			  }
+			  
+			  for(MultipartFile multipartFile : files) {
+			  log.error("{} ::",multipartFile.getOriginalFilename()); 
+			} 
+			  qnaVO.setMemberId(memberVO.getId());
+			  int result = qnaService.setUpdate(qnaVO, files);
+			  
+			/* mv.setViewName("redirect:./list"); */
+			
 		
 			mv.setViewName("redirect:./list");
 			
-			return mv;
+			return mv;			 
 			
 		}
 		 

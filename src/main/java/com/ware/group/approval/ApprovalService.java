@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ware.group.annual.LeaveRecordVO;
+
 import com.ware.group.approval3.DocumentFilesVO;
 import com.ware.group.department.DepartmentVO;
 import com.ware.group.member.JobVO;
 import com.ware.group.member.MemberVO;
+import com.ware.group.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,13 +24,18 @@ public class ApprovalService {
 	
 	@Autowired
 	private ApprovalDAO approvalDAO;
-	
+	public int updateApproverDepth(ApproverVO approverVO) throws Exception{
+		return approvalDAO.updateApproverDepth(approverVO);
+	}
+	public int addUpperFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
+		return approvalDAO.addUpperFormFile(approvalFormFileVO);
+	};
 	public int addUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{
 		return approvalDAO.addUnderCategory(approvalCategoryVO);
 	}
 	
-	public int deleteUnderFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{
-		return approvalDAO.deleteUnderFormFile(approvalCategoryVO);
+	public int deleteUnderFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
+		return approvalDAO.deleteUnderFormFile(approvalFormFileVO);
 	}
 	
 	public int deleteUnderApprover(ApproverVO approverVO) throws Exception{
@@ -87,6 +94,10 @@ public class ApprovalService {
 		return approvalDAO.addCategory(approvalCategoryVO);
 	}
 	public int addApprover(ApproverVO approverVO) throws Exception{
+		approverVO.setDepth(approverVO.getDepth() + 1L);
+		return approvalDAO.addApprover(approverVO);
+	}
+	public int addApprover1(ApproverVO approverVO) throws Exception{
 		return approvalDAO.addApprover(approverVO);
 	}
 	public int addApprovalFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
@@ -172,7 +183,7 @@ public class ApprovalService {
 					//연차 기록에 결재 번호 입력
 					log.error("1{}::::::::::::",leaveRecordVO);
 					log.error("2{}::::::::::::",leaveRecordVO.getCount());
-					log.error("3{}::::::::::::",leaveRecordVO.getDegree());
+					log.error("3{}::::::::::::",leaveRecordVO.getAnnualType());
 					log.error("4{}::::::::::::",leaveRecordVO.getApprovalId());
 					log.error("5{}::::::::::::",leaveRecordVO.getId());
 					log.error("6{}::::::::::::",leaveRecordVO.getMemberId());
@@ -183,9 +194,6 @@ public class ApprovalService {
 					log.error("{}::::::::::::",leaveRecordVO == null);
 					log.error("{}::::::::::::",leaveRecordVO != null);
 					if(leaveRecordVO.getCount() != null) {
-						if(leaveRecordVO.getDegree() !=null &&leaveRecordVO.getDegree() !=1) {
-							leaveRecordVO.setCount(0L);
-						}
 						leaveRecordVO.setApprovalId(approvalVO.getId());
 						leaveRecordVO.setMemberId(approvalVO.getMemberId());
 						leaveRecordVO.setType(ApprovalStatus.PENDING);
@@ -193,7 +201,7 @@ public class ApprovalService {
 					}
 					ApprovalInfoVO approvalInfoVO = new ApprovalInfoVO();
 					approvalInfoVO.setApprovalId(approvalVO.getId());
-					approvalInfoVO.setDepth(1);
+					approvalInfoVO.setDepth(0);
 					approvalInfoVO.setCheck(ApprovalStatus.APPROVALING);
 					MemberVO memberVO = approvalDAO.memberDepart(approvalVO);
 					DepartmentVO departmentVO = approvalDAO.departManager(memberVO);
@@ -226,8 +234,14 @@ public class ApprovalService {
 		return result;
 	}
 	
-	public List<ApprovalVO> getApprovalList(ApprovalVO approvalVO) throws Exception{
-		List<ApprovalVO> ar = approvalDAO.getApprovalList(approvalVO);
+	public List<ApprovalVO> getApprovalList(Pager pager) throws Exception{
+		pager.makeStartRow();
+		pager.makeNum(approvalDAO.getTotalCount(pager));
+		if(approvalDAO.getTotalCount(pager)<1) {
+			pager.setLastNum(1L);
+			}
+		log.error("++++++++++++++++++++++++++{}++++++++++++",pager.getStartRow());
+		List<ApprovalVO> ar = approvalDAO.getApprovalList(pager);
 		
 		return ar;
 	}
@@ -271,13 +285,12 @@ public class ApprovalService {
 					log.error("{}::::::::::::::::::::::::",approvalVO.getId());
 					approvalVO = approvalDAO.getApprovalId(approvalVO);
 					leaveRecordVO.setMemberId(approvalVO.getMemberId());
-					leaveRecordVO = approvalDAO.getLeaverCode(leaveRecordVO);
 					leaveRecordVO.setType(ApprovalStatus.APPROVAL);
-					}			
 					result = approvalDAO.setLeaverCode(leaveRecordVO);
+					}			
 					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
 					
-					result = approvalDAO.setApprovalUpdate(approvalVO);
+//					result = approvalDAO.setApprovalUpdate(approvalVO);
 					result = approvalDAO.setAnnual(leaveRecordVO);
 					}
 		}else {
@@ -294,7 +307,6 @@ public class ApprovalService {
 			if(leaveRecordVO !=null) {
 			approvalVO = approvalDAO.getApprovalId(approvalVO);
 			leaveRecordVO.setMemberId(approvalVO.getMemberId());
-			leaveRecordVO = approvalDAO.getLeaverCode(leaveRecordVO);
 			leaveRecordVO.setType(ApprovalStatus.REFUSE);
 			result = approvalDAO.setLeaverCode(leaveRecordVO);
 			}
@@ -308,8 +320,11 @@ public class ApprovalService {
 		
 		return result;
 	}
-	public List<ApprovalVO> getMyApproval(ApprovalVO approvalVO) throws Exception{
-		return approvalDAO.getMyApproval(approvalVO);
+	public List<ApprovalVO> getMyApproval(Pager pager) throws Exception{
+		
+		pager.makeStartRow();
+		pager.makeNum(approvalDAO.getMyTotal(pager));
+		return approvalDAO.getMyApproval(pager);
 	}
 	
 	public ApprovalFormFileVO getFormFile(ApprovalCategoryVO approvalCategoryVO) throws Exception{
@@ -324,14 +339,22 @@ public class ApprovalService {
 		approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
 		LeaveRecordVO leaveRecordVO = new LeaveRecordVO();
 		leaveRecordVO.setApprovalId(id1);
-		leaveRecordVO.setMemberId(memberVO.getId());
-		leaveRecordVO = approvalDAO.getLeaverCode(leaveRecordVO);
+		leaveRecordVO = approvalDAO.getLeave(leaveRecordVO);
 		if(leaveRecordVO !=null) {
+			leaveRecordVO.setMemberId(memberVO.getId());
 			leaveRecordVO.setType(ApprovalStatus.CANCEL);
 			approvalDAO.setAnnual(leaveRecordVO);
 		
+		}else {
+			leaveRecordVO = new LeaveRecordVO();
+			leaveRecordVO.setApprovalId(id1);
+			List<LeaveRecordVO> ar=approvalDAO.getLeaverCode(leaveRecordVO);
+			if(ar.size() < 0){
+				leaveRecordVO.setMemberId(memberVO.getId());
+				leaveRecordVO.setType(ApprovalStatus.CANCEL);
+				approvalDAO.setAnnual(leaveRecordVO);
+			}
 		}
-		
 		return approvalDAO.setApprovalDelete(id1);
 	}
 	

@@ -141,7 +141,42 @@ public class ApprovalControllers {
 		mv.addObject("cat1", arrr);
 		mv.addObject("list", ar);
 		
-			mv.setViewName("approval/information2");
+		mv.setViewName("approval/information2");
+//			
+		
+		
+		return mv;
+	}
+	@PostMapping("information")
+	public ModelAndView getApprovalInformation(Pager pager,ModelAndView mv) throws Exception{
+		
+		MemberVO memberVO = new MemberVO();
+		pager.setMemberId(0L);
+		memberVO.setId(4L);
+		
+		List<ApprovalVO> ar = approvalServices.getApprovalList(pager);
+		List<ApprovalCategoryVO> arr = approvalService.getListCategoryRef0();
+		//cat2
+		
+		//cat1
+		List<ApprovalCategoryVO> arrr =approvalService.getListCategoryRef1();
+		mv.addObject("pager", pager);
+	
+		for(ApprovalCategoryVO approvalCategoryVO : arr) {
+			if(pager.getCategoryId() != null &&approvalCategoryVO.getId() == pager.getCategoryId()) {
+				mv.addObject("name", approvalCategoryVO.getName());
+				break;
+			}else {
+				mv.addObject("name", "전체");
+			}
+		}
+		
+		
+		mv.addObject("cat1", arrr);
+		mv.addObject("list", ar);
+		
+		mv.setViewName("common/commonApprovalList");
+			
 		
 		return mv;
 	}

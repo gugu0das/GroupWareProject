@@ -62,7 +62,7 @@
 										<c:forEach items="${noticeVO.boardFileVOs}" var="fileVO">
 										
 										<div>
-										<input type="text" disabled value="${fileVO.fileName}" class="form-control" aria-label="Text input with checkbox">
+										<input type="text" disabled value="${fileVO.oriName}" class="form-control" aria-label="Text input with checkbox">
 										<button type="button" class="btn btn-primary fileDelete" data-fileId="${fileVO.id}">삭제</button>
 										</div>
 										</c:forEach>

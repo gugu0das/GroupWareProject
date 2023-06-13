@@ -161,7 +161,7 @@
 
 	</div>
 	<!-- End of Main Content -->
-
+	<a class="btn btn-primary" href="./add"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-4 -4 20 20" x="80" y="86"><defs><path id="t" d="M0 11.1h12V0H0z"/></defs><g fill="none" fill-rule="evenodd"><path fill="#575756" d="M0 8.056V11.1h3.044L9.39 4.677 6.356 1.642zM10.486 3.58l.017-.019c.327-.387.508-.88.508-1.387C11.01.987 10.045 0 8.859 0c-.507 0-1 .202-1.406.547l-.673.671 3.034 3.034.672-.672z"/><mask id="u" fill="#fff"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#t"/></mask><path fill="#575756" d="M4.8 11.1H12v-.6H4.8z" mask="url(#u)"/></g></svg>글쓰기</a>
 	<!-- Footer -->
 	<footer class="sticky-footer bg-white">
 		<div class="container my-auto">
@@ -170,7 +170,7 @@
 			</div>
 		</div>
 	</footer>
-	<a class="btn btn-primary" href="./add">글쓰기</a>
+	
 	<!-- End of Footer -->
 
 	</div>

@@ -27,10 +27,20 @@
 	
 	
 	<select id="getList" parameterType="Pager" resultType="NoticeVO" >
-		SELECT * FROM NOTICE 
-		<include refid="search"></include>
-		ORDER BY ID DESC
+		SELECT * FROM NOTICE WHERE
+		 <if test="important == true">
+		 IMPORTANT = 1
+		 ORDER BY ID DESC
+ 		</if> 
+ 		<if test="important == false">
+ 		IMPORTANT = 0
+ 		<include refid="search"></include>
+ 		ORDER BY ID DESC
 		LIMIT #{startRow}, #{perPage}
+ 		</if>
+		
+		
+		
 	</select>
 	
 	<select id="getImportantList" resultType="NoticeVO" parameterType="NoticeVO">
@@ -44,7 +54,7 @@
 			 LEFT JOIN
 			 NOTICEFILES nf
 			 on (n.id = nf.notice_id) 
-		WHERE nf.notice_id = #{id}
+		WHERE n.id = #{id}
   	</select>
   	
   	<resultMap type="NoticeVO" id="getDetailResult">
