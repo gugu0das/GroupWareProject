@@ -34,8 +34,9 @@ public class QnaCommentController {
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	    pager.setPerPage(5L);
 		List<QnaCommentVO> ar = qnaCommentService.getQnaCommentList(pager);
-		
+		log.error("{}",pager.getPage());
 		mv.addObject("memberVO", memberVO);
 		mv.addObject("list", ar);
 		mv.setViewName("common/commentList");

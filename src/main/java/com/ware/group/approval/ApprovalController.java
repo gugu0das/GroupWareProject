@@ -266,7 +266,7 @@ public class ApprovalController {
 		ApprovalCategoryVO [] approvalCategoryVOs = gson.fromJson(json1, ApprovalCategoryVO[].class);
 		log.error("============");
 		log.error("============{}",approvalCategoryVOs.length);
-		
+		int result = 0;
 		
 		for(ApprovalCategoryVO approvalCategoryVO1 : approvalCategoryVOs) {
 			approvalCategoryVO1.setRef(0L);
@@ -290,7 +290,7 @@ public class ApprovalController {
 					}
 					for(ApprovalFormFileVO fileVO : approvalCategoryVO2.getFile()) {
 						fileVO.setCategoryId(approvalCategoryVO2.getId());
-						approvalService.addApprovalFormFile(fileVO);
+						result = approvalService.addApprovalFormFile(fileVO);
 					}
 				}
 			}
@@ -306,7 +306,9 @@ public class ApprovalController {
 //		}else {
 //			mv.setViewName("/approval/addCategory");
 //		}
-		mv.setViewName("redirect:./updateCategory");
+		mv.addObject("result", result);
+		mv.addObject("url", "/approval/updateCategory");
+		mv.setViewName("common/alert");
 		
 		return mv;
 	}
@@ -386,12 +388,37 @@ public class ApprovalController {
 		return result;
 		
 	}
-	
+	@PostMapping("addApprover1")
+	@ResponseBody
+	public int addApprover1(ApproverVO approverVO) throws Exception{
+		List<ApproverVO> ar = approvalService.getListApprover();
+		boolean check = false;
+		for(ApproverVO approver : ar) {
+			if(approver.getCategoryId() == approverVO.getCategoryId()) {
+				if(approver.getDepartmentId() == approverVO.getDepartmentId()) {
+					if(approver.getJobId() == approverVO.getJobId()) {
+						check = true;
+					}
+				}	
+			}
+		}
+		
+		int result = 0;
+		
+		if(!check) {
+			result = approvalService.addApprover1(approverVO);
+		}
+		
+		return result;
+		
+	}
 	@PostMapping("deleteApprover")
 	@ResponseBody
 	public int deleteApprover(ApproverVO approverVO) throws Exception{
 		int result = approvalService.deleteApprover(approverVO);
-		
+		if(result > 0) {
+			approvalService.updateApproverDepth(approverVO);
+		}
 		return result;
 	}
 	
@@ -524,7 +551,14 @@ public class ApprovalController {
         System.out.println("===================3===========================");
         log.error("컨트롤러");
         int result = approvalService.setApprovalApplication(approvalVO, fileName,leaveRecordVO);
-		mv.setViewName("redirect:./myInformation");
+        String msg = "신청 실패";
+        if(result == 1) {
+        	msg="신청 완료";
+        }
+        mv.addObject("result", result);
+        mv.addObject("msg", msg);
+        mv.addObject("url", "./myInformation");
+        mv.setViewName("common/alert");
 		pw.close();
 		fw.close();
 		return mv;
@@ -715,7 +749,16 @@ public class ApprovalController {
         int result=approvalService.setApprovalApproval(memberVO, approvalVO, approval);
         
 		log.error("{} ::::::::::::", approval);
-		mv.setViewName("redirect:./information");
+		String msg = "승인 실패";
+        if(result == 1) {
+        	msg="승인 완료";
+        }
+		
+		 mv.addObject("result", result);
+	     mv.addObject("msg", msg);
+	     mv.addObject("url", "./information");
+	     mv.setViewName("common/alert");
+		
 		//mv.setViewName("approval/refuse");
 		pw.close();
         writer.close();
@@ -765,8 +808,19 @@ public class ApprovalController {
 		log.error("========================================{}====================================================",id1);
 		int result = approvalService.setApprovalDelete(id1,memberVO);
 		result = approvalService.setApprovalFileDelete(id1);
-		approvalService.setApprovalInfoDelete(id1);
-		mv.setViewName("redirect:./myInformation");
+		result=approvalService.setApprovalInfoDelete(id1);
+		
+		String msg = "삭제 실패";
+        if(result == 1) {
+        	msg="삭제 완료";
+        }
+		
+		
+		 mv.addObject("result", result);
+	     mv.addObject("msg", msg);
+	     mv.addObject("url", "./myInformation");
+	     mv.setViewName("common/alert");
+		
 		return mv;
 	}
 	@GetMapping("managerInformation")

@@ -176,7 +176,7 @@ $(document).on('click', '#addApprover', function(){
 		inputHtml = inputHtml + '<button class="btn btn-danger" id="deleteApprover" data-btn-type="단순삭제">삭제하기</button>';
 	}
 	
-	$(this).parent().append(inputHtml);
+	$(this).parent().children('#approver').last().after(inputHtml);
 })
 
 $(document).on('click', '#addApprover1', function(){
@@ -189,7 +189,7 @@ $(document).on('click', '#addApprover1', function(){
 	let temp = $(this);
 	$.ajax({
 		type:"POST",
-		url:"/approval/addApprover",
+		url:"/approval/addApprover1",
 		data :{
 			categoryId : categoryId,
 			departmentId : departmentId,
@@ -225,41 +225,46 @@ $(document).on('click', '#deleteApprover', function(){
 	let jobId = $(this).parent().children('#jobId').attr('data-job-id');
 	let temp = $(this).parent();
 	let temp2 = $(this).parent().parent();
-
-	if(length > 1){
-		if($(this).attr('data-btn-type') != "단순삭제"){
-			$.ajax({
-				type:"POST",
-				url:"/approval/deleteApprover",
-				data :{
-					categoryId : categoryId,
-					departmentId : departmentId,
-					jobId : jobId,
-					depth : approverDepth
-				},success : function(data){	
-					if(data == 0){
-						alert('오류');
-					}else{
-						alert('삭제 성공');
-						
-						temp.remove();
+	
+	if(!confirm("해당 결재자를 삭제하시겠습니까?")) {
+     	
+    }else{
+		if(length > 1){
+			if($(this).attr('data-btn-type') != "단순삭제"){
+				$.ajax({
+					type:"POST",
+					url:"/approval/deleteApprover",
+					data :{
+						categoryId : categoryId,
+						departmentId : departmentId,
+						jobId : jobId,
+						depth : approverDepth
+					},success : function(data){	
+						if(data == 0){
+							alert('오류');
+						}else{
+							alert('삭제 성공');
+							
+							temp.remove();
+						}
 					}
-				}
-			})
+				})
+			}else{
+				temp.remove();
+			}
+			if(approverDepth < lastDepth){
+				temp2.children('#approver').each(function(i,v){
+					if($(v).attr('data-approver-depth') > approverDepth){
+						$(v).attr('data-approver-depth', $(v).attr('data-approver-depth')*1 - 1);
+					}
+				})
+			}
 		}else{
-			temp.remove();
+			alert('결재자의 수는 최소 한명 이상이어야 합니다.');
 		}
-		if(approverDepth < lastDepth){
-			temp2.children('#approver').each(function(i,v){
-				if($(v).attr('data-approver-depth') > approverDepth){
-					$(v).attr('data-approver-depth', $(v).attr('data-approver-depth')*1 - 1);
-				}
-			})
-		}
-	}else{
-		alert('결재자의 수는 최소 한명 이상이어야 합니다.');
 	}
 })
+
 let upperOption = 0;
 $(document).on('click', '#addUnderOption', function(){
 	let inputHtml = '<tr>'
@@ -322,7 +327,7 @@ $(document).on('click', '#addUnderOption1', function(){
 	console.log(jobId);
 	console.log(departmentId);
 	
-	 if(!confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+	  if(!confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
      	
      }else{
      	$.ajax({
@@ -353,29 +358,11 @@ $(document).on('click', '#deleteOption', function(){
 	let id = $(this).parent().children('span').text().trim();
 	let text = $(this).parent().parent().children('td:first-child').children('span').text().trim();
 	deleteOptionNum = id;
-	if(text == '상위 옵션'){
-		$.ajax({
-			type : "POST",
-			url:"/approval/deleteCategory",
-			data : {
-				id : id
-			},
-			success : function(data){
-				if(data == 0){
-					alert('삭제 실패');
-				}else{
-					alert('삭제 성공');
-					window.location.reload();
-				}
-			}
-		})
-	}else{
-		let dataCount = $(this).parent().parent().attr('data-count');
 	
-    	let optionCount = $(this).parent().parent().parent().children('.underOption[data-count='+ dataCount +']').length;
-
-		if( optionCount != 1 ){
-			
+	if(!confirm("해당 옵션을 삭제하시겠습니까?")) {
+     	
+    }else{
+		if(text == '상위 옵션'){
 			$.ajax({
 				type : "POST",
 				url:"/approval/deleteCategory",
@@ -387,56 +374,81 @@ $(document).on('click', '#deleteOption', function(){
 						alert('삭제 실패');
 					}else{
 						alert('삭제 성공');
-						$(this).parent().parent().remove();
 						window.location.reload();
 					}
 				}
 			})
-			
-			
 		}else{
-			let inputHtml = '<td>' +
-							'<form id="uploadForm" enctype="multipart/form-data" method="post">' + 
-							'<input type="file" name="file" id="oriName">' + 
-	 						'<input type="hidden" name="fileName" id="fileName" >' +
-	 						'<button type="button" id="updateUpperOption" class="btn btn-primary">설정 완료</button>' +
-	 						'</form>' +
-							'</td>' +
-							'<td>' +
-							'<div id="approver" data-approver-count="1">' +
-							'<select id="deptIdSelect" class="deptId form-control">';
-							for(let i = 0; i < deptNameList.length; i ++){
-								if( i == 0 ){
-									inputHtml = inputHtml + '<option value="부서" selected>부서</option>';
-								}else{
-									inputHtml = inputHtml + '<option value="'+ deptIdList[i] +'">'+ deptNameList[i] +'</option>';
-								}
-							}
+			let dataCount = $(this).parent().parent().attr('data-count');
+		
+	    	let optionCount = $(this).parent().parent().parent().children('.underOption[data-count='+ dataCount +']').length;
 	
-			inputHtml = inputHtml + '</select>' +
-									'<button type="button" id="addApprover11" class="btn btn-primary">결재자 추가</button>' +
-									'<button type="button" id="deleteApprover" class="btn btn-danger">결재자 삭제</button>' +
-									'</div>' +
-									'</td>';
-			
-			$(this).parent().parent().prev().children('td').each(function(i,v){
-				if($(v).children().length == 0){
-					$(v).remove();
-				}
-			})
-			
-			$('.btn').each(function(i,v){
-				$(v).hide();
-			})
-			
-			$(this).parent().parent().prev().append(inputHtml);
-			
-			//$(this).parent().parent().parent().children('.upperOption[data-count='+ dataCount +']').append(inputHtml);
-			
-			$(this).parent().parent().remove();
-
+			if( optionCount != 1 ){
+				
+				$.ajax({
+					type : "POST",
+					url:"/approval/deleteCategory",
+					data : {
+						id : id
+					},
+					success : function(data){
+						if(data == 0){
+							alert('삭제 실패');
+						}else{
+							alert('삭제 성공');
+							$(this).parent().parent().remove();
+							window.location.reload();
+						}
+					}
+				})
+				
+				
+			}else{
+				let inputHtml = '<td>' +
+								'<form id="uploadForm" enctype="multipart/form-data" method="post">' + 
+								'<input type="file" name="file" id="oriName">' + 
+		 						'<input type="hidden" name="fileName" id="fileName" >' +
+		 						'<button type="button" id="updateUpperOption" class="btn btn-primary">설정 완료</button>' +
+		 						'</form>' +
+								'</td>' +
+								'<td>' +
+								'<div id="approver" data-approver-count="1">' +
+								'<select id="deptIdSelect" class="deptId form-control">';
+								for(let i = 0; i < deptNameList.length; i ++){
+									if( i == 0 ){
+										inputHtml = inputHtml + '<option value="부서" selected>부서</option>';
+									}else{
+										inputHtml = inputHtml + '<option value="'+ deptIdList[i] +'">'+ deptNameList[i] +'</option>';
+									}
+								}
+		
+				inputHtml = inputHtml + '</select>' +
+										'<button type="button" id="addApprover11" class="btn btn-primary">결재자 추가</button>' +
+										'<button type="button" id="deleteApprover" class="btn btn-danger">결재자 삭제</button>' +
+										'</div>' +
+										'</td>';
+				
+				$(this).parent().parent().prev().children('td').each(function(i,v){
+					if($(v).children().length == 0){
+						$(v).remove();
+					}
+				})
+				
+				$('.btn').each(function(i,v){
+					$(v).hide();
+				})
+				
+				$(this).parent().parent().prev().append(inputHtml);
+				
+				//$(this).parent().parent().parent().children('.upperOption[data-count='+ dataCount +']').append(inputHtml);
+				
+				$(this).parent().parent().remove();
+	
+			}
 		}
 	}
+	
+	
 })
 
 $(document).on('click', '#addApprover11', function(){
@@ -498,7 +510,43 @@ $(document).on('click', '#updateUpperOption', function(){
 				duplication = true;
 			}
 			if(duplication){
-				alert('중복된 파일명입니다.');
+				if(!confirm('중복된 파일명입니다. 덮어쓰시겠습니까?')) {
+     	
+			    }else{
+					$.ajax({
+						type : "post",
+						url : "/approval/updateUpperFile",
+						data : fileData,
+						contentType : false,
+				        processData : false,
+				        success : function(data){
+							$.ajax({
+								type : "post",
+								url : "/approval/updateUpperOptionApprover",
+								traditional : true,
+								data : {
+									categoryId : categoryId,
+									departmentId : deptId,
+									jobId : jobId
+								},
+								success : function(data){
+									$.ajax({
+										type : "POST",
+										url:"/approval/deleteUnderCategory",
+										data : {
+											id : deleteOptionNum
+										},
+										success : function(data){
+											alert('파일명 업데이트 성공');
+											window.location.reload();
+										}
+									})
+								}
+							})	
+						}
+					})
+				}
+				
 			}else{
 				$.ajax({
 					type : "post",
@@ -524,6 +572,7 @@ $(document).on('click', '#updateUpperOption', function(){
 										id : deleteOptionNum
 									},
 									success : function(data){
+										alert('파일명 업데이트 성공');
 										window.location.reload();
 									}
 								})
@@ -631,20 +680,39 @@ $(document).on('click', '#changeFile', function(){
 				duplication = true;
 			}
 			if(duplication){
-				alert('중복된 파일명입니다.');
+				if(!confirm('중복된 파일명입니다. 덮어쓰시겠습니까?')) {
+     	
+			    }else{
+					$.ajax({
+						type : "post",
+						url : "/approval/updateFormFile",
+						data : fileData,
+						contentType : false,
+				        processData : false,
+				        success : function(data){
+							alert(data);
+							let inputHtml = '<span>'+ formFile +'</span>'
+										 	+ '&nbsp<button class="btn btn-primary" id="updateFile">수정하기</button>'
+							$('.btn').each(function(i,v){
+								 $(v).show();
+							})
+							tempParent.html(inputHtml);
+						}
+					})
+				}
 			}else{
 				$.ajax({
 					type : "post",
 					url : "/approval/updateFormFile",
 					data : fileData,
 					contentType : false,
-			        processData : false,
-			        success : function(data){
+				    processData : false,
+				    success : function(data){
 						alert(data);
 						let inputHtml = '<span>'+ formFile +'</span>'
-									 	+ '&nbsp<button class="btn btn-primary" id="updateFile">수정하기</button>'
+									+ '&nbsp<button class="btn btn-primary" id="updateFile">수정하기</button>'
 						$('.btn').each(function(i,v){
-							 $(v).show();
+								$(v).show();
 						})
 						tempParent.html(inputHtml);
 					}

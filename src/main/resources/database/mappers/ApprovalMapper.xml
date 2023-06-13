@@ -4,7 +4,9 @@
 <mapper namespace="com.ware.group.approval.ApprovalDAO">
 	
 	
-	
+	<update id="updateApproverDepth" parameterType="ApproverVO">
+		update APPROVER set `depth` = `depth` - 1 where `depth` > #{depth}
+	</update>
 	
 	
 	<insert id="addCategory" parameterType="ApprovalCategoryVO" useGeneratedKeys="true" keyProperty="id">
@@ -12,6 +14,10 @@
 	</insert>
 	
 	<insert id="addApprover" parameterType="ApprovalCategoryVO">
+		INSERT INTO APPROVER (category_id, job_id, department_id, depth) VALUES (#{categoryId}, #{jobId}, #{departmentId}, #{depth})
+	</insert>
+	
+	<insert id="addApprover1" parameterType="ApprovalCategoryVO">
 		INSERT INTO APPROVER (category_id, job_id, department_id, depth) VALUES (#{categoryId}, #{jobId}, #{departmentId}, #{depth})
 	</insert>
 	
