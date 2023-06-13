@@ -524,7 +524,14 @@ public class ApprovalController {
         System.out.println("===================3===========================");
         log.error("컨트롤러");
         int result = approvalService.setApprovalApplication(approvalVO, fileName,leaveRecordVO);
-		mv.setViewName("redirect:./myInformation");
+        String msg = "신청 실패";
+        if(result == 1) {
+        	msg="신청 완료";
+        }
+        mv.addObject("result", result);
+        mv.addObject("msg", msg);
+        mv.addObject("url", "./myInformation");
+        mv.setViewName("common/alert");
 		pw.close();
 		fw.close();
 		return mv;
@@ -715,7 +722,16 @@ public class ApprovalController {
         int result=approvalService.setApprovalApproval(memberVO, approvalVO, approval);
         
 		log.error("{} ::::::::::::", approval);
-		mv.setViewName("redirect:./information");
+		String msg = "승인 실패";
+        if(result == 1) {
+        	msg="승인 완료";
+        }
+		
+		 mv.addObject("result", result);
+	     mv.addObject("msg", msg);
+	     mv.addObject("url", "./information");
+	     mv.setViewName("common/alert");
+		
 		//mv.setViewName("approval/refuse");
 		pw.close();
         writer.close();
@@ -765,8 +781,19 @@ public class ApprovalController {
 		log.error("========================================{}====================================================",id1);
 		int result = approvalService.setApprovalDelete(id1,memberVO);
 		result = approvalService.setApprovalFileDelete(id1);
-		approvalService.setApprovalInfoDelete(id1);
-		mv.setViewName("redirect:./myInformation");
+		result=approvalService.setApprovalInfoDelete(id1);
+		
+		String msg = "삭제 실패";
+        if(result == 1) {
+        	msg="삭제 완료";
+        }
+		
+		
+		 mv.addObject("result", result);
+	     mv.addObject("msg", msg);
+	     mv.addObject("url", "./myInformation");
+	     mv.setViewName("common/alert");
+		
 		return mv;
 	}
 	@GetMapping("managerInformation")
