@@ -33,7 +33,7 @@
 	    }
 	    .calendarColumnBox {
 	        width: 14.2857143%; /* 7일로 나누어 100%를 채움 */
-	        height: 100px; /* 세로 크기 고정 */
+	        height: 160px; /* 세로 크기 고정 */
 	        text-align: center;
 	        border: 1px solid #ccc;
 	        padding: 5px;
