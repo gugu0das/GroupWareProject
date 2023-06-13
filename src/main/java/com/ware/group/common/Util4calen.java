@@ -308,6 +308,22 @@ public class Util4calen {
 	   return returnDate;
 
    }
-  
+ //hh:mm AM/PM 형태
+ 	public static Time setTimeFormat(String timestr)throws Exception{
+
+ 		//공백 및 : 제거
+ 		timestr =timestr.replaceAll(":", "");
+ 		timestr= timestr.trim();
+ 		
+ 		int hour = Integer.valueOf(timestr.substring(0,2));
+ 		int min = Integer.valueOf(timestr.substring(2, 4));
+ 		String ap = timestr.substring(5);
+
+ 		if(ap.equals("PM")) {
+ 			hour = hour+12;
+ 		}
+ 		Time time = new Time(hour, min, 0);
+ 		return time;
+ 	}
    
 }

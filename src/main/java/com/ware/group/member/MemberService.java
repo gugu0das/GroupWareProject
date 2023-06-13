@@ -84,17 +84,24 @@ public class MemberService implements UserDetailsService{
 		return memberDAO.getMembers();
 	}
 
-	public int setMemeberJoin(MemberVO memberVO)throws Exception{
+	public int setMemeberJoin(MemberVO memberVO,WorkTimeVO workTimeVO)throws Exception{
 
+		
 		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 		int result =memberDAO.setMemberJoin(memberVO);
-
+		
 		//		role insert하기 
 		Map<String, Object> map = new HashMap<>();
 		map.put("roleId", 3);
 		map.put("memberId", memberVO.getId());
-
 		result =  memberDAO.setMemberRole(map);
+		
+		
+		//default workTimeVo 넣기
+		workTimeVO.setMemberId(memberVO.getId());
+		workTimeVO.setRegDate(memberVO.getHireDate());
+		memberDAO.setDefaultWorkAdd(workTimeVO);
+
 		return result;
 	}
 
@@ -436,4 +443,8 @@ public class MemberService implements UserDetailsService{
 
 		return workTimeStatusVO;
 	}
+	
+	
+	
+	//부품
 }
