@@ -58,7 +58,8 @@
 											<div class="col-md-2">
 												<label for="level">부서레벨</label> <select class="form-control"
 													name="level" id="level">
-													<c:forEach begin="0" end="${departmentVOs[0].nextLevel }" varStatus="i">
+													<c:forEach begin="0" end="${departmentVOs[0].nextLevel }"
+														varStatus="i">
 														<option value="${i.index}">${i.index}</option>
 													</c:forEach>
 												</select>
@@ -84,8 +85,26 @@
 												<button type="submit" class="btn btn-primary">부서추가</button>
 											</div>
 										</div>
-											
 
+
+									</div>
+								</div>
+							</form>
+							<form action="/manager/jobAdd" method="post">
+								<div class="card mb-4">
+									<div class="card-header">JOB Add</div>
+									<div class="card-body">
+										<label for="name">직책명</label>
+										<div class="mb-3 row">
+											<div class="col-7">
+
+												<input class="form-control" type="text" name="name">
+											</div>
+											<div class="col-5">
+
+												<button type="submit" class="btn btn-primary">직책추가</button>
+											</div>
+										</div>
 									</div>
 								</div>
 							</form>
