@@ -58,6 +58,16 @@
             justify-content: flex-start; /* 툴팁 내용을 위쪽 정렬로 설정 */
             white-space: nowrap; /* 툴팁 내용이 한 줄로 출력되도록 설정 */
         }
+        .calendarAddBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+        }
 	</style>
 <script>
 function fn_formSubmit(){
@@ -124,7 +134,7 @@ function calendarDayMouseout(){
                             </h1>
                         </div>
                         <div class="col-lg-2">
-                            <button class="btn btn-outline btn-primary" style="margin-top:20px;" onclick="fn_moveToURL('scheForm', '')" >일정추가</button>
+                            <div class="calendarAddBtn" onclick="fn_moveToURL('scheForm.');">일정 추가</div>
                         </div>
                     </div>
 
