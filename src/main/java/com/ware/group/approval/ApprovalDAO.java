@@ -14,7 +14,9 @@ import com.ware.group.util.Pager;
 @Mapper
 public interface ApprovalDAO {
 	
-public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
+	public int updateApproverDepth(ApproverVO approverVO) throws Exception;
+	
+	public int addCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public int addApprover(ApproverVO approverVO) throws Exception;
 	

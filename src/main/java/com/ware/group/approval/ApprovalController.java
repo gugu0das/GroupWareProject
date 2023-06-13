@@ -391,7 +391,9 @@ public class ApprovalController {
 	@ResponseBody
 	public int deleteApprover(ApproverVO approverVO) throws Exception{
 		int result = approvalService.deleteApprover(approverVO);
-		
+		if(result > 0) {
+			approvalService.updateApproverDepth(approverVO);
+		}
 		return result;
 	}
 	
