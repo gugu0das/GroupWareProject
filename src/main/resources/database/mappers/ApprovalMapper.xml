@@ -17,6 +17,10 @@
 		INSERT INTO APPROVER (category_id, job_id, department_id, depth) VALUES (#{categoryId}, #{jobId}, #{departmentId}, #{depth})
 	</insert>
 	
+	<insert id="addApprover1" parameterType="ApprovalCategoryVO">
+		INSERT INTO APPROVER (category_id, job_id, department_id, depth) VALUES (#{categoryId}, #{jobId}, #{departmentId}, #{depth})
+	</insert>
+	
 	<insert id="addApprovalFormFile" parameterType="ApprovalCategoryVO">
 		INSERT INTO APPROVALFORMFILE (category_id, file_name) VALUES (#{categoryId}, #{fileName})
 	</insert>

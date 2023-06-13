@@ -176,7 +176,7 @@ $(document).on('click', '#addApprover', function(){
 		inputHtml = inputHtml + '<button class="btn btn-danger" id="deleteApprover" data-btn-type="단순삭제">삭제하기</button>';
 	}
 	
-	$(this).parent().append(inputHtml);
+	$(this).parent().children('#approver').last().after(inputHtml);
 })
 
 $(document).on('click', '#addApprover1', function(){
@@ -189,7 +189,7 @@ $(document).on('click', '#addApprover1', function(){
 	let temp = $(this);
 	$.ajax({
 		type:"POST",
-		url:"/approval/addApprover",
+		url:"/approval/addApprover1",
 		data :{
 			categoryId : categoryId,
 			departmentId : departmentId,

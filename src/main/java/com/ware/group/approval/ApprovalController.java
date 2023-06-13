@@ -388,7 +388,30 @@ public class ApprovalController {
 		return result;
 		
 	}
-	
+	@PostMapping("addApprover1")
+	@ResponseBody
+	public int addApprover1(ApproverVO approverVO) throws Exception{
+		List<ApproverVO> ar = approvalService.getListApprover();
+		boolean check = false;
+		for(ApproverVO approver : ar) {
+			if(approver.getCategoryId() == approverVO.getCategoryId()) {
+				if(approver.getDepartmentId() == approverVO.getDepartmentId()) {
+					if(approver.getJobId() == approverVO.getJobId()) {
+						check = true;
+					}
+				}	
+			}
+		}
+		
+		int result = 0;
+		
+		if(!check) {
+			result = approvalService.addApprover1(approverVO);
+		}
+		
+		return result;
+		
+	}
 	@PostMapping("deleteApprover")
 	@ResponseBody
 	public int deleteApprover(ApproverVO approverVO) throws Exception{

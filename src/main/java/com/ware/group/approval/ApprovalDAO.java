@@ -20,6 +20,8 @@ public interface ApprovalDAO {
 	
 	public int addApprover(ApproverVO approverVO) throws Exception;
 	
+	public int addApprover1(ApproverVO approverVO) throws Exception;
+	
 	public int addApprovalFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception;
 	
 	public List<ApprovalCategoryVO> getCategoryOption() throws Exception;

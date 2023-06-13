@@ -94,9 +94,12 @@ public class ApprovalService {
 		return approvalDAO.addCategory(approvalCategoryVO);
 	}
 	public int addApprover(ApproverVO approverVO) throws Exception{
-	      approverVO.setDepth(approverVO.getDepth() + 1L);
-	      return approvalDAO.addApprover(approverVO);
-	   }
+		approverVO.setDepth(approverVO.getDepth() + 1L);
+		return approvalDAO.addApprover(approverVO);
+	}
+	public int addApprover1(ApproverVO approverVO) throws Exception{
+		return approvalDAO.addApprover(approverVO);
+	}
 	public int addApprovalFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
 		return approvalDAO.addApprovalFormFile(approvalFormFileVO);
 	}
