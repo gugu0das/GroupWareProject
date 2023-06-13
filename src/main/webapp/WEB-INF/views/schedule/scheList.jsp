@@ -70,6 +70,11 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        .calendarTitle {
+            margin-top: 20px;
+            font-size: 30px;
+            text-align: left;
+        }
 	</style>
 <script>
 function fn_formSubmit(){
@@ -128,23 +133,23 @@ function calendarDayMouseout(){
                     
                     <div class="row"> 
                         <div class="col-lg-10">
-                            <h1>
-                            <a href="#" onclick="fn_moveToURL('scheList?year=<c:out value="${searchVO.year}"/>&month=<c:out value="${searchVO.month-1}"/>', '')"><i class="fa fa-angle-left fa-fw"></i></a>
-                            
-                            <c:out value="${searchVO.year}"/>년 <c:out value="${searchVO.month}"/>월
-                            <a href="#" onclick="fn_moveToURL('scheList?year=<c:out value="${searchVO.year}"/>&month=<c:out value="${searchVO.month+1}"/>', '')"><i class="fa fa-angle-right fa-fw"></i></a>
+                            <h1 class="calendarTitle">
+                                <a href="#" onclick="fn_moveToURL('scheList?year=<c:out value="${searchVO.year}"/>&month=<c:out value="${searchVO.month-1}"/>', '')"><i class="fa fa-angle-left fa-fw"></i></a>
+                                
+                                <c:out value="${searchVO.year}"/>년 <c:out value="${searchVO.month}"/>월
+                                <a href="#" onclick="fn_moveToURL('scheList?year=<c:out value="${searchVO.year}"/>&month=<c:out value="${searchVO.month+1}"/>', '')"><i class="fa fa-angle-right fa-fw"></i></a>
                             </h1>
                         </div>
                         <div class="col-lg-2">
-                            <div class="calendarAddBtn" onclick="fn_moveToURL('scheForm.');">일정 추가</div>
+                            <div class="calendarAddBtn" onclick="fn_moveToURL('scheForm');">일정 추가</div>
                         </div>
                     </div>
 
-                    <div class="calendarRow" >
+                    <div class="calendarRow" style="margin-top: 30px;">
                         <c:forTokens var="item" items="일,월,화,수,목,금,토" delims=",">
                             <div class="calendarColumnHead">${item}</div>
                         </c:forTokens>
-                    </div> 
+                    </div>
 
                     <div class="calendarRow">
                         <c:forEach begin="1" end="${dayofweek}">
