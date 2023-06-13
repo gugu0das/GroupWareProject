@@ -266,7 +266,7 @@ public class ApprovalController {
 		ApprovalCategoryVO [] approvalCategoryVOs = gson.fromJson(json1, ApprovalCategoryVO[].class);
 		log.error("============");
 		log.error("============{}",approvalCategoryVOs.length);
-		
+		int result = 0;
 		
 		for(ApprovalCategoryVO approvalCategoryVO1 : approvalCategoryVOs) {
 			approvalCategoryVO1.setRef(0L);
@@ -290,7 +290,7 @@ public class ApprovalController {
 					}
 					for(ApprovalFormFileVO fileVO : approvalCategoryVO2.getFile()) {
 						fileVO.setCategoryId(approvalCategoryVO2.getId());
-						approvalService.addApprovalFormFile(fileVO);
+						result = approvalService.addApprovalFormFile(fileVO);
 					}
 				}
 			}
@@ -306,7 +306,9 @@ public class ApprovalController {
 //		}else {
 //			mv.setViewName("/approval/addCategory");
 //		}
-		mv.setViewName("redirect:./updateCategory");
+		mv.addObject("result", result);
+		mv.addObject("url", "/approval/updateCategory");
+		mv.setViewName("common/alert");
 		
 		return mv;
 	}
@@ -386,12 +388,37 @@ public class ApprovalController {
 		return result;
 		
 	}
-	
+	@PostMapping("addApprover1")
+	@ResponseBody
+	public int addApprover1(ApproverVO approverVO) throws Exception{
+		List<ApproverVO> ar = approvalService.getListApprover();
+		boolean check = false;
+		for(ApproverVO approver : ar) {
+			if(approver.getCategoryId() == approverVO.getCategoryId()) {
+				if(approver.getDepartmentId() == approverVO.getDepartmentId()) {
+					if(approver.getJobId() == approverVO.getJobId()) {
+						check = true;
+					}
+				}	
+			}
+		}
+		
+		int result = 0;
+		
+		if(!check) {
+			result = approvalService.addApprover1(approverVO);
+		}
+		
+		return result;
+		
+	}
 	@PostMapping("deleteApprover")
 	@ResponseBody
 	public int deleteApprover(ApproverVO approverVO) throws Exception{
 		int result = approvalService.deleteApprover(approverVO);
-		
+		if(result > 0) {
+			approvalService.updateApproverDepth(approverVO);
+		}
 		return result;
 	}
 	

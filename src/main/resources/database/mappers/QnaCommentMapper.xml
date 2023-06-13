@@ -7,13 +7,8 @@
 	
 	<sql id="commentCondition">
 		<trim prefix="where" suffixOverrides="and">
-			qna_id = #{qnaId} AND
-			<if test="kind == 'contents'">
-				CONTENTS LIKE CONCAT('%', #{search},'%')
-			</if>
-			<if test="kind == 'writer'">
-				WRITER LIKE CONCAT('%', #{search}, '%')
-			</if>		
+			qna_id = #{qnaId}
+					
 		</trim> 
 	</sql>
 	
@@ -30,8 +25,9 @@
 			      WHERE qna_id=#{qnaId}
 			   	 ) AS C
 				) AS D
-		WHERE R BETWEEN #{startRow} AND #{perPage}
+		
 		ORDER BY ref ,step,depth
+		LIMIT #{startRow}, #{perPage}
 	</select>
 	
 	<!-- <select id="getQnaCommentList" parameterType="Pager" resultType="QnaCommentVO" >
