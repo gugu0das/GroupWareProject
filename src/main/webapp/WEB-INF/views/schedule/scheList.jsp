@@ -28,7 +28,7 @@
 	        border: 1px solid #ccc;
 	        padding: 5px;
 	        box-sizing: border-box; /* padding이 width에 영향을 주지 않도록 함 */
-	        background-color: blue; /* 요일에 파란색 배경 추가 */
+	        background-color: #007bff;
 	        color: white; /* 글자색을 흰색으로 변경 */
 	    }
 	    .calendarColumnBox {
