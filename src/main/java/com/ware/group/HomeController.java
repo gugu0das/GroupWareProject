@@ -31,11 +31,11 @@ public class HomeController {
 	@GetMapping("/")
 	public ModelAndView home(ModelAndView mv, HttpServletRequest request,EmployeeStatusVO employeeStatusVO) throws Exception{
 		HttpSession session = request.getSession();
-//
-//		List<ApprovalCategoryVO> list0 = approvalService.getListCategoryRef0();
-//		List<ApprovalCategoryVO> list1 = approvalService.getListCategoryRef1();
-//		session.setAttribute("categoryList0", list0);
-//		session.setAttribute("categoryList1", list1);
+
+		List<ApprovalCategoryVO> list0 = approvalService.getListCategoryRef0();
+		List<ApprovalCategoryVO> list1 = approvalService.getListCategoryRef1();
+		session.setAttribute("categoryList0", list0);
+		session.setAttribute("categoryList1", list1);
 
 		//근태
 		employeeStatusVO =  memberService.getEmployeeStatus(session);
