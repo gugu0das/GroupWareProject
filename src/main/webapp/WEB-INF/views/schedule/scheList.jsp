@@ -38,6 +38,7 @@
 	        border: 1px solid #ccc;
 	        padding: 5px;
 	        box-sizing: border-box; /* padding이 width에 영향을 주지 않도록 함 */
+            font-size: 20px;
 	    }
 	    .calendarColumnSunDay {
 	        color: red;
@@ -46,6 +47,7 @@
 	        background-color: #f9f9f9;
 	        margin: 2px;
 	        padding: 2px;
+            font-size: 15px;
 	    }
         .calendarTooltip {
             position: absolute;
