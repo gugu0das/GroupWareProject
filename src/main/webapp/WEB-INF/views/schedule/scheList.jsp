@@ -23,6 +23,7 @@
 	        justify-content: flex-start; /* 좌우 간격 없이 붙임 */
 	    }
 	    .calendarColumnHead {
+            border-radius: 10px;
 	        width: 14.2857143%; /* 7일로 나누어 100%를 채움 */
 	        text-align: center;
 	        border: 1px solid #ccc;
@@ -30,8 +31,13 @@
 	        box-sizing: border-box; /* padding이 width에 영향을 주지 않도록 함 */
 	        background-color: #007bff;
 	        color: white; /* 글자색을 흰색으로 변경 */
+            font-size: 18px;
 	    }
+        .calendarColumnBox a {
+            color: black;
+        }
 	    .calendarColumnBox {
+            border-radius: 10px;
 	        width: 14.2857143%; /* 7일로 나누어 100%를 채움 */
 	        height: 160px; /* 세로 크기 고정 */
 	        text-align: center;
@@ -40,11 +46,14 @@
 	        box-sizing: border-box; /* padding이 width에 영향을 주지 않도록 함 */
             font-size: 20px;
 	    }
-	    .calendarColumnSunDay {
+        .calendarColumnSatDay a {
+            color: blue;
+        }
+	    .calendarColumnSunDay,
+        .calendarColumnSunDay a {
 	        color: red;
 	    }
 	    .calendarDay {
-	        background-color: #f9f9f9;
 	        margin: 2px;
 	        padding: 2px;
             font-size: 15px;
@@ -62,6 +71,8 @@
         }
         .calendarAddBtn {
             position: absolute;
+            margin: 40px;
+            margin-bottom: 10px;
             top: 10px;
             right: 10px;
             padding: 10px;
@@ -70,10 +81,26 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        .calendarHeader{
+            text-align: left;
+            color: gray;
+            margin: 20px;
+            margin-left: 40px;
+        }
         .calendarTitle {
-            margin-top: 20px;
+            color: gray;
+            margin: 40px;
+            margin-bottom: 10px;
             font-size: 30px;
             text-align: left;
+        }
+        .card {
+            border-radius: 30px;
+            margin: 40px;
+        }
+        .card-body {
+            border-radius: 10px;
+            margin: 40px;
         }
 	</style>
 <script>
@@ -112,7 +139,6 @@ function calendarDayMouseout(){
 	$(".calendarTooltip").hide();
 }
 </script>
-    
 </head>
 
 <body class="bg-gradient-primary">
@@ -123,83 +149,86 @@ function calendarDayMouseout(){
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <c:import url="../temp/topbar.jsp"></c:import>
-
                 <div id="page-wrapper">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1 class="page-header"><i class="fa fa-calendar fa-fw"></i> 월간 일정</h1>
+                            <h1 class="calendarHeader"></i> 월간 일정</h1>
                         </div>
                     </div>
-                    
-                    <div class="row"> 
-                        <div class="col-lg-10">
-                            <h1 class="calendarTitle">
-                                <a href="#" onclick="fn_moveToURL('scheList?year=<c:out value="${searchVO.year}"/>&month=<c:out value="${searchVO.month-1}"/>', '')"><i class="fa fa-angle-left fa-fw"></i></a>
-                                
-                                <c:out value="${searchVO.year}"/>년 <c:out value="${searchVO.month}"/>월
-                                <a href="#" onclick="fn_moveToURL('scheList?year=<c:out value="${searchVO.year}"/>&month=<c:out value="${searchVO.month+1}"/>', '')"><i class="fa fa-angle-right fa-fw"></i></a>
-                            </h1>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="calendarAddBtn" onclick="fn_moveToURL('scheForm');">일정 추가</div>
-                        </div>
-                    </div>
-
-                    <div class="calendarRow" style="margin-top: 30px;">
-                        <c:forTokens var="item" items="일,월,화,수,목,금,토" delims=",">
-                            <div class="calendarColumnHead">${item}</div>
-                        </c:forTokens>
-                    </div>
-
-                    <div class="calendarRow">
-                        <c:forEach begin="1" end="${dayofweek}">
-                            <div class="calendarColumnBox">
-                                <div class="calendarColumnDay"></div>
-                            </div> 
-                        </c:forEach>
-                        
-                        <c:forEach var="listview" items="${listview}" varStatus="status">
-                            <c:set var="calendardayofweek" value="${listview.calendardayofweek}"/>
-                            <c:if test='${calendardayofweek=="1"}'> 
-                                </div>
-                                <div class="calendarRow">
-                            </c:if>  
-                            
-                            <div class="calendarColumnBox">
-                                <div class="calendarColumnDay <c:if test='${listview.calendardayofweek=="1"}'>calendarColumnSunDay</c:if>">
-                                    <a href="scheForm?calendardate=<c:out value="${listview.calendardate}"/>"><c:out value="${listview.calendardd}"/></a>
-                                </div>
-                                <c:forEach var="items" items="${listview.list}" varStatus="status">
-                                    <div class="calendarDay" onmouseover="calendarDayMouseover(event, '<c:out value="${items.id}"/>', '<c:out value="${listview.calendardate}"/>')" onmouseout="calendarDayMouseout()">
-                                        <c:choose>
-                                            <c:when test="${items.id == null}">
-                                                <span style="color:<c:out value="${items.fontcolor}"/>"><c:out value="${items.title}"/></span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:if test='${items.usernum==sessionScope.usernum}'> 
-                                                    <a href="scheForm?id=<c:out value="${items.id}"/>&seq=<c:out value="${items.seq}"/>"><c:out value="${items.title}"/></a>
-                                                </c:if>
-                                                <c:if test='${items.id!=null and items.usernum!=sessionScope.usernum}'> 
-                                                    <a href="scheRead?id=<c:out value="${items.id}"/>&seq=<c:out value="${items.seq}"/>"><c:out value="${items.title}"/></a>
-                                                </c:if>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                </c:forEach>                                                              
+                    <div class="card">
+                        <div class="row"> 
+                            <div class="col-lg-10">
+                                <h1 class="calendarTitle">
+                                    <a href="#" onclick="fn_moveToURL('scheList?year=<c:out value="${searchVO.year}"/>&month=<c:out value="${searchVO.month-1}"/>', '')"><i class="fa fa-angle-left fa-fw"></i></a>
+                                    
+                                    <c:out value="${searchVO.year}"/>년 <c:out value="${searchVO.month}"/>월
+                                    <a href="#" onclick="fn_moveToURL('scheList?year=<c:out value="${searchVO.year}"/>&month=<c:out value="${searchVO.month+1}"/>', '')"><i class="fa fa-angle-right fa-fw"></i></a>
+                                </h1>
                             </div>
-                        </c:forEach> 
+                            <div class="col-lg-2">
+                                <div class="calendarAddBtn" onclick="fn_moveToURL('scheForm')">일정 추가</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="calendarRow">
+                                <c:forTokens var="item" items="일,월,화,수,목,금,토" delims=",">
+                                    <div class="calendarColumnHead">${item}</div>
+                                </c:forTokens>
+                            </div>
 
-                        <c:forEach begin="${calendardayofweek}" end="6">
-                            <div class="calendarColumnBox">
-                                <div class="calendarColumnDay"></div>
-                            </div> 
-                        </c:forEach>   
+                            <div class="calendarRow">
+                                <c:forEach begin="1" end="${dayofweek}">
+                                    <div class="calendarColumnBox">
+                                        <div class="calendarColumnDay"></div>
+                                    </div> 
+                                </c:forEach>
+                                
+                                <c:forEach var="listview" items="${listview}" varStatus="status">
+                                    <c:set var="calendardayofweek" value="${listview.calendardayofweek}"/>
+                                    <c:if test='${calendardayofweek=="1"}'> 
+                                        </div>
+                                        <div class="calendarRow">
+                                    </c:if>  
+                                    
+                                    <div class="calendarColumnBox">
+                                        <div class="calendarColumnDay 
+                                            <c:if test='${listview.calendardayofweek=="1"}'>calendarColumnSunDay</c:if>
+                                            <c:if test='${listview.calendardayofweek=="7"}'>calendarColumnSatDay</c:if>">
+                                            <a href="scheForm?calendardate=<c:out value="${listview.calendardate}"/>"><c:out value="${listview.calendardd}"/></a>
+                                        </div>
+                                        <c:forEach var="items" items="${listview.list}" varStatus="status">
+                                            <div class="calendarDay" onmouseover="calendarDayMouseover(event, '<c:out value="${items.id}"/>', '<c:out value="${listview.calendardate}"/>')" onmouseout="calendarDayMouseout()">
+                                                <c:choose>
+                                                    <c:when test="${items.id == null}">
+                                                        <span style="color:<c:out value="${items.fontcolor}"/>"><c:out value="${items.title}"/></span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:if test='${items.usernum==sessionScope.usernum}'> 
+                                                            <a href="scheForm?id=<c:out value="${items.id}"/>&seq=<c:out value="${items.seq}"/>"><c:out value="${items.title}"/></a>
+                                                        </c:if>
+                                                        <c:if test='${items.id!=null and items.usernum!=sessionScope.usernum}'> 
+                                                            <a href="scheRead?id=<c:out value="${items.id}"/>&seq=<c:out value="${items.seq}"/>"><c:out value="${items.title}"/></a>
+                                                        </c:if>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </c:forEach>                                                              
+                                    </div>
+                                </c:forEach> 
+
+                                <c:forEach begin="${calendardayofweek}" end="6">
+                                    <div class="calendarColumnBox">
+                                        <div class="calendarColumnDay"></div>
+                                    </div> 
+                                </c:forEach>   
+                            </div>
+                        </div>
                     </div>
-                    
                     <p>&nbsp;</p>
                     <p>&nbsp;</p>
-                    <p>&nbsp;</p> 
-                </div>
+                    <p>&nbsp;</p>
+                    </div>
+                
             </div>
 
             <!-- Footer -->
