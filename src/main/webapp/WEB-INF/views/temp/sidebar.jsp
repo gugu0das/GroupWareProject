@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  </head>
 <style>
     .upperCategory a{cursor:pointer;}
     .upperCategory .hide{display:none;}
@@ -144,3 +147,4 @@
 </ul>
 <!-- End of Sidebar -->
 
+<script type="text/javascript" src="/js/sidebar.js"></script>
