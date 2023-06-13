@@ -1,6 +1,7 @@
 package com.ware.group.common;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -42,8 +43,12 @@ public class ScheduleService {
 //	@Scheduled(cron = "1 * * * * *", zone = "Asia/Seoul") //test 1분마다 01초에 실행
 	public void setEmployeeWeekStatus() throws Exception{
 
+		LocalDate now = LocalDate.now();
+		java.sql.Date nowdate = Util4calen.setLocalDateToDate(now);
+		WorkTimeVO workTimeVO = new WorkTimeVO();
+		workTimeVO.setRegDate(nowdate);
 		//근무 가능한 사원들 리스트
-		List<MemberVO> ar = memberDAO.getStatusMembers();
+		List<MemberVO> ar = memberDAO.getStatusMembers(workTimeVO);
 		for(MemberVO memberVO:ar) {
 			EmployeeStatusVO employeeStatusVO = new EmployeeStatusVO();
 			employeeStatusVO.setMemberId(memberVO.getId());
@@ -51,7 +56,7 @@ public class ScheduleService {
 			memberDAO.setWorkNullDelete(employeeStatusVO);
 
 			// 2. 근무의 퇴근을 찍지 않은 데이터를 근무시간 off_TIme으로 지정하여 update
-			WorkTimeVO workTimeVO = new WorkTimeVO();
+			workTimeVO = new WorkTimeVO();
 			workTimeVO.setMemberId(memberVO.getId());
 			workTimeVO=memberDAO.getDefaultWork(workTimeVO);//기본근무시간
 			List<EmployeeStatusVO> offData = memberDAO.getNotOffTimeEmployee(employeeStatusVO);
