@@ -24,7 +24,9 @@ public class ApprovalService {
 	
 	@Autowired
 	private ApprovalDAO approvalDAO;
-	
+	public int updateApproverDepth(ApproverVO approverVO) throws Exception{
+		return approvalDAO.updateApproverDepth(approverVO);
+	}
 	public int addUpperFormFile(ApprovalFormFileVO approvalFormFileVO) throws Exception{
 		return approvalDAO.addUpperFormFile(approvalFormFileVO);
 	};
