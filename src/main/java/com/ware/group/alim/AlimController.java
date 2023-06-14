@@ -27,6 +27,8 @@ public class AlimController {
 	public AllimService allimService;
 	
 	
+	
+	
 	@GetMapping("/allimCount")
 	@ResponseBody
     public Long sse(HttpSession session) throws Exception {
@@ -48,11 +50,24 @@ public class AlimController {
 		log.error("========{}==========",c);
 		List<AllimVO> ar= allimService.getAllim(memberVO);
 		if(c >0) {
-			mv.addObject("c", 1);
+			mv.addObject("cc", 1);
 		}
 		mv.addObject("list", ar);
 		
 		mv.setViewName("common/allim");
+		return mv;
+	}
+	@GetMapping("/testsss")
+	public ModelAndView test() throws Exception{
+		ModelAndView mv = new ModelAndView();
+		
+		AllimVO allimVO = new AllimVO();
+		allimVO.setMemberId(6L);
+		allimVO.setType(1);
+		allimVO.setQnaId(null);
+		log.error(" qna{}",allimVO.getQnaId());
+		int result = allimService.setAllim(allimVO);
+		
 		return mv;
 	}
 	

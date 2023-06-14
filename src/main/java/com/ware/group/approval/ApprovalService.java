@@ -197,7 +197,7 @@ public class ApprovalService {
 					MemberVO memberVO = approvalDAO.memberDepart(approvalVO);
 					DepartmentVO departmentVO = approvalDAO.departManager(memberVO);
 					approvalInfoVO.setMemberId(departmentVO.getManager());
-					allimId=departmentVO.getManager();
+					allimId=approvalInfoVO.getMemberId();
 					result = approvalDAO.setApprovalInfo(approvalInfoVO);
 					
 					List<ApproverVO> ar = approvalDAO.getApprover(approvalVO);
@@ -217,16 +217,18 @@ public class ApprovalService {
 						
 						result = approvalDAO.setApprovalInfo(approvalInfoVO);
 						
-						AllimVO allimVO = new AllimVO();
-						allimVO.setMemberId(allimId);
-						allimVO.setType(1);
-						allimDAO.setAllim(allimVO);
+						
 						}
 					
 				}
 			}
 		}
-		
+		AllimVO allimVO = new AllimVO();
+		allimVO.setMemberId(allimId);
+		allimVO.setType(1);
+		allimVO.setQnaId(null);
+		log.error(" qna{}",allimVO.getQnaId());
+		result = allimDAO.setAllim(allimVO);
 		return result;
 	}
 	
@@ -291,6 +293,7 @@ public class ApprovalService {
 					AllimVO allimVO = new AllimVO();
 					allimVO.setMemberId(approvalVO.getMemberId());
 					allimVO.setType(2);
+					allimVO.setQnaId(null);
 					allimDAO.setAllim(allimVO);
 					}
 		}else {
@@ -316,6 +319,7 @@ public class ApprovalService {
 			AllimVO allimVO = new AllimVO();
 			allimVO.setMemberId(approvalVO.getMemberId());
 			allimVO.setType(2);
+			allimVO.setQnaId(null);
 			allimDAO.setAllim(allimVO);
 		}
 		

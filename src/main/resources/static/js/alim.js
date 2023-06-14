@@ -3,6 +3,7 @@ $(function () {
     $(document).on("click", "#show",function(){
         c++;
         $(this).remove();
+        
         $.ajax({
             type : "get",
             url : "/allim",
@@ -88,6 +89,7 @@ if(c<1){
                         console.log(result)
                         let a = $(".dropdown-header").parent();
                         $(".dropdown-header").parent().empty();
+                        a.append('<h6 class="dropdown-header">Alerts Center</h6>');
                         a.append(result);
                        
                             

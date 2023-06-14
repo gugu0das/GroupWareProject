@@ -31,4 +31,5 @@ public class AllimService {
 	public List<AllimVO> getAllim(MemberVO memberVO) throws Exception{
 		return allimDAO.getAllim(memberVO);
 	}
+	
 }

@@ -8,15 +8,15 @@
  <mapper namespace="com.ware.group.alim.AllimDAO">
  	
  	<select id="getAllimcount" parameterType="MemberVO" resultType="Long">
- 		SELECT COUNT(id)  FROM ALLIM WHERE member_id=#{id} WHERE check_yn = 0
+ 		SELECT COUNT(id)  FROM ALLIM WHERE member_id=#{id} AND check_yn = 0
  	</select>
  	<insert id="setAllim" parameterType="AllimVO">
- 		insert INTO ALLIM(member_id,`type`,start_date,check_yn,qna_id) VALUES(#{memberId},#{type},now(),0,#{qnaId})
+ 		INSERT INTO ALLIM(member_id,`type`,start_date,check_yn) VALUES(#{memberId},#{type},now(),0)
  	</insert>
  	<update id="setUpdateAllim" parameterType="Long">
  		UPDATE ALLIM SET check_yn=1, check_date=now() WHERE id=#{allimId}
  	</update>
  	<select id="getAllim" parameterType="MemberVO" resultType="AllimVO">
- 		SELECT *  FROM ALLIM WHERE member_id=#{id}
+ 		SELECT *  FROM ALLIM WHERE member_id=#{id} AND check_yn = 0
  	</select>
  </mapper>
