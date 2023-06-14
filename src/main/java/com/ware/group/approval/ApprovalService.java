@@ -2,11 +2,13 @@ package com.ware.group.approval;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ware.group.SSEController;
 import com.ware.group.alim.AllimDAO;
 import com.ware.group.alim.AllimVO;
 import com.ware.group.annual.LeaveRecordVO;
@@ -28,6 +30,9 @@ public class ApprovalService {
 	private ApprovalDAO approvalDAO;
 	@Autowired
 	private AllimDAO allimDAO;
+	
+	
+	
 	
 	public int updateApproverDepth(ApproverVO approverVO) throws Exception{
 		return approvalDAO.updateApproverDepth(approverVO);
@@ -162,9 +167,10 @@ public class ApprovalService {
 		return approvalDAO.getListCategory();
 	}
 	
-	public int setApprovalApplication(ApprovalVO approvalVO,String fileName,LeaveRecordVO leaveRecordVO) throws Exception{
+	public List<Integer> setApprovalApplication(ApprovalVO approvalVO,String fileName,LeaveRecordVO leaveRecordVO) throws Exception{
 		  System.out.println("=========================4=====================");
 		Long allimId=0L;
+		List<Integer> al = new ArrayList<>();
 		int result = approvalDAO.setApprovalApplication(approvalVO);
 		
 		if(result == 1) {
@@ -229,7 +235,9 @@ public class ApprovalService {
 		allimVO.setQnaId(null);
 		log.error(" qna{}",allimVO.getQnaId());
 		result = allimDAO.setAllim(allimVO);
-		return result;
+		al.add(result);
+		al.add(allimId.intValue());
+		return al;
 	}
 	
 	public List<ApprovalVO> getApprovalList(Pager pager) throws Exception{

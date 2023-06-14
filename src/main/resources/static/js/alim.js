@@ -61,7 +61,8 @@ $(function () {
         
     }) 
     
-if(c<1){
+    
+/*if(c<1){
     	timer = setInterval( function () {
             $.ajax({
                 type : "get",
@@ -102,5 +103,5 @@ if(c<1){
                 }) 
                 
                  },10000);
-                }
+                }*/
      });

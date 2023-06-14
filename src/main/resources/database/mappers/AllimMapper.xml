@@ -19,4 +19,8 @@
  	<select id="getAllim" parameterType="MemberVO" resultType="AllimVO">
  		SELECT *  FROM ALLIM WHERE member_id=#{id} AND check_yn = 0
  	</select>
+ 	
+ 	<select id="getRecentAllim" parameterType="MemberVO" resultType="AllimVO">
+ 		SELECT *  FROM ALLIM WHERE member_id=#{id} AND check_yn = 0 ORDER BY start_date LIMIT 1
+ 	</select>
  </mapper>

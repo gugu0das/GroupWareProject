@@ -576,17 +576,7 @@ to {
 	<!--Notice 공지사항 메인으로 빼는 기능-->
 	<script src="/js/noticeTop5.js"></script>
 	<script src="/js/SSE.js"></script>
-	<script type="text/javascript">
-		$('#sse').click(function(){
-			$.ajax({
-				type:"GET",
-				url:"/trigger-event",
-				,success : function(data){	
-					console.log(data);
-				}
-			})
-		})
-	</script>
+	
 
 </body>
 </html>

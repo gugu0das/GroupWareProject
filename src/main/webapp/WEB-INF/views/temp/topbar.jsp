@@ -168,7 +168,7 @@
 	
 	eventSource111.onmessage = function(event) {
 		let data = event.data;
-		console.log("Received data: " + data);
+		$(".al").text($(".al").text()*1+1);
 		// 수신한 데이터를 처리하고 원하는 동작을 수행합니다.
 	};
 </script>

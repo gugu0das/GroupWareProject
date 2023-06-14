@@ -16,5 +16,7 @@ public interface AllimDAO {
 	public int setUpdateAllim(Long allimId)throws Exception;
 	
 	public List<AllimVO> getAllim(MemberVO memberVO) throws Exception;
+	
+	public AllimVO getRecentAllim(MemberVO memberVO) throws Exception;
 
 }

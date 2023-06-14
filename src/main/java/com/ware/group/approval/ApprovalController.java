@@ -559,6 +559,8 @@ public class ApprovalController {
         mv.addObject("result", result);
         mv.addObject("msg", msg);
         mv.addObject("url", "./myInformation");
+        mv.addObject("SSEurl", "/trigger-event");
+        mv.addObject("name", al.get(1));
         mv.setViewName("common/alert");
 		pw.close();
 		fw.close();
