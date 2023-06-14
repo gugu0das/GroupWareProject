@@ -4,11 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
+
 <title>Modern Business - Start Bootstrap Template</title>
+<link rel="stylesheet" href="/css/noticeDesign.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <!-- css, favicon -->
 
 <!-- css, favicon -->
@@ -17,19 +21,27 @@
 	<main class="flex-shrink-0">
 	
    <c:import url="../temp/header2.jsp"></c:import>
-
+   	
        						
         							
         						
-        <!-- Page Content-->
-            <section class="py-5">
-                <div class="container px-5 my-5">
+
+    <div class="notice-container">
+    <h1 class="notice-title margin-top: 50px;">${noticeVO.title}</h1>
+    <div class="notice-writer">작성자: ${noticeVO.writer}</div>
+    <div class="notice-date">작성일: ${noticeVO.regDate}</div>
+    </div>
+    <div class="notice-container">
+    <div class="notice-contents">${noticeVO.contents}</div>
+    </div>     
+         <section class="py-5">
+                <div class="container px-5 my-3">
                     <div class="row gx-5">
                         <div class="col-lg-3">
                             <div class="d-flex align-items-center mt-lg-5 mb-4">
-                                <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
-                                <div class="ms-3">
-                                    <div class="fw-bold">작성자 : ${noticeVO.writer}</div>
+                                
+                              <div class="ms-3">
+                                    <div class="fw-bold"></div>
                                     
                                 </div>
                             </div>
@@ -40,9 +52,9 @@
                                 <!-- Post header-->
                                 <header class="mb-4">
                                     <!-- Post title-->
-                                    <h1 class="fw-bolder mb-1">제목 : ${noticeVO.title}</h1>
+                                   
                                     <!-- Post meta content-->
-                                    <div class="text-muted fst-italic mb-2">작성일 : ${noticeVO.regDate}</div>
+                                    <div class="text-muted fst-italic mb-2"></div>
                                     <!-- Post categories-->
                                     
                                 </header>
@@ -50,46 +62,36 @@
                                
                                 <!-- Post content-->
                                 <div class="mb-5">
-                                    내 용 : ${noticeVO.contents};                                                                           
-                                                            
-                              <%--  <img alt="zz" src="/file/notice/${noticeVO.boardFileVOs[0].fileName}">
-                               <img alt="z" src="/file/notice/${noticeVO.boardFileVOs[1].fileName}"> --%>
-                              <%--  <img alt="zd" src="/file/notice/${filess[0].fileName}">
-                               <img alt="zdd" src="/file/notice/${filess[1].fileName}"> --%>
                                      
                                      <c:forEach items="${noticeVO.boardFileVOs}" var="boardFileVO">
                                     	<c:if test="${boardFileVO ne null}">	
                                     	<img alt="2" src="/file/notice/${boardFileVO.fileName}">
-                                    	<%-- <img alt="3" src="/file/notice/${boardFileVO.fileName}">
-                                    	<img alt="4" src="/file/notice/${boardFileVO.fileName}"> --%>
-                                    	클릭시 다운로드 가능 : 
-                                    	<a href="./fileDown?id=${boardFileVO.id}">${boardFileVO.oriName}</a>
+                                    	<div>클릭시 다운로드 가능 : 
+                                    	<a href="./fileDown?id=${boardFileVO.id}">${boardFileVO.oriName}</a></div>
                                     	</c:if>
                                     </c:forEach>
                                  
                                     
                                 </div>
                             </article>
+                            <div>
                           	<c:if test="${memberVO.id eq noticeVO.memberId}">
                             <a class="btn btn-primary" href="./delete?id=${noticeVO.id}">글 삭제</a>
-                            
-                             
-                             
                             <a id="update" class="btn btn-outline-primary" href="./update?id=${noticeVO.id}">상품수정</a>
-                             
-                         	 </c:if>
-                       <button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
-                       
+                            </c:if>
+                       		<button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
+                       		</div>
                         </div>
                         
                     </div>
                 </div>
-            </section>
-        
-	</main>
+</section>
+</main>
+
 	
 	<!-- Footer -->
  <script src="/js/noticeImportant.js"></script>
+
     <!-- Footer -->
 </body>
 </html>

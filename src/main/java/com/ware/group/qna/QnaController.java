@@ -76,27 +76,6 @@ public class QnaController {
 			return mv;
 		}
 		
-//		@PostMapping("add")
-//		public ModelAndView setInsert(@Valid NoticeVO noticeVO, BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
-//			ModelAndView mv = new ModelAndView();
-//			
-//			if(bindingResult.hasErrors()) {
-//				log.warn("================ 검증 실패 ================");
-//				mv.setViewName("notice/add");
-//				System.out.println("여긴가지냐?");
-//				return mv;
-//			}
-//			System.out.println(files[0].getName());
-//			System.out.println(files[0].getOriginalFilename());
-//			for(MultipartFile multipartFile : files) {
-//				log.error("{} ::",multipartFile.getOriginalFilename());
-//				}
-//			int result = noticeService.setInsert(noticeVO, files);
-//			
-//			mv.setViewName("redirect:./list");
-//			
-//			return mv;
-//		}
 		
 		  @PostMapping("add") 
 		  public ModelAndView setInsert(@Valid QnaVO qnaVO,BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {

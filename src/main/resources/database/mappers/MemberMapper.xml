@@ -89,7 +89,11 @@
 	<select id="getJobList" resultType="JobVO">
 		select * from JOB
 	</select>
-
+<!-- jobAdd -->
+	<insert id="setJobAdd" parameterType="jobVO">
+		insert into JOB (name)
+	values(#{name})
+	</insert>
 
 
 

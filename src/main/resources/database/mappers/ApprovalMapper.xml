@@ -154,7 +154,9 @@
  		INSERT INTO APPROVALHISTORY(approval_id,member_id,date,`check`) VALUES(#{approvalId},#{memberId},now(),#{check})
  	</insert>
  	<select id="getApprovalInfo" parameterType="ApproverVO" resultType="MemberVO">
- 		SELECT * FROM MEMBER WHERE job_id=#{jobId} AND department_id = #{departmentId}
+ 		SELECT * FROM MEMBER WHERE job_id=#{jobId} AND department_id = #{departmentId} 
+ 		ORDER BY hire_date ASC
+ 		LIMIT 0,1;
  	</select>
  	<select id="getApprover" parameterType="ApprovalVO" resultType="ApproverVO">
  		SELECT * FROM APPROVER WHERE category_id=#{categoryId}
