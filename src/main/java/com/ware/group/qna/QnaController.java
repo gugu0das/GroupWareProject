@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ware.group.alim.AllimService;
 import com.ware.group.board.BoardFileVO;
 import com.ware.group.member.MemberVO;
 import com.ware.group.util.Pager;
@@ -32,7 +33,7 @@ public class QnaController {
 	private QnaService qnaService;
 	
 	@Autowired
-	private QnaCommentService qnaCommentService;
+	private AllimService allimService;
 	
 	@ModelAttribute("board")
 	public String getQna() {
@@ -111,13 +112,15 @@ public class QnaController {
 		
 		
 		@GetMapping("detail")
-		public ModelAndView getDetail(QnaVO qnaVO,HttpSession session) throws Exception {
+		public ModelAndView getDetail(QnaVO qnaVO,HttpSession session,Long allimId) throws Exception {
 			ModelAndView mv = new ModelAndView();
 			
 			Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 			SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 		    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-			
+		    if(allimId !=null) {
+				allimService.setUpdateAllim(allimId);
+			}
 			
 			qnaVO = (QnaVO)qnaService.getDetail(qnaVO);
 			
