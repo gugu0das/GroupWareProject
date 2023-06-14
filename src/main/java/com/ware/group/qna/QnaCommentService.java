@@ -27,7 +27,7 @@ public class QnaCommentService {
 		
 		return qnaCommentDAO.getQnaCommentList(pager);
 	}
-	
+	//그냥 댓글
 	public int setQnaCommentAdd(QnaCommentVO qnaCommentVO,MultipartFile[] multipartFiles,HttpSession session) throws Exception {
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
@@ -53,7 +53,7 @@ public class QnaCommentService {
 	}
 	
 	
-	//reply
+	//reply 대댓글
 	public int setReplyAdd(QnaCommentVO qnaCommentVO)throws Exception{
 		
 		 QnaCommentVO parent = (QnaCommentVO)qnaCommentDAO.getQnaCommentDetail(qnaCommentVO);
