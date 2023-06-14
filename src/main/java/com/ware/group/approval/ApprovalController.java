@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.ware.group.alim.AllimService;
 import com.ware.group.annual.LeaveRecordVO;
 
 import com.ware.group.department.DepartmentVO;
@@ -58,7 +59,7 @@ public class ApprovalController {
 	
 	
 	@Autowired
-	private MemberService memberService;
+	private AllimService allimService;
 
 	
 	@GetMapping("listCategory")
@@ -621,11 +622,14 @@ public class ApprovalController {
 //	}
 	@GetMapping("information")
 	//list
-	public ModelAndView getApprovalInformation(Pager pager,HttpSession session) throws Exception{
+	public ModelAndView getApprovalInformation(Pager pager,HttpSession session, Long allimId) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		if(allimId !=null) {
+			allimService.setUpdateAllim(allimId);
+		}
 		
 		
 		pager.setMemberId(memberVO.getId());
@@ -767,13 +771,15 @@ public class ApprovalController {
 	
 
 	@GetMapping("myInformation")
-	public ModelAndView getMyInformation(Pager pager,HttpSession session) throws Exception{
+	public ModelAndView getMyInformation(Pager pager,HttpSession session, Long allimId) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		pager.setMemberId(memberVO.getId());
-		
+		if(allimId !=null) {
+			allimService.setUpdateAllim(allimId);
+		}
 		
 		log.error("{}",pager.getConfirm());
 		if(pager.getConfirm()=="") {

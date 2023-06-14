@@ -58,7 +58,7 @@
 		<typeAlias type="com.ware.group.annual.LeaveRecordVO" alias="LeaveRecordVO"/>
 		<typeAlias type="com.ware.group.department.DepartmentVO" alias="DepartmentVO"/>
 		<typeAlias type="com.ware.group.annual.AnnualVO" alias="AnnualVO"/>
-		
+		<typeAlias type="com.ware.group.alim.AllimVO" alias="AllimVO"/>
 		
 	</typeAliases>
 	

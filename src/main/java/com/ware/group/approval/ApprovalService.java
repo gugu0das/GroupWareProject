@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ware.group.alim.AllimDAO;
+import com.ware.group.alim.AllimVO;
 import com.ware.group.annual.LeaveRecordVO;
 
 import com.ware.group.approval3.DocumentFilesVO;
@@ -24,6 +26,9 @@ public class ApprovalService {
 	
 	@Autowired
 	private ApprovalDAO approvalDAO;
+	@Autowired
+	private AllimDAO allimDAO;
+	
 	public int updateApproverDepth(ApproverVO approverVO) throws Exception{
 		return approvalDAO.updateApproverDepth(approverVO);
 	}
@@ -159,10 +164,7 @@ public class ApprovalService {
 	
 	public int setApprovalApplication(ApprovalVO approvalVO,String fileName,LeaveRecordVO leaveRecordVO) throws Exception{
 		  System.out.println("=========================4=====================");
-		log.error("들어옴");
-		log.error("들어와");
-		log.error("{}:::::::::::::::::::::::::::::::",leaveRecordVO.getCount());
-		log.error("{}:::::::::::::::::::::::::::::::",leaveRecordVO.getCount().TYPE);
+		Long allimId=0L;
 		int result = approvalDAO.setApprovalApplication(approvalVO);
 		
 		if(result == 1) {
@@ -181,18 +183,7 @@ public class ApprovalService {
 				result=approvalDAO.setApprovalApplicationHistory(approvalHistoryVO);
 				if(result == 1) {
 					//연차 기록에 결재 번호 입력
-					log.error("1{}::::::::::::",leaveRecordVO);
-					log.error("2{}::::::::::::",leaveRecordVO.getCount());
-					log.error("3{}::::::::::::",leaveRecordVO.getAnnualType());
-					log.error("4{}::::::::::::",leaveRecordVO.getApprovalId());
-					log.error("5{}::::::::::::",leaveRecordVO.getId());
-					log.error("6{}::::::::::::",leaveRecordVO.getMemberId());
-					log.error("7{}::::::::::::",leaveRecordVO.getReason());
-					log.error("8{}::::::::::::",leaveRecordVO.getType());
-					log.error("9{}::::::::::::",leaveRecordVO.getUseDate());
 					
-					log.error("{}::::::::::::",leaveRecordVO == null);
-					log.error("{}::::::::::::",leaveRecordVO != null);
 					if(leaveRecordVO.getCount() != null) {
 						leaveRecordVO.setApprovalId(approvalVO.getId());
 						leaveRecordVO.setMemberId(approvalVO.getMemberId());
@@ -206,6 +197,7 @@ public class ApprovalService {
 					MemberVO memberVO = approvalDAO.memberDepart(approvalVO);
 					DepartmentVO departmentVO = approvalDAO.departManager(memberVO);
 					approvalInfoVO.setMemberId(departmentVO.getManager());
+					allimId=departmentVO.getManager();
 					result = approvalDAO.setApprovalInfo(approvalInfoVO);
 					
 					List<ApproverVO> ar = approvalDAO.getApprover(approvalVO);
@@ -225,7 +217,11 @@ public class ApprovalService {
 						
 						result = approvalDAO.setApprovalInfo(approvalInfoVO);
 						
-					}
+						AllimVO allimVO = new AllimVO();
+						allimVO.setMemberId(allimId);
+						allimVO.setType(1);
+						allimDAO.setAllim(allimVO);
+						}
 					
 				}
 			}
@@ -292,6 +288,10 @@ public class ApprovalService {
 					
 //					result = approvalDAO.setApprovalUpdate(approvalVO);
 					result = approvalDAO.setAnnual(leaveRecordVO);
+					AllimVO allimVO = new AllimVO();
+					allimVO.setMemberId(approvalVO.getMemberId());
+					allimVO.setType(2);
+					allimDAO.setAllim(allimVO);
 					}
 		}else {
 			approvalHistoryVO.setCheck(ApprovalStatus.REFUSE);
@@ -313,6 +313,10 @@ public class ApprovalService {
 			approvalVO.setConfirm(ApprovalStatus.REFUSE);
 			
 			result = approvalDAO.setApprovalUpdate(approvalVO);
+			AllimVO allimVO = new AllimVO();
+			allimVO.setMemberId(approvalVO.getMemberId());
+			allimVO.setType(2);
+			allimDAO.setAllim(allimVO);
 		}
 		
 		
