@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="/main/resources/static/css/commentWriter.css" type="text/css">
 <style type="text/css">
 
-
 </style>
 <body>
 
@@ -34,8 +33,9 @@
 				<c:set var="loop_flag" value="true" />
 			</c:if>
 		</c:forEach>
-		<ul >
-		
+		<ul>
+		 
+
 		<li>${qnaCommentVO.writer}</li>
 		
 		<p>
@@ -62,8 +62,36 @@
 		<c:if test="${memberVO.accountId eq qnaCommentVO.writer}">
 		
 		<button type="button" class="btn btn-primary del" id="commentListResult" data-qna-qna="${qnaCommentVO.id}" style="width : 58px; height : 38px; ">삭제</button>
-
+		
 		<button type="button" class="btn btn-primary edit" id="contentsConfirm" data-comment-num="${qnaCommentVO.id}" >수정</button>
+		<button type="button" class="dropdown-toggle" id="dropdownButton" data-comment-data="${qnaCommentVO.id}" ><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="-4 -4 23 23" x="92" y="46"><defs><path id="q" d="M0 0h15v15H0z"/></defs><g fill="none" fill-rule="evenodd"><use fill="#FFF" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#q"/><path stroke="#E5E5E5" d="M.5.5h14v14H.5z"/><path fill="#777" d="M7.5 10L5 7h5z"/></g></svg>댓글보기</button>
+		<ul class="dropdown-menu">
+		<li><a class="dropdown-item" href="#">댓글</a></li>
+    	<li><a class="dropdown-item" href="#">댓글</a></li>
+   		<li><a class="dropdown-item" href="#">댓글</a></li>
+    	<li><hr class="dropdown-divider"></li>
+    	<li><a class="dropdown-item" href="#">댓글</a></li>
+		</ul>
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		<%--   <div class="input-group" style="width:auto">
+       <label for="content" class="form-label mt-4" hidden>댓글 작성</label>
+      <input type="text"  th:name="content" class="form-control" id="reply1" name="reply1">
+      <input type="hidden" th:name="parentId" th:value="${qnaCommentVO.id}"/>
+      <button type="submit" class="btn btn-outline-dark">답글작성</button>
+      <br>
+     </div> --%>
+		
+		
 		
 		</c:if>
 		</div>
@@ -113,13 +141,12 @@
 
 
 </form:form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
-
-
-
 <script src="/js/qnaReply.js"></script>
-
 </body>
 </html>
 

@@ -18,6 +18,8 @@ public class QnaCommentService {
 	@Autowired
 	private QnaCommentDAO qnaCommentDAO;
 	
+
+	
 	public List<QnaCommentVO> getQnaCommentList(Pager pager) throws Exception {
 		pager.makeStartRow();
 		

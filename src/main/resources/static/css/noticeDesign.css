@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+/* notice 부문 */
+.notice-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.notice-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        background-color: rgb(243, 29, 14);
+}
+
+.notice-writer {
+        font-weight: bold;
+}
+
+.notice-date {
+        color: #888;
+        font-style: italic;
+        margin-bottom: 10px;
+}
+
+.notice-contents {
+      margin-top: 20px;
+
+}
+
+/* qna 부문 */
+.qna-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.qna-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        background-color: rgb(205, 226, 12);
+}
+
+.qna-writer {
+        font-weight: bold;
+}
+
+.qna-date {
+        color: #888;
+        font-style: italic;
+        margin-bottom: 10px;
+}
+
+.qna-contents {
+      margin-top: 20px;
+
+}
+

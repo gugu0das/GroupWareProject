@@ -5,7 +5,57 @@ const replyAdd = document.getElementById("replyAdd");
 const replyContents = document.getElementById("replyContents");
 const commentListResult = document.getElementById("commentListResult")
 const contentsConfirm = document.getElementById("contentsConfirm")
+const dropdownButton = document.getElementById("dropdownButton")
 
+// $(document).ready(function() {
+//     console.log("시발")
+//     $('#dropdownButton').on('click', function() {
+//       $(this).siblings('.dropdown-menu').toggle();
+//     });
+//   });
+//  $(document).on("click",".dropdown-toggle",function(e) {
+//    console.log("클릭");
+    
+    
+//    $('#dropdownButton').on('click', function(){
+ 
+//         $(this).siblings('.dropdown-menu').toggle();
+//     });
+
+    
+// });
+$(document).on("click", "#dropdownButton", function(e) {
+    let dropdownMenu = $(this).siblings('.dropdown-menu');
+    dropdownMenu.toggle();
+    $(".edit").each(function(){
+        $(this).attr('disabled', true);
+    })
+    $(".upup").each(function(){
+        $(this).attr('disabled', true);
+    })
+    $("input").each(function (upup, item) {
+        if($(item).get()==$(this).get()){
+        }
+    })
+});
+
+
+// $(document).on("click", function(e) {
+//     let dropdownMenu = $(".dropdown-menu");
+//     if (!dropdownMenu.is(e.target) && dropdownMenu.has(e.target).length === 0) {
+//         dropdownMenu.hide();
+//         $(".edit").each(function(){
+//             $(this).attr('disabled', false);
+//         })
+//         $(".upup").each(function(){
+//             $(this).attr('disabled', false);
+//         })
+//         $("input").each(function (upup, item) {
+//             if($(item).get()==$(this).get()){
+//             }
+//         })
+//     }
+// });
 
 
 
@@ -178,7 +228,7 @@ $(document).on("click", ".clear",function() {
     });
 });
 
-
+//수정 버튼 클릭시
 $(document).on("click", ".edit", function(e) {
     
     $(this).addClass("clear");
@@ -207,7 +257,7 @@ $(".upup").each(function(){
 });
 
 
-
+//수정
 $("#updatebtn").click(function(){
     $(".change").each(function(index,data){
 
@@ -223,6 +273,7 @@ $("#updatebtn").click(function(){
     }
     
 })
+//페이저 처리
 $(document).on("click", ".page-link",function(){
     console.log("클릭");
     let on = $(this).attr('data-board-page');

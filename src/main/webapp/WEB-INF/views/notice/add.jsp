@@ -10,7 +10,17 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>Modern Business - Start Bootstrap Template</title>
+<style type="text/css">
+.fw-bolder {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
 
+</style>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100">
@@ -26,7 +36,7 @@
                         <div class="text-center mb-5">
                             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
                             <h1 class="fw-bolder">공지사항 글 쓰기</h1>
-                            <p class="lead fw-normal text-muted mb-0">공지사항 등록</p>
+                            <!-- <p class="lead fw-normal text-muted mb-0">공지사항 등록</p> -->
                         </div>
                         <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
@@ -36,21 +46,21 @@
 	                                    <div class="form-floating mb-3">
 	                                 
 	                                        <!-- <input class="form-control" id="title" name="title" type="text" placeholder="Enter Title..." data-sb-validations="required" /> -->
+	                                        <label for="title" class="fw">제목</label>
 	                                        <form:input path="title" id="title" cssClass="form-control"/>
-	                                        <label for="title">제목</label>
 	                                        <form:errors path="title"></form:errors>
 	                                        <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
 	                                    </div>
 	                                    <!-- writer input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="writer" name="writer" type="text" placeholder="Enter Title..." data-sb-validations="required,email" /> -->
+	                                        <label for="writer" class="fw">작성자</label>
 	                                        <form:input path="writer" id="writer" cssClass="form-control" readOnly="true" />
-	                                        <label for="writer">작성자</label>
 	                                        <form:errors path="writer"></form:errors>
 	                                        
 	                                   		
 	                                   		<div class="col-md-12 mt-3">
-												<label for="important" class="form-label strongFont2">중요표시</label> 
+												<label for="important" class="form-label strongFont2 fw">중요표시</label> 
 												<input type="checkbox" class="form-control" name="important" id="important">
 											</div>
 												
@@ -62,7 +72,7 @@
 	                                    <div class="form-floating mb-3" id="fileList">
 	                                   
 	                               			<div class="mb-3">
-	                                    	<label for="files" class="form-label">Image</label>
+	                                    	<label for="files" class="form-label fw">Image</label>
 	                                    	<!-- <input type="file" class="form-control" name="files" name="files"> -->
 	                                    	<!-- <button type="button">X</button> -->
 	                                    	</div>                          
@@ -70,8 +80,8 @@
 	                                    </div>
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">
+	                                    	<label for="contents fw">내용</label>
 	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
-	                                        <label for="contents">내용</label>
 	                                        <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
 	                                    </div>  
 	                                    

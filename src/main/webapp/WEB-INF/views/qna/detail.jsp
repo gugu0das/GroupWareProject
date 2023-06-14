@@ -15,15 +15,6 @@
 
 <link rel="stylesheet" href="/css/qnaReply.css">
 <link href="/css/commentWriter.css" rel="stylesheet">
-</head>
-<body class="d-flex flex-column h-100">
-	<main class="flex-shrink-0">
-		<!-- Navigation-->
-     <c:import url="../temp/header2.jsp"></c:import>
-
-<title>SB Admin 2 - Dashboard</title>
-  
-
 <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
 <link
@@ -32,12 +23,21 @@
 
 <!-- Custom styles for this template-->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/noticeDesign.css">
+</head>
+<body class="d-flex flex-column h-100">
+	<main class="flex-shrink-0">
+		<!-- Navigation-->
+     <c:import url="../temp/header2.jsp"></c:import>
 
-
-<style type="text/css">/* Chart.js */
-
-</style>   						
-        
+	<div class="qna-container">
+    <h1 class="qna-title margin-top: 50px;">${qnaVO.title}</h1>
+    <div class="qna-writer">작성자: ${qnaVO.writer}</div>
+    <div class="qna-date">작성일: ${qnaVO.regDate}</div>
+    </div>
+    <div class="qna-container">
+    <div class="qna-contents">${qnaVO.contents}</div>
+    </div>   
         				
       						
         <!-- Page Content-->
@@ -49,7 +49,7 @@
                             <div class="d-flex align-items-center mt-lg-5 mb-4">
                                 <!-- <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /> -->
                                 <div class="ms-3">
-                                    <div class="fw-bold">작성자 : ${qnaVO.writer}</div>
+                                    <div class="fw-bold"></div>
                                    	<%-- <div class="fw-bold">${memberVO.accountId}</div> --%>
                                     <!-- <div class="text-muted">커뮤니티 디테일</div> -->
                                 </div>
@@ -61,25 +61,25 @@
                                 <!-- Post header-->
                                 <header class="mb-4">
                                     
-                                    <h1 class="fw-bolder mb-1">제 목 :${qnaVO.title}</h1>
+                                    <h1 class="fw-bolder mb-1"></h1>
                                     
-                                    <div class="text-muted fst-italic mb-2">작성일 : ${qnaVO.regDate}</div>
+                                    <div class="text-muted fst-italic mb-2"></div>
                                     
                                   
                                </header>
                                 <!-- Preview image figure-->
                                 
                                 <!-- Post content-->
-                                <section class="mb-5">
-                                    내 용 : ${qnaVO.contents}
+                               <section class="mb-5">
+                                    
                                       
                                      
                                        <c:forEach items="${qnaVO.boardFileVOs}" var="boardFileVO">
                                     	
-                                    	사 진 :<img alt="2" src="/file/qna/${boardFileVO.fileName}">
-                                    	
+                                    	<img alt="2" src="/file/qna/${boardFileVO.fileName}">
+                                    	<div>
                                     	클릭시 다운로드 가능 :<a href="./fileDown?id=${boardFileVO.id}">${boardFileVO.oriName}</a>
-                                    	
+                                    	</div>
                                     </c:forEach>
                                     
                                 
@@ -88,9 +88,6 @@
                                
                             </article>
                              
-                            	<%-- <c:if test="${qnaDetail ne 'notice'}"> --%>
-                           
-                            	<%-- </c:if> --%>
                             <div class="mb-5" id="commentListResult">
                                 
                             </div>
@@ -116,6 +113,7 @@
                             <button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
                         </div>
                     </div>
+                </div>
                 </div>
             </section>
   

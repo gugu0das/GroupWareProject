@@ -57,7 +57,7 @@ public class NoticeController {
 	public ModelAndView getNoticeListTop(Pager pager)throws Exception{
 		ModelAndView mv = new ModelAndView();
 		pager.setPerPage(5L);
-		;
+	
 		List<NoticeVO> ar = noticeService.getList(pager);
 		
 		
@@ -74,7 +74,7 @@ public class NoticeController {
 		ModelAndView mv = new ModelAndView();
 		log.info("search : {}", pager.getSearch());
 		log.info("kind : {}", pager.getKind());
-		pager.setPerPage(5L);
+		pager.setPerPage(7L);
 		List<NoticeVO> ar = noticeService.getList(pager);
 		 log.error("{}",pager.isImportant());
 		/* log.error("{}",pager.getImportant()); */
@@ -104,27 +104,6 @@ public class NoticeController {
 		return mv;
 	}
 	
-//	@PostMapping("add")
-//	public ModelAndView setInsert(@Valid NoticeVO noticeVO, BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
-//		ModelAndView mv = new ModelAndView();
-//		
-//		if(bindingResult.hasErrors()) {
-//			log.warn("================ 검증 실패 ================");
-//			mv.setViewName("notice/add");
-//			System.out.println("여긴가지냐?");
-//			return mv;
-//		}
-//		System.out.println(files[0].getName());
-//		System.out.println(files[0].getOriginalFilename());
-//		for(MultipartFile multipartFile : files) {
-//			log.error("{} ::",multipartFile.getOriginalFilename());
-//			}
-//		int result = noticeService.setInsert(noticeVO, files);
-//		
-//		mv.setViewName("redirect:./list");
-//		
-//		return mv;
-//	}
 	@PostMapping("add")
 	public ModelAndView setInsert(@Valid NoticeVO noticeVO, BindingResult bindingResult, MultipartFile [] files,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -196,7 +175,11 @@ public class NoticeController {
 		log.error("{}",noticeVO.getId());
 		int result = noticeService.setDelete(noticeVO);
 		
-		mv.setViewName("redirect:./list");
+		
+		mv.addObject("result", result);
+		mv.addObject("url", "redirect:./list");
+		mv.setViewName("common/alert");
+		/* mv.setViewName("redirect:./list"); */
 		
 		return mv;
 	}
