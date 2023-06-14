@@ -15,15 +15,6 @@
 
 <link rel="stylesheet" href="/css/qnaReply.css">
 <link href="/css/commentWriter.css" rel="stylesheet">
-</head>
-<body class="d-flex flex-column h-100">
-	<main class="flex-shrink-0">
-		<!-- Navigation-->
-     <c:import url="../temp/header2.jsp"></c:import>
-
-<title>SB Admin 2 - Dashboard</title>
-  
-
 <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
 <link
@@ -32,12 +23,38 @@
 
 <!-- Custom styles for this template-->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/noticeDesign.css">
+<style>
+  .image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+  }
 
+  .image-container {
+    width: 200px; /* 이미지 컨테이너의 너비를 조정해주세요 */
+    margin-right: 10px; /* 이미지 사이의 간격을 조정해주세요 */
+  }
 
-<style type="text/css">/* Chart.js */
+  .gallery-image {
+    width: 100%; /* 이미지 크기를 100%로 조정 */
+    height: auto; /* 가로 비율에 맞춰 자동 조정 */
+  }
+</style>
+</head>
+<body class="d-flex flex-column h-100">
+	<main class="flex-shrink-0">
+		<!-- Navigation-->
+     <c:import url="../temp/header2.jsp"></c:import>
 
-</style>   						
-        
+	<div class="qna-container">
+    <h1 class="qna-title margin-top: 50px;">${qnaVO.title}</h1>
+    <div class="qna-writer">작성자: ${qnaVO.writer}</div>
+    <div class="qna-date">작성일: ${qnaVO.regDate}</div>
+    </div>
+    <div class="qna-container">
+    <div class="qna-contents">${qnaVO.contents}</div>
+    </div>   
         				
       						
         <!-- Page Content-->
@@ -47,50 +64,33 @@
                     <div class="row gx-5">
                         <div class="col-lg-3">
                             <div class="d-flex align-items-center mt-lg-5 mb-4">
-                                <!-- <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /> -->
+                              
                                 <div class="ms-3">
-                                    <div class="fw-bold">작성자 : ${qnaVO.writer}</div>
-                                   	<%-- <div class="fw-bold">${memberVO.accountId}</div> --%>
-                                    <!-- <div class="text-muted">커뮤니티 디테일</div> -->
+                                    <div class="fw-bold"></div>
+                                 
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-9">
                             <!-- Post content-->
-                            <article>
-                                <!-- Post header-->
-                                <header class="mb-4">
+                            <section class="mb-5">
                                     
-                                    <h1 class="fw-bolder mb-1">제 목 :${qnaVO.title}</h1>
-                                    
-                                    <div class="text-muted fst-italic mb-2">작성일 : ${qnaVO.regDate}</div>
-                                    
-                                  
-                               </header>
-                                <!-- Preview image figure-->
-                                
-                                <!-- Post content-->
-                                <section class="mb-5">
-                                    내 용 : ${qnaVO.contents}
                                       
                                      
                                        <c:forEach items="${qnaVO.boardFileVOs}" var="boardFileVO">
                                     	
-                                    	사 진 :<img alt="2" src="/file/qna/${boardFileVO.fileName}">
-                                    	
+                                    	 <div class="image-container">
+       									 <img alt="2" src="/file/qna/${boardFileVO.fileName}" class="gallery-image">
+       									 </div>
+                                    	<div>
                                     	클릭시 다운로드 가능 :<a href="./fileDown?id=${boardFileVO.id}">${boardFileVO.oriName}</a>
-                                    	
+                                    	</div>
                                     </c:forEach>
                                     
                                 
                                     
                                 </section>
-                               
-                            </article>
                              
-                            	<%-- <c:if test="${qnaDetail ne 'notice'}"> --%>
-                           
-                            	<%-- </c:if> --%>
                             <div class="mb-5" id="commentListResult">
                                 
                             </div>
@@ -116,6 +116,7 @@
                             <button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
                         </div>
                     </div>
+                </div>
                 </div>
             </section>
   
