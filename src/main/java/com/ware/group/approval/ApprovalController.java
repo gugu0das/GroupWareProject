@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.ware.group.SSEController;
 import com.ware.group.annual.LeaveRecordVO;
 
 import com.ware.group.department.DepartmentVO;
@@ -788,10 +789,13 @@ public class ApprovalController {
 		}else {
 			mv.addObject("name", "전체");
 		}
+		
 		mv.addObject("pager", pager);
 		mv.addObject("caa", pager.getConfirm());
 		mv.addObject("list", ar);
 		mv.setViewName("approval/myInformation");
+		
+		
 		return mv;
 	}
 	

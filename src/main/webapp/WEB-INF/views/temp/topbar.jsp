@@ -191,3 +191,12 @@
 
 </nav>
 <!-- End of Topbar -->
+<script>
+	let eventSource111 = new EventSource("/sse");
+	
+	eventSource111.onmessage = function(event) {
+		let data = event.data;
+		console.log("Received data: " + data);
+		// 수신한 데이터를 처리하고 원하는 동작을 수행합니다.
+	};
+</script>

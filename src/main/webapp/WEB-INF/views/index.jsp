@@ -73,7 +73,18 @@ to {
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 		<!-- sideBar -->
-		<c:import url="./temp/sidebar.jsp"></c:import>
+		<c:if test="">
+		
+		</c:if>
+		<c:choose>
+			<c:when test="${id != 'admin'}">
+				<c:import url="./temp/sidebar.jsp"></c:import>
+			</c:when>
+			<c:when test="${id == 'admin'}">
+				<c:import url="./temp/adminSidebar.jsp"></c:import>
+			</c:when>
+		</c:choose>
+		
 		<!-- sideBar -->
 
 
@@ -96,6 +107,7 @@ to {
 						<div class="col-xl-3 col-md-6 mb-4">
 							<div class="card border-left-primary shadow h-100 py-2">
 								<div class="card-body">
+									<button id="sse">sse test</button>
 									<form id="timeHistory" action="/member/statusUpdate"
 										method="post">
 										<div class="" id="timeStemp">
@@ -563,7 +575,18 @@ to {
 	<script src="/js/demo/datatables-demo.js"></script>
 	<!--Notice 공지사항 메인으로 빼는 기능-->
 	<script src="/js/noticeTop5.js"></script>
-
+	<script src="/js/SSE.js"></script>
+	<script type="text/javascript">
+		$('#sse').click(function(){
+			$.ajax({
+				type:"GET",
+				url:"/trigger-event",
+				,success : function(data){	
+					console.log(data);
+				}
+			})
+		})
+	</script>
 
 </body>
 </html>
