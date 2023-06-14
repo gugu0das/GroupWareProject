@@ -1,4 +1,6 @@
+let a= "show"
 
 $(document).on("click",".collapse-item",function(){
-    alert("클릭");
+    
+    $(this).parents(".collapse").addClass("show")
 })
