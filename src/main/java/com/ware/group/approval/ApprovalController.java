@@ -256,9 +256,9 @@ public class ApprovalController {
 		ModelAndView mv = new ModelAndView();
 		
 		boolean check = false;
-		
+		String fileName = "";
 		for(MultipartFile multipartFile : fileId) {
-			filemanger.saveFile(formFilePath + "/approvalFormFile", multipartFile);
+			fileName = filemanger.saveFile(formFilePath, multipartFile);
 		}
 		
 		
@@ -279,6 +279,7 @@ public class ApprovalController {
 				}
 				for(ApprovalFormFileVO fileVO : approvalCategoryVO1.getFile()) {
 					fileVO.setCategoryId(approvalCategoryVO1.getId());
+					fileVO.setFileName(fileName);
 					approvalService.addApprovalFormFile(fileVO);
 				}
 			}else {
@@ -627,17 +628,17 @@ public class ApprovalController {
 	//list
 	public ModelAndView getApprovalInformation(Pager pager,HttpSession session, Long allimId) throws Exception{
 		ModelAndView mv = new ModelAndView();
-//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-//		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-//		
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		
 		if(allimId !=null) {
 			allimService.setUpdateAllim(allimId);
 		}
 		
 		
-//		pager.setMemberId(memberVO.getId());
-		pager.setMemberId(0L);
+		pager.setMemberId(memberVO.getId());
+		//pager.setMemberId(0L);
 		mv.addObject("caa", pager.getCategoryId());
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
@@ -680,11 +681,11 @@ public class ApprovalController {
 	@PostMapping("information")
 	public ModelAndView getApprovalInformation(Pager pager,ModelAndView mv,HttpSession session) throws Exception{
 		
-//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-//		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-//		pager.setMemberId(memberVO.getId());
-		pager.setMemberId(0L);
+		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		pager.setMemberId(memberVO.getId());
+		//pager.setMemberId(0L);
 		
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
@@ -742,6 +743,7 @@ public class ApprovalController {
 		
 		log.error("들어오냐");
 		log.error("{}::::::::::",approval);
+		log.error("들어오냐 {}",approvalVO.getId());
 		PrintWriter pw = new PrintWriter(System.out, true);
         //파일 수정 모드 있는 파일을 불러오기
 		
@@ -758,7 +760,7 @@ public class ApprovalController {
         int result = al.get(0);
         log.error("{} ::::::::::::", approval);
 		String msg = "승인 실패";
-        if(result == 1) {
+        if(result > 0) {
         	msg="승인 완료";
         }
 		
