@@ -20,6 +20,11 @@
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
+    #fileAdd {
+        display: flex;
+        justify-content: center;
+    }
+
 </style>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
@@ -36,18 +41,18 @@
 				<c:import url="../temp/topbar.jsp"></c:import>
         <!-- Header-->
         <!-- Page content-->
-            <!-- <section class="py-5"> -->
+            
                 <div class="container px-5">
                     <!-- Contact form-->
                     <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                         <div class="text-center mb-5">
                             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
                             <h1 class="fw-bolder">공지사항 글 쓰기</h1>
-                            <!-- <p class="lead fw-normal text-muted mb-0">공지사항 등록</p> -->
+                          
                         </div>
                         <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
-                                <%-- <form id="contactForm" action="./add" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data"> --%>
+                               
                             	<form:form id="contactForm" modelAttribute="noticeVO" action="./add" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
 	                                    <!-- Title input-->
 	                                    <div class="form-floating mb-3">
@@ -72,18 +77,16 @@
 											</div>
 												
 	                                    </div>
-	                                    <!--  <div class="form-floating mb-3">
-	                                    	<input type="file" name="files"> 
-	                                    </div> -->
+	                                    
 	                                    
 	                                    <div class="form-floating mb-3" id="fileList">
 	                                   
 	                               			<div class="mb-3">
-	                                    	<label for="files" class="form-label fw">Image</label>
+	                                    	<label for="files" class="form-label fw">사진을 추가 하고싶으면 저를 클릭하세요</label>
 	                                    	<!-- <input type="file" class="form-control" name="files" name="files"> -->
 	                                    	<!-- <button type="button">X</button> -->
 	                                    	</div>                          
-	                                    	<button type="button" id="fileAdd">ADD</button>                                                                                            
+	                                    	<button type="button" id="fileAdd" class="btn btn-success">사진</button>                                                                                            
 	                                    </div>
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">
@@ -95,10 +98,10 @@
 	                                    
 	                                                            
 	                                    <div class="d-grid">
-	                                    <button class="btn btn-primary submitButton" id="update" type="submit">Submit</button></div>
+	                                    <button class="btn btn-success submitButton" id="update" type="submit">등록</button></div>
 
                                 	</form:form>   
-                                <%-- </form> --%>
+                              
                             </div>
                         </div>
                         </div>
@@ -106,7 +109,7 @@
                     </div>
                   
                 </div>
-           <!--  </section> -->
+      
         
         </div>
 

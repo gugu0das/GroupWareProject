@@ -7,6 +7,8 @@ $(".submitButton").on("click", function(){
     }
 })
 
+
+
 // $(document).ready(function() {
 //     $(".check-item").each(function() {
 //         if($(this).attr('data-num-important') == '1') {

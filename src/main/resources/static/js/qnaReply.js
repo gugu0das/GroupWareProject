@@ -179,6 +179,8 @@ function getList(){
     })
 }
 
+
+
 $("#commentListResult").on("click", ".del", function(e) {
     let id = $(this).attr("data-qna-qna");
 
@@ -197,6 +199,7 @@ $("#commentListResult").on("click", ".del", function(e) {
         }
     });
 });
+
 $(document).on("click", ".clear",function() {
     // 수정 완료 버튼 클릭 시 동작
     let id = $(this).attr("data-comment-num");

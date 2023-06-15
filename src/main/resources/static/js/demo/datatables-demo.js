@@ -5,7 +5,7 @@ $(document).ready(function() {
 		  ordering: false,
 		  info: false,
 		  paging: false,
-		  
+		  scrollX: false
 	  
   });
 });
