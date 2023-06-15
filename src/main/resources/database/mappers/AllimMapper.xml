@@ -11,7 +11,7 @@
  		SELECT COUNT(id)  FROM ALLIM WHERE member_id=#{id} AND check_yn = 0
  	</select>
  	<insert id="setAllim" parameterType="AllimVO">
- 		INSERT INTO ALLIM(member_id,`type`,start_date,check_yn) VALUES(#{memberId},#{type},now(),0)
+ 		INSERT INTO ALLIM(member_id,`type`,start_date,check_yn,qna_id) VALUES(#{memberId},#{type},now(),0,#{qnaId})
  	</insert>
  	<update id="setUpdateAllim" parameterType="Long">
  		UPDATE ALLIM SET check_yn=1, check_date=now() WHERE id=#{allimId}

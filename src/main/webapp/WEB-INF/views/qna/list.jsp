@@ -21,7 +21,8 @@
 
     <!-- Custom styles for this page -->
     <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+	<c:import url="../temp/header.jsp"></c:import>
+	<c:import url="../temp/style.jsp"></c:import>
 <style>
     .highlight {
         color: red;
@@ -29,11 +30,18 @@
 </style>    
 </head>
 
-<body id="page-top">
+<body id="bg-gradient-primary">
+<div id="wrapper">
+		<!-- sideBar -->
+		<c:import url="../temp/sidebar.jsp"></c:import>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<c:import url="../temp/topbar.jsp"></c:import>
 
     <!-- Page Wrapper -->
   <!--   <div id="wrapper"> -->
-<c:import url="../temp/header2.jsp"></c:import>
+
 
                 <!-- End of Topbar -->
 
@@ -147,7 +155,8 @@
  
 
 
-<script src="/js/commentUpdate.js"></script>
+<c:import url="../temp/logoutModal.jsp"></c:import>
+<c:import url="../temp/common_js.jsp"></c:import>
 </body>
 </html>
                                         

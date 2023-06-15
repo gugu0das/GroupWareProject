@@ -9,17 +9,26 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ware.group.alim.AllimDAO;
+import com.ware.group.alim.AllimVO;
 import com.ware.group.member.MemberVO;
 import com.ware.group.util.Pager;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class QnaCommentService {
 	
 	@Autowired
 	private QnaCommentDAO qnaCommentDAO;
 	
-
+	@Autowired 
+	private AllimDAO allimDAO;
+	@Autowired
+	private QnaDAO qnaDAO;
 	
+
 	public List<QnaCommentVO> getQnaCommentList(Pager pager) throws Exception {
 		pager.makeStartRow();
 		
@@ -32,10 +41,23 @@ public class QnaCommentService {
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-		
+	    QnaVO qnaVO = new QnaVO();
+	    qnaVO.setId(qnaCommentVO.getQnaId());
+	    qnaVO =qnaDAO.getDetail(qnaVO);
 		qnaCommentVO.setWriter(memberVO.getAccountId());
 		
+
+		AllimVO allimVO = new AllimVO();
+		allimVO.setMemberId(qnaVO.getMemberId());
+		allimVO.setQnaId(qnaCommentVO.getQnaId());
+		System.out.println("첫번쨰");
+		log.error("{}",allimVO);
+		System.out.println("쨰");
+		log.error("{}",qnaCommentVO.getQnaId());
+		allimVO.setType(3);
+		allimDAO.setAllim(allimVO);
 		return qnaCommentDAO.setQnaCommentAdd(qnaCommentVO);
+		
 	}
 	
 	public int setQnaCommentUpdate(QnaCommentVO qnaCommentVO) throws Exception {
@@ -54,11 +76,11 @@ public class QnaCommentService {
 	
 	
 	//reply 대댓글
-	public int setReplyAdd(QnaCommentVO qnaCommentVO)throws Exception{
+	public int setReplyAdd(QnaCommentVO qnaCommentVO,HttpSession session)throws Exception{
 		
 		 QnaCommentVO parent = (QnaCommentVO)qnaCommentDAO.getQnaCommentDetail(qnaCommentVO);
 		 //ref :  부모의 ref
-		qnaCommentVO.setQnaId(parent.getQnaId());
+		 qnaCommentVO.setQnaId(parent.getQnaId());
 		 System.out.println(parent);//여기부분에서 에러 발생
 		 qnaCommentVO.setRef(parent.getId());
 		 //step : 부모의 step+1
@@ -75,6 +97,26 @@ public class QnaCommentService {
 		 //3. 답글 insert
 		 result = qnaCommentDAO.setReplyAdd(qnaCommentVO);
 		 
+		 Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+		 SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+		 MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		 
+		    QnaVO qnaVO = new QnaVO();
+		    qnaVO.setId(qnaCommentVO.getQnaId());
+		    qnaVO =qnaDAO.getDetail(qnaVO);
+			qnaCommentVO.setWriter(memberVO.getAccountId());
+			
+
+			AllimVO allimVO = new AllimVO();
+			allimVO.setMemberId(qnaVO.getMemberId());
+			allimVO.setQnaId(qnaCommentVO.getQnaId());
+			/*
+			 * System.out.println("첫번쨰"); log.error("{}",allimVO); System.out.println("쨰");
+			 * log.error("{}",qnaCommentVO.getQnaId());
+			 */
+			allimVO.setType(4);
+			allimDAO.setAllim(allimVO);
+			
 		 return result;
 		 
 	 }

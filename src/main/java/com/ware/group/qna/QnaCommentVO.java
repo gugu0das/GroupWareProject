@@ -2,6 +2,7 @@ package com.ware.group.qna;
 
 import java.sql.Date;
 
+import com.ware.group.alim.AllimVO;
 import com.ware.group.member.MemberVO;
 
 import lombok.Getter;
@@ -20,4 +21,6 @@ public class QnaCommentVO {
 	private Long step;
 	private Long depth;
 	private MemberVO memberVO;
+	private AllimVO allimVO;
+	private QnaVO qnaVO;
 }

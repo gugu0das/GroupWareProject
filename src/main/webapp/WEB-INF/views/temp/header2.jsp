@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
 
 <!-- <body class="d-flex flex-column h-100"> -->
@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> 
     <title>SB Admin 2 - Dashboard</title>
 	<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -27,16 +27,19 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
 	<link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 <style type="text/css">/* Chart.js */
 @keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}
-</style>
-<style type="text/css">
-	.table-responsive {
+
+.table-responsive {
 	    overflow-x: hidden;
 	 }
+.upperCategory a{cursor:pointer;}
+.upperCategory .hide{display:none;} 
+
 </style>
+
 
 </head>
 
-<body id="page-top">
+
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -45,7 +48,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -71,23 +74,38 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>전자 문서</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">결제</a>
-                        <a class="collapse-item" href="buttons.html">휴가</a>
-                        <a class="collapse-item" href="buttons.html">경조사</a>
-                        <a class="collapse-item" href="buttons.html">결제</a>
-                        <a class="collapse-item" href="cards.html">확인</a>
-                    </div>
-                </div>
-            </li>
-
+	<li class="nav-item"><a class="nav-link collapsed" href="#"
+		data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+		aria-controls="collapseTwo"> <i class="fas fa-fw fa-cog"></i> <span>전자
+				문서</span>
+	</a>
+		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+			data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<h6 class="collapse-header">Custom Components:</h6>
+				<ul>
+					<c:forEach items="${categoryList0}" var="upper">
+						<li class="upperCategory">
+							<span class="collapse-item" id="${upper.id}"><a href="/approval/application?id=${upper.id}" class="link">${upper.name}</a></span>
+							<ul class="hide">
+								<c:forEach items="${categoryList1}" var="under">
+									<c:if test="${upper.id == under.ref}">
+										<li id="${under.id}"><a class="collapse-item" href="/approval/application?id=${under.id}">${under.name}</a></li>
+									</c:if> 
+								</c:forEach>
+							</ul>
+						</li>
+					</c:forEach>
+					<li>
+						<span class="collapse-item" id="information"><a href="/approval/information" class="link">결재 승인</a></span>
+					</li>
+					<li>
+						<span class="collapse-item" id="myInformation"><a href="/approval/myInformation" class="link">내 결재 정보</a></span>
+					</li>
+				</ul>
+			</div>
+		</div></li>
+			
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
@@ -121,14 +139,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
+                        
                         <a class="collapse-item" href="/notice/list">공지사항</a>
                         <a class="collapse-item" href="/qna/list">커뮤니티&QnA</a>
-                        <a class="collapse-item" href="#">??</a>
+                       
                         <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+
                     </div>
                 </div>
             </li>
@@ -215,18 +231,17 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
                         </li>
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                        <li class="nav-item dropdown no-arrow mx-1"><a
+			class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
+			role="button" data-toggle="dropdown" aria-haspopup="true"
+			aria-expanded="false"> <i class="fas fa-bell fa-fw aa"></i> <!-- Counter - Alerts -->
+				<span class="badge badge-danger badge-counter al"></span>
+		</a> <!-- Dropdown - Alerts -->
+			<div
+				class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+				aria-labelledby="alertsDropdown">
+				<h6 class="dropdown-header">Alerts Center</h6>
+                               <!--  <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
                                             <i class="fas fa-file-alt text-white"></i>
@@ -258,10 +273,10 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
                                         <div class="small text-gray-500">December 2, 2019</div>
                                         Spending Alert: We've noticed unusually high spending for your account.
                                     </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                </a> -->
+                               <!--  <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
-                        </li>
+                        </li> -->
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -417,11 +432,9 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
      
    <!-- <script src="/js/datatables-demo.js"></script>  -->
  
-   
-<script
-	src="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
-"></script>
+<script src="/js/alim.js"></script>  
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
 
 <script type="text/javascript">
 
@@ -436,7 +449,7 @@ $(document).ready(function() {
 	  });
 	});
 </script>
-</body>
-</html>
+
+
        
 

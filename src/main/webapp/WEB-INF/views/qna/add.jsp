@@ -11,14 +11,19 @@
 <meta name="author" content="" />
 <title>Modern Business - Start Bootstrap Template</title>
 <!-- css, favicon -->
-<%-- <c:import url="../temp/style.jsp"></c:import> --%>
+<c:import url="../temp/header.jsp"></c:import>
+<c:import url="../temp/style.jsp"></c:import>
 <!-- css, favicon -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 </head>
-<body class="d-flex flex-column h-100">
-	<main class="flex-shrink-0">
-		<!-- Navigation-->
-    <c:import url="../temp/header2.jsp"></c:import>
+<body id="bg-gradient-primary">
+<div id="wrapper">
+		<!-- sideBar -->
+		<c:import url="../temp/sidebar.jsp"></c:import>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<c:import url="../temp/topbar.jsp"></c:import>
         <!-- Header-->
         <!-- Page content-->
             <section class="py-5">
@@ -78,13 +83,12 @@
                     
                 </div>
             </section>
+         </div> </div> </div>
         
-        
-	</main>
 	
-	<!-- Footer -->
-    <%-- <c:import url="../temp/footer.jsp"></c:import> --%>
-    <!-- Footer -->
+	
+	<c:import url="../temp/logoutModal.jsp"></c:import>
+	<c:import url="../temp/common_js.jsp"></c:import>
     <script type="text/javascript" src="/js/boardForm.js"></script>
     <script type="text/javascript" src="/js/fileManger.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
