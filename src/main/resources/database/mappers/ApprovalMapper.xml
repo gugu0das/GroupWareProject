@@ -221,6 +221,8 @@
  	</update>
  	<select id="getInfoDetail" parameterType="ApprovalInfoVO" resultType="ApprovalInfoVO">
  		SELECT * FROM APPROVALINFO WHERE approval_id=#{approvalId} AND member_id=#{memberId}
+ 		
+ 		LIMIT 0,1;
  	</select>
  	 <select id="getInfoList" parameterType="ApprovalInfoVO"  resultType="ApprovalInfoVO">
  		SELECT * FROM APPROVALINFO WHERE approval_id=#{approvalId} AND depth=#{depth}

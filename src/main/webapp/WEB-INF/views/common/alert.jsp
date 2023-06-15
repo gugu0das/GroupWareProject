@@ -19,7 +19,7 @@
 
 </script>
 <script type="text/javascript">
-if(${result} == 1){
+if(${result} >0){
 	 Swal.fire({
 	      icon: 'success',
 	      title: '${msg}',
@@ -32,8 +32,6 @@ if(${result} == 1){
 	    	  }
 	    }).then(result => {
 	    	 if (result.isConfirmed) {
-	    		 location.href="${url}";
-	    		 /* let userId = 1; */
 	    		 let userId = ${name}
 	    		 $.ajax({
 	    		 	type:"GET",
@@ -44,8 +42,13 @@ if(${result} == 1){
 	    		 	},
 	    		 	success : function(data){	
 	    		 		console.log(data);
+	    		 		location.href="${url}";
 	    		 	}
 	    		 })
+	    		 
+	    		 
+	    		 /* let userId = 1; */
+	    		
 	    	 }
 	    });
 }else{

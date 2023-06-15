@@ -44,7 +44,7 @@ public class SSEController {
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		
-        String sessionId = memberVO.getAccountId();
+        String sessionId = memberVO.getId().toString();
         SseEmitter emitter = new SseEmitter();
         
         // 연결 저장소에 클라이언트 추가

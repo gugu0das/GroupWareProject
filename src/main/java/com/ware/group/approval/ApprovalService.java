@@ -256,6 +256,7 @@ public class ApprovalService {
 	}
 	public List<Integer> setApprovalApproval(MemberVO memberVO,ApprovalVO approvalVO,int approval) throws Exception{
 		int result;
+		Long allimId;
 		List<Integer> al = new ArrayList<>();
 		AllimVO allimVO = new AllimVO();
 		ApprovalHistoryVO approvalHistoryVO = new ApprovalHistoryVO();
@@ -280,8 +281,9 @@ public class ApprovalService {
 				if(approvalInfoVO != null) {
 					approvalInfoVO.setCheck(ApprovalStatus.APPROVALING);
 					result = approvalDAO.setInfoUpdate(approvalInfoVO);
-					
-					
+					log.error("제발 ::{}",approvalVO.getId());
+					log.error("제발2 ::{}",approvalVO.getMemberId());
+					allimId=approvalInfoVO.getMemberId();
 					allimVO.setMemberId(approvalInfoVO.getMemberId());
 					allimVO.setType(1);
 					allimVO.setQnaId(null);
@@ -290,7 +292,7 @@ public class ApprovalService {
 				}else {
 					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
 					result = approvalDAO.setApprovalUpdate(approvalVO);
-					
+					allimVO.setMemberId(approvalVO.getMemberId());
 					
 					LeaveRecordVO leaveRecordVO = new LeaveRecordVO();
 					leaveRecordVO.setApprovalId(approvalVO.getId());
@@ -302,12 +304,11 @@ public class ApprovalService {
 					leaveRecordVO.setType(ApprovalStatus.APPROVAL);
 					result = approvalDAO.setLeaverCode(leaveRecordVO);
 					}			
-					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
-					
-//					result = approvalDAO.setApprovalUpdate(approvalVO);
+					approvalVO = approvalDAO.getApprovalId(approvalVO);
 					result = approvalDAO.setAnnual(leaveRecordVO);
-					
-					allimVO.setMemberId(approvalVO.getMemberId());
+					log.error("제발 ::{}",approvalVO.getId());
+					log.error("제발2 ::{}",approvalVO.getMemberId());
+					allimId=approvalVO.getMemberId();
 					allimVO.setType(2);
 					allimVO.setQnaId(null);
 					allimDAO.setAllim(allimVO);
@@ -332,7 +333,10 @@ public class ApprovalService {
 			approvalVO.setConfirm(ApprovalStatus.REFUSE);
 			
 			result = approvalDAO.setApprovalUpdate(approvalVO);
-			
+			approvalVO = approvalDAO.getApprovalId(approvalVO);
+			allimId=approvalVO.getMemberId();
+			log.error("제발 ::{}",approvalVO.getId());
+			log.error("제발2 ::{}",approvalVO.getMemberId());
 			allimVO.setMemberId(approvalVO.getMemberId());
 			allimVO.setType(2);
 			allimVO.setQnaId(null);
@@ -341,7 +345,7 @@ public class ApprovalService {
 		
 		
 		al.add(result);
-		al.add(allimVO.getMemberId().intValue());
+		al.add(allimId.intValue());
 		return al;
 	}
 	public List<ApprovalVO> getMyApproval(Pager pager) throws Exception{
