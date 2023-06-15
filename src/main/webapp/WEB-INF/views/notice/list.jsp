@@ -23,16 +23,24 @@
 <!-- Custom styles for this template -->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+<c:import url="../temp/header.jsp"></c:import>
+<c:import url="../temp/style.jsp"></c:import>
+
 
 <!-- Custom styles for this page -->
 <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
-<body id="page-top">
+<body id="bg-gradient-primary">
+<div id="wrapper">
+		<!-- sideBar -->
+		<c:import url="../temp/sidebar.jsp"></c:import>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<c:import url="../temp/topbar.jsp"></c:import>
 
-
-	<c:import url="../temp/header2.jsp"></c:import>
 	
 	<div class="container-fluid">
 	
@@ -180,9 +188,11 @@
 	<!-- End of Footer -->
 
 	</div>
+	</div>
+	
 	<!-- End of Content Wrapper -->
 
-	</div>
+	
 	<!-- End of Page Wrapper -->
 
 	<!-- Scroll to Top Button-->
@@ -191,7 +201,8 @@
 	</a>
 
 	<script src="/js/noticeImportant.js"></script>
-
+	<c:import url="../temp/logoutModal.jsp"></c:import>
+	<c:import url="../temp/common_js.jsp"></c:import>
 </body>
 </html>
 

@@ -177,9 +177,9 @@ public class NoticeController {
 		
 		
 		mv.addObject("result", result);
-		mv.addObject("url", "redirect:./list");
-		mv.setViewName("common/alert");
-		/* mv.setViewName("redirect:./list"); */
+		//mv.addObject("url", "./list");
+		//mv.setViewName("common/alert");
+		mv.setViewName("redirect:./list"); 
 		
 		return mv;
 	}

@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
 
 <!-- <body class="d-flex flex-column h-100"> -->
@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> 
     <title>SB Admin 2 - Dashboard</title>
 	<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -27,16 +27,19 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
 	<link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 <style type="text/css">/* Chart.js */
 @keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}
-</style>
-<style type="text/css">
-	.table-responsive {
+
+.table-responsive {
 	    overflow-x: hidden;
 	 }
+.upperCategory a{cursor:pointer;}
+.upperCategory .hide{display:none;} 
+
 </style>
+
 
 </head>
 
-<body id="page-top">
+
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -71,22 +74,37 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>전자 문서</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">결제</a>
-                        <a class="collapse-item" href="buttons.html">휴가</a>
-                        <a class="collapse-item" href="buttons.html">경조사</a>
-                        <a class="collapse-item" href="buttons.html">결제</a>
-                        <a class="collapse-item" href="cards.html">확인</a>
-                    </div>
-                </div>
-            </li>
+	<li class="nav-item"><a class="nav-link collapsed" href="#"
+		data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+		aria-controls="collapseTwo"> <i class="fas fa-fw fa-cog"></i> <span>전자
+				문서</span>
+	</a>
+		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+			data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<h6 class="collapse-header">Custom Components:</h6>
+				<ul>
+					<c:forEach items="${categoryList0}" var="upper">
+						<li class="upperCategory">
+							<span class="collapse-item" id="${upper.id}"><a href="/approval/application?id=${upper.id}" class="link">${upper.name}</a></span>
+							<ul class="hide">
+								<c:forEach items="${categoryList1}" var="under">
+									<c:if test="${upper.id == under.ref}">
+										<li id="${under.id}"><a class="collapse-item" href="/approval/application?id=${under.id}">${under.name}</a></li>
+									</c:if> 
+								</c:forEach>
+							</ul>
+						</li>
+					</c:forEach>
+					<li>
+						<span class="collapse-item" id="information"><a href="/approval/information" class="link">결재 승인</a></span>
+					</li>
+					<li>
+						<span class="collapse-item" id="myInformation"><a href="/approval/myInformation" class="link">내 결재 정보</a></span>
+					</li>
+				</ul>
+			</div>
+		</div></li>
 			
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
@@ -414,11 +432,9 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
      
    <!-- <script src="/js/datatables-demo.js"></script>  -->
  
-<script src="/js/alim.js"></script>   
-<script
-	src="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
-"></script>
+<script src="/js/alim.js"></script>  
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
 
 <script type="text/javascript">
 
@@ -433,7 +449,7 @@ $(document).ready(function() {
 	  });
 	});
 </script>
-</body>
-</html>
+
+
        
 

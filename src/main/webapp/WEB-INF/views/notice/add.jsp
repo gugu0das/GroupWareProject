@@ -22,14 +22,21 @@
 
 </style>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+<c:import url="../temp/header.jsp"></c:import>
+<c:import url="../temp/style.jsp"></c:import>
 </head>
-<body class="d-flex flex-column h-100">
-	<main class="flex-shrink-0">
+<body id="bg-gradient-primary">
+<div id="wrapper">
 		<!-- Navigation-->
-     <c:import url="../temp/header2.jsp"></c:import>
+    	<c:import url="../temp/sidebar.jsp"></c:import>
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+		
+				<c:import url="../temp/topbar.jsp"></c:import>
         <!-- Header-->
         <!-- Page content-->
-            <section class="py-5">
+            <!-- <section class="py-5"> -->
                 <div class="container px-5">
                     <!-- Contact form-->
                     <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
@@ -94,18 +101,19 @@
                                 <%-- </form> --%>
                             </div>
                         </div>
+                        </div>
+                        </div>
                     </div>
-                    
+                  
                 </div>
-            </section>
+           <!--  </section> -->
         
-        
-	</main>
+        </div>
+
 	
-	<!-- Footer -->
-    <%-- <c:import url="../temp/footer.jsp"></c:import> --%>
-    <!-- Footer -->
-    
+	
+    <c:import url="../temp/logoutModal.jsp"></c:import>
+	<c:import url="../temp/common_js.jsp"></c:import>
     <script type="text/javascript" src="/js/boardForm.js"></script>
     <script type="text/javascript" src="/js/fileManger.js"></script>
     <script src="/js/noticeImportant.js"></script>

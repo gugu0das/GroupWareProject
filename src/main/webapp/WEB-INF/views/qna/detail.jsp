@@ -24,6 +24,9 @@
 <!-- Custom styles for this template-->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/css/noticeDesign.css">
+
+<c:import url="../temp/header.jsp"></c:import>
+<c:import url="../temp/style.jsp"></c:import>
 <style>
   .image-gallery {
     display: flex;
@@ -42,10 +45,15 @@
   }
 </style>
 </head>
-<body class="d-flex flex-column h-100">
-	<main class="flex-shrink-0">
-		<!-- Navigation-->
-     <c:import url="../temp/header2.jsp"></c:import>
+<body id="bg-gradient-primary">
+<div id="wrapper">
+		<!-- sideBar -->
+		<c:import url="../temp/sidebar.jsp"></c:import>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<c:import url="../temp/topbar.jsp"></c:import>
+     
 
 	<div class="qna-container">
     <h1 class="qna-title margin-top: 50px;">${qnaVO.title}</h1>
@@ -58,7 +66,7 @@
         				
       						
         <!-- Page Content-->
-            <section class="py-5">
+            
             
                 <div class="container px-5 my-5">
                     <div class="row gx-5">
@@ -118,14 +126,17 @@
                     </div>
                 </div>
                 </div>
-            </section>
+                 </div>
+                  </div>
+                      </div>
+                  
+       
   
-	</main>
+	
 	
 	<!-- Footer -->
  <script src="/js/qnaReply.js"></script>
-	
- <!-- <script src="/js/commentListResult.js"></script> -->
-    <!-- Footer -->
+ <c:import url="../temp/logoutModal.jsp"></c:import>
+ <c:import url="../temp/common_js.jsp"></c:import>
 </body>
 </html>
