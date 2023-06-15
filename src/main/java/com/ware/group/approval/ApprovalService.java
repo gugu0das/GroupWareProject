@@ -254,8 +254,10 @@ public class ApprovalService {
 	public ApprovalUploadFileVO getApprovalFile(ApprovalVO approvalVO) throws Exception{
 		return approvalDAO.getApprovalFile(approvalVO);
 	}
-	public int setApprovalApproval(MemberVO memberVO,ApprovalVO approvalVO,int approval) throws Exception{
+	public List<Integer> setApprovalApproval(MemberVO memberVO,ApprovalVO approvalVO,int approval) throws Exception{
 		int result;
+		List<Integer> al = new ArrayList<>();
+		AllimVO allimVO = new AllimVO();
 		ApprovalHistoryVO approvalHistoryVO = new ApprovalHistoryVO();
 		approvalHistoryVO.setMemberId(memberVO.getId());
 		approvalHistoryVO.setApprovalId(approvalVO.getId());
@@ -279,6 +281,12 @@ public class ApprovalService {
 					approvalInfoVO.setCheck(ApprovalStatus.APPROVALING);
 					result = approvalDAO.setInfoUpdate(approvalInfoVO);
 					
+					
+					allimVO.setMemberId(approvalInfoVO.getMemberId());
+					allimVO.setType(1);
+					allimVO.setQnaId(null);
+					allimDAO.setAllim(allimVO);
+					
 				}else {
 					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
 					result = approvalDAO.setApprovalUpdate(approvalVO);
@@ -298,7 +306,7 @@ public class ApprovalService {
 					
 //					result = approvalDAO.setApprovalUpdate(approvalVO);
 					result = approvalDAO.setAnnual(leaveRecordVO);
-					AllimVO allimVO = new AllimVO();
+					
 					allimVO.setMemberId(approvalVO.getMemberId());
 					allimVO.setType(2);
 					allimVO.setQnaId(null);
@@ -324,7 +332,7 @@ public class ApprovalService {
 			approvalVO.setConfirm(ApprovalStatus.REFUSE);
 			
 			result = approvalDAO.setApprovalUpdate(approvalVO);
-			AllimVO allimVO = new AllimVO();
+			
 			allimVO.setMemberId(approvalVO.getMemberId());
 			allimVO.setType(2);
 			allimVO.setQnaId(null);
@@ -332,9 +340,9 @@ public class ApprovalService {
 		}
 		
 		
-
-		
-		return result;
+		al.add(result);
+		al.add(allimVO.getMemberId().intValue());
+		return al;
 	}
 	public List<ApprovalVO> getMyApproval(Pager pager) throws Exception{
 		

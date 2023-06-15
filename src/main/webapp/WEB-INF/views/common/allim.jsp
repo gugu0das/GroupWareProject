@@ -49,7 +49,7 @@
 				
 				<c:when test="${vo.type eq 4}">
 				
-					 <a class="dropdown-item d-flex align-items-center" href="/qna/detail?id=${vo.qnaId}&& allimId=${vo.id}">
+					 <a class="dropdown-item d-flex align-items-center" href="/qna/detail?id=${vo.qnaId}&&allimId=${vo.id}">
 				
 					<div>
 						<div class="small text-gray-500">${vo.startDate }</div>
@@ -107,7 +107,7 @@
 				
 				<c:when test="${vo.type eq 4}">
 				
-					 <a class="dropdown-item d-flex align-items-center" href="/qna/detail?id=${vo.qnaId}&& allimId=${vo.id}">
+					 <a class="dropdown-item d-flex align-items-center" href="/qna/detail?id=${vo.qnaId}&&allimId=${vo.id}">
 				
 					<div>
 						<div class="small text-gray-500">${vo.startDate }</div>

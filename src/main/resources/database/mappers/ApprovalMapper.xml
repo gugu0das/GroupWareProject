@@ -184,7 +184,7 @@
  		</if>
  		<if test="categoryId !=null">
  			AND category_id=#{categoryId}
- 			OR `ref`=#{categoryId}
+ 			 OR `ref`=#{categoryId} 
  		</if>
 		ORDER BY a.ID DESC
 		LIMIT #{startRow}, #{perPage}

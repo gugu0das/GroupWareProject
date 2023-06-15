@@ -539,20 +539,21 @@ public class ApprovalController {
         PrintWriter pw = new PrintWriter(System.out, true);
         String fileName = UUID.randomUUID().toString();
         fileName=fileName+".html";
-        System.out.println("==================1============================");
+        
         File file = new File(basePaths+"/approval");
         if(!file.exists()) {
 			file.mkdirs();
 		}
         PrintWriter fw = new PrintWriter(new FileOutputStream(basePaths+"approval/"+fileName));
         fw.println(dd);
-        System.out.println("===================2===========================");
+        
         //is.close(); //입력 스트림 닫기
         //br.close(); //출력스트림 닫기
-        System.out.println("===================3===========================");
+        
         log.error("컨트롤러");
-        int result = approvalService.setApprovalApplication(approvalVO, fileName,leaveRecordVO);
+        List<Integer> al = approvalService.setApprovalApplication(approvalVO, fileName,leaveRecordVO);
         String msg = "신청 실패";
+        int result = al.get(0);
         if(result == 1) {
         	msg="신청 완료";
         }
@@ -626,16 +627,17 @@ public class ApprovalController {
 	//list
 	public ModelAndView getApprovalInformation(Pager pager,HttpSession session, Long allimId) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+//		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+//		
 		if(allimId !=null) {
 			allimService.setUpdateAllim(allimId);
 		}
 		
 		
-		pager.setMemberId(memberVO.getId());
-//		pager.setMemberId(0L);
+//		pager.setMemberId(memberVO.getId());
+		pager.setMemberId(0L);
 		mv.addObject("caa", pager.getCategoryId());
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
@@ -678,11 +680,11 @@ public class ApprovalController {
 	@PostMapping("information")
 	public ModelAndView getApprovalInformation(Pager pager,ModelAndView mv,HttpSession session) throws Exception{
 		
-		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-		pager.setMemberId(memberVO.getId());
-		//pager.setMemberId(0L);
+//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
+//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
+//		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+//		pager.setMemberId(memberVO.getId());
+		pager.setMemberId(0L);
 		
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
@@ -752,9 +754,9 @@ public class ApprovalController {
         //br.close(); //출력스트림 닫기
         
         
-        int result=approvalService.setApprovalApproval(memberVO, approvalVO, approval);
-        
-		log.error("{} ::::::::::::", approval);
+        List<Integer> al =approvalService.setApprovalApproval(memberVO, approvalVO, approval);
+        int result = al.get(0);
+        log.error("{} ::::::::::::", approval);
 		String msg = "승인 실패";
         if(result == 1) {
         	msg="승인 완료";
@@ -763,6 +765,8 @@ public class ApprovalController {
 		 mv.addObject("result", result);
 	     mv.addObject("msg", msg);
 	     mv.addObject("url", "./information");
+	     mv.addObject("SSEurl", "/trigger-event");
+	     mv.addObject("name", al.get(1));
 	     mv.setViewName("common/alert");
 		
 		//mv.setViewName("approval/refuse");

@@ -1,5 +1,5 @@
 $('#sse').click(function(){
-	let userId = 4;
+	let userId = 1;
 	let eventData = "알림이 왔습니다.";
 	$.ajax({
 		type:"GET",
