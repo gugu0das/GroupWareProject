@@ -17,7 +17,6 @@
 
     <!-- Custom styles for this template -->
   	<link href="/css/sb-admin-2.min.css" rel="stylesheet">
-   <!--  <link href="/css/sb-admin-2.css" rel="stylesheet"> -->
 
     <!-- Custom styles for this page -->
     <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -27,7 +26,11 @@
     .highlight {
         color: red;
     }
-</style>    
+   .table-responsive {
+       overflow-x: hidden;
+    }
+</style>
+  
 </head>
 
 <body id="bg-gradient-primary">
@@ -150,13 +153,20 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-	
- 
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+ <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+ <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
  
 
 
 <c:import url="../temp/logoutModal.jsp"></c:import>
+<script src="/js/dataTable.js"></script>
+<script src="/js/noticeImportant.js"></script>
 <c:import url="../temp/common_js.jsp"></c:import>
+
+
 </body>
 </html>
                                         

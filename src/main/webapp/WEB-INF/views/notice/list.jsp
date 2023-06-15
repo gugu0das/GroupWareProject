@@ -14,21 +14,22 @@
 <title>SB Admin 2 - Notice</title>
 
 <!-- Custom fonts for this template -->
-<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
-	type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
+<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-<!-- Custom styles for this template -->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-
+ 
 <c:import url="../temp/header.jsp"></c:import>
 <c:import url="../temp/style.jsp"></c:import>
 
-
+<style>
+   .table-responsive {
+       overflow-x: hidden;
+    }
+</style>
 <!-- Custom styles for this page -->
-<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<!-- <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
 
 </head>
 
@@ -56,7 +57,8 @@
 				<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 					<div class="row">
 						<div class="col-sm-12 col-md-6">
-							<div id="dataTable_filter" class="dataTables_filter">
+						
+							<div id="dataTable_filter" class="dataTables_filter" style="display: flex; justify-content: flex-end;">
 							
 							</div>
 						</div>
@@ -199,10 +201,19 @@
 	<a class="scroll-to-top rounded" href="#page-top"> <i
 		class="fas fa-angle-up"></i>
 	</a>
+	
+	<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-	<script src="/js/noticeImportant.js"></script>
+ <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+ <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
 	<c:import url="../temp/logoutModal.jsp"></c:import>
+	
+	<script src="/js/dataTable.js"></script>
+	<script src="/js/noticeImportant.js"></script>
 	<c:import url="../temp/common_js.jsp"></c:import>
+	
 </body>
 </html>
 
