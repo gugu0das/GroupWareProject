@@ -64,7 +64,7 @@ public class ManagerController {
 	@PostMapping("initSecurity")
 	public ModelAndView initSecurity(ModelAndView mv, MemberVO memberVO)throws Exception{
 
-		 int result = memberService.setPasswordUpdateinit(memberVO);
+		 int result = memberService.setPasswordUpdate(memberVO);
 		
 		CommonVO.msg="오류가 있습니다.";
 		CommonVO.url="/member/memberList";
@@ -105,7 +105,7 @@ public class ManagerController {
 		
 		
 		int result = memberService.setLeaveRecordUpdate(leaveRecordVO);
-		result = 0;
+		
 		CommonVO.msg="오류가 있습니다.";
 		CommonVO.url="/member/memberList";
 		if(result>0) {
