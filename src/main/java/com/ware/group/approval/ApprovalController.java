@@ -828,7 +828,7 @@ public class ApprovalController {
 		result=approvalService.setApprovalInfoDelete(id1);
 		
 		String msg = "삭제 실패";
-        if(result == 1) {
+        if(result > 0) {
         	msg="삭제 완료";
         }
 		

@@ -52,7 +52,7 @@
 					 <a class="dropdown-item d-flex align-items-center" href="/qna/detail?id=${vo.qnaId}&&allimId=${vo.id}">
 				
 					<div>
-						<div class="small text-gray-500">${vo.startDate }</div>
+						<div class="small text-gray-500">${vo.startDate}</div>
 						대댓글 알림
 					</div>
 					
@@ -76,7 +76,7 @@
 				
 					<div>
 						<div class="small text-gray-500">${vo.startDate}</div>
-						
+						전자 결재 신청 알림
 					</div>
 					
 				</a> 
@@ -87,7 +87,7 @@
 				
 					<div>
 						<div class="small text-gray-500">${vo.startDate }</div>
-						
+						전자 결재 신청 결과 알림
 					</div>
 					
 				</a> 
@@ -99,7 +99,7 @@
 				
 					<div>
 						<div class="small text-gray-500">${vo.startDate }</div>
-						
+						댓글 알림
 					</div>
 					
 				</a> 
@@ -111,7 +111,7 @@
 				
 					<div>
 						<div class="small text-gray-500">${vo.startDate }</div>
-						
+						대댓글 알림
 					</div>
 					
 				</a> 

@@ -19,6 +19,7 @@
 
 </script>
 <script type="text/javascript">
+console.log(${result})
 if(${result} >0){
 	 Swal.fire({
 	      icon: 'success',
@@ -32,6 +33,7 @@ if(${result} >0){
 	    	  }
 	    }).then(result => {
 	    	 if (result.isConfirmed) {
+	    		 if(${name} !=null){
 	    		 let userId = ${name}
 	    		 $.ajax({
 	    		 	type:"GET",
@@ -45,6 +47,9 @@ if(${result} >0){
 	    		 		location.href="${url}";
 	    		 	}
 	    		 })
+	    		 }else{
+	    			 location.href="${url}";
+	    		 }
 	    		 
 	    		 
 	    		 /* let userId = 1; */
