@@ -70,8 +70,8 @@
   			<selectKey keyProperty="id" resultType="Long" order="BEFORE">
   				SELECT MAX(id)+1 FROM QNACOMMENT
   			</selectKey>
-  			INSERT INTO QNACOMMENT (id, qna_id, contents, reg_date, writer,ref,step,depth,master)
-  			VALUES ( #{id} , #{qnaId}, #{contents}, now(), #{writer},#{id},0,0,0)
+  			INSERT INTO QNACOMMENT (id, qna_id, contents, reg_date, writer,ref,step,depth)
+  			VALUES ( #{id} , #{qnaId}, #{contents}, now(), #{writer},#{id},0,0)
   		</insert>
 	
 	<delete id="setQnaCommentDelete" parameterType="QnaCommentVO">
@@ -98,7 +98,7 @@
   				(SELECT MAX(id) FROM QNACOMMENT)
   			</selectKey>
 	
-  		INSERT INTO QNACOMMENT (qna_id,  contents, writer, reg_date, ref, step, depth,master)
-		VALUES( #{qnaId} , #{contents}, #{writer}, now(),#{ref} , #{step}, #{depth},0)
+  		INSERT INTO QNACOMMENT (qna_id,  contents, writer, reg_date, ref, step, depth)
+		VALUES( #{qnaId} , #{contents}, #{writer}, now(),#{ref} , #{step}, #{depth})
   	</insert>
 </mapper>
