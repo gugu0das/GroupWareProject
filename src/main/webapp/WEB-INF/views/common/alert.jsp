@@ -45,6 +45,8 @@ if(${result} >0){
 	    		 	success : function(data){	
 	    		 		console.log(data);
 	    		 		location.href="${url}";
+	    		 	},error : function(data){	
+	    		 		location.href="${url}";
 	    		 	}
 	    		 })
 	    		 }else{

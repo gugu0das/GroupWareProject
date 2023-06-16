@@ -555,9 +555,10 @@ public class ApprovalController {
         List<Integer> al = approvalService.setApprovalApplication(approvalVO, fileName,leaveRecordVO);
         String msg = "신청 실패";
         int result = al.get(0);
-        if(result == 1) {
+        if(result > 0) {
         	msg="신청 완료";
         }
+        log.error(" error : {}",result);
         mv.addObject("result", result);
         mv.addObject("msg", msg);
         mv.addObject("url", "./myInformation");
