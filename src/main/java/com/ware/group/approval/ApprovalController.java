@@ -114,7 +114,7 @@ public class ApprovalController {
 		
 		
 		
-		mv.setViewName("/approval/updateCategory");
+		mv.setViewName("/approval/categoryUpdate");
 		
 		return mv;
 		
@@ -215,7 +215,7 @@ public class ApprovalController {
 		
 		ModelAndView mv = new ModelAndView();
 		
-		mv.setViewName("/approval/addCategory");
+		mv.setViewName("/approval/categoryAdd");
 		
 		List<DepartmentVO> deptList = approvalService.getDepartmentList();
 		
