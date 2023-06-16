@@ -1,5 +1,6 @@
 package com.ware.group.qna;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -36,27 +37,37 @@ public class QnaCommentService {
 		
 		return qnaCommentDAO.getQnaCommentList(pager);
 	}
+	
+	
+	
 	//그냥 댓글
-	public int setQnaCommentAdd(QnaCommentVO qnaCommentVO,MultipartFile[] multipartFiles,HttpSession session) throws Exception {
+	public List<Integer> setQnaCommentAdd(QnaCommentVO qnaCommentVO,MultipartFile[] multipartFiles,HttpSession session) throws Exception {
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+	    
+	    
 	    QnaVO qnaVO = new QnaVO();
+	    List<Integer> al = new ArrayList<>();
+	    
+	    qnaCommentVO.setWriter(memberVO.getAccountId());
+	    int result = qnaCommentDAO.setQnaCommentAdd(qnaCommentVO);
+	   
+	    
+	    
 	    qnaVO.setId(qnaCommentVO.getQnaId());
 	    qnaVO =qnaDAO.getDetail(qnaVO);
-		qnaCommentVO.setWriter(memberVO.getAccountId());
+		
 		
 
 		AllimVO allimVO = new AllimVO();
 		allimVO.setMemberId(qnaVO.getMemberId());
 		allimVO.setQnaId(qnaCommentVO.getQnaId());
-		System.out.println("첫번쨰");
-		log.error("{}",allimVO);
-		System.out.println("쨰");
-		log.error("{}",qnaCommentVO.getQnaId());
 		allimVO.setType(3);
-		allimDAO.setAllim(allimVO);
-		return qnaCommentDAO.setQnaCommentAdd(qnaCommentVO);
+		result = allimDAO.setAllim(allimVO);
+		al.add(result);
+		al.add(qnaVO.getMemberId().intValue());
+		return al;
 		
 	}
 	
@@ -84,7 +95,7 @@ public class QnaCommentService {
 		 System.out.println(parent);//여기부분에서 에러 발생
 		 qnaCommentVO.setRef(parent.getId());
 		 //step : 부모의 step+1
-		 System.out.println(parent);
+		 
 		 if(parent.getStep() !=0) {
 		 qnaCommentVO.setStep(parent.getStep()+1);
 		 }else {
@@ -108,14 +119,14 @@ public class QnaCommentService {
 			
 
 			AllimVO allimVO = new AllimVO();
-			allimVO.setMemberId(qnaVO.getMemberId());
+			allimVO.setMemberId(parent.getMemberVO().getId());
 			allimVO.setQnaId(qnaCommentVO.getQnaId());
-			/*
-			 * System.out.println("첫번쨰"); log.error("{}",allimVO); System.out.println("쨰");
-			 * log.error("{}",qnaCommentVO.getQnaId());
-			 */
+			
 			allimVO.setType(4);
-			allimDAO.setAllim(allimVO);
+			result =allimDAO.setAllim(allimVO);
+			if(result >0) {
+				result = parent.getMemberVO().getId().intValue();
+			}
 			
 		 return result;
 		 
