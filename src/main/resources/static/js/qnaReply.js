@@ -123,8 +123,38 @@ $(document).on("click", ".down", function(e) {
 
 
          },
-        success: function() {
-             alert('댓글이 등록 되었습니다');
+        success: function(result) {
+        let userId = result
+            Swal.fire({
+     icon: 'success',
+     title: '성공',
+     text: '버튼을 누르면 다음 페이지로 이동합니다.',
+     showClass: {
+           popup: 'animate__animated animate__fadeInDown'
+         },
+         hideClass: {
+           popup: 'animate__animated animate__fadeOutUp'
+         }
+       }).then(result => {
+            if (result.isConfirmed) {
+           
+            $.ajax({
+                type:"GET",
+                url:"/trigger-event",
+                data:{
+                    userId : userId,
+                    
+                },
+                success : function(data){	
+                    console.log(data);
+                    getList();
+                },
+               error : function(request, status, error) { // 결과 에러 콜백함수
+                   getList();
+               }
+            })
+            }
+            });
              getList();
         },
          error: function() {
@@ -149,10 +179,39 @@ replyAdd.addEventListener("click", function(){
 
     xhttp.addEventListener('readystatechange', function(){
         if(this.readyState==4&&this.status==200){
-            if(this.responseText.trim()==1){
-            	alert('댓글이 등록 되었습니다')
-            	replyContents.value="";
-                 getList();
+            if(this.responseText.trim()>0){
+            let userId = this.responseText.trim();
+            	 Swal.fire({
+	      icon: 'success',
+	      title: '성공',
+	      text: '버튼을 누르면 다음 페이지로 이동합니다.',
+	      showClass: {
+	    	    popup: 'animate__animated animate__fadeInDown'
+	    	  },
+	    	  hideClass: {
+	    	    popup: 'animate__animated animate__fadeOutUp'
+	    	  }
+	    	}).then(result => {
+                 if (result.isConfirmed) {
+                
+	    		 $.ajax({
+	    		 	type:"GET",
+	    		 	url:"/trigger-event",
+	    		 	data:{
+	    		 		userId : userId,
+	    		 		
+	    		 	},
+	    		 	success : function(data){	
+	    		 		console.log(data);
+	    		 		getList();
+	    		 	},
+                    error : function(request, status, error) { // 결과 에러 콜백함수
+                        getList();
+                    }
+	    		 })
+	    		 }
+	    		 });
+	    		 
         	}else {
             	alert('댓글 등록에 실패 했습니다')
        		}

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ware.group.alim.AllimService;
@@ -50,15 +51,26 @@ public class QnaCommentController {
 	}
 
 	@PostMapping("add")
-	public ModelAndView setQnaCommentAdd(QnaCommentVO qnaCommentVO, HttpSession session) throws Exception {
+	@ResponseBody
+	public int setQnaCommentAdd(QnaCommentVO qnaCommentVO, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
-		int result = qnaCommentService.setQnaCommentAdd(qnaCommentVO, null, session);
+		//int result = qnaCommentService.setQnaCommentAdd(qnaCommentVO, null, session);
+		 List<Integer> al = qnaCommentService.setQnaCommentAdd(qnaCommentVO, null, session);
+		 String msg = "글 실패";
+	        int result = al.get(0);
+	        if(result > 1) {
+	        	 result = al.get(1);
+	        }
+//		mv.addObject("result", result);
+//		 mv.addObject("msg", msg);
+//	
+////	        mv.addObject("url", "./qna/detail");
+////	        mv.addObject("SSEurl", "/trigger-event");
+////	        mv.addObject("name", al.get(1)); //memberId List 2번쨰
+//		mv.setViewName("common/ajaxResult");
 		
-		mv.addObject("result", result);
-		mv.setViewName("common/ajaxResult");
-
-		return mv;
+		return result;
 	}
 
 	@PostMapping("delete")
@@ -115,7 +127,8 @@ public class QnaCommentController {
 	}
 
 	@PostMapping("reply")
-	public ModelAndView setReplyAdd(QnaCommentVO qnaCommentVO,HttpSession session) throws Exception {
+	@ResponseBody
+	public int setReplyAdd(QnaCommentVO qnaCommentVO,HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		Object obj = session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl) obj;
@@ -133,12 +146,17 @@ public class QnaCommentController {
 		String message = "등록 실패";
 
 		
-		  if(result>0) { message = "글이 등록 되었습니다"; }
+		  if(result >0) { message = "글이 등록 되었습니다"; 
+		  	mv.addObject("result", 1);
+		  }else{
+			  mv.addObject("result", 0);
+		  }
 		 
 
-		mv.setViewName("common/result");
-		mv.addObject("result", message);
-		mv.addObject("url", "/qna/detail?id=" + qnaCommentVO.getQnaId());
-		return mv;
+		
+		
+	
+
+		return result;
 	}
 }

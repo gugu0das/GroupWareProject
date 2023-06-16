@@ -44,9 +44,11 @@
 	
 	
 	<select id="getQnaCommentDetail" parameterType="QnaCommentVO" resultMap="qnaCommentResultMap">
-  		SELECT *
-		FROM QNACOMMENT
-		WHERE ID = #{id}
+  		SELECT *, m.id as mid
+		FROM QNACOMMENT	qc LEFT JOIN
+		MEMBER m
+		ON(qc.writer = m.account_id)
+		WHERE qc.ID = #{id}
   	</select>
   	
   	<resultMap id="qnaCommentResultMap" type="QnaCommentVO">
@@ -58,7 +60,9 @@
     <result property="ref" column="ref"/>
 	<result property="step" column="step"/>
 	<result property="depth" column="depth"/>
-		
+		<association property="memberVO" javaType="MemberVO">
+			<id property="id" column="mid"/>
+		</association>
     <!-- 추가 필드 및 컬럼 매핑 -->
 </resultMap>
 	
