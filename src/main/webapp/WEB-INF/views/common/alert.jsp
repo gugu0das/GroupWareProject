@@ -13,13 +13,7 @@
 <body>
 <c:import url="../temp/common_js.jsp"></c:import>
 <script type="text/javascript">
-/* let userId = ${name} */
-
-
-
-</script>
-<script type="text/javascript">
-if(${result} >0){
+if(${result} > 0){
 	 Swal.fire({
 	      icon: 'success',
 	      title: '${msg}',
@@ -32,23 +26,7 @@ if(${result} >0){
 	    	  }
 	    }).then(result => {
 	    	 if (result.isConfirmed) {
-	    		 let userId = ${name}
-	    		 $.ajax({
-	    		 	type:"GET",
-	    		 	url:"/trigger-event",
-	    		 	data:{
-	    		 		userId : userId,
-	    		 		
-	    		 	},
-	    		 	success : function(data){	
-	    		 		console.log(data);
-	    		 		location.href="${url}";
-	    		 	}
-	    		 })
-	    		 
-	    		 
-	    		 /* let userId = 1; */
-	    		
+	    		 location.href="${url}";
 	    	 }
 	    });
 }else{
@@ -62,6 +40,10 @@ if(${result} >0){
 	    	  hideClass: {
 	    	    popup: 'animate__animated animate__fadeOutUp'
 	    	  }
+	    }).then(result => {
+	    	 if (result.isConfirmed) {
+	    		 location.href="${url}";
+	    	 }
 	    });
 }
 

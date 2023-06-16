@@ -401,8 +401,8 @@
 								</div>
 								<form action="/manager/employeeStatusUpdate" method="post">
 									<div class="modal-body">
-										<input type="hidden" id="employeeStatusId" name=id> <input
-											type="hidden" name="memberId" id="employeeMemeberId" value="">
+										<input type="hidden" id="employeeStatusId" name=id> 
+										<input type="hidden" name="memberId" id="employeeMemeberId" value="${memberVO.id }">
 										<label>일자</label> <input type="date" class="form-control"
 											id="0" name="reg"> <label>출근시간</label> <input
 											type="text" class="form-control" id="1" name="strOnTime">

@@ -183,8 +183,12 @@ public class MemberService implements UserDetailsService{
 
 	}
 	//init PasswordChange
-	public int setPasswordUpdateinit(MemberVO memberVO)throws Exception{
-		return memberDAO.setPasswordUpdateinit(memberVO);
+	public int setPasswordUpdate(MemberVO memberVO)throws Exception{
+		
+		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
+		int sresult =  memberDAO.setPasswordUpdateinit(memberVO);
+		return sresult;
+
 	}
 	
 	
