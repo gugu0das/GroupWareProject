@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import com.ware.group.common.Util4calen;
 import com.ware.group.schedule.MonthVO;
 
 import lombok.Getter;
@@ -34,6 +35,15 @@ public class EmployeeStatusVO {
 		}
 		public void setStrOnTime(String strOnTime) {
 			this.strOnTime = strOnTime;
+			if(this.onTime==null) {
+				try {
+					this.onTime=Util4calen.setTimeStampFormat(strOnTime, this.reg);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 		}
 		public String getStrOffTime() {
 			if(this.offTime!=null) {
@@ -43,6 +53,14 @@ public class EmployeeStatusVO {
 		}
 		public void setStrOffTime(String strOffTime) {
 			this.strOffTime = strOffTime;
+			if(this.offTime==null) {
+				try {
+					this.offTime=Util4calen.setTimeStampFormat(strOffTime, this.reg);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		
 	

@@ -333,9 +333,27 @@
 	</div>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="/js/demo/datatables-demo.js"></script>
  <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
  <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script >
+$("#dataTable").DataTable({
+	// 표시 건수기능 숨기기
+	lengthChange: false,
+	// 검색 기능 숨기기
+	searching: false,
+	// 정렬 기능 숨기기
+	ordering: false,
+	// 정보 표시 숨기기
+	info: false,
+	// 페이징 기능 숨기기
+	paging: false,
+	//스크롤바
+	scrollX: false
+	
+})
+
+
+</script>
 
 	<c:import url="../temp/logoutModal.jsp"></c:import>
 	<script type="text/javascript" src="/js/addDepartment.js"></script>
