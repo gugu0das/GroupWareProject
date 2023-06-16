@@ -20,6 +20,7 @@
 </script>
 <script type="text/javascript">
 console.log(${result})
+console.log(${name})
 if(${result} >0){
 	 Swal.fire({
 	      icon: 'success',
@@ -33,7 +34,8 @@ if(${result} >0){
 	    	  }
 	    }).then(result => {
 	    	 if (result.isConfirmed) {
-	    		 if(${name} !=null){
+	    		 
+	    		 if(${not empty name ? 1 : 0} >0){
 	    		 let userId = ${name}
 	    		 $.ajax({
 	    		 	type:"GET",
