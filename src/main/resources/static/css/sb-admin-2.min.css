@@ -65,5 +65,43 @@
   top:1em; /* (line-height/2) */
   bottom:0;
 }
+.box {
+  width: 300px;
+  height: 150px;
+  border: 1px solid black;
+  box-shadow: 5px 5px 20px;
+  
+  margin: auto;
+  margin-bottom: 30px;
+  transition: all 0.5s;
+  transition-delay: 0.1s;
+  cursor: pointer;
+}
+.securityBox {
+  width: 300px;
+  height: 150px;
+  border: 1px solid black;
+  box-shadow: 5px 5px 20px;
+  
+  margin: auto;
+  margin-bottom: 30px;
+  transition: all 0.5s;
+  transition-delay: 0.1s;
+  cursor: pointer;
+}
+.box:hover {
+  width: 400px;
+  height: 200px;
+}
+.securityBox:hover {
+  width: 400px;
+  height: 200px;
+}
+.line {
+        text-align: center;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
 

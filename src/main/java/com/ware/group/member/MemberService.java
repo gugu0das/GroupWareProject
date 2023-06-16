@@ -22,7 +22,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.common.Util4calen;
 import com.ware.group.schedule.HolidayVO;
 import com.ware.group.schedule.MonthVO;
@@ -79,11 +81,67 @@ public class MemberService implements UserDetailsService{
 		memberVO.setWorkTimeVO(workTimeVO);
 		return memberVO;
 	}
+	//detail
+		public MemberVO getMemberDetail(MemberVO memberVO) throws Exception{
 
+			
+			memberVO = memberDAO.getMemberDetail(memberVO);
+			//근무시간
+			WorkTimeVO workTimeVO = new WorkTimeVO();
+			workTimeVO.setMemberId(memberVO.getId());
+			workTimeVO= memberDAO.getDefaultWork(workTimeVO);
+
+			memberVO.setWorkTimeVO(workTimeVO);
+			//연차 사용내역
+			memberVO.setLeaveRecordVOs(memberDAO.getLeaveRecodeList(memberVO));
+			
+			return memberVO;
+		}
+//유저용
 	public List<MemberVO> getMembers()throws Exception{
 		return memberDAO.getMembers();
 	}
+	
+	//인사팀용
+	public List<MemberVO> getMemberList()throws Exception{
+		return memberDAO.getMemberList();
+	}
+	//1 유저업데이트
+	public int setMemberUpdateDetail(MemberVO memberVO,WorkTimeVO workTimeVO)throws Exception{
+		workTimeVO.setMemberId(memberVO.getId());
+		int result = memberDAO.setMemberUpdateDetail(memberVO);
+		WorkTimeVO defultWork = memberDAO.getDefaultWork(workTimeVO);
+		//Date = 비교
+		java.util.Date now = Util4calen.getToday();
+		Date date =new Date(now.getYear(), now.getMonth(), now.getDate());
+		if(defultWork.getRegDate().equals(date)) {
+			workTimeVO.setId(defultWork.getId());
+			result = memberDAO.setDefaultWorkUpdate(workTimeVO);	
+		}
+		else {
+			Date nowDate = new Date(now.getTime());
+			workTimeVO.setRegDate(nowDate);
+			result = memberDAO.setDefaultWorkAdd(workTimeVO);
+		}
 
+		return result;
+	}
+	
+	//3. 근태업데이트
+	public int setEmployeeStatusUpdate(EmployeeStatusVO employeeStatusVO)throws Exception{
+		employeeStatusVO.setOnTime(Util4calen.setTimeStampFormat(employeeStatusVO.getStrOnTime(), employeeStatusVO.getReg()));
+		employeeStatusVO.setOffTime(Util4calen.setTimeStampFormat(employeeStatusVO.getStrOffTime(), employeeStatusVO.getReg()));
+		
+		int result = memberDAO.setEmployeeStatusUpdate(employeeStatusVO);
+		return result;
+	}
+	//4. 연차 업데이트
+	public int setLeaveRecordUpdate(LeaveRecordVO leaveRecordVO)throws Exception{
+		int result = memberDAO.setLeaveRecordUpdate(leaveRecordVO);
+		return result;
+	}
+
+//--인사팀 END
 	public int setMemeberJoin(MemberVO memberVO,WorkTimeVO workTimeVO)throws Exception{
 
 		
@@ -124,6 +182,12 @@ public class MemberService implements UserDetailsService{
 		return result;
 
 	}
+	//init PasswordChange
+	public int setPasswordUpdateinit(MemberVO memberVO)throws Exception{
+		return memberDAO.setPasswordUpdateinit(memberVO);
+	}
+	
+	
 	public List<JobVO> getJobList()throws Exception{
 		return memberDAO.getJobList();
 
@@ -288,6 +352,17 @@ public class MemberService implements UserDetailsService{
 
 		return ar;
 	}
+	public List<EmployeeStatusVO>getEmployeeStatusList(MemberVO memberVO)throws Exception{
+		EmployeeStatusVO employeeStatusVO = new EmployeeStatusVO();
+		employeeStatusVO.setMemberId(memberVO.getId());
+		List<EmployeeStatusVO> ar =  memberDAO.getEmployeeStatusList(employeeStatusVO);
+		//monthVO데이터값 넣기
+		for(EmployeeStatusVO vo:ar) {
+			vo = Util4calen.setMonthVO(vo);
+		}
+
+		return ar;
+	}
 	//출근 이력이 있는 년도 불러오기
 	public List<String> getEmployeeStatusYears(List<EmployeeStatusVO> empEmployeeStatusVOs)throws Exception{
 		List<String> ar = new  ArrayList<String>();
@@ -300,6 +375,10 @@ public class MemberService implements UserDetailsService{
 		return ar;
 	}
 
+	//현재 근무시간
+	public WorkTimeVO getDefaultWork(WorkTimeVO workTimeVO)throws Exception{
+		return memberDAO.getDefaultWork(workTimeVO);
+	}
 	//이번달 총 시간 
 	public List<WorkTimeStatusVO> getWorkTimeStatusTotal(WorkTimeVO workTimeVO,EmployeeStatusVO employeeStatusVO, HttpSession session)throws Exception{
 		MemberVO memberVO = this.getSessionAttribute(session);
@@ -447,8 +526,4 @@ public class MemberService implements UserDetailsService{
 
 		return workTimeStatusVO;
 	}
-	
-	
-	
-	//부품
 }

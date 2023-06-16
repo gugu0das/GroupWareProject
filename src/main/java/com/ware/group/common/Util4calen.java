@@ -2,17 +2,12 @@ package com.ware.group.common;
 
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-import org.apache.naming.java.javaURLContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -324,6 +319,23 @@ public class Util4calen {
  		}
  		Time time = new Time(hour, min, 0);
  		return time;
+ 	}
+ 	public static Timestamp setTimeStampFormat(String timestr,java.sql.Date date)throws Exception{
+
+ 		//공백 및 : 제거
+ 		timestr =timestr.replaceAll(":", "");
+ 		timestr= timestr.trim();
+ 		
+ 		int hour = Integer.valueOf(timestr.substring(0,2));
+ 		int min = Integer.valueOf(timestr.substring(2, 4));
+ 		String ap = timestr.substring(5);
+
+ 		if(ap.equals("PM")) {
+ 			hour = hour+12;
+ 		}
+ 		
+ 		Timestamp timestamp = new Timestamp(date.getYear(), date.getMonth(), date.getDate(), hour, min, 0, 0);
+ 		return timestamp;
  	}
    
 }

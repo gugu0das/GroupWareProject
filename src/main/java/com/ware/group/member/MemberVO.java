@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.department.DepartmentVO;
 
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class MemberVO implements UserDetails{
 	private Long employeeId;	
 	@NotBlank
 	private String accountId;
-	@NotNull
+	
 	private Long jobId;
 	@NotBlank
 	private String password;
@@ -52,7 +53,7 @@ public class MemberVO implements UserDetails{
 	private Date endDate;
 	
 	private boolean status;
-	@NotNull
+	
 	private Long departmentId;
 	
 	private JobVO jobVO;
@@ -60,7 +61,7 @@ public class MemberVO implements UserDetails{
 	private WorkTimeVO workTimeVO;
 	
 	private List<RoleVO> roleVOs;
-
+	private List<LeaveRecordVO> leaveRecordVOs;
 	
 
 	public Long getEmployeeId() {
