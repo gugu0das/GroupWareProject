@@ -35,6 +35,13 @@ public class MemberController {
 	private DepartmentService departmentService;
 
 
+	@GetMapping("memberList")
+	public ModelAndView getMemeberList(ModelAndView mv)throws Exception{
+		List<MemberVO> ar = memberService.getMemberList();
+		mv.addObject("memberVOs", ar);
+		return mv;
+	}
+	
 	@GetMapping("join")
 	public ModelAndView setMemberJoin(@ModelAttribute MemberVO memberVO, ModelAndView mv)throws Exception{
 		
@@ -65,7 +72,22 @@ public class MemberController {
 		return mv;
 		
 	}
-	
+	@GetMapping("update")
+	public ModelAndView setMemberUpdate(MemberVO memberVO)throws Exception{
+		ModelAndView mv = new ModelAndView();
+		memberVO =memberService.getMemberDetail(memberVO);
+		List<DepartmentVO> departmentVOs =   departmentService.getDepartmentList();
+		List<JobVO> jobVOs = memberService.getJobList();
+//		근태받기
+		List<EmployeeStatusVO> employeeStatusVOs =  memberService.getEmployeeStatusList(memberVO);
+
+		mv.addObject("employeeStatusVOs", employeeStatusVOs);
+		mv.addObject("jobVOs", jobVOs);
+		mv.addObject("departmentVOs", departmentVOs);
+		mv.addObject("memberVO", memberVO);
+		mv.setViewName("member/update");
+		return mv;
+	}
 	@PostMapping("update")
 	public ModelAndView setMemberUpdate(ModelAndView mv, MemberVO memberVO)throws Exception{
 		int result = memberService.setMemberUpdate(memberVO);
@@ -84,7 +106,15 @@ public class MemberController {
 		return mv;
 		
 	}
-	
+	//ajax용
+	@GetMapping("detail")
+	public ModelAndView getMemberDetail(@ModelAttribute MemberVO memberVO,ModelAndView mv)throws Exception{
+		
+		memberVO = memberService.getMemberDetail(memberVO);
+		mv.addObject("memberVO", memberVO);
+		mv.setViewName("member/memberDetailResult");
+		return mv;
+	}
 	
 	
 	@GetMapping("security")

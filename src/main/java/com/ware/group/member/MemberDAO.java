@@ -15,6 +15,8 @@ import com.ware.group.schedule.ScheDetailVO;
 public interface MemberDAO {
 
 	public List<MemberVO> getMembers() throws Exception;
+	//인사팀용 맴버리스트
+	public List<MemberVO> getMemberList()throws Exception;
 	
 	public List<MemberVO> getStatusMembers(WorkTimeVO workTimeVO) throws Exception;
 	
@@ -32,10 +34,15 @@ public interface MemberDAO {
 	
 	public MemberVO getMemberProfile(MemberVO memberVO)throws Exception;
 	
+	public MemberVO getMemberDetail(MemberVO memberVO)throws Exception;
+	
 	public int setMemberUpdate(MemberVO memberVO) throws Exception;
 	
 	public int setPasswordUpdate(MemberVO memberVO)throws Exception;
 	
+	public int setPasswordUpdateinit(MemberVO memberVO)throws Exception;
+	
+	public int setMemberUpdateDetail(MemberVO memberVO)throws Exception;
 	
 	
 	///근태관리
@@ -56,11 +63,12 @@ public interface MemberDAO {
 	public int setDefaultWorkAdd(WorkTimeVO workTimeVO)throws Exception;
 	
 	public int setDefaultWorkUpdate(WorkTimeVO workTimeVO)throws Exception;
-
+	
 	public int setEmployeeStatusUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
 	
 	public int setTimeStempInsert(EmployeeStatusVO employeeStatusVO) throws Exception;
 	
+	public int setLeaveRecordUpdate(LeaveRecordVO leaveRecordVO)throws Exception;
 	public List<EmployeeStatusVO> getNotOffTimeEmployee(EmployeeStatusVO employeeStatusVO)throws Exception;
 //	이번달 근태기록
 	public List<EmployeeStatusVO> getWorkingList(WorkTimeStatusVO workTimeStatusVO)throws Exception;
@@ -68,6 +76,10 @@ public interface MemberDAO {
 	public List<ScheDetailVO> getHolidayList(HolidayVO holidayVO)throws Exception;
 	//연차 유무
 	public LeaveRecordVO getHolidays(EmployeeStatusVO employeeStatusVO) throws Exception;
+	
+	public List<LeaveRecordVO> getLeaveRecodeList(MemberVO memberVO)throws Exception;
+	
+	
 	//연차 추가
 	public int setVacation(EmployeeStatusVO employeeStatusVO)throws Exception;
 
