@@ -9,7 +9,15 @@
 <c:import url="../temp/header.jsp"></c:import>
 
 <title>!</title>
+<style type="text/css">
+.form-control.success{
+color: blue;
+}
+.form-control.fail{
+color: red;
+}
 
+</style>
 <!-- Custom styles for this template-->
 <c:import url="../temp/style.jsp"></c:import>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
@@ -31,9 +39,17 @@
 								method="post" enctype="" action="./join">
 								<div class="form-group">
 									<form:label path="accountId">사원번호,계정아이디</form:label>
-									<form:input cssClass="form-control form-control-user"
-										id="accountId" path="accountId" placeholder="사원번호 입력"></form:input>
-									<form:errors path="accountId"></form:errors>
+									<div class="row">
+										<div class="col-10">
+											
+											<form:input cssClass="form-control"
+												id="accountId" path="accountId" placeholder="사원번호 입력"></form:input>
+											<form:errors path="accountId"></form:errors>
+										</div>
+										<div class="col-2">
+											<button class="btn btn-outline-primary" type="button" id="idCheck">Check</button>
+										</div>
+									</div>
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
@@ -56,6 +72,8 @@
 								<div class="form-group row">
 									<div class="col-sm-4 mb-3 mb-sm-0">
 										<form:label path="name">이름</form:label>
+
+
 										<form:input path="name" id="name"
 											cssClass="form-control form-control-user" placeholder="이름 입력" />
 										<form:errors path="name"></form:errors>
@@ -116,7 +134,7 @@
 										<form:label path="jobId">직위/직책 선택</form:label>
 										<form:select path="jobId"
 											cssClass="custom-select form-control"
-											placeholder="직위/직책을 선택해주세요" >
+											placeholder="직위/직책을 선택해주세요">
 											<c:forEach items="${jobVOs }" var="jobVO">
 												<form:option value="${jobVO.id }">${jobVO.name}</form:option>
 											</c:forEach>
@@ -127,24 +145,28 @@
 								</div>
 								<div class="form-group row">
 									<div class="col-10">
-								<label for="workTime">근무시간 </label>
-										 <input id="startTime"
+										<label for="workTime">근무시간 </label> <input id="startTime"
 											name="startTimeString"> ~ <input id="finishTime"
 											name="finishTimeString">
 
 									</div>
 									<div class="col-2">
-									<label for="mealTime">식사 </label>
-										<input type="checkbox" checked="checked"
-											name="mealTime"> 
+										<label for="mealTime">식사 </label> <input type="checkbox"
+											checked="checked" name="mealTime">
 
-									
+
 									</div>
 								</div>
-								<button class="btn btn-primary btn-user btn-block">Join
-									Member</button>
+								<div class="row" style="float: right">
+									<a href="/">
+										<button class="btn btn-secondary" type="button">뒤로</button></a>
+										<button class="btn btn-primary">추가</button>
+									
+									
+									
+								</div>
 								<hr>
-								
+
 							</form:form>
 							<%-- </form> --%>
 

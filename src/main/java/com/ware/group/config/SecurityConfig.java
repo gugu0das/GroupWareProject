@@ -33,6 +33,7 @@ public class SecurityConfig{
 				.antMatchers("/css/**")
 				.antMatchers("/favicon/**")
 				.antMatchers("/vendor/**")
+				.antMatchers("/member/memberAlert*")
 //				
 				;
 	}
@@ -50,6 +51,7 @@ public class SecurityConfig{
 //				.permitAll()
 //			.antMatchers("/**").hasRole("USER")
 				.antMatchers("/member/join").permitAll()
+				
 //				.antMatchers("/notice/add").hasRole("MEMBER")
 //				.antMatchers("/notice/update").hasRole("ADMIN")
 //				.antMatchers("/notice/delete").hasRole("ADMIN")
@@ -76,7 +78,7 @@ public class SecurityConfig{
 				.addLogoutHandler(userLogoutHandler)// 로그아웃 성공 후 이동할 URL 설정(로그아웃 핸들러 클래스로 설정했음)
 //				.logoutSuccessHandler(userLogoutHandler)  // 로그아웃 성공 후 이동할 URL 설정(로그아웃 핸들러 클래스로 설정했음)
 				.invalidateHttpSession(true)// 로그아웃 후 세션 초기화 설정
-				.deleteCookies("JSESSIONID")// 로그아웃 후 쿠기 삭제 설정
+//				.deleteCookies("JSESSIONID")// 로그아웃 후 쿠기 삭제 설정
 				.permitAll()
 //				.and()
 
