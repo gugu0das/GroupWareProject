@@ -64,3 +64,9 @@ $(".managerTable").on("click",function(e){
 // $("#upper").on("click",function(e){
 //     console.log($(this).val())
 // })
+$("#addJob").on("click",function(){
+    $("#jobVOs").append('<input id="jobVO" class="form-control" type="text" name="names">')
+})
+$("#deleteJob").on("click",function(){
+    $("#jobVOs").find("#jobVO").remove();
+})

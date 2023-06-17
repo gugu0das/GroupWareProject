@@ -90,18 +90,19 @@
 									</div>
 								</div>
 							</form>
-							<form action="/manager/jobAdd" method="post">
+							<form action="/manager/jobAdd" method="post" enctype="multipart/form-data">
 								<div class="card mb-4">
 									<div class="card-header">JOB Add</div>
 									<div class="card-body">
 										<label for="name">직책명</label>
 										<div class="mb-3 row">
-											<div class="col-7">
+											<div class="col-7" id="jobVOs">
 
-												<input class="form-control" type="text" name="name">
+												<input id="jobVO" class="form-control" type="text" name="names">
 											</div>
 											<div class="col-5">
-
+												<button type="button" class="btn bg-info text-light" id="addJob">+</button>
+												<button type="button" class="btn bg-danger text-light" id="deleteJob">-</button>
 												<button type="submit" class="btn btn-primary">직책추가</button>
 											</div>
 										</div>

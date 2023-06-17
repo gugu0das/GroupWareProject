@@ -28,6 +28,8 @@ public interface MemberDAO {
 	
 	public MemberVO idDuplicateCheck(MemberVO memberVO)throws Exception;
 	
+	public MemberVO employeeIdCheck(MemberVO memberVO) throws Exception;
+	
 	public MemberVO getMemberLogin(MemberVO memberVO)throws Exception;
 	
 	public int setMemberRole(Map<String, Object> map)throws Exception;
@@ -43,6 +45,12 @@ public interface MemberDAO {
 	public int setPasswordUpdateinit(MemberVO memberVO)throws Exception;
 	
 	public int setMemberUpdateDetail(MemberVO memberVO)throws Exception;
+	
+	public MemberProfileVO getProfile(MemberProfileVO memberProfileVO)throws Exception;
+	
+	public int setProfileAdd(MemberProfileVO memberProfileVO)throws Exception;
+	
+	public int setProfileDelete(MemberProfileVO memberProfileVO)throws Exception;
 	
 	
 	///근태관리

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ware.group.common.CommonVO;
 import com.ware.group.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,8 @@ public class DepartmentController {
 	
 	@Autowired
 	private DepartmentService departmentService;
-	
-	@Autowired
-	
+
+	CommonVO commonVO = new CommonVO();
 	
 	@GetMapping("list")
 	public void getDepartmentList() throws Exception{
@@ -47,9 +47,21 @@ public class DepartmentController {
 	@PostMapping("add")
 	public ModelAndView setDepartmentAdd( DepartmentVO departmentVO)throws Exception{
 		ModelAndView mv = new ModelAndView();
-		int reuslt = departmentService.setDepartmentAdd(departmentVO);
+		int result = departmentService.setDepartmentAdd(departmentVO);
 		
-		mv.setViewName("redirect:/");
+		commonVO.setMsg("부서를 추가할 수 없습니다.");
+		commonVO.setUrl("/department/add");
+		commonVO.setTextMsg("다시 확인해주세요.");
+		if(result>0) {
+			commonVO.setMsg("부서가 추가되었습니다.");
+			commonVO.setTextMsg("");
+			
+		}
+		mv.addObject("commonVO",commonVO);
+		mv.addObject("result", result);
+		mv.setViewName("member/memberAlert");
+
+		
 		return mv;
 	}
 	@GetMapping("detail")
