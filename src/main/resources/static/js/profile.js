@@ -14,4 +14,3 @@ $("#updatebtn").click(function(){
     }
     
 })
-

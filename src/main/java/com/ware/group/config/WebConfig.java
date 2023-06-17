@@ -20,14 +20,19 @@ public class WebConfig implements WebMvcConfigurer {
 	@Value("${app.url.approval.path}")
 	private String url;
 	
+	@Value("${app.profile.base}")
+	private String profileBase;
+	@Value("${app.profile.path}")
+	private String profileUrl;
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		
 		registry.addResourceHandler(urlPath)
 				.addResourceLocations(basePath);
+		registry.addResourceHandler(profileUrl)
+				.addResourceLocations(profileBase);
 		
 		registry.addResourceHandler(url)
-		
 		.addResourceLocations(base);
 	}
 }	

@@ -34,7 +34,7 @@
 									<form class="user" action="./login" method="post">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user"
-												id="accountId" aria-describedby="emailHelp" name="accountId"
+												id="accountId" aria-describedby="emailHelp" name="accountId" value="${cookie.remember.value }"
 												placeholder="ID">
 										</div>
 										<div class="form-group">
@@ -43,10 +43,9 @@
 										</div>
 										<div class="form-group">
 											<div class="custom-control custom-checkbox small">
-												<input type="checkbox" class="custom-control-input"
+												<input type="checkbox" class="custom-control-input" name="remember" value="remember"
 													id="customCheck"> <label
-													class="custom-control-label" for="customCheck">Remember
-													Me</label>
+													class="custom-control-label" for="customCheck">아이디 기억하기</label>
 											</div>
 										</div>
 										<button class="btn btn-primary" type="submit">Login</button>
@@ -54,13 +53,7 @@
 										
 									</form>
 									<hr>
-									<div class="text-center">
-										<a class="small" href="forgot-password.jsp">Forgot
-											Password?</a>
-									</div>
-									<div class="text-center">
-										<a class="small" href="register.html">Create an Account!</a>
-									</div>
+									
 								</div>
 							</div>
 						</div>

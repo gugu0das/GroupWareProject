@@ -18,11 +18,14 @@
 		
 			<div class="card-body text-center">
 				<!-- Profile picture image-->
-				<img class="img-account-profile rounded-circle mb-2"
-					src="/images/undraw_profile_2.svg" alt="">
-				<!-- Profile picture help block-->
-				<div class="small font-italic text-muted mb-4">JPG or PNG no
-					larger than 5 MB</div>
+				<c:if test="${not empty memberVO.memberProfileVO.fileName }">
+				<img class="img-account-profile rounded-circle mb-2" style="width: 312px; height: 312px"
+					src="/profile/${memberVO.memberProfileVO.fileName }" >
+				</c:if>
+				<c:if test="${empty memberVO.memberProfileVO.fileName }">
+				<img class="img-account-profile rounded-circle mb-2" style="width: 312px; height: 312px"
+					src="/images/undraw_profile_1.svg" >
+				</c:if>
 				<!-- Profile picture upload button-->
 				
 			</div>

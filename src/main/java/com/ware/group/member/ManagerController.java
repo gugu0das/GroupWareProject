@@ -5,6 +5,7 @@ import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,19 +20,19 @@ public class ManagerController {
 	@Autowired
 	private MemberService memberService;
 	
-	
-	@PostMapping("jobAdd")
-	public ModelAndView jobAdd(JobVO jobVO,ModelAndView mv)throws Exception{
-		int result = memberService.setJobAdd(jobVO);
-		CommonVO.msg="실패";
+	CommonVO commonVO = new CommonVO();
+	@PostMapping("jobAdd")	
+	public ModelAndView jobAdd(String []  names,JobVO jobVO,ModelAndView mv)throws Exception{
+		int result = memberService.setJobAdd(names,jobVO);
+		commonVO.setMsg("직책 생성에 실패하였습니다.");
 		if(result>0) {
-			CommonVO.msg = "성공";
-			CommonVO.url="/department/add";
+			commonVO.setMsg("직책 생성에 성공하였습니다.");
+			commonVO.setUrl("/department/add");
+	
 		}
-		mv.addObject("url", CommonVO.url);
-		mv.addObject("msg", CommonVO.msg);
+		mv.addObject("commonVO",commonVO);
 		mv.addObject("result", result);
-		mv.setViewName("common/alert");
+		mv.setViewName("member/memberAlert");
 		return mv;
 	}
 	//1.memberUpdate
@@ -46,18 +47,18 @@ public class ManagerController {
 			memberVO.setStatus(true);
 		}
 		int result = memberService.setMemberUpdateDetail(memberVO, workTimeVO);
-		CommonVO.msg="오류가 있습니다.";
-		CommonVO.url="/member/memberList";
+		
+		commonVO.setMsg("오류가 있습니다.");
+		commonVO.setUrl("/member/memberList");
 		if(result>0) {
-			CommonVO.msg = "정보가 수정되었습니다.";
-			CommonVO.url="/member/update?id="+memberVO.getId();
+			commonVO.setMsg("정보가 수정되었습니다.");
+			commonVO.setUrl("/member/update?id="+memberVO.getId());
+	
 		}
-		
-		
-		mv.addObject("url", CommonVO.url);
-		mv.addObject("msg", CommonVO.msg);
+		mv.addObject("commonVO",commonVO);
 		mv.addObject("result", result);
-		mv.setViewName("common/alert");
+		mv.setViewName("member/memberAlert");
+
 		return mv;
 	}
 //	2. pw 초기화
@@ -66,18 +67,16 @@ public class ManagerController {
 
 		 int result = memberService.setPasswordUpdate(memberVO);
 		
-		CommonVO.msg="오류가 있습니다.";
-		CommonVO.url="/member/memberList";
-		if(result>0) {
-			CommonVO.msg = memberVO.getName()+" 님의 비밀번호가 수정되었습니다.";
-			CommonVO.url="/member/update?id="+memberVO.getId();
-		}
+		 commonVO.setMsg("오류가 있습니다.");
+			commonVO.setUrl("/member/memberList");
+			if(result>0) {
+				commonVO.setMsg(memberVO.getName()+" 님의 비밀번호가 수정되었습니다.");
+				commonVO.setUrl("/member/update?id="+memberVO.getId());
 		
-		
-		mv.addObject("url", CommonVO.url);
-		mv.addObject("msg", CommonVO.msg);
-		mv.addObject("result", result);
-		mv.setViewName("common/alert");
+			}
+			mv.addObject("commonVO",commonVO);
+			mv.addObject("result", result);
+			mv.setViewName("member/memberAlert");
 		return mv;
 	}
 	//3. employeeStatus초기화
@@ -85,17 +84,18 @@ public class ManagerController {
 	public ModelAndView employeeStatusUpdate(ModelAndView mv, EmployeeStatusVO employeeStatusVO,String empStatus)throws Exception{
 		employeeStatusVO.setStatus(empStatus);
 		int result = memberService.setEmployeeStatusUpdate(employeeStatusVO);
-		CommonVO.msg="오류가 있습니다.";
-		CommonVO.url="/member/memberList";
-		if(result>0) {
-			CommonVO.msg = "근태정보가 수정되었습니다.";
-			CommonVO.url="/member/update?id="+employeeStatusVO.getMemberId();
-		}
 		
+		 commonVO.setMsg("오류가 있습니다.");
+			commonVO.setUrl("/member/memberList");
+			if(result>0) {
+				commonVO.setMsg("근태정보가 수정되었습니다.");
+				commonVO.setUrl("/member/update?id="+employeeStatusVO.getMemberId());
 		
-		mv.addObject("url", CommonVO.url);
-		mv.addObject("msg", CommonVO.msg);
-		mv.addObject("result", result);
+			}
+			mv.addObject("commonVO",commonVO);
+			mv.addObject("result", result);
+			mv.setViewName("member/memberAlert");
+
 		mv.setViewName("common/alert");
 		return mv;
 	}
@@ -106,18 +106,17 @@ public class ManagerController {
 		
 		int result = memberService.setLeaveRecordUpdate(leaveRecordVO);
 		
-		CommonVO.msg="오류가 있습니다.";
-		CommonVO.url="/member/memberList";
+		commonVO.setMsg("오류가 있습니다.");
+		commonVO.setUrl("/member/memberList");
 		if(result>0) {
-			CommonVO.msg = "연차가 수정되었습니다.";
-			CommonVO.url="/member/update?id="+leaveRecordVO.getMemberId();
+			commonVO.setMsg("연차가 수정되었습니다.");
+			commonVO.setUrl("/member/update?id="+leaveRecordVO.getMemberId());
+	
 		}
-		
-		
-		mv.addObject("url", CommonVO.url);
-		mv.addObject("msg", CommonVO.msg);
+		mv.addObject("commonVO",commonVO);
 		mv.addObject("result", result);
-		mv.setViewName("common/alert");
+		mv.setViewName("member/memberAlert");
+
 		return mv;
 
 	}

@@ -59,6 +59,8 @@ public class MemberVO implements UserDetails{
 	private JobVO jobVO;
 	private DepartmentVO departmentVO;
 	private WorkTimeVO workTimeVO;
+	//프로필은 한개
+	private MemberProfileVO memberProfileVO;
 	
 	private List<RoleVO> roleVOs;
 	private List<LeaveRecordVO> leaveRecordVOs;

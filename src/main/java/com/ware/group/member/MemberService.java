@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ware.group.annual.LeaveRecordVO;
@@ -29,6 +31,7 @@ import com.ware.group.common.Util4calen;
 import com.ware.group.schedule.HolidayVO;
 import com.ware.group.schedule.MonthVO;
 import com.ware.group.schedule.ScheService;
+import com.ware.group.util.FileManager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +45,12 @@ public class MemberService implements UserDetailsService{
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-
+	@Autowired
+	private FileManager fileManager;
+	
+	@Value("${app.profile.locations}")
+	private String path;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
@@ -79,6 +87,12 @@ public class MemberService implements UserDetailsService{
 		workTimeVO= memberDAO.getDefaultWork(workTimeVO);
 
 		memberVO.setWorkTimeVO(workTimeVO);
+		//프로필 가져오기
+		MemberProfileVO memberProfileVO = new MemberProfileVO();
+		memberProfileVO.setMemberId(memberVO.getId());
+		memberProfileVO = memberDAO.getProfile(memberProfileVO);
+		
+		memberVO.setMemberProfileVO(memberProfileVO);
 		return memberVO;
 	}
 	//detail
@@ -94,7 +108,12 @@ public class MemberService implements UserDetailsService{
 			memberVO.setWorkTimeVO(workTimeVO);
 			//연차 사용내역
 			memberVO.setLeaveRecordVOs(memberDAO.getLeaveRecodeList(memberVO));
+			//프로필 가져오기
+			MemberProfileVO memberProfileVO = new MemberProfileVO();
+			memberProfileVO.setMemberId(memberVO.getId());
+			memberProfileVO = memberDAO.getProfile(memberProfileVO);
 			
+			memberVO.setMemberProfileVO(memberProfileVO);
 			return memberVO;
 		}
 //유저용
@@ -145,6 +164,9 @@ public class MemberService implements UserDetailsService{
 	public int setMemeberJoin(MemberVO memberVO,WorkTimeVO workTimeVO)throws Exception{
 
 		
+		if(this.pwCheck(memberVO)) {
+			return 0;
+		}
 		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 		int result =memberDAO.setMemberJoin(memberVO);
 		
@@ -162,7 +184,18 @@ public class MemberService implements UserDetailsService{
 
 		return result;
 	}
-
+	public int setProfileAdd(MemberProfileVO memberProfileVO,HttpSession session,MultipartFile file)throws Exception{
+		MemberVO memberVO =  this.getSessionAttribute(session);
+		memberProfileVO.setMemberId(memberVO.getId());
+		if(file!=null) {
+			memberDAO.setProfileDelete(memberProfileVO);
+		}
+		String fileName = fileManager.saveFile(path, file);//파일먼저 저장하기
+		memberProfileVO.setFileName(fileName);
+		memberProfileVO.setOriName(file.getOriginalFilename());
+		int result = memberDAO.setProfileAdd(memberProfileVO);
+		return result;
+	}
 	//password change
 	public int setPasswordUpdate(MemberVO memberVO,HttpSession session,BindingResult bindingResult)throws Exception{
 		int result = 0; 
@@ -196,8 +229,17 @@ public class MemberService implements UserDetailsService{
 		return memberDAO.getJobList();
 
 	}
-	public int setJobAdd(JobVO jobVO)throws Exception{
-		return memberDAO.setJobAdd(jobVO);
+	public int setJobAdd(String [] names,JobVO jobVO)throws Exception{
+		int result = 0;
+		for(String name:names) {
+			jobVO.setName(name);
+			result = memberDAO.setJobAdd(jobVO);
+			if(result==0) {
+				break;
+			}
+		}
+		
+		return result;
 		
 	}
 	public MemberVO getMemberLogin(MemberVO memberVO)throws Exception{
@@ -215,7 +257,7 @@ public class MemberService implements UserDetailsService{
 		boolean check = false;
 
 		memberVO=memberDAO.idDuplicateCheck(memberVO);
-		if(memberVO==null) {
+		if(memberVO!=null) {
 			check=true;
 		}
 		return check;
@@ -227,6 +269,25 @@ public class MemberService implements UserDetailsService{
 			check= true;
 		}
 		return check;
+	}
+	public boolean employeeIdCheck(MemberVO memberVO)throws Exception{
+		boolean check = false;
+		memberVO=memberDAO.employeeIdCheck(memberVO);
+		if(memberVO!=null) {
+			check=true;
+		}
+		return check;
+	}
+	public boolean joinCheck(MemberVO memberVO)throws Exception{
+		
+		if(!this.idDuplicateCheck(memberVO)) {
+			if(!this.employeeIdCheck(memberVO)) {
+				return false;
+			}
+		};
+		return true;
+		
+		
 	}
 	//검증 END------------------------------------------------
 
