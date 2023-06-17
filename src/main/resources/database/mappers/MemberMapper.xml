@@ -18,10 +18,13 @@
 
 	<select id="getMemberList" resultMap="getMemberProfile">
 		select m.id as m_id,m.employee_id,m.account_id ,m.name as
-		m_name
-		,m.status,m.birth_date ,m.email ,m.phone ,m.address, m.hire_date
+		m_name ,m.status,m.birth_date ,m.email ,m.phone ,m.address, m.hire_date
+		,p.file_name,p.ori_name
 		,d.name as dep_name,j.name as job_name
 		from `MEMBER` m
+		left outer join
+		PROFILE p
+		on m.id=p.member_id
 		left outer join
 		DEPARTMENT d
 		on m.department_id =d.id
@@ -29,6 +32,7 @@
 		JOB j
 		on m.job_id
 		=j.id
+		
 	
 	</select>
 	<select id="getMemberLogin" parameterType="MemberVO"
@@ -144,14 +148,28 @@
 		insert into JOB (name)
 	values(#{name})
 	</insert>
-
-
+	<!-- profile관련 -->
+	<select id="getProfile" parameterType="MemberProfileVO" resultType="MemberProfileVO">
+	select * from PROFILE WHERE member_id=#{memberId}
+	</select>
+	
+	<insert id="setProfileAdd" parameterType="MemberProfileVO">
+	insert into PROFILE (member_id,file_name,ori_name)
+	values(#{memberId},#{fileName},#{oriName})
+	</insert>
+	<delete id="setProfileDelete" parameterType="MemberProfileVO">
+	delete from PROFILE WHERE member_id=#{memberId}
+	</delete>
 
 	<!-- 검증 1. ID중복검사 -->
 	<select id="idDuplicateCheck" resultType="MemberVO"
 		parameterType="MemberVO">
 		SELECT account_id FROM MEMBER WHERE
 		account_id=#{accountId}
+	</select>
+	<select id="employeeIdCheck" parameterType="MemberVO" resultType="MemberVO">
+		SELECT employee_id FROM MEMBER WHERE employee_id=#{employeeId}
+	
 	</select>
 
 	<!-- result Map -->
@@ -186,7 +204,11 @@
 		<result property="jobId" column="job_id" />
 		<result property="status" column="status" />
 		<result property="endDate" column="end_date" />
-		
+		<association property="memberProfileVO" javaType="MemberProfileVO">
+			<result property="fileName" column="file_name" />
+			<result property="oriName" column="ori_name" />
+			
+		</association>
 		<association property="jobVO" javaType="JobVO">
 			<id property="name" column="job_name" />
 		</association>
