@@ -140,7 +140,7 @@ public class ApprovalController {
 			approvalFormFileVO.setCategoryId(3L);
 			result = approvalService.updateFormFile(approvalFormFileVO);
 			
-			filemanger.saveFile(formFilePath, obj);
+			filemanger.saveFile2(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {
@@ -168,7 +168,7 @@ public class ApprovalController {
 			approvalFormFileVO.setCategoryId(Long.parseLong((String)param.get("categoryId")));
 			result = approvalService.addUpperFormFile(approvalFormFileVO);
 			
-			filemanger.saveFile(formFilePath, obj);
+			filemanger.saveFile2(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {
@@ -258,7 +258,7 @@ public class ApprovalController {
 		boolean check = false;
 		String fileName = "";
 		for(MultipartFile multipartFile : fileId) {
-			fileName = filemanger.saveFile(formFilePath, multipartFile);
+			fileName = filemanger.saveFile2(formFilePath, multipartFile);
 		}
 		
 		

@@ -73,9 +73,7 @@ to {
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 		<!-- sideBar -->
-		<c:if test="">
 		
-		</c:if>
 		<c:choose>
 			<c:when test="${id != 'admin'}">
 				<c:import url="./temp/sidebar.jsp"></c:import>
