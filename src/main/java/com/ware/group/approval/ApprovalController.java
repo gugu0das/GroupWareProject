@@ -443,23 +443,33 @@ public class ApprovalController {
 	@PostMapping("deleteCategory")
 	@ResponseBody
 	public int deleteCategory(ApprovalCategoryVO categoryVO) throws Exception{
-
+		
+		List<ApprovalCategoryVO> approvalCategoryVOList = approvalService.getUnderCategory(categoryVO);
+		
 		int result = approvalService.deleteCategory(categoryVO);
 		
-		List<ApprovalCategoryVO> approvalCategoryVOList = new ArrayList<>();
 		
-		if(result == 1) {
-			for(ApprovalCategoryVO categoryVO1 : approvalService.checkUpperCategory()) {
-				long count = approvalService.underCategoryCount(categoryVO1);
-				if( count > 0 ) {
-					approvalCategoryVOList.add(categoryVO1);
-				}
-			}
-			if( approvalCategoryVOList.size() != 0 ) {
-				for(ApprovalCategoryVO categoryVO2 : approvalCategoryVOList) {
-					approvalService.deleteUpperOptionApprover(categoryVO2);
-					approvalService.deleteUpperOptionFormFile(categoryVO2);
-				}
+		
+//		if(result == 1) {
+//			for(ApprovalCategoryVO categoryVO1 : approvalService.checkUpperCategory()) {
+//				long count = approvalService.underCategoryCount(categoryVO1);
+//				if( count > 0 ) {
+//					approvalCategoryVOList.add(categoryVO1);
+//				}
+//			}
+//			if( approvalCategoryVOList.size() != 0 ) {
+//				for(ApprovalCategoryVO categoryVO2 : approvalCategoryVOList) {
+//					approvalService.deleteUpperOptionApprover(categoryVO2);
+//					approvalService.deleteUpperOptionFormFile(categoryVO2);
+//
+//				}
+//			}
+//		}
+		
+		if(result > 1) {
+			for(ApprovalCategoryVO categoryVO2 : approvalCategoryVOList) {
+				approvalService.deleteUpperOptionApprover(categoryVO2);
+				approvalService.deleteUpperOptionFormFile(categoryVO2);
 			}
 		}
 		

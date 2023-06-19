@@ -32,7 +32,9 @@ public class ApprovalService {
 	private AllimDAO allimDAO;
 	
 	
-	
+	public List<ApprovalCategoryVO> getUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{;
+		return approvalDAO.getUnderCategory(approvalCategoryVO);
+	}
 	
 	public int updateApproverDepth(ApproverVO approverVO) throws Exception{
 		return approvalDAO.updateApproverDepth(approverVO);
