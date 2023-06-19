@@ -82,11 +82,11 @@
 	                                    <div class="form-floating mb-3" id="fileList">
 	                                   
 	                               			<div class="mb-3">
-	                                    	<label for="files" class="form-label fw">사진을 추가 하고싶으면 저를 클릭하세요</label>
+	                                    	<label for="files" class="form-label fw">사진 첨부파일 추가</label>
 	                                    	<!-- <input type="file" class="form-control" name="files" name="files"> -->
 	                                    	<!-- <button type="button">X</button> -->
 	                                    	</div>                          
-	                                    	<button type="button" id="fileAdd" class="btn btn-success">사진</button>                                                                                            
+	                                    	<button type="button" id="fileAdd" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="-4 -4 22 22" y="86"><g fill="#999" fill-rule="evenodd"><path d="M5.6 0h2.8v14H5.6z"/><path d="M0 5.6h14v2.8H0z"/></g></svg>사진</button>                                                                                            
 	                                    </div>
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">
@@ -98,7 +98,7 @@
 	                                    
 	                                                            
 	                                    <div class="d-grid">
-	                                    <button class="btn btn-success submitButton" id="update" type="submit">등록</button></div>
+	                                    <button class="btn btn-success submitButton" id="update" type="submit">글 등록</button></div>
 
                                 	</form:form>   
                               

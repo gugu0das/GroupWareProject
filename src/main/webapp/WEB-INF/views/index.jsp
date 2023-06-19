@@ -20,7 +20,7 @@
 
 <!-- Custom styles for this template-->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-
+<link href="/css/noticeTop5.css" rel="stylesheet">
 <style type="text/css">/* Chart.js */
 @
 keyframes chartjs-render-animation {
@@ -65,6 +65,7 @@ to {
 	left: 0;
 	top: 0
 }
+
 </style>
 </head>
 
@@ -315,7 +316,7 @@ to {
 									</div>
 								</div>
 								<!-- Card Body -->
-								<div class="card-body" id="noticeList">
+								<div class="card-body word" id="noticeList">
 									<div class="chart-pie pt-4 pb-2">
 
 										<div class="chartjs-size-monitor">

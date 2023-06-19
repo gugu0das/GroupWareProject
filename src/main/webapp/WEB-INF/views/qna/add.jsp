@@ -10,6 +10,22 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>Modern Business - Start Bootstrap Template</title>
+<style type="text/css">
+.fw-bolder {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+#fileAdd {
+        display: flex;
+        justify-content: center;
+}
+
+</style>
 <!-- css, favicon -->
 <c:import url="../temp/header.jsp"></c:import>
 <c:import url="../temp/style.jsp"></c:import>
@@ -33,7 +49,7 @@
                         <div class="text-center mb-5">
                             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
                             <h1 class="fw-bolder">커뮤니티 글 쓰기</h1>
-                            <p class="lead fw-normal text-muted mb-0">QnA 등록</p>
+                            <p class="lead fw-normal text-muted mb-0"></p>
                         </div>
                         <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
@@ -61,7 +77,7 @@
 	                                    	<!-- <input type="file" class="form-control" name="files" name="files"> -->
 	                                    	<!-- <button type="button">X</button> -->
 	                                    	</div>                          
-	                                    	<button type="button" id="fileAdd"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="-4 -4 22 22" y="86"><g fill="#999" fill-rule="evenodd"><path d="M5.6 0h2.8v14H5.6z"/><path d="M0 5.6h14v2.8H0z"/></g></svg>ADD</button>
+	                                    	<button type="button" id="fileAdd" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="-4 -4 22 22" y="86"><g fill="#999" fill-rule="evenodd"><path d="M5.6 0h2.8v14H5.6z"/><path d="M0 5.6h14v2.8H0z"/></g></svg>사진</button>
 	                                    	                                                                                      
 	                                    </div>
 	                                    <!-- content input-->
@@ -73,8 +89,8 @@
 	                                    
 	                                    
 	                                                            
-	                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">글등록</button></div>
-	                                    <button id="list" type="button" class="btn btn-outline-secondary"><a href="./list">목록으로</a></button>
+	                                    <div class="d-grid"><button class="btn btn-success submitButton btn-lg" id="submitButton" type="submit">글 등록</button></div>
+	                                    
                                 	</form:form>   
                                 <%-- </form> --%>
                             </div>
