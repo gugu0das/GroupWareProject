@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 public class MemberService implements UserDetailsService{
 
 	@Autowired
@@ -160,11 +162,11 @@ public class MemberService implements UserDetailsService{
 		return result;
 	}
 
-//--인사팀 END
-	public int setMemeberJoin(MemberVO memberVO,WorkTimeVO workTimeVO)throws Exception{
+
+	public int setMemeberJoin(MemberVO memberVO, BindingResult bindingResult,WorkTimeVO workTimeVO)throws Exception{
 
 		
-		if(this.pwCheck(memberVO)) {
+		if(this.pwCheck(memberVO,bindingResult)) {
 			return 0;
 		}
 		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
@@ -184,6 +186,7 @@ public class MemberService implements UserDetailsService{
 
 		return result;
 	}
+	//--인사팀 END
 	public int setProfileAdd(MemberProfileVO memberProfileVO,HttpSession session,MultipartFile file)throws Exception{
 		MemberVO memberVO =  this.getSessionAttribute(session);
 		memberProfileVO.setMemberId(memberVO.getId());
@@ -197,7 +200,7 @@ public class MemberService implements UserDetailsService{
 		return result;
 	}
 	//password change
-	public int setPasswordUpdate(MemberVO memberVO,HttpSession session,BindingResult bindingResult)throws Exception{
+	public int setPasswordUpdate(MemberVO memberVO,HttpSession session)throws Exception{
 		int result = 0; 
 		//1. session Memeber 꺼내기
 		memberVO.setAccountId(this.getSessionAttribute(session).getAccountId());
@@ -206,7 +209,7 @@ public class MemberService implements UserDetailsService{
 		boolean check = this.pwCheck(memberVO);
 		if(!check) {//false면 pw두개가 같음
 			memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
-
+			
 			result =  memberDAO.setPasswordUpdate(memberVO);//false일때 비번 변경
 
 			//			bindingResult.rejectValue("passwordCheck", "member.password.notEqual");
@@ -215,6 +218,7 @@ public class MemberService implements UserDetailsService{
 		return result;
 
 	}
+	
 	//init PasswordChange
 	public int setPasswordUpdate(MemberVO memberVO)throws Exception{
 		
@@ -263,6 +267,18 @@ public class MemberService implements UserDetailsService{
 		return check;
 	}
 	//pw체크 pw두개가 같으면 false 다르면 true
+	public boolean pwCheck(MemberVO memberVO, BindingResult bindingResult)throws Exception{
+		boolean check = false;
+		check = bindingResult.hasErrors();
+		if(check) {
+			return check;
+		}
+		if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
+			bindingResult.rejectValue("passwordCheck", "비밀번호를 확인해주세요");
+			check= true;
+		}
+		return check;
+	}
 	public boolean pwCheck(MemberVO memberVO)throws Exception{
 		boolean check = false;
 		if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {

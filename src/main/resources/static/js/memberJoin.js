@@ -71,6 +71,9 @@ $("#idCheck").on("click", async function () {
                             if (result.isConfirmed) {
                                 $("#accountId").removeClass("fail")
                                 $("#accountId").addClass("success")
+                                $("#idCheck").removeClass("btn-outline-primary")
+                                
+                                $("#idCheck").addClass("btn-primary")
                             }
                         });
                     }
@@ -87,5 +90,52 @@ $("#idCheck").on("click", async function () {
         }
 
     })
+
+})
+
+$("#accountId").on("change", function () {
+    $("#accountId").removeClass("success");
+    $("#idCheck").addClass("btn-outline-primary")
+    $("#idCheck").removeClass("btn-primary")
+})
+
+
+$(document).on('click', '#submitbtn', function () {
+    let nullCheck = false;
+
+
+    $(".essential").each(function (index, essential) {
+        $(essential).removeClass("form-red")
+        $(essential).attr("placeholder", '필수로 입력해야 합니다.')
+
+        if ($(essential).val().length == 0) {
+            $(essential).addClass("form-red")
+            if ($(essential).prop('type') == "text") {
+                swal.fire('공란이있습니다', '입력란을 다시 확인해주세요', 'error');
+                nullCheck = true;
+            }
+            else if ($(essential).prop('type') == "file") {
+                swal.fire('파일업로드 오류', '추가한 파일을 다시 확인해주세요', 'error');
+                nullCheck = true;
+            }
+            else {
+                swal.fire('등록오류', '다시 확인해주세요', 'error');
+                nullCheck = true;
+            }
+
+            if (nullCheck == true) {
+                return false;
+            }
+        }
+        if(!$("#accountId").hasClass("success")){
+            swal.fire('중복검사 오류', '아이디 중복검사를 확인해주세요', 'error');
+            nullCheck = true;
+        }
+    })
+    
+    if (nullCheck != true) {
+        $("#frm").submit();
+
+    }
 
 })

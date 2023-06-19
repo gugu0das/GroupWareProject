@@ -107,14 +107,17 @@ border :none;
 								<div class="card-header">Profile Picture</div>
 								<div class="card-body text-center">
 									<!-- Profile picture image-->
-									<img class="img-account-profile rounded-circle mb-2"
-										src="/images/undraw_profile_2.svg" alt="">
-									<!-- Profile picture help block-->
-									<div class="small font-italic text-muted mb-4">JPG or PNG
-										no larger than 5 MB</div>
-									<!-- Profile picture upload button-->
-									<button class="btn btn-primary" type="button">Upload
-										new image</button>
+									<c:if test="${not empty memberVO.memberProfileVO.fileName }">
+										<img class="img-account-profile rounded-circle mb-2"
+											style="width: 453px; height: 453px"
+											src="/profile/${memberVO.memberProfileVO.fileName }">
+									</c:if>
+									<c:if test="${empty memberVO.memberProfileVO.fileName }">
+										<img class="img-account-profile rounded-circle mb-2"
+											style="width: 453px; height: 453px"
+											src="/images/undraw_profile_1.svg">
+									</c:if>
+									
 								</div>
 							</div>
 						</div>
@@ -123,7 +126,7 @@ border :none;
 							<div class="card mb-4">
 								<div class="card-header">Password Change</div>
 								<div class="card-body">
-									<form:form modelAttribute="memberVO" method="post"
+									<form:form modelAttribute="memberVO" method="post" id="frm"
 										action="./security" >
 
 										
@@ -143,7 +146,7 @@ border :none;
 											
 										</div>
 										<!-- Save changes button-->
-										<button class="btn btn-primary" type="submit" id="">비밀번호 변경
+										<button class="btn btn-primary" type="button" id="pwChange">비밀번호 변경
 											</button>
 									</form:form>
 								</div>

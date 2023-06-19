@@ -58,10 +58,17 @@ public class MemberController {
 		
 	}
 	@PostMapping("join")
-	public ModelAndView setMemberJoin(ModelAndView mv, @Valid MemberVO memberVO,WorkTimeVO workTimeVO, BindingResult bindingResult)throws Exception{
+	public ModelAndView setMemberJoin(ModelAndView mv, @Valid MemberVO memberVO, BindingResult bindingResult,WorkTimeVO workTimeVO)throws Exception{
 
+		boolean check  = memberService.pwCheck(memberVO, bindingResult);
+		if(check) {
+			
+			mv.setViewName("member/join");
+			
+			return mv; 
+		}
+		int result = memberService.setMemeberJoin(memberVO,bindingResult, workTimeVO);
 		
-		int result = memberService.setMemeberJoin(memberVO, workTimeVO);
 		commonVO.setMsg("계정을 생성할 수 없습니다.");
 		commonVO.setUrl("/member/join");
 		commonVO.setTextMsg("다시 확인해주세요.");
@@ -129,8 +136,22 @@ public class MemberController {
 	@PostMapping("memberProfileAdd")
 	public ModelAndView setProfile(ModelAndView mv,MemberProfileVO memberProfileVO,HttpSession session,MultipartFile file)throws Exception{
 		
-		memberService.setProfileAdd(memberProfileVO, session, file);
-		mv.setViewName("redirect:/");
+		int result =memberService.setProfileAdd(memberProfileVO, session, file);
+		
+		
+		commonVO.setMsg("프로필을 변경할 수 없습니다.");
+		commonVO.setUrl("/member/profile");
+		
+		commonVO.setTextMsg("");
+		if(result>0) {
+			commonVO.setMsg("프로필을 변경하였습니다.");
+			
+		}
+		
+
+		mv.addObject("commonVO",commonVO);
+		mv.addObject("result", result);
+		mv.setViewName("member/memberAlert");
 		return mv;
 	}
 	
@@ -146,20 +167,20 @@ public class MemberController {
 	
 	
 	@GetMapping("security")
-	public ModelAndView getSecurity(@ModelAttribute MemberVO memberVO, ModelAndView mv)throws Exception{
+	public ModelAndView getSecurity(@ModelAttribute MemberVO memberVO, ModelAndView mv,HttpSession session)throws Exception{
+
+		memberVO = memberService.getMemberProfile(memberVO, session);
 		
+		mv.addObject("memberVO", memberVO);
 		mv.setViewName("member/security");
 		return mv;
 	}
 	
 	@PostMapping("security")
-	public ModelAndView setPasswordUpdate(ModelAndView mv, MemberVO memberVO,HttpSession session, BindingResult bindingResult)throws Exception{
+	public ModelAndView setPasswordUpdate(ModelAndView mv, MemberVO memberVO,HttpSession session)throws Exception{
 		
-//		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
-//		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-//		MemberVO memberVO2 =(MemberVO)contextImpl.getAuthentication().getPrincipal(); 
-//		memberVO.setId(memberVO2.getId());
-		int result  = memberService.setPasswordUpdate(memberVO,session, bindingResult);
+
+		int result  = memberService.setPasswordUpdate(memberVO,session);
 		
 		commonVO.setMsg("비밀번호를 변경할 수 없습니다.");
 		commonVO.setUrl("/member/security");
@@ -167,7 +188,7 @@ public class MemberController {
 		if(result>0) {
 			commonVO.setMsg("비밀번호를 변경하였습니다.");
 			commonVO.setTextMsg("다시 로그인해주세요.");
-			commonVO.setUrl("redirect:/member/logout");
+			commonVO.setUrl("/member/logout");
 		}
 		mv.addObject("commonVO",commonVO);
 		mv.addObject("result", result);
@@ -175,7 +196,11 @@ public class MemberController {
 		
 		return mv;
 	}
-	
+	@GetMapping("beforePwCheck")
+	@ResponseBody
+	public boolean getBeforePwCheck(MemberVO memberVO)throws Exception{
+		return memberService.pwCheck(memberVO);
+	}
 //	-------------검증------------------------------------------
 	@GetMapping("idDuplicateCheck")
 	@ResponseBody
