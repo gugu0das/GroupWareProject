@@ -322,9 +322,10 @@ to {
 
 
 	<c:import url="../temp/logoutModal.jsp"></c:import>
+	
 	<c:import url="../temp/common_js.jsp"></c:import>
 	<script src="/js/profile.js"></script>
-
+	<script src="/js/essential.js"></script>
 
 </body>
 </html>

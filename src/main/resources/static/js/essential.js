@@ -3,11 +3,11 @@ $('.essbox').on('click', '#submitbtn', function () {
 
 
     $(".essential").each(function (index, essential) {
-        $(essential).removeClass("form-control-red")
+        $(essential).removeClass("form-red")
         $(essential).attr("placeholder", '필수로 입력해야 합니다.')
 
         if ($(essential).val().length == 0) {
-            $(essential).addClass("form-control-red")
+            $(essential).addClass("form-red")
             if ($(essential).prop('type') == "text") {
                 swal('공란이있습니다', '입력란을 다시 확인해주세요', 'error');
                 nullCheck = true;

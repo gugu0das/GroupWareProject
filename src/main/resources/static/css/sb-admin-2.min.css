@@ -103,5 +103,7 @@
         top: 50%;
         transform: translateY(-50%);
     }
-
+.form-red{
+	border-color: red;
+}
 

@@ -33,10 +33,11 @@ public class MemberVO implements UserDetails{
 	private Long jobId;
 	@NotBlank
 	private String password;
+	@NotBlank
 	private String passwordCheck;
 	@NotBlank
 	private String name;
-	@NotNull
+	
 	private Date birthDate;
 	@NotBlank
 	@Email
@@ -48,7 +49,7 @@ public class MemberVO implements UserDetails{
 	
 	private Date regDate;
 	private Date updateDate;
-	@NotNull
+	
 	private Date hireDate;
 	private Date endDate;
 	
