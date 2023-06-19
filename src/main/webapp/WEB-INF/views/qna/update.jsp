@@ -10,7 +10,22 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>Modern Business - Start Bootstrap Template</title>
+<style type="text/css">
+.fw-bolder {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
 
+    #fileAdd {
+        display: flex;
+        justify-content: center;
+    }
+
+</style>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <c:import url="../temp/header.jsp"></c:import>
 <c:import url="../temp/style.jsp"></c:import>
@@ -32,8 +47,8 @@
                     <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                         <div class="text-center mb-5">
                             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
-                            <h1 class="fw-bolder">QnA 글 업데이트 update</h1>
-                            <p class="lead fw-normal text-muted mb-0">커뮤니티 업데이트 update</p>
+                            <h1 class="fw-bolder">커뮤니티&QnA 글 수정</h1>
+                            <p class="lead fw-normal text-muted mb-0"></p>
                         </div>
                         <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
@@ -43,16 +58,18 @@
 	                                    <!-- Title input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="title" name="title" type="text" placeholder="Enter Title..." data-sb-validations="required" /> -->
-	                                        <form:input path="title" id="title" cssClass="form-control"/>
 	                                        <label for="title">제목</label>
+	                                        <form:input path="title" id="title" cssClass="form-control"/>
+	                                        
 	                                        <form:errors path="title"></form:errors>
 	                                        <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
 	                                    </div>
 	                                    <!-- writer input-->
 	                                    <div class="form-floating mb-3">
 	                                        <!-- <input class="form-control" id="writer" name="writer" type="text" placeholder="Enter Title..." data-sb-validations="required,email" /> -->
-	                                        <form:input path="writer" id="writer" cssClass="form-control" readOnly="true"/>
 	                                        <label for="writer">작성자</label>
+	                                        <form:input path="writer" id="writer" cssClass="form-control" readOnly="true"/>
+	                                        
 	                                        <form:errors path="writer"></form:errors>
 	                                    </div>
 	                                   <div class="form-floating mb-3" id="fileList">
@@ -65,19 +82,20 @@
 										</c:forEach>
 										
 										<!-- <label for="files" class="form-label">Image</label> -->
-	                                    <button type="button" id="fileAdd">ADD</button>
+	                                    <button type="button" id="fileAdd" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="-4 -4 22 22" y="86"><g fill="#999" fill-rule="evenodd"><path d="M5.6 0h2.8v14H5.6z"/><path d="M0 5.6h14v2.8H0z"/></g></svg>사진</button>
 	                                     </div>
 	                               <!-- content input-->
 	                                    <div class="form-floating mb-3">
-	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required">${qnaVO.contents}</textarea>
 	                                        <label for="contents">내용</label>
+	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required">${qnaVO.contents}</textarea>
+	                                        
 	                                        <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
 	                                    </div>  
 	                                    
 	                                    
 	                                                            
 	                                    <div class="d-grid">
-	                                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit" value="수정">Submit</button>
+	                                    <button class="btn btn-success btn-lg" id="submitButton" type="submit" value="수정">수정</button>
 	                                    </div>
 	                    
                                 	</form:form>   
