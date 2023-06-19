@@ -51,10 +51,9 @@
   </ul>
 </div>
 <div class="card mb-4">
-									<div class="card-header">
-										
-										
-									</div>
+									<div class="card-header py-3">
+                            	<h6 class="m-0 font-weight-bold text-primary">내 결제 정보</h6>
+                       			 </div>
 									<div class="card-body">
 										<div
 											class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
