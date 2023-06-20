@@ -42,7 +42,7 @@
     
 	<select id="selectScheList" resultType="com.ware.group.schedule.ScheVO" parameterType="com.ware.group.common.SearchVO">
 	    SELECT TITLE, TYPE, START_DATE, START_HOUR, START_MINUTE, END_DATE, END_HOUR
-	    	 , END_MINUTE, REPEAT_TYPE, REPEAT_END, CONTENT, ISOPEN, M.employee_id USERNUM, M.name USERNM
+	    	 , END_MINUTE, REPEAT_TYPE, REPEAT_END, CONTENT, ISOPEN, M.employee_id USERNUM, M.name USERNAME
 	      FROM SCHEDULE TC
 	     INNER JOIN MEMBER M ON TC.USERNUM = M.id
 	     <include refid="includeSche"/>
@@ -86,7 +86,7 @@
                 
 	<select id="selectScheOne" parameterType="com.ware.group.schedule.ScheVO" resultType="com.ware.group.schedule.ScheVO">
 	    SELECT ID, TITLE, TYPE, START_DATE, START_HOUR, START_MINUTE, END_DATE, END_HOUR 
-	    	 , END_MINUTE, REPEAT_TYPE, REPEAT_OPTION, REPEAT_END, CONTENT, ISOPEN, M.employee_id USERNUM, M.name USERNM
+	    	 , END_MINUTE, REPEAT_TYPE, REPEAT_OPTION, REPEAT_END, CONTENT, ISOPEN, M.employee_id USERNUM, M.name USERNAME
 	      FROM SCHEDULE TC
 	     INNER JOIN MEMBER M ON TC.USERNUM = M.id
 	     WHERE TC.DELETEFLAG=0 AND ID=#{id}
@@ -94,7 +94,7 @@
 	
 	<select id="selectScheOne4Read" parameterType="com.ware.group.schedule.ScheVO" resultType="com.ware.group.schedule.ScheVO">
 	    SELECT TC.ID, TC.TITLE, TC.TYPE, TC.START_DATE, TC.START_HOUR, TC.START_MINUTE, TC.END_DATE, TC.END_HOUR 
-	         , TC.END_MINUTE, TC.REPEAT_TYPE, TC.REPEAT_TYPE AS REPEATTYPENM, TC.REPEAT_END, TC.CONTENT, TC.ISOPEN, M.employee_id USERNUM, M.name USERNM
+	         , TC.END_MINUTE, TC.REPEAT_TYPE, TC.REPEAT_TYPE AS REPEATTYPENM, TC.REPEAT_END, TC.CONTENT, TC.ISOPEN, M.employee_id USERNUM, M.name USERNAME
 	      FROM SCHEDULE TC
 	     INNER JOIN MEMBER M ON TC.USERNUM = M.id
 	     WHERE TC.DELETEFLAG=0 AND TC.ID=#{id}
