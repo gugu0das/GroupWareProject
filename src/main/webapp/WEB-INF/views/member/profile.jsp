@@ -107,7 +107,7 @@ to {
 						<div class="col-xl-4">
 							<!-- Profile picture card-->
 							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">Profile</div>
+								<div class="card-header">프로필</div>
 								<div class="card-body text-center">
 									<!-- Profile picture image-->
 									<div>
@@ -134,7 +134,7 @@ to {
 						<div class="col-xl-7">
 							<!-- Account details card-->
 							<div class="card mb-4">
-								<div class="card-header">Account Details</div>
+								<div class="card-header">계정 정보</div>
 								<div class="card-body">
 									<form:form modelAttribute="memberVO" method="post"
 										action="./update" id="updateForm">

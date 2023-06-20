@@ -30,7 +30,7 @@
 
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item active"><a class="nav-link" href="/"> <i
-			class="fas fa-fw fa-tachometer-alt"></i> <span>홈 화면</span></a></li>
+			class="fas fa-fw fa-tachometer-alt"></i> <span>홈</span></a></li>
 
 	<!-- Divider -->
 	<hr class="sidebar-divider">
@@ -105,19 +105,41 @@
 			<div class="bg-white py-2 collapse-inner rounded">
 				<!-- <h6 class="collapse-header">Login Screens:</h6>
 				<a class="collapse-item" href="login.html">Login</a>  -->
-				<a class="collapse-item" href="/notice/list">공지사항</a>
-				<a class="collapse-item" href="/qna/list">커뮤니티&QnA</a> 
+				<a class="collapse-item" href="/notice/list">공지사항</a> <a
+					class="collapse-item" href="/qna/list">커뮤니티&QnA</a>
 				<!-- <div class="collapse-divider"></div>
 				<h6 class="collapse-header">Other Pages:</h6>
 				<a class="collapse-item" href="404.html">404 Page</a> <a
 					class="collapse-item" href="blank.html">Blank Page</a> -->
 			</div>
 		</div></li>
-
+	<li class="nav-item"><a class="nav-link collapsed" href="#"
+		data-toggle="collapse" data-target="#department"
+		aria-expanded="true" aria-controls="collapsePages"> <i
+			class="fas fa-fw fa-folder"></i> <span>부서</span>
+	</a>
+		<div id="department" class="collapse"
+			aria-labelledby="headingPages" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				
+				
+				<a class="collapse-item" href="/department/list"> 
+				<i class="mr-2 text-gray-400"><img src="   https://cdn-icons-png.flaticon.com/512/3142/3142885.png " style="height: 12.42px; width: 13.88px"></i> 부서리스트
+				</a>
+				<a class="collapse-item" href="/department/add">
+				<i class="mr-2 text-gray-400"><img src="   https://cdn-icons-png.flaticon.com/512/2648/2648330.png " style="height: 12.42px; width: 13.88px"></i>
+				부서추가</a> 
+				
+				<!-- <div class="collapse-divider"></div>
+				<h6 class="collapse-header">Other Pages:</h6>
+				<a class="collapse-item" href="404.html">404 Page</a> <a
+					class="collapse-item" href="blank.html">Blank Page</a> -->
+			</div>
+		</div></li>
 	<!-- Nav Item - Charts -->
-	<li class="nav-item"><a class="nav-link" href="charts.html"> <i
-			class="fas fa-fw fa-chart-area"></i> <span>Charts</span></a></li>
-
+	<!-- <li class="nav-item"><a class="nav-link" href="charts.html"> <i
+			class="fas fa-fw fa-chart-area"></i> <span>Charts</span></a></li> -->
+	
 	<!-- Nav Item - Tables -->
 	<li class="nav-item"><a class="nav-link" href="/notice/list">
 			<i class="fas fa-fw fa-table"></i> <span>Notice</span>
@@ -131,18 +153,7 @@
 		<button class="rounded-circle border-0" id="sidebarToggle"></button>
 	</div>
 
-	<!-- Sidebar Message -->
-	<div class="sidebar-card d-none d-lg-flex">
-		<img class="sidebar-card-illustration mb-2"
-			src="/images/undraw_rocket.svg" alt="...">
-		<p class="text-center mb-2">
-			<strong>SB Admin Pro</strong> is packed with premium features,
-			components, and more!
-		</p>
-		<a class="btn btn-success btn-sm"
-			href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to
-			Pro!</a>
-	</div>
+	
 
 </ul>
 <!-- End of Sidebar -->
