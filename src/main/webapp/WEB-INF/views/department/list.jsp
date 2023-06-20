@@ -22,7 +22,12 @@
 				<!-- contents 작성 -->
 				<div class="container-fluid">
 					<h2>부서 리스트</h2>
+					<div class="card mb-4 mb-xl-0">
+					
+								<div class="card-body">
+					
 					<div id="tree-container">
+					</div>
 					</div>
 				</div>
 				<!-- END Contents  -->

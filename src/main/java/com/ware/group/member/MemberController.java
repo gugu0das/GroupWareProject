@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.batch.BatchProperties.Job;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -83,7 +84,7 @@ public class MemberController {
 		
 		return mv;
 	}
-//	
+ 
 	@GetMapping("login")
 	public void getLogin(ModelAndView mv, HttpSession session)throws Exception{	
 	}
@@ -93,7 +94,7 @@ public class MemberController {
 		memberVO =memberService.getMemberDetail(memberVO);
 		List<DepartmentVO> departmentVOs =   departmentService.getDepartmentList();
 		List<JobVO> jobVOs = memberService.getJobList();
-//		근태받기
+ 
 		List<EmployeeStatusVO> employeeStatusVOs =  memberService.getEmployeeStatusList(memberVO);
 
 		mv.addObject("employeeStatusVOs", employeeStatusVOs);
@@ -155,7 +156,7 @@ public class MemberController {
 		return mv;
 	}
 	
-	//ajax용
+	 
 	@GetMapping("detail")
 	public ModelAndView getMemberDetail(@ModelAttribute MemberVO memberVO,ModelAndView mv)throws Exception{
 		
@@ -201,7 +202,7 @@ public class MemberController {
 	public boolean getBeforePwCheck(MemberVO memberVO)throws Exception{
 		return memberService.pwCheck(memberVO);
 	}
-//	-------------검증------------------------------------------
+ 
 	@GetMapping("idDuplicateCheck")
 	@ResponseBody
 	public boolean idDuplicateCheck(MemberVO memberVO)throws Exception{
@@ -211,8 +212,12 @@ public class MemberController {
 		return check;
 		
 	}
-
-	//----------------근태------------------------------------
+//	@GetMapping("jobList")
+//	@ResponseBody
+//	public List<JobVO> getJobList()throws Exception{
+//		return  memberService.getJobList();
+//	}
+	 
 
 	@PostMapping("statusUpdate")
 	public ModelAndView employeeStatusUpdate(ModelAndView mv,MemberVO memberVO,EmployeeStatusVO employeeStatusVO,HttpSession session,String timeStatus,WorkTimeVO workTimeVO)throws Exception{
@@ -230,27 +235,27 @@ public class MemberController {
 	@GetMapping("statusList")
 	public ModelAndView getStatusList(ModelAndView mv,MemberVO memberVO, HttpSession session, EmployeeStatusVO employeeStatusVO,WorkTimeVO workTimeVO)throws Exception{
 		
-		//필요한 파라미터
-		//1.내정보
+		 
+		 
 		memberVO = memberService.getMemberProfile(memberVO, session);
 		mv.addObject("memberVO",memberVO);
-		//2. 지금 현재 근무상태
+		 
 		employeeStatusVO =  memberService.getEmployeeStatus(session);
 		mv.addObject("employeeVO", employeeStatusVO);
-		//  2-1 근무상태 버튼
+		 
 		List<String> ar = memberService.getEmployeeStatusBtn(employeeStatusVO, session);
 		if(ar!=null&&ar.size()>0) {
 			
 			mv.addObject("btns",ar);
 		}
-		//3. 총 근무 내역
+		 
 		List<EmployeeStatusVO> employeeStatusVOs = memberService.getEmployeeStatusList(employeeStatusVO, session);
-//		mv.addObject("employeeStatusVOs", employeeStatusVOs);   4번의 list에 있음 사실상 3번은 4번에 추가하여 없어도됨
-		//  3-1 근무 내역이 있는 년도
+ 
+		 
 		List<String> years = memberService.getEmployeeStatusYears(employeeStatusVOs);
 		mv.addObject("years",years);
 		
-		//4. 근무 내역의 총 시간 및 필요한 시간, 
+		 
 		List<WorkTimeStatusVO> workTimeStatusVOs =  memberService.getWorkTimeStatusTotal(workTimeVO,employeeStatusVO, session);
 		mv.addObject("workTimeStatusVOs",workTimeStatusVOs);
 		

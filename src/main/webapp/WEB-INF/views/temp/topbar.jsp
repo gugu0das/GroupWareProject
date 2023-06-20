@@ -11,7 +11,7 @@
 	</button>
 
 	<!-- Topbar Search -->
-	<form
+<!-- 	<form
 		class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 		<div class="input-group">
 			<input type="text" class="form-control bg-light border-0 small"
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 	</form>
-
+ -->
 	<!-- Topbar Navbar -->
 	<ul class="navbar-nav ml-auto">
 
@@ -61,7 +61,7 @@
 			<div
 				class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
 				aria-labelledby="alertsDropdown">
-				<h6 class="dropdown-header">Alerts Center</h6>
+				<h6 class="dropdown-header">알림</h6>
 				
 					
 					
@@ -70,12 +70,13 @@
 			</div></li>
 
 		<!-- Nav Item - Messages -->
-		<li class="nav-item dropdown no-arrow mx-1"><a
+		<!-- <li class="nav-item dropdown no-arrow mx-1"><a
 			class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
 			role="button" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="false"> <i class="fas fa-envelope fa-fw"></i> <!-- Counter - Messages -->
+			aria-expanded="false"> <i class="fas fa-envelope fa-fw"></i> Counter - Messages
 				<span class="badge badge-danger badge-counter">7</span>
-		</a> <!-- Dropdown - Messages -->
+		</a> 
+		Dropdown - Messages
 			<div
 				class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
 				aria-labelledby="messagesDropdown">
@@ -128,7 +129,7 @@
 				</a> <a class="dropdown-item text-center small text-gray-500" href="#">Read
 					More Messages</a>
 			</div></li>
-
+ -->
 		<div class="topbar-divider d-none d-sm-block"></div>
 
 		<!-- Nav Item - User Information -->
@@ -137,24 +138,22 @@
 			role="button" data-toggle="dropdown" aria-haspopup="true"
 			aria-expanded="false"> <span
 				class="mr-2 d-none d-lg-inline text-gray-600 small">마이페이지</span> <img
-				class="img-profile rounded-circle" src="images/후드입은_라이언.png">
+				class="img-profile rounded-circle" src="https://t4.ftcdn.net/jpg/05/49/98/39/240_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg">
 		</a> <!-- Dropdown - User Information -->
 			<div
 				class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 				aria-labelledby="userDropdown">
 				<a class="dropdown-item" href="/member/profile"> <i
-					class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile
-				</a> <a class="dropdown-item" href="#"> <i
-					class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Settings
-				</a> <a class="dropdown-item" href="#"> <i
-					class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Activity
-					Log
-				</a>
+					class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 프로필
+				</a> 
+				<a class="dropdown-item" href="http://localhost/member/security"> 
+				<i class="mr-2 text-gray-400"><img src="https://cdn-icons-png.flaticon.com/128/282/282094.png" style="height: 10.42px; width: 11.88px"></i> 보안
+				</a> 
 				<div class="dropdown-divider"></div>
 				<a class="dropdown-item" href="#" data-toggle="modal"
 					data-target="#logoutModal"> <i
 					class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-					Logout
+					로그아웃
 				</a>
 			</div></li>
 
