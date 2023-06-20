@@ -239,24 +239,55 @@ function getList(){
 }
 
 
-
+//댓글 삭제
 $("#commentListResult").on("click", ".del", function(e) {
+    console.log("클릭");
     let id = $(this).attr("data-qna-qna");
-
-    $.ajax({
-        url: "/qnaComment/delete",
-        type: "POST",
-        data: {
-            id: id
-        },
-        success: function() {
-            alert('댓글이 삭제 되었습니다');
-            getList();
-        },
-        error: function() {
-            alert('삭제가 실패했습니다');
+    
+    Swal.fire({
+        title: '정말로 삭제하시겠습니까?',
+        text: '한번 삭제되면 다시 되돌릴 수 없습니다.',
+        icon: 'warning',
+        
+        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+        confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+        
+        reverseButtons: true, // 버튼 순서 거꾸로
+        
+     }).then(result => {
+        // 만약 Promise리턴을 받으면,
+        if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+            $.ajax({
+                url: "/qnaComment/delete",
+                 type: "POST",
+                  data: {
+                      id: id
+                },
+                success: function() {
+                    Swal.fire({
+                        title: '삭제 되었습니다',
+                        icon: 'success',
+                        
+                        
+                        
+                     }).then(result => {
+                        // 만약 Promise리턴을 받으면,
+                        getList();
+                        location.reload(); 
+                       
+                     });
+                 },
+                error: function() {
+                    alert('삭제가 실패했습니다');
+                 }
+             });
+                       
         }
-    });
+     });
+     
 });
 
 $(document).on("click", ".clear",function() {
