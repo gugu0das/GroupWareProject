@@ -161,6 +161,9 @@
 	delete from PROFILE WHERE member_id=#{memberId}
 	</delete>
 
+	<delete id="setJobDelete" parameterType="JobVO">
+	delete from JOB WHERE id=#{id}
+	</delete>
 	<!-- 검증 1. ID중복검사 -->
 	<select id="idDuplicateCheck" resultType="MemberVO"
 		parameterType="MemberVO">

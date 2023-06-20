@@ -36,9 +36,19 @@
 								<div class="col-lg-4">
 									<div class="d-flex" style="height: 100px">
 										<div class="flex-shrink-0 me-3">
-											<img src="/images/후드입은_라이언.png" alt=""
-												class="avatar-md rounded-circle img-thumbnail"
-												style="width: 100px; height: 100px">
+											<c:if test="${not empty memberVO.memberProfileVO.fileName }">
+												<img class="img-account-profile rounded-circle mb-2"
+													style="width: 100px; height: 100px"
+													src="/profile/${memberVO.memberProfileVO.fileName }">
+											</c:if>
+											<c:if test="${empty memberVO.memberProfileVO.fileName }">
+												<img class="img-account-profile rounded-circle mb-2"
+													style="width: 100px; height: 100px"
+													src="/images/undraw_profile_1.svg">
+											</c:if>
+
+
+
 										</div>
 										<div class="flex-grow-1 align-self-center">
 											<div class="text-muted">
@@ -88,13 +98,15 @@
 
 
 											<c:forEach items="${workTimeStatusVOs }" var="vo">
-												<c:if test="${vo.monthVO.year eq  employeeVO.monthVO.year && vo.monthVO.month eq employeeVO.monthVO.month}">
+												<c:if
+													test="${vo.monthVO.year eq  employeeVO.monthVO.year && vo.monthVO.month eq employeeVO.monthVO.month}">
 													<h4 class="small font-weight-bold">
 														이번달 총 근무 <span class="float-right">${vo.persent}%</span>
 													</h4>
 													<div class="progress mb-4">
 														<div class="progress-bar bg-success" role="progressbar"
-															style="width: ${vo.persent}%" aria-valuenow="${vo.persent}" aria-valuemin="0"
+															style="width: ${vo.persent}%"
+															aria-valuenow="${vo.persent}" aria-valuemin="0"
 															aria-valuemax="100">${vo.monthStatusWork }</div>
 													</div>
 													<span class="float-right">${vo.monthTotalWork }</span>
@@ -159,41 +171,44 @@
 									<div class="accordion-item">
 										<h2 class="accordion-header" id="flush-headingOne">
 											<button class="accordion-button collapsed" type="button"
-												data-bs-toggle="collapse"
-												data-bs-target="#f${year }" aria-expanded="false"
-												aria-controls="f${year }">${year }년</button>
+												data-bs-toggle="collapse" data-bs-target="#f${year }"
+												aria-expanded="false" aria-controls="f${year }">${year }년</button>
 										</h2>
-										<div id="f${year }"
-											class="accordion-collapse collapse"
+										<div id="f${year }" class="accordion-collapse collapse"
 											aria-labelledby="flush-headingOne"
 											data-bs-parent="#yearsList">
 											<div class="accordion-body">
 												<!-- 월 아코디언 -->
 												<div class="accordion accordion-flush" id="monthList">
-													<c:forEach items="${workTimeStatusVOs }" var="workTimeStatusVO">
-													<c:if test="${workTimeStatusVO.monthVO.year eq year }">
-														<div class="accordion-item monthItem">
-															<h2 class="accordion-header" id="flush-bodyOne">
-																<button class="accordion-button collapsed" type="button"
-																	data-bs-toggle="collapse" data-bs-target="#f${workTimeStatusVO.monthVO.month +year}"
-																	aria-expanded="false" aria-controls="flush-collapseOne">${workTimeStatusVO.monthVO.month}월</button>
-															</h2>
+													<c:forEach items="${workTimeStatusVOs }"
+														var="workTimeStatusVO">
+														<c:if test="${workTimeStatusVO.monthVO.year eq year }">
+															<div class="accordion-item monthItem">
+																<h2 class="accordion-header" id="flush-bodyOne">
+																	<button class="accordion-button collapsed"
+																		type="button" data-bs-toggle="collapse"
+																		data-bs-target="#f${workTimeStatusVO.monthVO.month +year}"
+																		aria-expanded="false"
+																		aria-controls="flush-collapseOne">${workTimeStatusVO.monthVO.month}월</button>
+																</h2>
 																<div id="f${workTimeStatusVO.monthVO.month +year}"
 																	class="accordion-collapse collapse"
 																	data-bs-parent="#monthList">
 																	<div class="accordion-body">
-																		
-																			<h4 class="small font-weight-bold">
-																				${year }년 ${workTimeStatusVO.monthVO.month }월 총 근무 <span class="float-right">${workTimeStatusVO.persent}%</span>
-																			</h4>
-																			<div class="progress mb-4">
-																				<div class="progress-bar bg-success"
-																					role="progressbar" style="width: ${workTimeStatusVO.persent}%"
-																					aria-valuenow="${workTimeStatusVO.persent}" aria-valuemin="0"
-																					aria-valuemax="100">${workTimeStatusVO.monthStatusWork }</div>
-																			</div>
-																			<span class="float-right">${workTimeStatusVO.monthTotalWork }</span>
-																		
+
+																		<h4 class="small font-weight-bold">
+																			${year }년 ${workTimeStatusVO.monthVO.month }월 총 근무 <span
+																				class="float-right">${workTimeStatusVO.persent}%</span>
+																		</h4>
+																		<div class="progress mb-4">
+																			<div class="progress-bar bg-success"
+																				role="progressbar"
+																				style="width: ${workTimeStatusVO.persent}%"
+																				aria-valuenow="${workTimeStatusVO.persent}"
+																				aria-valuemin="0" aria-valuemax="100">${workTimeStatusVO.monthStatusWork }</div>
+																		</div>
+																		<span class="float-right">${workTimeStatusVO.monthTotalWork }</span>
+
 																		<table class="table table-bordered" id="dataTable"
 																			width="100%">
 																			<thead>
@@ -226,7 +241,7 @@
 																	</div>
 																</div>
 															</div>
-													</c:if>
+														</c:if>
 													</c:forEach>
 												</div>
 												<!-- /월 아코딩 -->
@@ -260,7 +275,7 @@
 		</div>
 		<!-- End of Page Wrapper -->
 	</div>
-	 <script src="/js/employeeStatus.js"></script> 
+	<script src="/js/employeeStatus.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

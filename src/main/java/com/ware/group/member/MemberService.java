@@ -49,90 +49,90 @@ public class MemberService implements UserDetailsService{
 
 	@Autowired
 	private FileManager fileManager;
-	
+
 	@Value("${app.profile.locations}")
 	private String path;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		 
+
 
 		MemberVO memberVO = new MemberVO();
 		memberVO.setAccountId(username);
 		try {
 			memberVO = memberDAO.getMemberLogin(memberVO);
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 		}
 
 		return memberVO;
 	}
 
-	 
+
 	public MemberVO getSessionAttribute(HttpSession session)throws Exception{
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
-		 
+
 		return memberVO;
 	}
 
-	 
+
 	public MemberVO getMemberProfile(MemberVO memberVO, HttpSession session) throws Exception{
 
 		memberVO = this.getSessionAttribute(session);
 		memberVO = memberDAO.getMemberProfile(memberVO);
-		 
+
 		WorkTimeVO workTimeVO = new WorkTimeVO();
 		workTimeVO.setMemberId(memberVO.getId());
 		workTimeVO= memberDAO.getDefaultWork(workTimeVO);
 
 		memberVO.setWorkTimeVO(workTimeVO);
-		 
+
 		MemberProfileVO memberProfileVO = new MemberProfileVO();
 		memberProfileVO.setMemberId(memberVO.getId());
 		memberProfileVO = memberDAO.getProfile(memberProfileVO);
-		
+
 		memberVO.setMemberProfileVO(memberProfileVO);
 		return memberVO;
 	}
-	 
-		public MemberVO getMemberDetail(MemberVO memberVO) throws Exception{
 
-			
-			memberVO = memberDAO.getMemberDetail(memberVO);
-			 
-			WorkTimeVO workTimeVO = new WorkTimeVO();
-			workTimeVO.setMemberId(memberVO.getId());
-			workTimeVO= memberDAO.getDefaultWork(workTimeVO);
+	public MemberVO getMemberDetail(MemberVO memberVO) throws Exception{
 
-			memberVO.setWorkTimeVO(workTimeVO);
-			 
-			memberVO.setLeaveRecordVOs(memberDAO.getLeaveRecodeList(memberVO));
-			 
-			MemberProfileVO memberProfileVO = new MemberProfileVO();
-			memberProfileVO.setMemberId(memberVO.getId());
-			memberProfileVO = memberDAO.getProfile(memberProfileVO);
-			
-			memberVO.setMemberProfileVO(memberProfileVO);
-			return memberVO;
-		}
- 
+
+		memberVO = memberDAO.getMemberDetail(memberVO);
+
+		WorkTimeVO workTimeVO = new WorkTimeVO();
+		workTimeVO.setMemberId(memberVO.getId());
+		workTimeVO= memberDAO.getDefaultWork(workTimeVO);
+
+		memberVO.setWorkTimeVO(workTimeVO);
+
+		memberVO.setLeaveRecordVOs(memberDAO.getLeaveRecodeList(memberVO));
+
+		MemberProfileVO memberProfileVO = new MemberProfileVO();
+		memberProfileVO.setMemberId(memberVO.getId());
+		memberProfileVO = memberDAO.getProfile(memberProfileVO);
+
+		memberVO.setMemberProfileVO(memberProfileVO);
+		return memberVO;
+	}
+
 	public List<MemberVO> getMembers()throws Exception{
 		return memberDAO.getMembers();
 	}
-	
-	 
+
+
 	public List<MemberVO> getMemberList()throws Exception{
 		return memberDAO.getMemberList();
 	}
-	 
+
 	public int setMemberUpdateDetail(MemberVO memberVO,WorkTimeVO workTimeVO)throws Exception{
 		workTimeVO.setMemberId(memberVO.getId());
 		int result = memberDAO.setMemberUpdateDetail(memberVO);
 		WorkTimeVO defultWork = memberDAO.getDefaultWork(workTimeVO);
-		 
+
 		java.util.Date now = Util4calen.getToday();
 		Date date =new Date(now.getYear(), now.getMonth(), now.getDate());
 		if(defultWork.getRegDate().equals(date)) {
@@ -147,16 +147,16 @@ public class MemberService implements UserDetailsService{
 
 		return result;
 	}
-	
-	 
+
+
 	public int setEmployeeStatusUpdate(EmployeeStatusVO employeeStatusVO)throws Exception{
 		employeeStatusVO.setOnTime(Util4calen.setTimeStampFormat(employeeStatusVO.getStrOnTime(), employeeStatusVO.getReg()));
 		employeeStatusVO.setOffTime(Util4calen.setTimeStampFormat(employeeStatusVO.getStrOffTime(), employeeStatusVO.getReg()));
-		
+
 		int result = memberDAO.setEmployeeStatusUpdate(employeeStatusVO);
 		return result;
 	}
-	 
+
 	public int setLeaveRecordUpdate(LeaveRecordVO leaveRecordVO)throws Exception{
 		int result = memberDAO.setLeaveRecordUpdate(leaveRecordVO);
 		return result;
@@ -165,28 +165,28 @@ public class MemberService implements UserDetailsService{
 
 	public int setMemeberJoin(MemberVO memberVO, BindingResult bindingResult,WorkTimeVO workTimeVO)throws Exception{
 
-		
+
 		if(this.pwCheck(memberVO,bindingResult)) {
 			return 0;
 		}
 		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 		int result =memberDAO.setMemberJoin(memberVO);
-		
-		 
+
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("roleId", 3);
 		map.put("memberId", memberVO.getId());
 		result =  memberDAO.setMemberRole(map);
-		
-		
-		 
+
+
+
 		workTimeVO.setMemberId(memberVO.getId());
 		workTimeVO.setRegDate(memberVO.getHireDate());
 		memberDAO.setDefaultWorkAdd(workTimeVO);
 
 		return result;
 	}
-	 
+
 	public int setProfileAdd(MemberProfileVO memberProfileVO,HttpSession session,MultipartFile file)throws Exception{
 		MemberVO memberVO =  this.getSessionAttribute(session);
 		memberProfileVO.setMemberId(memberVO.getId());
@@ -199,52 +199,58 @@ public class MemberService implements UserDetailsService{
 		int result = memberDAO.setProfileAdd(memberProfileVO);
 		return result;
 	}
-	 
+
 	public int setPasswordUpdate(MemberVO memberVO,HttpSession session)throws Exception{
 		int result = 0; 
-		 
+
 		memberVO.setAccountId(this.getSessionAttribute(session).getAccountId());
 
-		 
+
 		boolean check = this.pwCheck(memberVO);
 		if(!check) { 
 			memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
-			
+
 			result =  memberDAO.setPasswordUpdate(memberVO); 
 
-			 
+
 
 		}
 		return result;
 
 	}
-	
-	 
+
+
 	public int setPasswordUpdate(MemberVO memberVO)throws Exception{
-		
+
 		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 		int sresult =  memberDAO.setPasswordUpdateinit(memberVO);
 		return sresult;
 
 	}
-	
-	
+
+
 	public List<JobVO> getJobList()throws Exception{
 		return memberDAO.getJobList();
 
 	}
+	public int setJobDelete(JobVO jobVO)throws Exception{
+		return memberDAO.setJobDelete(jobVO);
+	}
 	public int setJobAdd(String [] names,JobVO jobVO)throws Exception{
 		int result = 0;
+
 		for(String name:names) {
-			jobVO.setName(name);
-			result = memberDAO.setJobAdd(jobVO);
-			if(result==0) {
-				break;
+			if(!name.isEmpty()||!name.trim().equals("")) {
+				jobVO.setName(name);
+				result = memberDAO.setJobAdd(jobVO);
+				if(result==0) {
+					break;
+				}
 			}
 		}
-		
+
 		return result;
-		
+
 	}
 	public MemberVO getMemberLogin(MemberVO memberVO)throws Exception{
 		return memberDAO.getMemberLogin(memberVO);
@@ -254,8 +260,8 @@ public class MemberService implements UserDetailsService{
 	public int setMemberUpdate(MemberVO memberVO)throws Exception{
 		return memberDAO.setMemberUpdate(memberVO);
 	}
-	 
-	 
+
+
 	public boolean idDuplicateCheck(MemberVO memberVO)throws Exception{
 
 		boolean check = false;
@@ -266,7 +272,7 @@ public class MemberService implements UserDetailsService{
 		}
 		return check;
 	}
-	 
+
 	public boolean pwCheck(MemberVO memberVO, BindingResult bindingResult)throws Exception{
 		boolean check = false;
 		check = bindingResult.hasErrors();
@@ -295,20 +301,20 @@ public class MemberService implements UserDetailsService{
 		return check;
 	}
 	public boolean joinCheck(MemberVO memberVO)throws Exception{
-		
+
 		if(!this.idDuplicateCheck(memberVO)) {
 			if(!this.employeeIdCheck(memberVO)) {
 				return false;
 			}
 		};
 		return true;
-		
-		
-	}
-	 
 
-	 
-	 
+
+	}
+
+
+
+
 	public EmployeeStatusVO getEmployeeStatus(HttpSession session)throws Exception{
 
 		EmployeeStatusVO employeeStatusVO = new EmployeeStatusVO();
@@ -323,35 +329,35 @@ public class MemberService implements UserDetailsService{
 		return employeeStatusVO;
 
 	}
-	 
+
 	public int setStatusUpdate(MemberVO memberVO, EmployeeStatusVO employeeStatusVO,WorkTimeVO workTimeVO, HttpSession session)throws Exception{
 		int result =0;
 
-		 
-		 
-		 
-		 
 
-		 
-		 
-		 
 
-		 
 
-		 
+
+
+
+
+
+
+
+
+
 		String getstatus = employeeStatusVO.getStatus();
 
 
-		 
+
 		Timestamp nowTime = Util4calen.getNowTime();
 
-		 
+
 		employeeStatusVO = this.getEmployeeStatus(session);
-		 
+
 		workTimeVO.setMemberId(employeeStatusVO.getMemberId());
 		workTimeVO=memberDAO.getDefaultWork(workTimeVO);
 
-		 
+
 		if(employeeStatusVO.getOnTime()==null) {
 
 			employeeStatusVO.setOnTime(nowTime);
@@ -364,7 +370,7 @@ public class MemberService implements UserDetailsService{
 			}
 
 		}
-		 
+
 		else {
 
 			Long diffTime = Util4calen.TimeDiff(nowTime,workTimeVO.getFinishTime());
@@ -385,25 +391,25 @@ public class MemberService implements UserDetailsService{
 		return result;
 	}
 
-	 
+
 	public List<String> getEmployeeStatusBtn(EmployeeStatusVO employeeStatusVO, HttpSession session)throws Exception{
 		employeeStatusVO =this.getEmployeeStatus(session);
 		if(employeeStatusVO==null) {
 			return null;
 		}
-		 
+
 		WorkTimeVO workTimeVO  = new WorkTimeVO();
 		workTimeVO.setMemberId(employeeStatusVO.getMemberId());
 		workTimeVO=memberDAO.getDefaultWork(workTimeVO);
 
 		Timestamp nowTime = Util4calen.getNowTime();
 		List<String> ar = new ArrayList<>();
-		 
+
 		if(employeeStatusVO.getOnTime()==null) {
 
 			ar.add("출근");
 		}
-		 
+
 		else if(employeeStatusVO.getOffTime()==null){
 			Long diffTime = Util4calen.TimeDiff(nowTime,workTimeVO.getFinishTime());
 
@@ -422,11 +428,11 @@ public class MemberService implements UserDetailsService{
 
 	}
 
-	 
+
 	public List<EmployeeStatusVO>getEmployeeStatusList(EmployeeStatusVO employeeStatusVO, HttpSession session)throws Exception{
 		employeeStatusVO.setMemberId(this.getSessionAttribute(session).getId());
 		List<EmployeeStatusVO> ar =  memberDAO.getEmployeeStatusList(employeeStatusVO);
-		 
+
 		for(EmployeeStatusVO vo:ar) {
 			vo = Util4calen.setMonthVO(vo);
 		}
@@ -437,17 +443,17 @@ public class MemberService implements UserDetailsService{
 		EmployeeStatusVO employeeStatusVO = new EmployeeStatusVO();
 		employeeStatusVO.setMemberId(memberVO.getId());
 		List<EmployeeStatusVO> ar =  memberDAO.getEmployeeStatusList(employeeStatusVO);
-		 
+
 		for(EmployeeStatusVO vo:ar) {
 			vo = Util4calen.setMonthVO(vo);
 		}
 
 		return ar;
 	}
-	 
+
 	public List<String> getEmployeeStatusYears(List<EmployeeStatusVO> empEmployeeStatusVOs)throws Exception{
 		List<String> ar = new  ArrayList<String>();
-		 
+
 		for(EmployeeStatusVO vo: empEmployeeStatusVOs) {
 			ar.add(vo.getMonthVO().getYear());
 		}
@@ -456,27 +462,27 @@ public class MemberService implements UserDetailsService{
 		return ar;
 	}
 
-	 
+
 	public WorkTimeVO getDefaultWork(WorkTimeVO workTimeVO)throws Exception{
 		return memberDAO.getDefaultWork(workTimeVO);
 	}
-	 
+
 	public List<WorkTimeStatusVO> getWorkTimeStatusTotal(WorkTimeVO workTimeVO,EmployeeStatusVO employeeStatusVO, HttpSession session)throws Exception{
 		MemberVO memberVO = this.getSessionAttribute(session);
 
-		 
+
 		workTimeVO.setMemberId(memberVO.getId());
 		employeeStatusVO.setMemberId(memberVO.getId());
-		 
 
 
- 
- 
- 
-		 
+
+
+
+
+
 		List<EmployeeStatusVO> ar = this.getEmployeeStatusList(employeeStatusVO, session);
 		List<MonthVO> monthList = new ArrayList<>();
-		 
+
 		for(EmployeeStatusVO vo:ar) {
 			boolean check = true;
 			if(monthList.size()>0) {
@@ -494,25 +500,25 @@ public class MemberService implements UserDetailsService{
 				monthList.add(vo.getMonthVO());
 			}
 		}
-		 
+
 		List<WorkTimeStatusVO> workTimeStatusVOs = new ArrayList<WorkTimeStatusVO>();
- 
+
 		for(MonthVO monthVO:monthList) {
 			workTimeStatusVOs.add(this.setWorkTimeStatus(monthVO,employeeStatusVO,workTimeVO)); 
 		}
 		return workTimeStatusVOs;
-		 
+
 	}
-	 
+
 	public WorkTimeStatusVO setWorkTimeStatus(MonthVO monthVO,EmployeeStatusVO employeeStatusVO,WorkTimeVO workTimeVO)throws Exception{
 
-		
 
- 
+
+
 		WorkTimeStatusVO workTimeStatusVO =new WorkTimeStatusVO();
 		workTimeStatusVO.setMemberId(employeeStatusVO.getMemberId());
 
-		 
+
 		workTimeStatusVO.setMonthVO(monthVO);
 
 		int year  = Integer.parseInt(monthVO.getYear()); 
@@ -524,12 +530,12 @@ public class MemberService implements UserDetailsService{
 		workTimeStatusVO.setStartDate(startDate);
 		workTimeStatusVO.setEndDate(endDate.minusDays(1));
 
-		
-		 
+
+
 		List<LocalDate> dateList = new ArrayList<LocalDate>();
-		 
-		 
-		
+
+
+
 		Long defaultMin=0L;
 		while(!startDate.getMonth().equals(endDate.getMonth())) {
 			if(startDate.getDayOfWeek().getValue()>=6) {
@@ -537,31 +543,31 @@ public class MemberService implements UserDetailsService{
 				continue;
 			}
 			dateList.add(startDate);
-			
+
 			workTimeVO.setRegDate(Util4calen.setLocalDateToDate(startDate)); 
 			WorkTimeVO resultWorkTimeVO=memberDAO.getDefaultWorkFilter(workTimeVO);
-			 
-			
+
+
 			if(resultWorkTimeVO!=null) {
 				defaultMin += Util4calen.TimeDiff(resultWorkTimeVO);
-				
+
 
 			}
 			startDate=startDate.plusDays(1);
 		}
-		
-		
-		 
- 
- 
- 
- 
-		 
+
+
+
+
+
+
+
+
 		Long defaultHour = defaultMin/60;
 		workTimeStatusVO.setMonthTotalWork(defaultHour+"시간");
-		 
+
 		workTimeStatusVO.setTotalWork(defaultMin);
-		 
+
 		List<EmployeeStatusVO> ar = memberDAO.getWorkingList(workTimeStatusVO);
 		workTimeStatusVO.setEmployeeStatusVOs(ar);
 
@@ -580,7 +586,7 @@ public class MemberService implements UserDetailsService{
 					workTime = workTime+Util4calen.TimeDiff(vo.getOnTime(), workTimeVO.getStartTime());
 
 				}
-		
+
 				if (vo.getStatus().equals("조퇴")) {
 					workTimeStatusVO.setLeaveCount(workTimeStatusVO.getLeaveCount()+1);
 				}
@@ -589,7 +595,7 @@ public class MemberService implements UserDetailsService{
 				}
 				else if(vo.getStatus().equals("초과근무")) {
 					if(Util4calen.TimeDiff(vo)>defaultMin) {
-						 
+
 						workTimeStatusVO.setOverWorkCount(workTimeStatusVO.getOverWorkCount()+1);
 						Time defaultFinishTime = workTimeVO.getFinishTime();
 						overTime += Util4calen.TimeDiff(defaultFinishTime, vo.getOffTime());

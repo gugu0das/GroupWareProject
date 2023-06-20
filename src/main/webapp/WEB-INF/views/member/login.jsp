@@ -48,7 +48,7 @@ body {
 								<div class="p-5">
 									<div class="text-center">
 								
-									<div class="mb-3">
+									<div class="mb-5">
 									<img alt="" src="https://search.pstatic.net/common/?autoRotate=true&quality=100&type=f640_380&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210625_264%2F1624581020532HHm0t_GIF%2FYn7tpk0b2TFax2P0avPpGBjY.gif" style="height: 200px; width: 400px">
 									</div>
 									
