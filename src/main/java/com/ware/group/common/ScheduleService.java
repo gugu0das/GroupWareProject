@@ -1,5 +1,6 @@
 package com.ware.group.common;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.ware.group.annual.AnnualVO;
 import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.member.EmployeeStatusVO;
 import com.ware.group.member.MemberDAO;
@@ -39,7 +41,7 @@ public class ScheduleService {
 	}
 	//비어있는 근태 생셩 매일 반복
 	//휴일에 근무하는 회사도 있을 수 있음
-	//		@Scheduled(cron = "0 0 7 * * *", zone = "Asia/Seoul") //매일 7시에 근태 생성
+	@Scheduled(cron = "0 0 7 * * *", zone = "Asia/Seoul") //매일 7시에 근태 생성
 //	@Scheduled(cron = "1 * * * * *", zone = "Asia/Seoul") //test 1분마다 01초에 실행
 	public void setEmployeeWeekStatus() throws Exception{
 
@@ -105,6 +107,31 @@ public class ScheduleService {
 		}
 
 
+	}
+	
+	@Scheduled(cron = "0 0 0 1 1 *", zone = "Asia/Seoul") 
+	public void setAnnualAdd()throws Exception{
+		List<MemberVO> ar = memberDAO.getMemberList();
+		for(MemberVO memberVO:ar) {
+			AnnualVO annualVO = new AnnualVO();
+			annualVO.setMemberId(memberVO.getId());
+			annualVO.setType(1L);
+			Long annualCount=  15L;
+			Long years=Util4calen.getDayDiff(memberVO.getHireDate())/365;
+			if(years>=3) {//3년이지나면 +1 후 2년마다 1씩 증가
+				annualCount=annualCount+1;
+				years = years-3;
+			}
+			annualCount= annualCount+years/2;
+			if(annualCount>25) {
+				annualCount=25L;
+			}
+			annualVO.setCount(annualCount);
+			memberDAO.setAnnualUpdate(annualVO);
+
+			 	
+	 	}
+	 	
 	}
 	public String AddDate(String strDate, int year, int month, int day) throws Exception {
 

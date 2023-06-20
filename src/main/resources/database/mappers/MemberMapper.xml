@@ -175,6 +175,10 @@
 	
 	</select>
 
+	<select id="getAnnual" parameterType="MemberVO" resultType="AnnualVO">
+		SELECT * FROM ANNUAL WHERE member_id=#{id}
+	
+	</select>
 	<!-- result Map -->
 
 	<!-- 1. Login -->
@@ -223,6 +227,15 @@
 
 	</resultMap>
 	<!-- End Result Map -->
+	
+	<insert id="setAnnualAdd" parameterType="MemberVO">
+	INSERT INTO ANNUAL (count,`type`,reg,member_id)
+	values(15,1,now(),#{id})
+	</insert>
+	<update id="setAnnualUpdate" parameterType="AnnualVO">
+	UPDATE ANNUAL SET count=#{count}, reg=now() where member_id=#{member_id}
+	</update>
+
 
 	<!-- ////////////////////////////////////////////////////////////////////////// -->
 	<!-- 근태관리 -->
@@ -250,7 +263,8 @@
 		where e.reg =(DATE_FORMAT(NOW(),'%y-%m-%d')) and member_id =#{memberId}
 
 	</select>
-
+	
+	
 
 	<update id="setEmployeeStatusUpdate"
 		parameterType="EmployeeStatusVO">

@@ -27,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ware.group.annual.AnnualVO;
 import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.common.Util4calen;
 import com.ware.group.schedule.HolidayVO;
@@ -93,7 +94,8 @@ public class MemberService implements UserDetailsService{
 		MemberProfileVO memberProfileVO = new MemberProfileVO();
 		memberProfileVO.setMemberId(memberVO.getId());
 		memberProfileVO = memberDAO.getProfile(memberProfileVO);
-
+		
+		memberVO.setAnnualVO(this.getAnnual(memberVO));
 		memberVO.setMemberProfileVO(memberProfileVO);
 		return memberVO;
 	}
@@ -114,7 +116,7 @@ public class MemberService implements UserDetailsService{
 		MemberProfileVO memberProfileVO = new MemberProfileVO();
 		memberProfileVO.setMemberId(memberVO.getId());
 		memberProfileVO = memberDAO.getProfile(memberProfileVO);
-
+		memberVO.setAnnualVO(this.getAnnual(memberVO));
 		memberVO.setMemberProfileVO(memberProfileVO);
 		return memberVO;
 	}
@@ -184,6 +186,7 @@ public class MemberService implements UserDetailsService{
 		workTimeVO.setRegDate(memberVO.getHireDate());
 		memberDAO.setDefaultWorkAdd(workTimeVO);
 
+		memberDAO.setAnnualAdd(memberVO);
 		return result;
 	}
 
@@ -260,7 +263,11 @@ public class MemberService implements UserDetailsService{
 	public int setMemberUpdate(MemberVO memberVO)throws Exception{
 		return memberDAO.setMemberUpdate(memberVO);
 	}
-
+	
+	public AnnualVO getAnnual(MemberVO memberVO)throws Exception{
+		return memberDAO.getAnnual(memberVO);
+		
+	}
 
 	public boolean idDuplicateCheck(MemberVO memberVO)throws Exception{
 
@@ -430,6 +437,7 @@ public class MemberService implements UserDetailsService{
 
 
 	public List<EmployeeStatusVO>getEmployeeStatusList(EmployeeStatusVO employeeStatusVO, HttpSession session)throws Exception{
+
 		employeeStatusVO.setMemberId(this.getSessionAttribute(session).getId());
 		List<EmployeeStatusVO> ar =  memberDAO.getEmployeeStatusList(employeeStatusVO);
 
