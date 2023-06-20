@@ -72,14 +72,7 @@
 		<button type="button" class="btn btn-outline-danger del" id="commentListResult" data-qna-qna="${qnaCommentVO.id}" style="width : 78px; height : 38px; "><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-4 -4 20 20" x="60" y="86"><path fill="none" stroke="#D3D3D3" d="M9.6 2.4L2.4 9.6m-.044-7.244L9.6 9.6"/></svg>삭제</button>
 		
 		<button type="button" class="btn btn-outline-primary edit" id="contentsConfirm" data-comment-num="${qnaCommentVO.id}" ><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="-4 -4 18 18" x="37" y="108"><defs><path id="g" d="M12 12V0H0v12h12z"/></defs><g fill="none" fill-rule="evenodd" opacity=".9" transform="translate(-1 -1)"><mask id="h" fill="#fff"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#g"/></mask><path fill="#A3A9A9" d="M9.82 6.49c.02-.16.036-.32.036-.49 0-.17-.015-.33-.036-.49l1.085-.825a.248.248 0 0 0 .062-.32l-1.028-1.73a.262.262 0 0 0-.314-.11l-1.28.5a3.782 3.782 0 0 0-.869-.49L7.281 1.21A.249.249 0 0 0 7.03 1H4.973a.249.249 0 0 0-.252.21l-.195 1.325a3.977 3.977 0 0 0-.869.49l-1.28-.5a.254.254 0 0 0-.313.11l-1.028 1.73a.242.242 0 0 0 .061.32l1.085.825c-.02.16-.036.325-.036.49 0 .165.015.33.036.49l-1.085.825a.248.248 0 0 0-.061.32l1.028 1.73c.061.11.2.15.313.11l1.28-.5c.267.2.555.365.869.49l.195 1.325a.25.25 0 0 0 .252.21H7.03c.129 0 .237-.09.252-.21l.195-1.325c.314-.125.602-.295.87-.49l1.279.5c.118.045.252 0 .314-.11l1.028-1.73a.248.248 0 0 0-.062-.32L9.82 6.49zM6.001 7.75c-.992 0-1.799-.785-1.799-1.75s.807-1.75 1.8-1.75c.99 0 1.798.785 1.798 1.75s-.807 1.75-1.799 1.75z" mask="url(#h)"/></g></svg>수정</button>
-		<%-- <button type="button" class="dropdown-toggle" id="dropdownButton" data-comment-data="${qnaCommentVO.id}" ><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="-4 -4 23 23" x="92" y="46"><defs><path id="q" d="M0 0h15v15H0z"/></defs><g fill="none" fill-rule="evenodd"><use fill="#FFF" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#q"/><path stroke="#E5E5E5" d="M.5.5h14v14H.5z"/><path fill="#777" d="M7.5 10L5 7h5z"/></g></svg>댓글보기</button>
-		<ul class="dropdown-menu">
-		<li><a class="dropdown-item" href="#">댓글</a></li>
-    	<li><a class="dropdown-item" href="#">댓글</a></li>
-   		<li><a class="dropdown-item" href="#">댓글</a></li>
-    	<li><hr class="dropdown-divider"></li>
-    	<li><a class="dropdown-item" href="#">댓글</a></li>
-		</ul> --%>
+		
 		
 		</c:if>
 		</div>
