@@ -15,10 +15,9 @@
 	<c:import url="../temp/header.jsp"></c:import>
 	<c:import url="../temp/style.jsp"></c:import>
 
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/cupertino/jquery-ui.css">
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>    
 	<style>
 		body {
 			background-color: #f8f9fa;  /* body 배경색을 조정합니다. */
@@ -41,6 +40,14 @@
 			align-items: center;
 			flex-direction: column;
 		}
+		.card {
+            border-radius: 30px;
+            margin: 40px;
+        }
+        .card-body {
+            border-radius: 10px;
+            margin: 40px;
+        }
 	</style>
 	
 </head>
@@ -87,12 +94,9 @@ function chkInputValue(id, msg){
 }
 
 function fn_formSubmit(){
-	if ( ! chkInputValue("#title", "일정명")) return false;
-	if ( ! chkInputValue("#content", "내용")) return false;
-	
-	if (!confirm("저장 하시겠습니까?")) return;
-	
-	$("#form1").submit();
+    if (!chkInputValue("#title", "일정명")) return false;
+    
+    $("#form1").submit();
 } 
 
 function fn_delete(){
@@ -102,30 +106,41 @@ function fn_delete(){
 	$("#form1").submit();
 }
 
-function repeattypeChange(){
-	$("#repeatoption").hide();
-	$("#repeatend").hide();
-	if ($("#repeattype").val()==="1") return;
-	 
-	$("#repeatoption").show();
-	$("#repeatend").show(); 
-	
-	if ($("#repeatend").val()==="")	$("#repeatend").val($("#enddate").val()); 
-	$("#repeatoption").empty();
-	if ($("#repeattype").val()==="2") {
-		var week = ["일", "월", "화", "수", "목", "금", "토"];
-		for (var i=0; i<week.length; i++) {
-			$('<option value="'+ i +'">' + week[i] + '</option>').appendTo($("#repeatoption"));
-		}
-	} else 
-	if ($("#repeattype").val()==="3") {
-		for (var i=1; i<=31; i++) {
-			var str = "0" + String(i);
-			str = str.substring(str.length-2);
-			$('<option value="'+ str +'">' + str + '</option>').appendTo($("#repeatoption"));
-		} 
-	}  
+function repeattypeChange() {
+    var guideText = '';
+    var repeatType = $("#repeattype").val();
+    
+    if (repeatType==="1"){
+        guideText = '반복없음: 일정이 한 번만 발생합니다. 시작 날짜 및 시간과 종료 날짜 및 시간을 입력해주세요.';
+        $("#repeatoption").hide();
+        $("#repeatend").hide();
+    } else {
+        $("#repeatoption").show();
+        $("#repeatend").show(); 
+
+        if ($("#repeatend").val()==="") $("#repeatend").val($("#enddate").val()); 
+        $("#repeatoption").empty();
+
+        if (repeatType==="2") {
+            guideText = '주간반복: 일정이 매주 일정한 요일에 반복됩니다. 요일을 선택하고 반복 종료일을 설정해주세요.';
+            var week = ["일", "월", "화", "수", "목", "금", "토"];
+            for (var i=0; i<week.length; i++) {
+                $('<option value="'+ i +'">' + week[i] + '</option>').appendTo($("#repeatoption"));
+            }
+        } else if (repeatType==="3") {
+            guideText = '월간반복: 일정이 매달 일정한 날짜에 반복됩니다. 날짜를 선택하고 반복 종료일을 설정해주세요.';
+            for (var i=1; i<=31; i++) {
+                var str = "0" + String(i);
+                str = str.substring(str.length-2);
+                $('<option value="'+ str +'">' + str + '</option>').appendTo($("#repeatoption"));
+            }
+        }
+    }
+
+	$("#repeatGuide").text(guideText);
 }
+
+
 </script>
     
 </head>
@@ -142,142 +157,144 @@ function repeattypeChange(){
 
                 <!-- Topbar -->
                 <c:import url="../temp/topbar.jsp"></c:import>
+				<div class="card">
+					<!-- Begin Page Content -->
+					<div class="container-fluid">
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">일정 관리</h1>
-					<!-- new row-->
-					<div class="row">
-						<form id="form1" name="form1" role="form" action="scheSave" method="post" >
-							<input type="hidden" name="id" value='<c:out value="${scheInfo.id}"/>''>
-							<div class="panel panel-default">
-								<div class="panel-body">
-					
-									<div class="form-group">
-										<label class="col-lg-1">일정명</label>
-										<div class="col-lg-11">
-											<input type="text" class="form-control" id="title" name="title" maxlength="50" value='<c:out value="${scheInfo.title}"/>'
-											style="width: 100%;">
+						<!-- Page Heading -->
+						<h1 class="h3 mb-4 text-gray-800">일정 관리</h1>
+						<div class="card-body">
+							<!-- new row-->
+							<div class="row">
+								<form id="form1" name="form1" role="form" action="scheSave" method="post" onsubmit="return fn_formSubmit();">
+									<input type="hidden" name="id" value='<c:out value="${scheInfo.id}"/>''>
+									<div class="panel panel-default">
+										<div class="panel-body">
+							
+											<div class="form-group">
+												<label class="col-lg-2">일정명</label>
+												<div class="col-lg-10">
+													<input type="text" class="form-control" id="title" name="title" maxlength="50" value='<c:out value="${scheInfo.title}"/>'
+													style="width: 100%;">
+												</div>
+											</div>
+											<!-- 시작일시 -->
+											<div class="form-group">
+												<label class="col-lg-2">시작일시</label>
+												<div class="col-lg-10">
+													<input class="form-control" id="startdate" name="startdate" value='<c:out value="${scheInfo.startdate}"/>' readonly>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-lg-2">시간(시)</label>
+												<div class="col-lg-10">
+													<select id="starthour" name="starthour" class="form-control">
+														<c:forEach var="item" begin="1" end="24">
+															<c:set var="hour" value="0${item}"/>
+															<c:set var="hour" value="${fn:substring(hour, fn:length(hour)-2, 3)}"/>
+															<option value="${hour}" <c:if test='${hour==scheInfo.starthour}'>selected</c:if>>${hour}</option>
+														</c:forEach>
+													</select>                         
+												</div>  
+											</div>
+											<div class="form-group">
+												<label class="col-lg-2">시간(분)</label>
+												<div class="col-lg-10">
+													<select id="startminute" name="startminute" class="form-control">
+														<c:forTokens var="item" items="00,10,20,30,40,50" delims=",">
+															<option value="${item}" <c:if test='${item==scheInfo.startminute}'>selected</c:if>>${item}</option>
+														</c:forTokens>
+													</select>                        
+												</div>		                            
+											</div>
+							
+											<!-- 종료일시 -->
+											<div class="form-group">
+												<label class="col-lg-2">종료일시</label>
+												<div class="col-lg-10">
+													<input class="form-control" id="enddate" name="enddate" value='<c:out value="${scheInfo.enddate}"/>' readonly>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-lg-2">시간(시)</label>
+												<div class="col-lg-10">
+													<select id="endhour" name="endhour" class="form-control">
+														<c:forEach var="item" begin="1" end="24">
+															<c:set var="hour" value="0${item}"/>
+															<c:set var="hour" value="${fn:substring(hour, fn:length(hour)-2, 3)}"/>
+															<option value="${hour}" <c:if test='${hour==scheInfo.endhour}'>selected</c:if>>${hour}</option>
+														</c:forEach>
+													</select>                         
+												</div>  
+											</div>
+											<div class="form-group">
+												<label class="col-lg-2">시간(분)</label>
+												<div class="col-lg-10">
+													<select id="endminute" name="endminute" class="form-control">
+														<c:forTokens var="item" items="00,10,20,30,40,50" delims=",">
+															<option value="${item}" <c:if test='${item==scheInfo.endminute}'>selected</c:if>>${item}</option>
+														</c:forTokens>
+													</select>                        
+												</div>		                            
+											</div>					
+											<!-- 반복 -->
+											<div class="form-group">
+												<label class="col-lg-2">반복</label>
+												<div class="col-lg-10">
+													<select id="repeattype" name="repeattype" class="form-control" onchange="repeattypeChange()">
+														<option value="1" <c:if test='${scheInfo.repeattype==1}'>selected</c:if>>반복없음</option>
+														<option value="2" <c:if test='${scheInfo.repeattype==2}'>selected</c:if>>주간반복</option>
+														<option value="3" <c:if test='${scheInfo.repeattype==3}'>selected</c:if>>월간반복</option>
+													</select>                        
+												</div>
+												<div class="col-lg-10">
+													<select id="repeatoption" name="repeatoption" class="form-control" style="display:none">
+													</select>                        
+												</div>
+												<div class="col-lg-10">
+													<input class="form-control" size="16" id="repeatend" name="repeatend" value='<c:out value="${scheInfo.repeatend}"/>' style="display:none" readonly>
+												</div>
+											</div>
+											<p id="repeatGuide" style="padding-left:15px;"></p>
+							
+											<div class="form-group">
+												<label class="col-lg-1">공개여부</label>
+												<div class="col-lg-11">
+													<label style="margin-right: 5px"><input type="radio" <c:if test='${scheInfo.isopen==1}'>checked</c:if> 
+													id="isopen" name="isopen" value=1> 공개</label>
+													<label style="margin-right: 5px"><input type="radio" <c:if test='${scheInfo.isopen==0}'>checked</c:if> 
+													id="isopen" name="isopen" value=0> 비공개</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-lg-1">내용</label>
+												<div class="col-lg-11">
+													<textarea class="form-control" id="content" name="content" rows="10" cols="50" style="width: 100%;"><c:out value="${scheInfo.content}"/></textarea>
+												</div> 
+											</div>
 										</div>
 									</div>
-					
-									<!-- 시작일시 -->
-									<div class="form-group">
-										<label class="col-lg-2">시작일시</label>
-										<div class="col-lg-10">
-											<input class="form-control" id="startdate" name="startdate" value='<c:out value="${scheInfo.startdate}"/>' readonly>
-										</div>
+									<button class="btn btn-outline btn-primary" onclick="fn_formSubmit();">저장</button>
+									<c:if test='${scheInfo.id!=null}'>
+										<button class="btn btn-outline btn-primary" onclick="fn_delete()">삭제</button>
+									</c:if>
 									</div>
-									<div class="form-group">
-										<label class="col-lg-2">시간(시)</label>
-										<div class="col-lg-10">
-											<select id="starthour" name="starthour" class="form-control">
-												<c:forEach var="item" begin="1" end="24">
-													<c:set var="hour" value="0${item}"/>
-													<c:set var="hour" value="${fn:substring(hour, fn:length(hour)-2, 3)}"/>
-													<option value="${hour}" <c:if test='${hour==scheInfo.starthour}'>selected</c:if>>${hour}</option>
-												</c:forEach>
-											</select>                         
-										</div>  
-									</div>
-									<div class="form-group">
-										<label class="col-lg-2">시간(분)</label>
-										<div class="col-lg-10">
-											<select id="startminute" name="startminute" class="form-control">
-												<c:forTokens var="item" items="00,10,20,30,40,50" delims=",">
-													<option value="${item}" <c:if test='${item==scheInfo.startminute}'>selected</c:if>>${item}</option>
-												</c:forTokens>
-											</select>                        
-										</div>		                            
-									</div>
-					
-									<!-- 종료일시 -->
-									<div class="form-group">
-										<label class="col-lg-2">종료일시</label>
-										<div class="col-lg-10">
-											<input class="form-control" id="enddate" name="enddate" value='<c:out value="${scheInfo.enddate}"/>' readonly>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-2">시간(시)</label>
-										<div class="col-lg-10">
-											<select id="endhour" name="endhour" class="form-control">
-												<c:forEach var="item" begin="1" end="24">
-													<c:set var="hour" value="0${item}"/>
-													<c:set var="hour" value="${fn:substring(hour, fn:length(hour)-2, 3)}"/>
-													<option value="${hour}" <c:if test='${hour==scheInfo.endhour}'>selected</c:if>>${hour}</option>
-												</c:forEach>
-											</select>                         
-										</div>  
-									</div>
-									<div class="form-group">
-										<label class="col-lg-2">시간(분)</label>
-										<div class="col-lg-10">
-											<select id="endminute" name="endminute" class="form-control">
-												<c:forTokens var="item" items="00,10,20,30,40,50" delims=",">
-													<option value="${item}" <c:if test='${item==scheInfo.endminute}'>selected</c:if>>${item}</option>
-												</c:forTokens>
-											</select>                        
-										</div>		                            
-									</div>					
-									<!-- 반복 -->
-									<div class="form-group">
-										<label class="col-lg-2">반복</label>
-										<div class="col-lg-10">
-											<select id="repeattype" name="repeattype" class="form-control" onchange="repeattypeChange()">
-												<option value="1" <c:if test='${scheInfo.repeattype==1}'>selected</c:if>>반복없음</option>
-												<option value="2" <c:if test='${scheInfo.repeattype==2}'>selected</c:if>>주간반복</option>
-												<option value="3" <c:if test='${scheInfo.repeattype==3}'>selected</c:if>>월간반복</option>
-											</select>                        
-										</div>
-										<div class="col-lg-1">
-											<select id="repeatoption" name="repeatoption" class="form-control" style="display:none">
-											</select>						
-										</div> 
-										<div class="col-lg-2">
-											<input class="form-control" size="16" id="repeatend" name="repeatend" value='<c:out value="${scheInfo.repeatend}"/>' style="display:none" readonly>
-										</div>
-									</div>
-					
-									<div class="form-group">
-										<label class="col-lg-1">공개</label>
-										<div class="col-lg-11">
-											<label style="margin-right: 5px"><input type="radio" <c:if test='${scheInfo.isopen==1}'>checked</c:if> 
-											id="isopen" name="isopen" value="1"> 공개</label>
-											<label style="margin-right: 5px"><input type="radio" <c:if test='${scheInfo.isopen==0}'>checked</c:if> 
-											id="isopen" name="isopen" value="0"> 비공개</label>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-1">내용</label>
-										<div class="col-lg-11">
-											<textarea class="form-control" id="content" name="content" rows="10" cols="50" style="width: 100%;">${scheInfo.content}</textarea>
-										</div> 
-									</div>
-					
-								</div>
+								</form>
 							</div>
-						</form>
+						</div>
 					</div>
-					<button class="btn btn-outline btn-primary" onclick="fn_formSubmit()">저장</button>
-					<c:if test='${scheInfo.id!=null}'>
-						<button class="btn btn-outline btn-primary" onclick="fn_delete()">삭제</button>
-					</c:if>
-				</div>
 				<!-- /.container-fluid -->
+				</div>
+				<!-- Footer -->
+				<footer class="sticky-footer bg-white">
+					<div class="container my-auto">
+						<div class="copyright text-center my-auto">
+							<span>Copyright © Your Website 2021</span>
+						</div>
+					</div>
+				</footer>
+				<!-- End of Footer -->
 			</div>
-			<!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright © Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-        </div>
 	
     <!-- Logout Modal-->
     <c:import url="../temp/logoutModal.jsp"></c:import>
