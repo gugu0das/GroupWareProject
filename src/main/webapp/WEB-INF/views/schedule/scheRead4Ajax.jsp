@@ -18,7 +18,7 @@
     .form-item {
         margin-left: 10px;
     }
-    .card {
+    #ajax-card {
         width: 100%;
         height: 100%;
         border-radius: 30px;
@@ -26,7 +26,7 @@
         box-sizing: border-box;
     }
     
-    .card-body {
+    #ajax-card-body {
         width: 100%;
         height: auto;
         border-radius: 10px;
@@ -35,11 +35,11 @@
     }
 </style>
 
-<div class="card">
+<div id="ajax-card" class="card">
     <div class="card-header">
         <h2 class="card-title">일정 정보</h2>
     </div>
-    <div class="card-body">
+    <div id="ajax-card-body" class="card-body">
         <div class="row form-group">
             <label class="col-lg-2">일정명</label>
             <div class="col-lg-10 form-item">${scheInfo.title}</div>
