@@ -114,7 +114,7 @@ function calendarDayMouseover(event, id, calendardate){
 		return;
 	}
 	
-	$(".calendarTooltip").css({left: event.x+"px", top: event.y+"px"});
+	$(".calendarTooltip").css({left: (event.pageX + 10) +"px", top: (event.pageY + 10) +"px"});
 	$(".calendarTooltip").show();
 	if (oldid===id) return;
 	oldid=id;
