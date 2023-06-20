@@ -59,6 +59,9 @@
             font-size: 15px;
 	    }
         .calendarTooltip {
+            width: 550px; 
+            height: 600px;
+            overflow: auto;
             position: absolute;
             background-color: white;
             border: 1px solid black;
