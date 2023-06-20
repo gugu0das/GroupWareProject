@@ -149,13 +149,13 @@ public class ScheController {
     }
 
     @GetMapping("/scheRead4Ajax")
-    public ModelAndView scheRead4Ajax(HttpServletRequest request, ScheVO scheVO, String calendar_date) {
+    public ModelAndView scheRead4Ajax(HttpServletRequest request, ScheVO scheVO, String calendardate) {
         ModelAndView modelAndView = new ModelAndView("schedule/scheRead4Ajax");
 
         ScheVO scheInfo = scheSvc.selectScheOne4Read(scheVO);
 
         modelAndView.addObject("scheInfo", scheInfo);
-        modelAndView.addObject("calendar_date", calendar_date);
+        modelAndView.addObject("calendardate", calendardate);
 
         return modelAndView;
     }
