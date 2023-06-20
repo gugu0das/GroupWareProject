@@ -120,6 +120,10 @@
 			<i class="fas fa-fw fa-table"></i> <span>Notice</span>
 	</a></li>
 
+	<li class="nav-item"><a class="nav-link" href="/schedule/scheList">
+		<i class="fas fa-fw fa-table"></i> <span>일정 관리</span>
+	</a></li>
+
 	<!-- Divider -->
 	<hr class="sidebar-divider d-none d-md-block">
 
