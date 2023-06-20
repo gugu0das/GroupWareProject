@@ -65,7 +65,13 @@
              , END_HOUR=#{endhour}, END_MINUTE=#{endminute}, REPEAT_TYPE=#{repeattype}, REPEAT_OPTION=#{repeatoption}, REPEAT_END=#{repeatend}
              , CONTENT=#{content}, ISOPEN=#{isopen}, UPDATEDATE=NOW()
          WHERE ID=#{id} 
-    </update> 
+    </update>
+
+    <delete id="deleteSche" parameterType="com.ware.group.schedule.ScheVO">
+        UPDATE SCHEDULE
+           SET DELETEFLAG=1
+         WHERE ID=#{id} 
+    </delete> 
 
     <insert id="insertScheDetail" parameterType="com.ware.group.schedule.ScheDetailVO" >
         INSERT INTO SCHEDULE_DETAIL(ID, SEQ, DATE, HOUR, MINUTE) 
