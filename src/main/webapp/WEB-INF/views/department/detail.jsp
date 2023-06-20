@@ -13,11 +13,26 @@
 <body class="bg-gradient-primary">
 	<div id="wrapper">
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+		<c:choose>
+			<c:when test="${memberVO.accountId == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+			<c:otherwise>
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:otherwise>
+		</c:choose>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+				<c:choose>
+					<c:when test="${memberVO.accountId == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
 
 				<!-- contents 작성 -->
 				<div class="container-fluid">
@@ -36,10 +51,12 @@
 											</div>
 										</div>
 										<div class="ms-4">
+										<c:if test="${memberVO.accountId == 'admin'}">
 											<div id="updateBtn" class="badge bg-primary text-white me-3"
 												style="cursor: pointer">수정하기</div>
 											<div id="deleteBtn" class="badge bg-danger text-white me-3"
 												style="cursor: pointer">삭제하기</div>
+										</c:if>
 										</div>
 									</div>
 								</div>

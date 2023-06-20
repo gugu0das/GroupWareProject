@@ -40,8 +40,11 @@ public class MemberController {
 	CommonVO commonVO = new CommonVO();
 
 	@GetMapping("memberList")
-	public ModelAndView getMemeberList(ModelAndView mv)throws Exception{
+	public ModelAndView getMemeberList(ModelAndView mv, MemberVO memberVO, HttpSession session)throws Exception{
 		List<MemberVO> ar = memberService.getMemberList();
+		memberVO = memberService.getSessionAttribute(session);
+		mv.addObject("memberVO", memberVO);
+		
 		mv.addObject("memberVOs", ar);
 		return mv;
 	}
@@ -58,6 +61,7 @@ public class MemberController {
 		return mv;
 		
 	}
+	
 	@PostMapping("join")
 	public ModelAndView setMemberJoin(ModelAndView mv, @Valid MemberVO memberVO, BindingResult bindingResult,WorkTimeVO workTimeVO)throws Exception{
 
@@ -85,6 +89,12 @@ public class MemberController {
 		return mv;
 	}
  
+	@PostMapping("jobDelete")
+	@ResponseBody
+	public int setJobDelete(JobVO jobVO)throws Exception{
+		return memberService.setJobDelete(jobVO);
+		
+	}
 	@GetMapping("login")
 	public void getLogin(ModelAndView mv, HttpSession session)throws Exception{	
 	}
@@ -212,11 +222,7 @@ public class MemberController {
 		return check;
 		
 	}
-//	@GetMapping("jobList")
-//	@ResponseBody
-//	public List<JobVO> getJobList()throws Exception{
-//		return  memberService.getJobList();
-//	}
+
 	 
 
 	@PostMapping("statusUpdate")

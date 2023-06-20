@@ -13,19 +13,15 @@
 <body class="bg-gradient-primary">
 	<div id="wrapper">
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+		<c:import url="../temp/adminSidebar.jsp"></c:import>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+				<c:import url="../temp/adminTopbar.jsp"></c:import>
 
 				<!-- contents 작성 -->
 				<div class="container-fluid">
-					<nav class="nav nav-borders">
-						<a class="nav-link active ms-0" href="/member/profile">Profile</a>
-						<a class="nav-link" href="/member/security">Security</a> <a
-							class="nav-link" href="/department/add">AddDepartment</a>
-					</nav>
+					<h1 class="h1">부서 및 직책 추가</h1>
 					<hr class="mt-0 mb-4">
 					<div class="row">
 						<div class="col-xl-4">

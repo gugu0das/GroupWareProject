@@ -93,7 +93,16 @@ to {
 			<!-- Main Content -->
 			<div id="content">
 				<!--top bar  -->
-				<c:import url="./temp/topbar.jsp"></c:import>
+				<c:choose>
+					<c:when test="${id == 'admin'}">
+						<c:import url="./temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="./temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
+
 				<!--top bar  End -->
 
 
@@ -131,9 +140,9 @@ to {
 											<div class="col-auto" id="statusBtns"
 												data-status="${employeeVO.status }">
 												<c:if test="${not empty employeeVO.offTime }">
-													<i class="fas fa-2x"> <a
-														class="text-xs" id="">퇴근시간</a> <a class="text-xs"
-														data-onTime="${employeeVO.offTime }" id="timeStatus">${employeeVO.strOffTime }</a>
+													<i class="fas fa-2x"> <a class="text-xs" id="">퇴근시간</a>
+														<a class="text-xs" data-onTime="${employeeVO.offTime }"
+														id="timeStatus">${employeeVO.strOffTime }</a>
 													</i>
 												</c:if>
 												<c:forEach items="${btns }" var="btn">
@@ -541,33 +550,9 @@ to {
 		style="display: none;"> <i class="fas fa-angle-up"></i>
 	</a>
 
-	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">Select "Logout" below if you are ready
-					to end your current session.</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
 
-					<form action="/member/logout" method="post">
-						<button class="btn btn-primary">Logout</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+	<c:import url="./temp/logoutModal.jsp"></c:import>
 	<c:import url="./temp/common_js.jsp"></c:import>
-
 	<script src="/js/employeeStatus.js"></script>
 	<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 	<!-- Page level custom scripts -->

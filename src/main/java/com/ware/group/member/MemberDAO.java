@@ -26,6 +26,8 @@ public interface MemberDAO {
 	
 	public int setJobAdd(JobVO jobVO)throws Exception;
 	
+	public int setJobDelete(JobVO jobVO)throws Exception;
+	
 	public MemberVO idDuplicateCheck(MemberVO memberVO)throws Exception;
 	
 	public MemberVO employeeIdCheck(MemberVO memberVO) throws Exception;

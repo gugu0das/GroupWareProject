@@ -9,16 +9,31 @@
 <c:import url="../temp/header.jsp"></c:import>
 <!-- Custom styles for this template-->
 <c:import url="../temp/style.jsp"></c:import>
- 
+
 </head>
-<body class="bg-gradient-primary" >
+<body class="bg-gradient-primary">
 	<div id="wrapper">
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+		<c:choose>
+			<c:when test="${memberVO.accountId == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+			<c:otherwise>
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:otherwise>
+		</c:choose>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+				<c:choose>
+					<c:when test="${memberVO.accountId == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
 
 				<!-- contents 작성 -->
 				<div class="container-fluid">
@@ -80,11 +95,12 @@
 								<div class="modal-footer">
 									<button class="btn btn-secondary" type="button"
 										data-dismiss="modal">닫기</button>
-
-									<form action="/member/update" method="get">
-									<input type="hidden" id="memberId" name="id">
-										<button class="btn btn-primary">수정하기</button>
-									</form>
+									<c:if test="${memberVO.accountId == 'admin'}">
+										<form action="/member/update" method="get">
+											<input type="hidden" id="memberId" name="id">
+											<button class="btn btn-primary">수정하기</button>
+										</form>
+									</c:if>
 								</div>
 							</div>
 						</div>
@@ -108,30 +124,30 @@
 	</div>
 	<!-- 모달 -->
 	<!-- Button trigger modal -->
-	
+
 	<script src="/vendor/jquery/jquery.min.js"></script>
-<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
- <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
- <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script >
-$("#dataTable").DataTable({
-	// 표시 건수기능 숨기기
-	lengthChange: true,
-	// 검색 기능 숨기기
-	searching: false,
-	// 정렬 기능 숨기기
-	ordering: true,
-	// 정보 표시 숨기기
-	info: false,
-	// 페이징 기능 숨기기
-	paging: true,
-	//스크롤바
-	scrollX: false
-})
-</script>
+	<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+	<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+	<script>
+		$("#dataTable").DataTable({
+			// 표시 건수기능 숨기기
+			lengthChange : true,
+			// 검색 기능 숨기기
+			searching : false,
+			// 정렬 기능 숨기기
+			ordering : true,
+			// 정보 표시 숨기기
+			info : false,
+			// 페이징 기능 숨기기
+			paging : true,
+			//스크롤바
+			scrollX : false
+		})
+	</script>
 
 	<c:import url="../temp/logoutModal.jsp"></c:import>
-	 <c:import url="../temp/common_js.jsp"></c:import>
+	<c:import url="../temp/common_js.jsp"></c:import>
 	<script src="/js/memberList.js"></script>
 </body>
 </html>

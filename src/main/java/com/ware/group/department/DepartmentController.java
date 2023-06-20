@@ -3,6 +3,8 @@ package com.ware.group.department;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ware.group.common.CommonVO;
+import com.ware.group.member.JobVO;
+import com.ware.group.member.MemberService;
 import com.ware.group.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +28,17 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService departmentService;
 
+	@Autowired
+	private MemberService memberService;
 	CommonVO commonVO = new CommonVO();
 	
 	@GetMapping("list")
-	public void getDepartmentList() throws Exception{
+	public ModelAndView getDepartmentList(ModelAndView mv,HttpSession session,MemberVO memberVO) throws Exception{
+		List<JobVO> jobList= memberService.getJobList();
+		memberVO = memberService.getSessionAttribute(session);
+		mv.addObject("memberVO", memberVO);
+		mv.addObject("jobList", jobList);
+		return mv;
 	}
 
 	@GetMapping("tree")
@@ -37,10 +48,12 @@ public class DepartmentController {
 		return ar;
 	}
 	@GetMapping("add")
-	public ModelAndView setDepartmentAdd(ModelAndView mv, DepartmentVO departmentVO) throws Exception {
+	public ModelAndView setDepartmentAdd(ModelAndView mv, DepartmentVO departmentVO,MemberVO memberVO, HttpSession session) throws Exception {
 		
 		List<DepartmentVO>  ar= departmentService.getDepartmentList();
+		memberVO = memberService.getSessionAttribute(session);
 		mv.addObject("departmentVOs", ar);
+		mv.addObject("memberVO", memberVO);
 		mv.setViewName("department/add");
 		return mv;
 	}
@@ -65,9 +78,11 @@ public class DepartmentController {
 		return mv;
 	}
 	@GetMapping("detail")
-	public ModelAndView getDepartmentDetail(ModelAndView mv, DepartmentVO departmentVO)throws Exception{
+	public ModelAndView getDepartmentDetail(ModelAndView mv, DepartmentVO departmentVO,MemberVO memberVO,HttpSession session)throws Exception{
 		departmentVO = departmentService.getDepartmentDetail(departmentVO);
 		List<DepartmentVO>  ar= departmentService.getDepartmentList();
+		memberVO = memberService.getSessionAttribute(session);
+		mv.addObject("memberVO", memberVO);
 		mv.addObject("departmentVOs", ar);
 		mv.addObject("vo", departmentVO);
 		mv.setViewName("department/detail");
