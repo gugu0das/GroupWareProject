@@ -14,11 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.ware.group.common.Util4calen;
-import com.ware.group.etc.EtcService;
 import com.ware.group.member.MemberVO;
 
 @Controller
@@ -35,10 +32,11 @@ public class ScheController {
         ModelAndView modelAndView = new ModelAndView("schedule/scheList");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            LOGGER.error("인증 값 null");
-            return modelAndView;
-        }
+        
+        // if (authentication == null) {
+        //     LOGGER.error("인증 값 null");
+        //     return modelAndView;
+        // }
 
         Object principal = authentication.getPrincipal();
         String userId = null;
@@ -47,12 +45,12 @@ public class ScheController {
             MemberVO member = (MemberVO) principal;
             userId = String.valueOf(member.getId());
         } else {
-            LOGGER.error("MemberVO 보안 에러.");
+            // LOGGER.error("MemberVO 보안 에러.");
             return modelAndView;
         }
 
         if (searchVO == null) {
-            LOGGER.error("searchVO null");
+            // LOGGER.error("searchVO null");
         } else {
             if (searchVO.getYear() == null || "".equals(searchVO.getYear())) {
                 Date today = Util4calen.getToday();
@@ -64,9 +62,10 @@ public class ScheController {
         Integer dayofweek = Util4calen.getDayOfWeek(Util4calen.str2Date(searchVO.getYear() + "-" + searchVO.getMonth() + "-01"));
 
         List<?> listview = scheSvc.selectCalendar(searchVO, userId);
-        if (listview == null) {
-        	LOGGER.error("리스트 뷰 null.");
-        }
+
+        // if (listview == null) {
+        // 	LOGGER.error("리스트 뷰 null.");
+        // }
 
         modelAndView.addObject("listview", listview);
         modelAndView.addObject("searchVO", searchVO);
@@ -80,20 +79,20 @@ public class ScheController {
         ModelAndView modelAndView = new ModelAndView("schedule/scheForm");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-        	LOGGER.error("인증 값 null");
-            return modelAndView;
-        }
+        
+        // if (authentication == null) {
+        // 	LOGGER.error("인증 값 null");
+        //     return modelAndView;
+        // }
 
         Object principal = authentication.getPrincipal();
-        String userId = null;
 
         if (principal instanceof MemberVO) {
             MemberVO member = (MemberVO) principal;
-            userId = String.valueOf(member.getId());
+            String userId = String.valueOf(member.getId());
 
         } else {
-            LOGGER.error("MemberVO 보안 에러");
+            // LOGGER.error("MemberVO 보안 에러");
             return modelAndView;
         }
 
@@ -121,10 +120,11 @@ public class ScheController {
     @PostMapping("/scheSave")
     public ModelAndView scheSave(HttpServletRequest request, ScheVO scheInfo) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            LOGGER.error("인증 값 Null.");
-            return new ModelAndView("redirect:/schedule/scheList");
-        }
+
+        // if (authentication == null) {
+        //     LOGGER.error("인증 값 Null.");
+        //     return new ModelAndView("redirect:/schedule/scheList");
+        // }
 
         Object principal = authentication.getPrincipal();
         String userId = null;
@@ -133,12 +133,12 @@ public class ScheController {
             MemberVO member = (MemberVO) principal;
             userId = String.valueOf(member.getId());
         } else {
-            LOGGER.error("MemberVO 보안 에러.");
+            // LOGGER.error("MemberVO 보안 에러.");
             return new ModelAndView("redirect:/schedule/scheList");
         }
 
         if (userId == null) {
-            LOGGER.error("ID 에러.");
+            // LOGGER.error("ID 에러.");
             return new ModelAndView("redirect:/schedule/scheList");
         }
 
@@ -168,10 +168,11 @@ public class ScheController {
         ModelAndView modelAndView = new ModelAndView("schedule/scheRead");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            LOGGER.error("인증 값 null");
-            return modelAndView;
-        }
+
+        // if (authentication == null) {
+        //     LOGGER.error("인증 값 null");
+        //     return modelAndView;
+        // }
 
         ScheVO scheInfo = scheSvc.selectScheOne4Read(scheVO);
 
