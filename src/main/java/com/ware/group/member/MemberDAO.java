@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ware.group.annual.AnnualVO;
 import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.schedule.HolidayVO;
 import com.ware.group.schedule.ScheDetailVO;
@@ -89,6 +90,11 @@ public interface MemberDAO {
 	
 	public List<LeaveRecordVO> getLeaveRecodeList(MemberVO memberVO)throws Exception;
 	
+	public int setAnnualUpdate(AnnualVO annualVO)throws Exception;
+	
+	public int setAnnualAdd(MemberVO memberVO)throws Exception;
+	
+	public AnnualVO getAnnual(MemberVO memberVO)throws Exception;
 	
 	//연차 추가
 	public int setVacation(EmployeeStatusVO employeeStatusVO)throws Exception;

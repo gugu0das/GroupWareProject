@@ -337,5 +337,11 @@ public class Util4calen {
  		Timestamp timestamp = new Timestamp(date.getYear(), date.getMonth(), date.getDate(), hour, min, 0, 0);
  		return timestamp;
  	}
-   
+   public static Long getDayDiff(java.sql.Date date)throws Exception{
+
+	   
+	   Long days=Util4calen.getNowTime().getTime()/(1000*60*60*24)- date.getTime()/(1000*60*60*24);
+	   return days;
+	  
+   }
 }

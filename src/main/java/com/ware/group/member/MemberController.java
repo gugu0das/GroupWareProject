@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ware.group.annual.AnnualVO;
+import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.common.CommonVO;
 import com.ware.group.common.ScheduleService;
 import com.ware.group.department.DepartmentService;
@@ -106,7 +108,7 @@ public class MemberController {
 		List<JobVO> jobVOs = memberService.getJobList();
  
 		List<EmployeeStatusVO> employeeStatusVOs =  memberService.getEmployeeStatusList(memberVO);
-
+		
 		mv.addObject("employeeStatusVOs", employeeStatusVOs);
 		mv.addObject("jobVOs", jobVOs);
 		mv.addObject("departmentVOs", departmentVOs);
@@ -116,10 +118,7 @@ public class MemberController {
 	}
 	@PostMapping("update")
 	public ModelAndView setMemberUpdate(ModelAndView mv, MemberVO memberVO)throws Exception{
-		int result = memberService.setMemberUpdate(memberVO);
-		
-		
-		
+		int result = memberService.setMemberUpdate(memberVO);	
 		commonVO.setMsg("계정을 수정할 수 없습니다.");
 		commonVO.setUrl("/member/profile");
 		commonVO.setTextMsg("다시 확인해주세요.");
@@ -175,7 +174,15 @@ public class MemberController {
 		mv.setViewName("member/memberDetailResult");
 		return mv;
 	}
-	
+	@GetMapping("leaveRecode")
+	public ModelAndView getLeaveRecode(ModelAndView mv,MemberVO memberVO,HttpSession session,AnnualVO annualVO)throws Exception{
+		
+		memberVO = memberService.getMemberDetail(memberService.getSessionAttribute(session));
+		mv.addObject("memberVO",memberVO);
+		
+		
+		return mv;
+	}
 	
 	@GetMapping("security")
 	public ModelAndView getSecurity(@ModelAttribute MemberVO memberVO, ModelAndView mv,HttpSession session)throws Exception{

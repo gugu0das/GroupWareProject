@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ware.group.annual.AnnualVO;
 import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.department.DepartmentVO;
 
@@ -62,7 +63,7 @@ public class MemberVO implements UserDetails{
 	private WorkTimeVO workTimeVO;
 	//프로필은 한개
 	private MemberProfileVO memberProfileVO;
-	
+	private AnnualVO annualVO;
 	private List<RoleVO> roleVOs;
 	private List<LeaveRecordVO> leaveRecordVOs;
 	
