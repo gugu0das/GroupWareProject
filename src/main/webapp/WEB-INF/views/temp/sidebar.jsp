@@ -120,10 +120,19 @@
 			<i class="fas fa-fw fa-table"></i> <span>Notice</span>
 	</a></li>
 
-	<li class="nav-item"><a class="nav-link" href="/schedule/scheList">
-		<i class="fas fa-fw fa-table"></i> <span>일정 관리</span>
-	</a></li>
-
+	<li class="nav-item">
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule" aria-expanded="true" aria-controls="collapseSchedule">
+		  <i class="fas fa-fw fa-table"></i> <span>일정</span>
+		</a>
+		<div id="collapseSchedule" class="collapse" aria-labelledby="headingSchedule" data-parent="#accordionSidebar">
+		  <div class="bg-white py-2 collapse-inner rounded">
+			<h6 class="collapse-header">일정 관리</h6>
+			<a class="collapse-item" href="/schedule/scheList">일정 관리</a>
+			<a class="collapse-item" href="/schedule/scheForm">일정 추가</a>
+		  </div>
+		</div>
+	  </li>
+	  
 	<!-- Divider -->
 	<hr class="sidebar-divider d-none d-md-block">
 
