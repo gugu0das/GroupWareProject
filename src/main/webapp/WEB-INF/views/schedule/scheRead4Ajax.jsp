@@ -87,10 +87,19 @@
         <div class="row form-group">
             <label class="col-lg-2">작성자</label> 
             <div class="col-lg-10 form-item"><c:out value="${scheInfo.username}"/></div>
-        </div> 
+        </div>
         <div class="row form-group">
             <label class="col-lg-2">내용</label>
-            <div class="col-lg-10 form-item" style="max-height:100px; overflow:hidden"><c:out value="${scheInfo.content}"/></div> 
-        </div>
+            <div class="col-lg-10 form-item" style="max-height:100px; overflow:hidden">
+                <c:choose>
+                    <c:when test="${empty scheInfo.content or scheInfo.content.trim().length() == 0}">
+                        일정에 대한 상세 내용이 없습니다.
+                    </c:when>
+                    <c:otherwise>
+                        <c:out value="${scheInfo.content}"/>
+                    </c:otherwise>
+                </c:choose>
+            </div> 
+        </div>   
     </div>
 </div>
