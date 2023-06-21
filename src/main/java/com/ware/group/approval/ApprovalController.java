@@ -180,10 +180,10 @@ public class ApprovalController {
 			approvalFormFileVO.setCategoryId(Long.parseLong((String)param.get("categoryId")));
 			result = approvalService.addUpperFormFile(approvalFormFileVO);
 			
-			filemanger.saveFile2(formFilePath, obj);
+			fileName = filemanger.saveFile2(formFilePath, obj);
 		}
 		
-		if(result == 1 && fileName != null) {
+		if(result == 1 && fileName.length() > 0) {
 			return "파일 업데이트 성공";
 		}else{
 			return "파일 업데이트 실패";
