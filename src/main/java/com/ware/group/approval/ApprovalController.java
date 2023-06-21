@@ -102,10 +102,7 @@ public class ApprovalController {
 		
 		List<DepartmentVO> listDepartment = approvalService.getDepartmentList();
 		
-		log.error("=={}==", listApprover.get(0).getDepartmentId());
-		log.error("=={}==", listApprover.get(0).getJobId());
-		log.error("=={}==", listApprover.get(0).getDepartmentVOs().get(0).getName());
-		log.error("=={}==", listApprover.get(0).getJobVOs().get(0).getName());
+	
 		mv.addObject("list0", listCategoryRef0);
 		mv.addObject("list1", listCategoryRef1);
 		mv.addObject("listFormFile", listFormFile);
