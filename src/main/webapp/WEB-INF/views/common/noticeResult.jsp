@@ -4,9 +4,7 @@
 
 	<div class="row col-md-5">
 		<table class="table table-hover">
-			<thead>
-				<td>제목</td>
-			</thead>
+		
 			 <tbody>
 				<c:forEach items="${list}" var="noticeVO">
 					<tr>

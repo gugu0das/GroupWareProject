@@ -23,18 +23,18 @@
 				<!-- contents 작성 -->
 				<div class="container-fluid">
 					<div class="row">
-						<div class="card mb-4">
+						<div class="card mb-4" style="width : 100%;">
 							<div class="card-header">
 								<c:choose>
 									<c:when test="${checkNum eq 1}">
-										<h3>승인 신청서</h3>
+										<h3 class="text-center">승인 신청서</h3>
 									</c:when>
 									<c:otherwise>
-										<h3>내 결재 정보</h3>
+										<h3 class="text-center">내 결재 정보</h3>
 									</c:otherwise>
 								</c:choose>
 							</div>
-							<div class="card-body">
+							<div class="card-body mx-auto">
 								<div
 									class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
 

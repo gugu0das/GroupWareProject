@@ -91,5 +91,8 @@
 	<c:import url="../temp/logoutModal.jsp"></c:import>
 	<c:import url="../temp/common_js.jsp"></c:import>
 	<script src="/js/departmentList.js"></script>
+	<c:if test="${memberVO.accountId == 'admin'}">
+	<script src="/js/jobVO.js"></script>
+	</c:if>
 </body>
 </html>
