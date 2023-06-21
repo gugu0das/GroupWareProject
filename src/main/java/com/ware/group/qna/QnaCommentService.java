@@ -124,7 +124,7 @@ public class QnaCommentService {
 			
 			allimVO.setType(4);
 			result =allimDAO.setAllim(allimVO);
-			if(result >0) {
+			if(result >0){
 				result = parent.getMemberVO().getId().intValue();
 			}
 			

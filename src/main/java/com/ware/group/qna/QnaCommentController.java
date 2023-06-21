@@ -59,7 +59,7 @@ public class QnaCommentController {
 		 List<Integer> al = qnaCommentService.setQnaCommentAdd(qnaCommentVO, null, session);
 		 String msg = "글 실패";
 	        int result = al.get(0);
-	        if(result > 1) {
+	        if(result > 0) {
 	        	 result = al.get(1);
 	        }
 //		mv.addObject("result", result);
@@ -142,16 +142,6 @@ public class QnaCommentController {
 		
 		
 		int result = qnaCommentService.setReplyAdd(qnaCommentVO,session);
-
-		String message = "등록 실패";
-
-		
-		  if(result >0) { message = "글이 등록 되었습니다"; 
-		  	mv.addObject("result", 1);
-		  }else{
-			  mv.addObject("result", 0);
-		  }
-		 
 
 		
 		
