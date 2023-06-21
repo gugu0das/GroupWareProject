@@ -61,6 +61,21 @@ public class ApprovalController {
 	@Autowired
 	private AllimService allimService;
 
+	@PostMapping("updateUpperCategory")
+	@ResponseBody
+	public int updateUpperCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception{
+		int result = 0;
+		
+		result = approvalService.deleteUpperOptionFormFile(approvalCategoryVO);
+		
+		if(result >= 1 ) {
+			result = approvalService.deleteUpperOptionApprover(approvalCategoryVO);
+		}else {
+			return result;
+		}
+		return result;	
+	}
+	
 	
 	@GetMapping("listCategory")
 	public ModelAndView getListCategory() throws Exception{
@@ -272,12 +287,12 @@ public class ApprovalController {
 			if(approvalCategoryVO1.getSub() == null) {
 				for(ApproverVO approverVO : approvalCategoryVO1.getApprover()) {					
 					approverVO.setCategoryId(approvalCategoryVO1.getId());
-					approvalService.addApprover(approverVO);
+					result = approvalService.addApprover(approverVO);
 				}
 				for(ApprovalFormFileVO fileVO : approvalCategoryVO1.getFile()) {
 					fileVO.setCategoryId(approvalCategoryVO1.getId());
 					fileVO.setFileName(fileName);
-					approvalService.addApprovalFormFile(fileVO);
+					result = approvalService.addApprovalFormFile(fileVO);
 				}
 			}else {
 				for(ApprovalCategoryVO approvalCategoryVO2 : approvalCategoryVO1.getSub()) {
@@ -285,7 +300,7 @@ public class ApprovalController {
 					approvalService.addCategory(approvalCategoryVO2);
 					for(ApproverVO approverVO : approvalCategoryVO2.getApprover()) {					
 						approverVO.setCategoryId(approvalCategoryVO2.getId());
-						approvalService.addApprover(approverVO);
+						result = approvalService.addApprover(approverVO);
 					}
 					for(ApprovalFormFileVO fileVO : approvalCategoryVO2.getFile()) {
 						fileVO.setCategoryId(approvalCategoryVO2.getId());

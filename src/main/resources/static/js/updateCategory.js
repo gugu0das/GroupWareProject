@@ -345,6 +345,19 @@ $(document).on('click', '#addUnderOption1', function(){
 				if(data == 1){
 					$('#changeFile').click();
 					
+					$.ajax({
+						type : "POST",
+						url:"/approval/updateUpperCategory",
+						traditional : true,
+						data : {
+							id : upperOption
+						},
+						success : function(data){
+							if(data > 1){
+								window.location.reload();	
+							}
+						}
+					})
 					window.location.reload();	
 				}
 			}
