@@ -31,13 +31,13 @@ public class HomeController {
 
 	@Autowired
 	MemberService memberService;
-	
-	
-    
 
-    
-	
-	
+
+
+
+
+
+
 	@GetMapping("/")
 	public ModelAndView home(ModelAndView mv, HttpServletRequest request,EmployeeStatusVO employeeStatusVO) throws Exception{
 		HttpSession session = request.getSession();
@@ -49,31 +49,34 @@ public class HomeController {
 		session.setAttribute("categoryList0", list0);
 		session.setAttribute("categoryList1", list1);
 		session.setAttribute("id", memberVO.getAccountId());
-		
-		
+
+
 		memberVO = memberService.getMemberDetail(memberService.getSessionAttribute(session));
 		mv.addObject("memberVO",memberVO);
-		
+
 		//근태
+		if(!memberVO.getAccountId().equals("admin")) {
 		employeeStatusVO =  memberService.getEmployeeStatus(session);
 		mv.addObject("employeeVO", employeeStatusVO);
-		
+
 		List<String> ar = memberService.getEmployeeStatusBtn(employeeStatusVO, session);
 		if(ar!=null&&ar.size()>0) {
 
 			mv.addObject("btns",ar);
 		}
-		if(employeeStatusVO!=null) {
 
-			WorkTimeVO workTimeVO = new WorkTimeVO();
-			List<WorkTimeStatusVO> workTimeStatusVOs =  memberService.getWorkTimeStatusTotal(workTimeVO,employeeStatusVO, session);
-			mv.addObject("workTimeStatusVOs",workTimeStatusVOs);
+			if(employeeStatusVO!=null) {
+
+				WorkTimeVO workTimeVO = new WorkTimeVO();
+				List<WorkTimeStatusVO> workTimeStatusVOs =  memberService.getWorkTimeStatusTotal(workTimeVO,employeeStatusVO, session);
+				mv.addObject("workTimeStatusVOs",workTimeStatusVOs);
+			}
 		}
 		mv.setViewName("index");
-		
+
 		return mv;
 
 	}
-	
+
 
 }
