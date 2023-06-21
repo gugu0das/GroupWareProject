@@ -230,6 +230,7 @@ to {
 									</form>
 								</div>
 							</div>
+							<button type="button" id="testStatusUp">testMakeStatus</button>
 						</div>
 
 						<!-- Earnings (Monthly) Card Example -->
