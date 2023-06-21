@@ -12,10 +12,9 @@ import com.ware.group.board.BoardFileVO;
 import com.ware.group.util.FileManager;
 import com.ware.group.util.Pager;
 
-import lombok.extern.slf4j.Slf4j;
+
 
 @Service
-@Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class NoticeService{
 

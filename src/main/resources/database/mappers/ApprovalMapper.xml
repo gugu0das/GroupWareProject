@@ -116,6 +116,9 @@
 	<select id="underCategoryCount" parameterType="ApprovalCategoryVO" resultType="Long">
 		SELECT COUNT(id) FROM APPROVALCATEGORY WHERE ref = #{id}
 	</select>
+	<select id="getUnderCategory" parameterType="ApprovalCategoryVO" resultType="ApprovalCategoryVO">
+		SELECT * FROM APPROVALCATEGORY WHERE ref = #{id}
+	</select>
 	
 	<delete id="deleteUpperOptionApprover" parameterType="ApprovalCategoryVO">
 		DELETE FROM APPROVER WHERE category_id = #{id}
@@ -133,7 +136,7 @@
 		DELETE FROM APPROVALCATEGORY WHERE id = #{id}
 	</delete>
 	<delete id="deleteCategory" parameterType="ApprovalCategoryVO">
-		DELETE FROM APPROVALCATEGORY WHERE id = #{id}
+		DELETE FROM APPROVALCATEGORY WHERE id = #{id} OR ref = #{id}
 	</delete>
 	<insert id="addUnderCategory" parameterType="ApprovalCategoryVO" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO APPROVALCATEGORY (id, name, ref) VALUES (#{id}, #{name}, #{ref})
@@ -154,7 +157,9 @@
  		INSERT INTO APPROVALHISTORY(approval_id,member_id,date,`check`) VALUES(#{approvalId},#{memberId},now(),#{check})
  	</insert>
  	<select id="getApprovalInfo" parameterType="ApproverVO" resultType="MemberVO">
- 		SELECT * FROM MEMBER WHERE job_id=#{jobId} AND department_id = #{departmentId}
+ 		SELECT * FROM MEMBER WHERE job_id=#{jobId} AND department_id = #{departmentId} 
+ 		ORDER BY hire_date ASC
+ 		LIMIT 0,1;
  	</select>
  	<select id="getApprover" parameterType="ApprovalVO" resultType="ApproverVO">
  		SELECT * FROM APPROVER WHERE category_id=#{categoryId}
@@ -182,7 +187,7 @@
  		</if>
  		<if test="categoryId !=null">
  			AND category_id=#{categoryId}
- 			OR `ref`=#{categoryId}
+ 			 OR `ref`=#{categoryId} 
  		</if>
 		ORDER BY a.ID DESC
 		LIMIT #{startRow}, #{perPage}
@@ -219,6 +224,8 @@
  	</update>
  	<select id="getInfoDetail" parameterType="ApprovalInfoVO" resultType="ApprovalInfoVO">
  		SELECT * FROM APPROVALINFO WHERE approval_id=#{approvalId} AND member_id=#{memberId}
+ 		
+ 		LIMIT 0,1;
  	</select>
  	 <select id="getInfoList" parameterType="ApprovalInfoVO"  resultType="ApprovalInfoVO">
  		SELECT * FROM APPROVALINFO WHERE approval_id=#{approvalId} AND depth=#{depth}

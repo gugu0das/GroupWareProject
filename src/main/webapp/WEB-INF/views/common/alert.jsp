@@ -13,7 +13,15 @@
 <body>
 <c:import url="../temp/common_js.jsp"></c:import>
 <script type="text/javascript">
-if(${result} == 1){
+/* let userId = ${name} */
+
+
+
+</script>
+<script type="text/javascript">
+console.log(${result})
+console.log(${name})
+if(${result} >0){
 	 Swal.fire({
 	      icon: 'success',
 	      title: '${msg}',
@@ -26,7 +34,30 @@ if(${result} == 1){
 	    	  }
 	    }).then(result => {
 	    	 if (result.isConfirmed) {
-	    		 location.href="${url}";
+	    		 
+	    		 if(${not empty name ? 1 : 0} >0){
+	    		 let userId = ${name}
+	    		 $.ajax({
+	    		 	type:"GET",
+	    		 	url:"/trigger-event",
+	    		 	data:{
+	    		 		userId : userId,
+	    		 		
+	    		 	},
+	    		 	success : function(data){	
+	    		 		console.log(data);
+	    		 		location.href="${url}";
+	    		 	},error : function(data){	
+	    		 		location.href="${url}";
+	    		 	}
+	    		 })
+	    		 }else{
+	    			 location.href="${url}";
+	    		 }
+	    		 
+	    		 
+	    		 /* let userId = 1; */
+	    		
 	    	 }
 	    });
 }else{
@@ -40,8 +71,13 @@ if(${result} == 1){
 	    	  hideClass: {
 	    	    popup: 'animate__animated animate__fadeOutUp'
 	    	  }
+	    }).then(result => {
+	    	 if (result.isConfirmed) {
+	    		 location.href="${url}";
+	    	 }
 	    });
 }
+
 
 	
 </script>

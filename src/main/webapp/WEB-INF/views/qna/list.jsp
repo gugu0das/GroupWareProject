@@ -17,23 +17,34 @@
 
     <!-- Custom styles for this template -->
   	<link href="/css/sb-admin-2.min.css" rel="stylesheet">
-   <!--  <link href="/css/sb-admin-2.css" rel="stylesheet"> -->
 
     <!-- Custom styles for this page -->
     <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+	<c:import url="../temp/header.jsp"></c:import>
+	<c:import url="../temp/style.jsp"></c:import>
 <style>
     .highlight {
         color: red;
     }
-</style>    
+   .table-responsive {
+       overflow-x: hidden;
+    }
+</style>
+  
 </head>
 
-<body id="page-top">
+<body id="bg-gradient-primary">
+<div id="wrapper">
+		<!-- sideBar -->
+		<c:import url="../temp/sidebar.jsp"></c:import>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<c:import url="../temp/topbar.jsp"></c:import>
 
     <!-- Page Wrapper -->
   <!--   <div id="wrapper"> -->
-<c:import url="../temp/header2.jsp"></c:import>
+
 
                 <!-- End of Topbar -->
 
@@ -48,13 +59,15 @@
                             <h6 class="m-0 font-weight-bold text-primary">Q&A 테이블</h6>
                         </div>
                         <div class="card-body">
+                    	
                             <div class="table-responsive">
+           
                                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><!-- <div class="row"> --><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><!-- <label></label> --></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
                                         <tr role="row"><th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 99px;">번호</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 148px;">제목</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 71px;">작성자</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">날짜</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 74px;">조회수</th></tr>
                                     </thead>
                                     <tfoot>
-                                        <tr><th rowspan="1" colspan="1">번호</th><th rowspan="1" colspan="1">제목</th><th rowspan="1" colspan="1">작성자</th><th rowspan="1" colspan="1">날짜</th><th rowspan="1" colspan="1">조회수</th></tr>
+                                        <!-- <tr><th rowspan="1" colspan="1">번호</th><th rowspan="1" colspan="1">제목</th><th rowspan="1" colspan="1">작성자</th><th rowspan="1" colspan="1">날짜</th><th rowspan="1" colspan="1">조회수</th></tr> -->
                                     </tfoot>
                                     <tbody>
                                     <c:forEach items="${list}" var="qnaVO">
@@ -76,8 +89,9 @@
                                      </c:forEach>
                                         </tbody>
                                 </table></div></div>
+                                <a class="btn btn-primary" href="./add"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-4 -4 20 20" x="80" y="86"><defs><path id="t" d="M0 11.1h12V0H0z"/></defs><g fill="none" fill-rule="evenodd"><path fill="#575756" d="M0 8.056V11.1h3.044L9.39 4.677 6.356 1.642zM10.486 3.58l.017-.019c.327-.387.508-.88.508-1.387C11.01.987 10.045 0 8.859 0c-.507 0-1 .202-1.406.547l-.673.671 3.034 3.034.672-.672z"/><mask id="u" fill="#fff"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#t"/></mask><path fill="#575756" d="M4.8 11.1H12v-.6H4.8z" mask="url(#u)"/></g></svg>글쓰기</a>
                                 <!-- pager -->
-        		<div class="row d-flex justify-content-between">
+        		<div class="row d-flex justify-content-center mt-25px;">
 					<nav aria-label="Page navigation example">
 						<ul class="pagination  d-flex justify-content-center wow fadeIn" data-wow-delay="0.1s"">
 					 		<li class=" page-item ${pager.before ? 'disabled' : '' }">
@@ -116,7 +130,7 @@
 
             </div>
             <!-- End of Main Content -->
-
+			
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -125,7 +139,7 @@
                     </div>
                 </div>
             </footer>
-            <a class="btn btn-primary" href="./add">글쓰기</a>   
+               
             <!-- End of Footer -->
 
         </div>
@@ -133,17 +147,26 @@
 
     </div>
     <!-- End of Page Wrapper -->
+   
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-	
- 
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+ <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+ <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
  
 
 
-<script src="/js/commentUpdate.js"></script>
+<c:import url="../temp/logoutModal.jsp"></c:import>
+<script src="/js/dataTable.js"></script>
+<script src="/js/noticeImportant.js"></script>
+<c:import url="../temp/common_js.jsp"></c:import>
+
+
 </body>
 </html>
                                         

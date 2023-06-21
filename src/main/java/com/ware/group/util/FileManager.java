@@ -86,4 +86,19 @@ public class FileManager extends AbstractView {
 		
 		return fileName;
 	}
+	
+	public String saveFile2(String path, MultipartFile multipartFile) throws Exception {
+		
+		File file = new File(path);
+		
+		if(!file.exists()) {
+			file.mkdirs();
+		}
+
+		file = new File(file, multipartFile.getOriginalFilename());
+		
+		multipartFile.transferTo(file);
+		
+		return multipartFile.getOriginalFilename();
+	}
 }

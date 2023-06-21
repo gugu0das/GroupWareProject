@@ -13,6 +13,7 @@ import com.ware.group.util.Pager;
 
 @Mapper
 public interface ApprovalDAO {
+	public List<ApprovalCategoryVO> getUnderCategory(ApprovalCategoryVO approvalCategoryVO) throws Exception;
 	
 	public int updateApproverDepth(ApproverVO approverVO) throws Exception;
 	

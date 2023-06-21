@@ -101,30 +101,40 @@ to {
 						<a class="nav-link" href="/member/security">Security</a> <a
 							class="nav-link" href="/department/add">AddDepartment</a>
 							<a class="nav-link active ms-0" href="/member/statusList">근태</a>
-					</nav>
+					</nav> 
 					<hr class="mt-0 mb-4">
 					<div class="row">
 						<div class="col-xl-4">
 							<!-- Profile picture card-->
 							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">Profile Picture</div>
+								<div class="card-header">프로필</div>
 								<div class="card-body text-center">
 									<!-- Profile picture image-->
-									<img class="img-account-profile rounded-circle mb-2"
-										src="/images/undraw_profile_2.svg" alt="">
-									<!-- Profile picture help block-->
-									<div class="small font-italic text-muted mb-4">JPG or PNG
-										no larger than 5 MB</div>
-									<!-- Profile picture upload button-->
-									<button class="btn btn-primary" type="button">Upload
-										new image</button>
+									<div>
+									<c:if test="${not empty memberVO.memberProfileVO.fileName }">
+										<img class="img-account-profile rounded-circle mb-2"
+											style="width: 453px; height: 453px"
+											src="/profile/${memberVO.memberProfileVO.fileName }">
+									</c:if>
+									<c:if test="${empty memberVO.memberProfileVO.fileName }">
+										<img class="img-account-profile rounded-circle mb-2"
+											style="width: 453px; height: 453px"
+											src="/images/undraw_profile_1.svg">
+									</c:if>
+									
+									</div>
+									
+									
+									<button class="btn btn-outline-primary" type="button" id="fileUpload" data-toggle="modal" data-target="#profileDetail">프로필 변경
+										</button>
+									
 								</div>
 							</div>
 						</div>
 						<div class="col-xl-7">
 							<!-- Account details card-->
 							<div class="card mb-4">
-								<div class="card-header">Account Details</div>
+								<div class="card-header">계정 정보</div>
 								<div class="card-body">
 									<form:form modelAttribute="memberVO" method="post"
 										action="./update" id="updateForm">
@@ -252,6 +262,52 @@ to {
 						</div>
 					</div>
 				</div>
+				<div class="modal fade" id="profileDetail" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog modal-l" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="title">프로필 수정</h5>
+								<button class="close" type="button" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<form action="/member/memberProfileAdd" method="post"
+								enctype="multipart/form-data">
+								<div class="modal-body">
+
+									<div class="card mb-4 mb-xl-0">
+										
+										<div class="card-body text-center">
+											<!-- Profile picture image-->
+
+											<img class="img-account-profile rounded-circle mb-2"
+												style="width: 453px; height: 453px"
+												src="/profile/${memberVO.memberProfileVO.fileName }" alt="">
+											<!-- Profile picture help block-->
+											<div class="small font-italic text-muted mb-4"></div>
+											<!-- Profile picture upload button-->
+
+											<input class="form-control" type="file" name="file">
+											
+
+										</div>
+									</div>
+								</div>
+
+								<div class="modal-footer">
+									<button class="btn btn-secondary" type="button"
+										data-dismiss="modal">닫기</button>
+
+									<button class="btn btn-success" type="submit" id="fileUpload">변경하기</button>
+
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				<!-- End of Main Content -->
 
 				<!-- Footer -->
@@ -266,9 +322,10 @@ to {
 
 
 	<c:import url="../temp/logoutModal.jsp"></c:import>
+	
 	<c:import url="../temp/common_js.jsp"></c:import>
 	<script src="/js/profile.js"></script>
-
+	<script src="/js/essential.js"></script>
 
 </body>
 </html>

@@ -86,7 +86,9 @@
 						<div class="tab-pane fade show active" id="home1" role="tabpanel"
 							aria-labelledby="home-tab">
 							<div class="card mb-4">
-								
+								<div class="card-header py-3">
+                            	<h6 class="m-0 font-weight-bold text-primary">결재 승인/거절</h6>
+                       			 </div>
 								<div class="card-body">
 									<div
 										class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">

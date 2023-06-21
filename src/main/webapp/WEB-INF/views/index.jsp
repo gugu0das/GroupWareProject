@@ -20,7 +20,7 @@
 
 <!-- Custom styles for this template-->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-
+<link href="/css/noticeTop5.css" rel="stylesheet">
 <style type="text/css">/* Chart.js */
 @
 keyframes chartjs-render-animation {
@@ -65,6 +65,7 @@ to {
 	left: 0;
 	top: 0
 }
+
 </style>
 </head>
 
@@ -73,7 +74,16 @@ to {
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 		<!-- sideBar -->
-		<c:import url="./temp/sidebar.jsp"></c:import>
+		
+		<c:choose>
+			<c:when test="${id != 'admin'}">
+				<c:import url="./temp/sidebar.jsp"></c:import>
+			</c:when>
+			<c:when test="${id == 'admin'}">
+				<c:import url="./temp/adminSidebar.jsp"></c:import>
+			</c:when>
+		</c:choose>
+		
 		<!-- sideBar -->
 
 
@@ -83,7 +93,16 @@ to {
 			<!-- Main Content -->
 			<div id="content">
 				<!--top bar  -->
-				<c:import url="./temp/topbar.jsp"></c:import>
+				<c:choose>
+					<c:when test="${id == 'admin'}">
+						<c:import url="./temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="./temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
+
 				<!--top bar  End -->
 
 
@@ -96,6 +115,7 @@ to {
 						<div class="col-xl-3 col-md-6 mb-4">
 							<div class="card border-left-primary shadow h-100 py-2">
 								<div class="card-body">
+									<button id="sse">sse test</button>
 									<form id="timeHistory" action="/member/statusUpdate"
 										method="post">
 										<div class="" id="timeStemp">
@@ -120,9 +140,9 @@ to {
 											<div class="col-auto" id="statusBtns"
 												data-status="${employeeVO.status }">
 												<c:if test="${not empty employeeVO.offTime }">
-													<i class="fas fa-2x"> <a
-														class="text-xs" id="">퇴근시간</a> <a class="text-xs"
-														data-onTime="${employeeVO.offTime }" id="timeStatus">${employeeVO.strOffTime }</a>
+													<i class="fas fa-2x"> <a class="text-xs" id="">퇴근시간</a>
+														<a class="text-xs" data-onTime="${employeeVO.offTime }"
+														id="timeStatus">${employeeVO.strOffTime }</a>
 													</i>
 												</c:if>
 												<c:forEach items="${btns }" var="btn">
@@ -303,7 +323,7 @@ to {
 									</div>
 								</div>
 								<!-- Card Body -->
-								<div class="card-body" id="noticeList">
+								<div class="card-body word" id="noticeList">
 									<div class="chart-pie pt-4 pb-2">
 
 										<div class="chartjs-size-monitor">
@@ -530,40 +550,17 @@ to {
 		style="display: none;"> <i class="fas fa-angle-up"></i>
 	</a>
 
-	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">Select "Logout" below if you are ready
-					to end your current session.</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
 
-					<form action="/member/logout" method="post">
-						<button class="btn btn-primary">Logout</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+	<c:import url="./temp/logoutModal.jsp"></c:import>
 	<c:import url="./temp/common_js.jsp"></c:import>
-
 	<script src="/js/employeeStatus.js"></script>
 	<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 	<!-- Page level custom scripts -->
 	<script src="/js/demo/datatables-demo.js"></script>
 	<!--Notice 공지사항 메인으로 빼는 기능-->
 	<script src="/js/noticeTop5.js"></script>
-
+	<script src="/js/SSE.js"></script>
+	
 
 </body>
 </html>

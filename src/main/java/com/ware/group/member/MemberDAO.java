@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ware.group.annual.AnnualVO;
 import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.schedule.HolidayVO;
 import com.ware.group.schedule.ScheDetailVO;
@@ -15,6 +16,8 @@ import com.ware.group.schedule.ScheDetailVO;
 public interface MemberDAO {
 
 	public List<MemberVO> getMembers() throws Exception;
+	//인사팀용 맴버리스트
+	public List<MemberVO> getMemberList()throws Exception;
 	
 	public List<MemberVO> getStatusMembers(WorkTimeVO workTimeVO) throws Exception;
 	
@@ -24,7 +27,11 @@ public interface MemberDAO {
 	
 	public int setJobAdd(JobVO jobVO)throws Exception;
 	
+	public int setJobDelete(JobVO jobVO)throws Exception;
+	
 	public MemberVO idDuplicateCheck(MemberVO memberVO)throws Exception;
+	
+	public MemberVO employeeIdCheck(MemberVO memberVO) throws Exception;
 	
 	public MemberVO getMemberLogin(MemberVO memberVO)throws Exception;
 	
@@ -32,10 +39,21 @@ public interface MemberDAO {
 	
 	public MemberVO getMemberProfile(MemberVO memberVO)throws Exception;
 	
+	public MemberVO getMemberDetail(MemberVO memberVO)throws Exception;
+	
 	public int setMemberUpdate(MemberVO memberVO) throws Exception;
 	
 	public int setPasswordUpdate(MemberVO memberVO)throws Exception;
 	
+	public int setPasswordUpdateinit(MemberVO memberVO)throws Exception;
+	
+	public int setMemberUpdateDetail(MemberVO memberVO)throws Exception;
+	
+	public MemberProfileVO getProfile(MemberProfileVO memberProfileVO)throws Exception;
+	
+	public int setProfileAdd(MemberProfileVO memberProfileVO)throws Exception;
+	
+	public int setProfileDelete(MemberProfileVO memberProfileVO)throws Exception;
 	
 	
 	///근태관리
@@ -56,11 +74,12 @@ public interface MemberDAO {
 	public int setDefaultWorkAdd(WorkTimeVO workTimeVO)throws Exception;
 	
 	public int setDefaultWorkUpdate(WorkTimeVO workTimeVO)throws Exception;
-
+	
 	public int setEmployeeStatusUpdate(EmployeeStatusVO employeeStatusVO)throws Exception;
 	
 	public int setTimeStempInsert(EmployeeStatusVO employeeStatusVO) throws Exception;
 	
+	public int setLeaveRecordUpdate(LeaveRecordVO leaveRecordVO)throws Exception;
 	public List<EmployeeStatusVO> getNotOffTimeEmployee(EmployeeStatusVO employeeStatusVO)throws Exception;
 //	이번달 근태기록
 	public List<EmployeeStatusVO> getWorkingList(WorkTimeStatusVO workTimeStatusVO)throws Exception;
@@ -68,6 +87,15 @@ public interface MemberDAO {
 	public List<ScheDetailVO> getHolidayList(HolidayVO holidayVO)throws Exception;
 	//연차 유무
 	public LeaveRecordVO getHolidays(EmployeeStatusVO employeeStatusVO) throws Exception;
+	
+	public List<LeaveRecordVO> getLeaveRecodeList(MemberVO memberVO)throws Exception;
+	
+	public int setAnnualUpdate(AnnualVO annualVO)throws Exception;
+	
+	public int setAnnualAdd(MemberVO memberVO)throws Exception;
+	
+	public AnnualVO getAnnual(MemberVO memberVO)throws Exception;
+	
 	//연차 추가
 	public int setVacation(EmployeeStatusVO employeeStatusVO)throws Exception;
 

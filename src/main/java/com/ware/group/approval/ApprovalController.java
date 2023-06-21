@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.ware.group.alim.AllimService;
 import com.ware.group.annual.LeaveRecordVO;
 
 import com.ware.group.department.DepartmentVO;
@@ -58,7 +59,7 @@ public class ApprovalController {
 	
 	
 	@Autowired
-	private MemberService memberService;
+	private AllimService allimService;
 
 	
 	@GetMapping("listCategory")
@@ -113,7 +114,7 @@ public class ApprovalController {
 		
 		
 		
-		mv.setViewName("/approval/updateCategory");
+		mv.setViewName("/approval/categoryUpdate");
 		
 		return mv;
 		
@@ -139,7 +140,7 @@ public class ApprovalController {
 			approvalFormFileVO.setCategoryId(3L);
 			result = approvalService.updateFormFile(approvalFormFileVO);
 			
-			filemanger.saveFile(formFilePath, obj);
+			filemanger.saveFile2(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {
@@ -167,7 +168,7 @@ public class ApprovalController {
 			approvalFormFileVO.setCategoryId(Long.parseLong((String)param.get("categoryId")));
 			result = approvalService.addUpperFormFile(approvalFormFileVO);
 			
-			filemanger.saveFile(formFilePath, obj);
+			filemanger.saveFile2(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {
@@ -214,7 +215,7 @@ public class ApprovalController {
 		
 		ModelAndView mv = new ModelAndView();
 		
-		mv.setViewName("/approval/addCategory");
+		mv.setViewName("/approval/categoryAdd");
 		
 		List<DepartmentVO> deptList = approvalService.getDepartmentList();
 		
@@ -255,9 +256,9 @@ public class ApprovalController {
 		ModelAndView mv = new ModelAndView();
 		
 		boolean check = false;
-		
+		String fileName = "";
 		for(MultipartFile multipartFile : fileId) {
-			filemanger.saveFile(formFilePath + "/approvalFormFile", multipartFile);
+			fileName = filemanger.saveFile2(formFilePath, multipartFile);
 		}
 		
 		
@@ -278,6 +279,7 @@ public class ApprovalController {
 				}
 				for(ApprovalFormFileVO fileVO : approvalCategoryVO1.getFile()) {
 					fileVO.setCategoryId(approvalCategoryVO1.getId());
+					fileVO.setFileName(fileName);
 					approvalService.addApprovalFormFile(fileVO);
 				}
 			}else {
@@ -441,23 +443,33 @@ public class ApprovalController {
 	@PostMapping("deleteCategory")
 	@ResponseBody
 	public int deleteCategory(ApprovalCategoryVO categoryVO) throws Exception{
-
+		
+		List<ApprovalCategoryVO> approvalCategoryVOList = approvalService.getUnderCategory(categoryVO);
+		
 		int result = approvalService.deleteCategory(categoryVO);
 		
-		List<ApprovalCategoryVO> approvalCategoryVOList = new ArrayList<>();
 		
-		if(result == 1) {
-			for(ApprovalCategoryVO categoryVO1 : approvalService.checkUpperCategory()) {
-				long count = approvalService.underCategoryCount(categoryVO1);
-				if( count > 0 ) {
-					approvalCategoryVOList.add(categoryVO1);
-				}
-			}
-			if( approvalCategoryVOList.size() != 0 ) {
-				for(ApprovalCategoryVO categoryVO2 : approvalCategoryVOList) {
-					approvalService.deleteUpperOptionApprover(categoryVO2);
-					approvalService.deleteUpperOptionFormFile(categoryVO2);
-				}
+		
+//		if(result == 1) {
+//			for(ApprovalCategoryVO categoryVO1 : approvalService.checkUpperCategory()) {
+//				long count = approvalService.underCategoryCount(categoryVO1);
+//				if( count > 0 ) {
+//					approvalCategoryVOList.add(categoryVO1);
+//				}
+//			}
+//			if( approvalCategoryVOList.size() != 0 ) {
+//				for(ApprovalCategoryVO categoryVO2 : approvalCategoryVOList) {
+//					approvalService.deleteUpperOptionApprover(categoryVO2);
+//					approvalService.deleteUpperOptionFormFile(categoryVO2);
+//
+//				}
+//			}
+//		}
+		
+		if(result > 1) {
+			for(ApprovalCategoryVO categoryVO2 : approvalCategoryVOList) {
+				approvalService.deleteUpperOptionApprover(categoryVO2);
+				approvalService.deleteUpperOptionFormFile(categoryVO2);
 			}
 		}
 		
@@ -538,26 +550,30 @@ public class ApprovalController {
         PrintWriter pw = new PrintWriter(System.out, true);
         String fileName = UUID.randomUUID().toString();
         fileName=fileName+".html";
-        System.out.println("==================1============================");
+        
         File file = new File(basePaths+"/approval");
         if(!file.exists()) {
 			file.mkdirs();
 		}
         PrintWriter fw = new PrintWriter(new FileOutputStream(basePaths+"approval/"+fileName));
         fw.println(dd);
-        System.out.println("===================2===========================");
+        
         //is.close(); //입력 스트림 닫기
         //br.close(); //출력스트림 닫기
-        System.out.println("===================3===========================");
+        
         log.error("컨트롤러");
-        int result = approvalService.setApprovalApplication(approvalVO, fileName,leaveRecordVO);
+        List<Integer> al = approvalService.setApprovalApplication(approvalVO, fileName,leaveRecordVO);
         String msg = "신청 실패";
-        if(result == 1) {
+        int result = al.get(0);
+        if(result > 0) {
         	msg="신청 완료";
         }
+        log.error(" error : {}",result);
         mv.addObject("result", result);
         mv.addObject("msg", msg);
         mv.addObject("url", "./myInformation");
+        mv.addObject("SSEurl", "/trigger-event");
+        mv.addObject("name", al.get(1));
         mv.setViewName("common/alert");
 		pw.close();
 		fw.close();
@@ -621,15 +637,19 @@ public class ApprovalController {
 //	}
 	@GetMapping("information")
 	//list
-	public ModelAndView getApprovalInformation(Pager pager,HttpSession session) throws Exception{
+	public ModelAndView getApprovalInformation(Pager pager,HttpSession session, Long allimId) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		
+		if(allimId !=null) {
+			allimService.setUpdateAllim(allimId);
+		}
+		
 		
 		pager.setMemberId(memberVO.getId());
-//		pager.setMemberId(0L);
+		//pager.setMemberId(0L);
 		mv.addObject("caa", pager.getCategoryId());
 		List<ApprovalVO> ar = approvalService.getApprovalList(pager);
 		
@@ -734,6 +754,7 @@ public class ApprovalController {
 		
 		log.error("들어오냐");
 		log.error("{}::::::::::",approval);
+		log.error("들어오냐 {}",approvalVO.getId());
 		PrintWriter pw = new PrintWriter(System.out, true);
         //파일 수정 모드 있는 파일을 불러오기
 		
@@ -746,17 +767,19 @@ public class ApprovalController {
         //br.close(); //출력스트림 닫기
         
         
-        int result=approvalService.setApprovalApproval(memberVO, approvalVO, approval);
-        
-		log.error("{} ::::::::::::", approval);
+        List<Integer> al =approvalService.setApprovalApproval(memberVO, approvalVO, approval);
+        int result = al.get(0);
+        log.error("{} ::::::::::::", approval);
 		String msg = "승인 실패";
-        if(result == 1) {
+        if(result > 0) {
         	msg="승인 완료";
         }
 		
 		 mv.addObject("result", result);
 	     mv.addObject("msg", msg);
 	     mv.addObject("url", "./information");
+	     mv.addObject("SSEurl", "/trigger-event");
+	     mv.addObject("name", al.get(1));
 	     mv.setViewName("common/alert");
 		
 		//mv.setViewName("approval/refuse");
@@ -767,13 +790,15 @@ public class ApprovalController {
 	
 
 	@GetMapping("myInformation")
-	public ModelAndView getMyInformation(Pager pager,HttpSession session) throws Exception{
+	public ModelAndView getMyInformation(Pager pager,HttpSession session, Long allimId) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 		pager.setMemberId(memberVO.getId());
-		
+		if(allimId !=null) {
+			allimService.setUpdateAllim(allimId);
+		}
 		
 		log.error("{}",pager.getConfirm());
 		if(pager.getConfirm()=="") {
@@ -788,10 +813,13 @@ public class ApprovalController {
 		}else {
 			mv.addObject("name", "전체");
 		}
+		
 		mv.addObject("pager", pager);
 		mv.addObject("caa", pager.getConfirm());
 		mv.addObject("list", ar);
 		mv.setViewName("approval/myInformation");
+		
+		
 		return mv;
 	}
 	
@@ -811,7 +839,7 @@ public class ApprovalController {
 		result=approvalService.setApprovalInfoDelete(id1);
 		
 		String msg = "삭제 실패";
-        if(result == 1) {
+        if(result > 0) {
         	msg="삭제 완료";
         }
 		

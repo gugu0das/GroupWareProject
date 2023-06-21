@@ -16,6 +16,25 @@
 	where m.status =1 and w.reg_date <![CDATA[ <= ]]> #{regDate}
 	</select>
 
+	<select id="getMemberList" resultMap="getMemberProfile">
+		select m.id as m_id,m.employee_id,m.account_id ,m.name as
+		m_name ,m.status,m.birth_date ,m.email ,m.phone ,m.address, m.hire_date
+		,p.file_name,p.ori_name
+		,d.name as dep_name,j.name as job_name
+		from `MEMBER` m
+		left outer join
+		PROFILE p
+		on m.id=p.member_id
+		left outer join
+		DEPARTMENT d
+		on m.department_id =d.id
+		left outer JOIN
+		JOB j
+		on m.job_id
+		=j.id
+		
+	
+	</select>
 	<select id="getMemberLogin" parameterType="MemberVO"
 		resultMap="getLoginResult">
 		select m.id as m_id, m.employee_id ,m.account_id
@@ -34,7 +53,7 @@
 	<select id="getMemberProfile" parameterType="MemberVO"
 		resultMap="getMemberProfile">
 		select m.id as m_id,m.employee_id,m.account_id ,m.name as
-		m_name
+		m_name,m.department_id,m.job_id,m.status
 		,m.status,m.birth_date ,m.email ,m.phone ,m.address, m.hire_date
 		,d.name as dep_name,j.name as job_name
 		from `MEMBER` m
@@ -47,6 +66,24 @@
 		=j.id
 		where account_id =#{accountId};
 	</select>
+	<!-- userDetail(인사) -->
+	<select id="getMemberDetail" parameterType="MemberVO"
+		resultMap="getMemberProfile">
+		select m.id as m_id,m.employee_id,m.account_id ,m.name as
+		m_name,m.department_id,m.job_id,m.status,m.end_date
+		,m.birth_date ,m.email ,m.phone ,m.address, m.hire_date
+		,d.name as dep_name,j.name as job_name
+		from `MEMBER` m
+		left outer join
+		DEPARTMENT d
+		on m.department_id =d.id
+		left outer JOIN
+		JOB j
+		on m.job_id
+		=j.id
+		where m.id =#{id};
+	</select>
+
 
 	<insert id="setMemberJoin" parameterType="MemberVO">
 		<selectKey keyProperty="id" resultType="Long" order="AFTER">
@@ -77,14 +114,31 @@
 		where id=#{id}
 
 	</update>
+	
+	<update id="setMemberUpdateDetail" parameterType="MemberVO">
+	
+	update `MEMBER` SET
+		account_id=#{accountId},name=#{name},address=#{address},
+		email=#{email},phone=#{phone}, birth_date=#{birthDate,jdbcType=DATE},
+		update_date=now(),status=#{status},end_date=#{endDate,jdbcType=DATE},
+		department_id=#{departmentId},job_id=#{jobId},hire_date=#{hireDate,jdbcType=DATE} 
+		where id=#{id}
+	
+	</update>
 
-	<!-- pwUpdate -->
+
+	<!-- pwUpdate  유저는 accountId로 검증-->
 	<update id="setPasswordUpdate" parameterType="MemberVO">
 		update `MEMBER` SET
 		password=#{password}
 		where account_id=#{accountId}
 	</update>
-
+	<!-- NOT Spring Security  관리자는 Id로 검증-->
+	<update id="setPasswordUpdateinit" parameterType="MemberVO">
+		update `MEMBER` SET
+		password=#{password}
+		where id=#{id}
+	</update>
 	<!-- select JobList -->
 	<select id="getJobList" resultType="JobVO">
 		select * from JOB
@@ -94,16 +148,37 @@
 		insert into JOB (name)
 	values(#{name})
 	</insert>
+	<!-- profile관련 -->
+	<select id="getProfile" parameterType="MemberProfileVO" resultType="MemberProfileVO">
+	select * from PROFILE WHERE member_id=#{memberId}
+	</select>
+	
+	<insert id="setProfileAdd" parameterType="MemberProfileVO">
+	insert into PROFILE (member_id,file_name,ori_name)
+	values(#{memberId},#{fileName},#{oriName})
+	</insert>
+	<delete id="setProfileDelete" parameterType="MemberProfileVO">
+	delete from PROFILE WHERE member_id=#{memberId}
+	</delete>
 
-
-
+	<delete id="setJobDelete" parameterType="JobVO">
+	delete from JOB WHERE id=#{id}
+	</delete>
 	<!-- 검증 1. ID중복검사 -->
 	<select id="idDuplicateCheck" resultType="MemberVO"
 		parameterType="MemberVO">
 		SELECT account_id FROM MEMBER WHERE
 		account_id=#{accountId}
 	</select>
+	<select id="employeeIdCheck" parameterType="MemberVO" resultType="MemberVO">
+		SELECT employee_id FROM MEMBER WHERE employee_id=#{employeeId}
+	
+	</select>
 
+	<select id="getAnnual" parameterType="MemberVO" resultType="AnnualVO">
+		SELECT * FROM ANNUAL WHERE member_id=#{id}
+	
+	</select>
 	<!-- result Map -->
 
 	<!-- 1. Login -->
@@ -132,6 +207,15 @@
 		<result property="status" column="status" />
 		<result property="address" column="address" />
 		<result property="hireDate" column="hire_date" />
+		<result property="departmentId" column="department_id" />
+		<result property="jobId" column="job_id" />
+		<result property="status" column="status" />
+		<result property="endDate" column="end_date" />
+		<association property="memberProfileVO" javaType="MemberProfileVO">
+			<result property="fileName" column="file_name" />
+			<result property="oriName" column="ori_name" />
+			
+		</association>
 		<association property="jobVO" javaType="JobVO">
 			<id property="name" column="job_name" />
 		</association>
@@ -143,6 +227,15 @@
 
 	</resultMap>
 	<!-- End Result Map -->
+	
+	<insert id="setAnnualAdd" parameterType="MemberVO">
+	INSERT INTO ANNUAL (count,`type`,reg,member_id)
+	values(15,1,now(),#{id})
+	</insert>
+	<update id="setAnnualUpdate" parameterType="AnnualVO">
+	UPDATE ANNUAL SET count=#{count}, reg=now() where member_id=#{member_id}
+	</update>
+
 
 	<!-- ////////////////////////////////////////////////////////////////////////// -->
 	<!-- 근태관리 -->
@@ -170,7 +263,8 @@
 		where e.reg =(DATE_FORMAT(NOW(),'%y-%m-%d')) and member_id =#{memberId}
 
 	</select>
-
+	
+	
 
 	<update id="setEmployeeStatusUpdate"
 		parameterType="EmployeeStatusVO">
@@ -211,6 +305,9 @@
 	<select id="getDefaultWorkFilter" parameterType="WorkTimeVO" resultType="workTimeVO">
 	select * from WORKTIME where id =(SELECT id from WORKTIME where reg_date <![CDATA[ <= ]]>#{regDate} and member_id=#{memberId}  order by reg_date asc LIMIT 1) 
 	</select>
+	<update id="setDefultWorkUpdate" parameterType="WorkTimeVO">
+	update WORKTIME set start_time =#{startTime},finish_time=#{finishTime} where id=#{id}
+	</update>
 	
 	<insert id="setDefaultWorkAdd" parameterType="WorkTimeVO">
 	insert into WORKTIME (start_time,finish_time,meal_time,reg_date,member_id)
@@ -218,7 +315,7 @@
 	</insert>
 
 	<update id="setDefaultWorkUpdate" parameterType="WorkTimeVO">
-	update WORKTIME set start_time =#{startTime}, finish_time={finishTime} where member_id=#{memberId}
+	update WORKTIME set start_time =#{startTime}, finish_time=#{finishTime} where id=#{id}
 	</update>
 	
 	<select id="getEmployeeStatusList" parameterType="EmployeeStatusVO" resultType="EmployeeStatusVO">
@@ -231,7 +328,16 @@
 	<select id="getHolidays" parameterType="EmployeeStatusVO" resultType="LeaveRecordVO">
       select * from LEAVERECODE where use_date = #{reg} and type = '승인' and member_id =#{memberId}
    </select>
+	<!-- 연차 승인 내역  -->
+	<select id="getLeaveRecodeList" parameterType="MemberVO" resultType="LeaveRecordVO">
+      select * from LEAVERECODE where type = '승인' and member_id =#{id}
+   </select>
 		
+	<update id="setLeaveRecordUpdate" parameterType="LeaveRecordVO">
+	
+	update LEAVERECODE set use_date =#{useDate} where id=#{id}
+	
+	</update>
 		
 	<!--공휴일 불러오기 -->
 	<select id="getHolidayList" parameterType="HolidayVO" resultType="HolidayVO">

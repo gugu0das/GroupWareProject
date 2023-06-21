@@ -1,18 +1,30 @@
 package com.ware.group.config;
 
+import java.nio.file.AccessDeniedException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.stereotype.Component;
 
 import com.ware.group.security.UserLoginFailHandler;
 import com.ware.group.security.UserLogoutHandler;
 import com.ware.group.security.UserSuccessHandler;
+
 
 @Configuration
 @EnableWebSecurity
@@ -33,12 +45,16 @@ public class SecurityConfig{
 				.antMatchers("/css/**")
 				.antMatchers("/favicon/**")
 				.antMatchers("/vendor/**")
+				.antMatchers("/member/memberAlert*")
 //				
 				;
 	}
 	@Bean
 	SecurityFilterChain fiterChain(HttpSecurity httpSecurity)throws Exception{
+		
+		
 		httpSecurity
+				
 				.cors()	
 				.and()
 				.csrf()
@@ -50,6 +66,7 @@ public class SecurityConfig{
 //				.permitAll()
 //			.antMatchers("/**").hasRole("USER")
 				.antMatchers("/member/join").permitAll()
+				
 //				.antMatchers("/notice/add").hasRole("MEMBER")
 //				.antMatchers("/notice/update").hasRole("ADMIN")
 //				.antMatchers("/notice/delete").hasRole("ADMIN")
@@ -57,12 +74,16 @@ public class SecurityConfig{
 //				.antMatchers("/admin/**").hasRole("ADMIN")
 //				.antMatchers("/qna/add").hasAnyRole("ADMIN", "MANAGER", "MEMBER")
 				//.anyRequest().authenticated()
+				.antMatchers("/approval/addCategory").hasRole("ADMIN")
+				.antMatchers("/approval/updateCategory").hasRole("ADMIN")
+				.antMatchers("/approval/managerInformation").hasRole("MANAGER")
 				.anyRequest().hasRole("USER")
+				
+				
 				.and()
 			.formLogin()
-			.usernameParameter("accountId")
+				.usernameParameter("accountId")
 				.loginPage("/member/login")
-				
 //				.defaultSuccessUrl("/")
 				.successHandler(new UserSuccessHandler())
 //				.failureUrl("/member/login")
@@ -76,8 +97,9 @@ public class SecurityConfig{
 				.addLogoutHandler(userLogoutHandler)// 로그아웃 성공 후 이동할 URL 설정(로그아웃 핸들러 클래스로 설정했음)
 //				.logoutSuccessHandler(userLogoutHandler)  // 로그아웃 성공 후 이동할 URL 설정(로그아웃 핸들러 클래스로 설정했음)
 				.invalidateHttpSession(true)// 로그아웃 후 세션 초기화 설정
-				.deleteCookies("JSESSIONID")// 로그아웃 후 쿠기 삭제 설정
+//				.deleteCookies("JSESSIONID")// 로그아웃 후 쿠기 삭제 설정
 				.permitAll()
+				
 //				.and()
 
 //			.sessionManagement()
@@ -89,7 +111,13 @@ public class SecurityConfig{
 //			.invalidSessionUrl("/")
 //			.sessionFixation()
 //				.newSession()
+				.and()
+				.exceptionHandling()
+				.accessDeniedPage("/")
 				;
+//		httpSecurity
+//		.exceptionHandling()
+//		.accessDeniedHandler(null);
 		
 		return httpSecurity.build();
 	}
@@ -97,4 +125,16 @@ public class SecurityConfig{
 	public PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+//	@Component
+//	public class WebAccessDeniedHandler implements AccessDeniedHandler{
+//		
+//		private final Logger logger = LoggerFactory.getLogger(WebAccessDeniedHandler.class);
+//		
+//		@Override
+//		public void handle(HttpServletRequest req, HttpServletResponse res, AccessDeniedException ade) throws Exception{
+//			res.setStatus(HttpStatus.FORBIDDEN.value());
+//			req.getRequestDispatcher("/").forward(req, res);
+//		}
+//	}
 }

@@ -52,13 +52,16 @@
 		<typeAlias type="com.ware.group.member.EmployeeStatusVO" alias="EmployeeStatusVO"/>
 		<typeAlias type="com.ware.group.member.WorkTimeVO" alias="WorkTimeVO"/>
 		<typeAlias type="com.ware.group.member.WorkTimeStatusVO" alias="WorkTimeStatusVO"/>
+  	  	<typeAlias type="com.ware.group.member.MemberProfileVO" alias="MemberProfileVO"/>
+  	  	
+  	  	
   	  	<typeAlias type="java.lang.Long" alias="Long" />
 		<typeAlias type="java.util.List" alias="List"/>
 		<typeAlias type="com.ware.group.util.Pager" alias="Pager"/>
 		<typeAlias type="com.ware.group.annual.LeaveRecordVO" alias="LeaveRecordVO"/>
 		<typeAlias type="com.ware.group.department.DepartmentVO" alias="DepartmentVO"/>
 		<typeAlias type="com.ware.group.annual.AnnualVO" alias="AnnualVO"/>
-		
+		<typeAlias type="com.ware.group.alim.AllimVO" alias="AllimVO"/>
 		
 	</typeAliases>
 	

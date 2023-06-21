@@ -13,28 +13,75 @@
 <body class="bg-gradient-primary">
 	<div id="wrapper">
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+		<c:choose>
+			<c:when test="${memberVO.accountId == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+			<c:otherwise>
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:otherwise>
+		</c:choose>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+
+				<c:choose>
+					<c:when test="${memberVO.accountId == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
 
 				<!-- contents 작성 -->
 				<div class="container-fluid">
 					<h2>부서 리스트</h2>
-					<div id="tree-container">
+					<div class="card mb-4 mb-xl-0">
+
+						<div class="card-body">
+
+							<div id="tree-container"></div>
+						</div>
+					</div>
+					<br>
+					<h2>직책 리스트</h2>
+					<div class="row">
+						<div class="card mb-4 mb-xl-0 col-6">
+							<div class="card-body">
+								<div class="table-responsive" style="overflow-x: hidden">
+									<table class="table table-hover" id="dataTable"
+										style="text-align: center;">
+										<thead>
+											<tr>
+												<th>직책번호</th>
+												<th>직책 이름</th>
+
+
+
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${jobList }" var="jobVO" varStatus="i">
+												<tr class="jobVO" style="cursor: pointer;" data-job-id="${jobVO.id }" data-job-name="${jobVO.name }">
+
+													<td>${i.index}</td>
+													<td>${jobVO.name }</td>
+
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<!-- END Contents  -->
 
 				<!-- Footer -->
-				<footer class="sticky-footer bg-white">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2021</span>
-						</div>
-					</div>
-				</footer>
+			
 				<!-- End of Footer -->
 			</div>
 			<!-- End of Content Wrapper -->
