@@ -244,11 +244,11 @@ function calendarDayMouseout(){
             </footer>
         </div>
         <!-- /#content-wrapper -->
+        <div class="calendarTooltip"></div>
     </div>
     <!-- /#wrapper -->
 
     <c:import url="../temp/logoutModal.jsp"></c:import>
     <c:import url="../temp/common_js.jsp"></c:import>
-    <div class="calendarTooltip"></div>
 </body>
 </html>

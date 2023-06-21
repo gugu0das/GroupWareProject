@@ -49,35 +49,36 @@
         }
 	</style>
 <script>
-window.onload = function() {
-	$('#startdate').datepicker({
-	    dateFormat: 'yy-mm-dd'
-	}).on('changeDate', function(ev) {
-	    if (ev.viewMode=="days"){
-	        $('#startdate').datepicker('hide');
-	    }
-	});
+$.noConflict(); // jQuery 충돌 방지
+  jQuery(document).ready(function($) {
+    $('#startdate').datepicker({
+      dateFormat: 'yy-mm-dd'
+    }).on('changeDate', function(ev) {
+      if (ev.viewMode=="days"){
+        $('#startdate').datepicker('hide');
+      }
+    });
 
-	$('#enddate').datepicker({
-	    dateFormat: 'yy-mm-dd'
-	}).on('changeDate', function(ev) {
-	    if (ev.viewMode=="days"){
-	        $('#enddate').datepicker('hide');
-	    }
-	});
+    $('#enddate').datepicker({
+      dateFormat: 'yy-mm-dd'
+    }).on('changeDate', function(ev) {
+      if (ev.viewMode=="days"){
+        $('#enddate').datepicker('hide');
+      }
+    });
 
-	$('#repeatend').datepicker({
-	    dateFormat: 'yy-mm-dd'
-	}).on('changeDate', function(ev) {
-	    if (ev.viewMode=="days"){
-	        $('#repeatend').datepicker('hide');
-	    }
-	});
+    $('#repeatend').datepicker({
+      dateFormat: 'yy-mm-dd'
+    }).on('changeDate', function(ev) {
+      if (ev.viewMode=="days"){
+        $('#repeatend').datepicker('hide');
+      }
+    });
     repeattypeChange();
     <c:if test='${repeatoption ne ""}'>
-    	$("#repeatoption").val('<c:out value="${scheInfo.repeatoption}"/>');
+      $("#repeatoption").val('<c:out value="${scheInfo.repeatoption}"/>');
     </c:if> 
-}
+});
 
 function repeattypeChange() {
     var guideText = '';
@@ -293,5 +294,6 @@ function fn_delete(){
     </div>
     <!-- Logout Modal-->
     <c:import url="../temp/logoutModal.jsp"></c:import>
+	<c:import url="../temp/common_js.jsp"></c:import>
 </body>
 </html>
