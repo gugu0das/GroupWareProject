@@ -56,7 +56,7 @@ public class NoticeController {
 	@GetMapping("listTop")
 	public ModelAndView getNoticeListTop(Pager pager)throws Exception{
 		ModelAndView mv = new ModelAndView();
-		pager.setPerPage(5L);
+		pager.setPerPage(3L);
 	
 		List<NoticeVO> ar = noticeService.getList(pager);
 		
