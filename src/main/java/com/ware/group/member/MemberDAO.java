@@ -96,6 +96,7 @@ public interface MemberDAO {
 	
 	public AnnualVO getAnnual(MemberVO memberVO)throws Exception;
 	
+	public EmployeeStatusVO getEmployeeLastStatus(EmployeeStatusVO employeeStatusVO)throws Exception;
 	//연차 추가
 	public int setVacation(EmployeeStatusVO employeeStatusVO)throws Exception;
 

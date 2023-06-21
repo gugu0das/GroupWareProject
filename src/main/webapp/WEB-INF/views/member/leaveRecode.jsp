@@ -21,13 +21,12 @@
 
 				<!-- contents 작성 -->
 				<div class="container-fluid">
-
+					<h1 class="h3 mb-0 text-gray-800 mb-3">연차관리</h1>
 					<div class="card shadow mb-4">
 						<div class="card-header py-2">
-							<h6 class="m-0 font-weight-bold"></h6>
+							<h6 class="m-0 font-weight-bold">내정보</h6>
 						</div>
 						<div class="card-body">
-							<h1 class="h1 text-gray-900 mb-4 text-center">연차</h1>
 							<div class="row ">
 								<div class="col-lg-4  mb-3">
 									<div class="d-flex" style="height: 100px">
@@ -59,76 +58,82 @@
 									</div>
 								</div>
 
-								<div class="card mb-4 mb-xl-0 col-12">
-									<div class="card-body">
-										<div class="text-center mt-4"></div>
-										<div class="table-responsive" style="overflow-x: hidden">
 
-											<table class="table table-hover" id="employeeTable">
-												<thead>
-													<tr>
-														<th>일자</th>
-														<th>일수</th>
-														<th>연차구분</th>
 
-													</tr>
-												</thead>
-												<tbody>
-													<c:forEach items="${memberVO.leaveRecordVOs }"
-														var="leaveRecodeVO">
-														<tr class="leaveData" style="cursor: pointer;"
-															data-toggle="modal" data-target="#leaveDetail"
-															style="cursor: pointer;"
-															data-leaveId="${leaveRecodeVO.id }">
-															<td class="td">${leaveRecodeVO.useDate }</td>
-															<td class="td">${leaveRecodeVO.count }</td>
-															<td class="td">${leaveRecodeVO.annualType }</td>
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-										</div>
-									</div>
+							</div>
+						</div>
+					</div>
+					<div class="card shadow mb-4">
+						<div class="card-header py-2">
+							<h6 class="m-0 font-weight-bold">사용내역</h6>
+						</div>
+
+						<div class="card-body">
+							<div class="text-center mt-4"></div>
+							<div class="table-responsive" style="overflow-x: hidden">
+
+								<table class="table table-hover" id="employeeTable">
+									<thead>
+										<tr>
+											<th>일자</th>
+											<th>일수</th>
+											<th>연차구분</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${memberVO.leaveRecordVOs }"
+											var="leaveRecodeVO">
+											<tr class="leaveData" style="cursor: pointer;"
+												data-toggle="modal" data-target="#leaveDetail"
+												style="cursor: pointer;" data-leaveId="${leaveRecodeVO.id }">
+												<td class="td">${leaveRecodeVO.useDate }</td>
+												<td class="td">${leaveRecodeVO.count }</td>
+												<td class="td">${leaveRecodeVO.annualType }</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" id="leaveDetail" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-l" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="title">연차 상세</h5>
+									<button class="close" type="button" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">×</span>
+									</button>
 								</div>
-								<div class="modal fade" id="leaveDetail" tabindex="-1"
-									role="dialog" aria-labelledby="exampleModalLabel"
-									aria-hidden="true">
-									<div class="modal-dialog modal-l" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="title">연차 상세</h5>
-												<button class="close" type="button" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">×</span>
-												</button>
-											</div>
-											<form action="/manager/leaveUpdate" method="post">
-												<div class="modal-body">
+								<form action="/manager/leaveUpdate" method="post">
+									<div class="modal-body">
 
-													<input type="hidden" id="leaveId" name="id"> <label
-														for="0">일자</label> <input type="date" class="form-control"
-														id="0" name="useDate" readonly="readonly"> <label for="1">일수</label> <input
-														type="text" readonly="readonly" class="form-control"
-														id="1"> <label for="2">연차구분</label> <input
-														type="text" class="form-control mb-3" id="2"
-														readonly="readonly">
-	
-													<p style="color: gray ;">수정을 원하면 인사과에 문의하세요<p>
-												</div>
+										<input type="hidden" id="leaveId" name="id"> <label
+											for="0">일자</label> <input type="date" class="form-control"
+											id="0" name="useDate" readonly="readonly"> <label
+											for="1">일수</label> <input type="text" readonly="readonly"
+											class="form-control" id="1"> <label for="2">연차구분</label>
+										<input type="text" class="form-control mb-3" id="2"
+											readonly="readonly">
 
-												<div class="modal-footer">
-													<button class="btn btn-secondary" type="button"
-														data-dismiss="modal">닫기</button>
-
-
-													
-
-												</div>
-											</form>
-										</div>
+										<p style="color: gray;">수정을 원하면 인사과에 문의하세요
+										<p>
 									</div>
-								</div>
 
+									<div class="modal-footer">
+										<button class="btn btn-secondary" type="button"
+											data-dismiss="modal">닫기</button>
+
+
+
+
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>

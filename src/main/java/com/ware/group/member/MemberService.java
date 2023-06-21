@@ -74,9 +74,12 @@ public class MemberService implements UserDetailsService{
 	public MemberVO getSessionAttribute(HttpSession session)throws Exception{
 		Object obj =session.getAttribute("SPRING_SECURITY_CONTEXT");
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
-		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		if(contextImpl!=null) {
+			MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+			return memberVO;
+		}
 
-		return memberVO;
+		return null;
 	}
 
 
@@ -330,7 +333,12 @@ public class MemberService implements UserDetailsService{
 
 		employeeStatusVO=memberDAO.getEmployeeStatus(employeeStatusVO);
 		if(employeeStatusVO==null) {
-			return null;
+			employeeStatusVO = new EmployeeStatusVO();
+			employeeStatusVO.setMemberId(this.getSessionAttribute(session).getId());
+			employeeStatusVO = memberDAO.getEmployeeLastStatus(employeeStatusVO);
+			if(employeeStatusVO==null) {
+				return null;
+			}
 		}
 		employeeStatusVO =  Util4calen.setMonthVO(employeeStatusVO);
 		return employeeStatusVO;
@@ -438,6 +446,9 @@ public class MemberService implements UserDetailsService{
 
 	public List<EmployeeStatusVO>getEmployeeStatusList(EmployeeStatusVO employeeStatusVO, HttpSession session)throws Exception{
 
+		if(employeeStatusVO==null) {
+			employeeStatusVO= new EmployeeStatusVO();
+		}
 		employeeStatusVO.setMemberId(this.getSessionAttribute(session).getId());
 		List<EmployeeStatusVO> ar =  memberDAO.getEmployeeStatusList(employeeStatusVO);
 
@@ -480,17 +491,21 @@ public class MemberService implements UserDetailsService{
 
 
 		workTimeVO.setMemberId(memberVO.getId());
+
+
+
+
+//
+		if(employeeStatusVO==null) {
+			employeeStatusVO = new EmployeeStatusVO();
+		}
+
 		employeeStatusVO.setMemberId(memberVO.getId());
-
-
-
-
-
-
-
 		List<EmployeeStatusVO> ar = this.getEmployeeStatusList(employeeStatusVO, session);
 		List<MonthVO> monthList = new ArrayList<>();
-
+		if(ar==null) {
+			return null;
+		}
 		for(EmployeeStatusVO vo:ar) {
 			boolean check = true;
 			if(monthList.size()>0) {
