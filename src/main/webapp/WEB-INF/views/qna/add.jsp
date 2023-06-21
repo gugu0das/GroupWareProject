@@ -34,12 +34,43 @@
 </head>
 <body id="bg-gradient-primary">
 <div id="wrapper">
+
+
+		<c:choose>
+			<c:when test="${id != 'admin'}">
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:when>
+			<c:when test="${id == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+		</c:choose>
+		
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<!--top bar  -->
+				<c:choose>
+					<c:when test="${id == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
+
+				<!--top bar  End -->
+		<!-- sideBar -->
+	
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+			
         <!-- Header-->
         <!-- Page content-->
             <section class="py-5">
@@ -101,7 +132,8 @@
             </section>
          </div> </div> </div>
         
-	
+	 </div>
+	  </div>
 	
 	<c:import url="../temp/logoutModal.jsp"></c:import>
 	<c:import url="../temp/common_js.jsp"></c:import>

@@ -34,11 +34,41 @@
 <body id="bg-gradient-primary">
 <div id="wrapper">
 		<!-- Navigation-->
-    	<c:import url="../temp/sidebar.jsp"></c:import>
+		<c:choose>
+			<c:when test="${id != 'admin'}">
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:when>
+			<c:when test="${id == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+		</c:choose>
+		
+		<!-- sideBar -->
+
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<!--top bar  -->
+				<c:choose>
+					<c:when test="${id == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
+
+				<!--top bar  End -->
+		
+    
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
 		
-				<c:import url="../temp/topbar.jsp"></c:import>
+	
         <!-- Header-->
         <!-- Page content-->
             
@@ -112,7 +142,8 @@
       
         
         </div>
-
+</div>
+</div>
 	
 	
     <c:import url="../temp/logoutModal.jsp"></c:import>

@@ -112,7 +112,29 @@
 				</ul>
 			</div>
 		</div></li>
+		
+		<li class="nav-item"><a class="nav-link collapsed" href="#"
+		data-toggle="collapse" data-target="#board" aria-expanded="true"
+		aria-controls="collapsePages"> <i class="fas fa-fw fa-table"></i>
+			<span>게시판</span>
+	</a>
+		<div id="board" class="collapse" aria-labelledby="headingPages"
+			data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
 
+
+				<a class="collapse-item" href="/notice/list"> <i
+					class="mr-2 text-gray-400"><img
+						src="   https://cdn-icons-png.flaticon.com/512/2648/2648330.png "
+						style="height: 12.42px; width: 13.88px"></i> 공지사항
+				</a> <a class="collapse-item" href="/qna/list"> <i
+					class="mr-2 text-gray-400"><img
+						src="   https://cdn-icons-png.flaticon.com/512/2648/2648330.png "
+						style="height: 12.42px; width: 13.88px"></i> QnA
+				</a>
+
+			</div>
+		</div></li>
 
 
 
