@@ -124,9 +124,31 @@ function chkInputValue(id, msg){
 }
 
 function fn_formSubmit(){
-    if (!chkInputValue("#title", "일정명")) return false;
+    var startdate = new Date($("#startdate").val());
+    var enddate = new Date($("#enddate").val());
+    var repeatend = $("#repeatend").val() ? new Date($("#repeatend").val()) : null;
+    var starthour = parseInt($("#starthour").val());
+    var endhour = parseInt($("#endhour").val());
+    var repeattype = $("#repeattype").val();
 
-    return true;
+    if (startdate > enddate) {
+        alert("시작일은 종료일 이전이어야 합니다.");
+        return false;
+    }
+
+    if (startdate.getTime() === enddate.getTime() && starthour > endhour) {
+        alert("시작 시간은 종료 시간 이전이어야 합니다.");
+        return false;
+    }
+
+    if (repeattype != "1" && (!repeatend || enddate.getTime() !== repeatend.getTime())) {
+        alert("반복 일정을 사용하는 경우, 반복 종료일은 종료일과 일치해야 합니다.");
+        return false;
+    }
+
+    if (!chkInputValue("#title", "일정명")) return false;
+    
+    $("#form1").submit();
 }
 
 function fn_delete(){
@@ -268,7 +290,7 @@ function fn_delete(){
                                         </div>
                                     </div>
 
-                                    <button class="btn btn-outline btn-primary" onclick="fn_formSubmit();">저장</button>
+                                    <button class="btn btn-outline btn-primary">저장</button>
                                     <c:if test='${scheInfo.id!=null}'>
                                         <button class="btn btn-outline btn-danger" onclick="fn_delete()">삭제</button>
                                     </c:if>
