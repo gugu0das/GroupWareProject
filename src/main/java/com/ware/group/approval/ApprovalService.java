@@ -257,7 +257,7 @@ public class ApprovalService {
 		return approvalDAO.getApprovalFile(approvalVO);
 	}
 	public List<Integer> setApprovalApproval(MemberVO memberVO,ApprovalVO approvalVO,int approval) throws Exception{
-		int result;
+		int result=0;
 		Long allimId;
 		List<Integer> al = new ArrayList<>();
 		AllimVO allimVO = new AllimVO();
@@ -305,9 +305,10 @@ public class ApprovalService {
 					leaveRecordVO.setMemberId(approvalVO.getMemberId());
 					leaveRecordVO.setType(ApprovalStatus.APPROVAL);
 					result = approvalDAO.setLeaverCode(leaveRecordVO);
+					result = approvalDAO.setAnnual(leaveRecordVO);
 					}			
 					approvalVO = approvalDAO.getApprovalId(approvalVO);
-					result = approvalDAO.setAnnual(leaveRecordVO);
+					
 					log.error("제발 ::{}",approvalVO.getId());
 					log.error("제발2 ::{}",approvalVO.getMemberId());
 					allimId=approvalVO.getMemberId();
