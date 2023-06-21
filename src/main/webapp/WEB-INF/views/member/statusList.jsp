@@ -33,7 +33,7 @@
 						</div>
 						<div class="card-body">
 							<div class="row">
-								<div class="col-lg-4">
+								<div class="col-lg-4  mb-3">
 									<div class="d-flex" style="height: 100px">
 										<div class="flex-shrink-0 me-3">
 											<c:if test="${not empty memberVO.memberProfileVO.fileName }">
@@ -96,7 +96,10 @@
 													${memberVO.workTimeVO.finishTime}</span>
 											</h6>
 
-
+											<%-- <c:if test="${empty workTimeStatusVOs}">
+											
+											<h1 class="h1">근무정보가없습니다.</h1>
+											</c:if> --%>
 											<c:forEach items="${workTimeStatusVOs }" var="vo">
 												<c:if
 													test="${vo.monthVO.year eq  employeeVO.monthVO.year && vo.monthVO.month eq employeeVO.monthVO.month}">

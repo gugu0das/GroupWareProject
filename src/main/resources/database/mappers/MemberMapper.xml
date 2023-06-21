@@ -263,7 +263,12 @@
 		where e.reg =(DATE_FORMAT(NOW(),'%y-%m-%d')) and member_id =#{memberId}
 
 	</select>
-	
+	<select id="getEmployeeLastStatus" parameterType="EmployeeStatusVO"
+		resultType="EmployeeStatusVO">
+		select * from EMPLOYEESTATUS e 
+		where member_id =#{memberId} and reg = (select MAX(reg) from EMPLOYEESTATUS where member_id=#{memberId})
+
+	</select>
 	
 
 	<update id="setEmployeeStatusUpdate"

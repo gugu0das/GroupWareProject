@@ -98,7 +98,20 @@ public class MemberController {
 		
 	}
 	@GetMapping("login")
-	public void getLogin(ModelAndView mv, HttpSession session)throws Exception{	
+	public ModelAndView getLogin(ModelAndView mv, HttpSession session)throws Exception{
+	
+		MemberVO memberVO = memberService.getSessionAttribute(session);
+		if(memberVO!=null) {
+			int result = 0;
+			commonVO.setMsg("로그아웃 후 이용해주세요.");
+			commonVO.setUrl("/");
+			mv.addObject("commonVO",commonVO);
+			mv.addObject("result", result);
+			mv.setViewName("member/memberAlert");
+			return mv;
+		}
+		mv.setViewName("/member/login");
+		return mv;
 	}
 	@GetMapping("update")
 	public ModelAndView setMemberUpdate(MemberVO memberVO)throws Exception{
@@ -261,9 +274,12 @@ public class MemberController {
 			
 			mv.addObject("btns",ar);
 		}
-		 
+		mv.setViewName("member/statusList");
+		
+//		if(employeeStatusVO==null) {
+//			return mv;
+//		}
 		List<EmployeeStatusVO> employeeStatusVOs = memberService.getEmployeeStatusList(employeeStatusVO, session);
- 
 		 
 		List<String> years = memberService.getEmployeeStatusYears(employeeStatusVOs);
 		mv.addObject("years",years);
@@ -272,7 +288,6 @@ public class MemberController {
 		List<WorkTimeStatusVO> workTimeStatusVOs =  memberService.getWorkTimeStatusTotal(workTimeVO,employeeStatusVO, session);
 		mv.addObject("workTimeStatusVOs",workTimeStatusVOs);
 		
-		mv.setViewName("member/statusList");
 		return mv;
 	}
 	
