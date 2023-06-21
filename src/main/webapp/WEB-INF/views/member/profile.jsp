@@ -24,53 +24,12 @@
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 <style type="text/css">/* Chart.js */
-@
-keyframes chartjs-render-animation {
-	from {opacity: .99
-}
-
-to {
-	opacity: 1
-}
-
-}
-.chartjs-render-monitor {
-	animation: chartjs-render-animation 1ms
-}
-
-.chartjs-size-monitor, .chartjs-size-monitor-expand,
-	.chartjs-size-monitor-shrink {
-	position: absolute;
-	direction: ltr;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	overflow: hidden;
-	pointer-events: none;
-	visibility: hidden;
-	z-index: -1
-}
 
 .change {
 	border: none;
 }
 
-.chartjs-size-monitor-expand>div {
-	position: absolute;
-	width: 1000000px;
-	height: 1000000px;
-	left: 0;
-	top: 0
-}
 
-.chartjs-size-monitor-shrink>div {
-	position: absolute;
-	width: 200%;
-	height: 200%;
-	left: 0;
-	top: 0
-}
 </style>
 </head>
 
@@ -95,13 +54,7 @@ to {
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid px-4 mt-4">
-					<!-- Account page navigation-->
-					<nav class="nav nav-borders">
-						<a class="nav-link active ms-0" href="/member/profile">Profile</a>
-						<a class="nav-link" href="/member/security">Security</a> <a
-							class="nav-link" href="/department/add">AddDepartment</a>
-							<a class="nav-link active ms-0" href="/member/statusList">근태</a>
-					</nav> 
+				<h5 class="mt-0 mb-4">마이페이지</h5>
 					<hr class="mt-0 mb-4">
 					<div class="row">
 						<div class="col-xl-4">
@@ -131,7 +84,7 @@ to {
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-7">
+						<div class="col-xl-7 essbox">
 							<!-- Account details card-->
 							<div class="card mb-4">
 								<div class="card-header">계정 정보</div>
@@ -151,11 +104,17 @@ to {
 										<input type="hidden" value="${memberVO.id }" name="id">
 										<div class="row gx-3 mb-3">
 											<!-- Form Group (ID)-->
-											<div class="col-md-6">
+											<div class="col-md-4">
 												<form:label path="accountId">계정 아이디</form:label>
-												<form:input path="accountId" cssClass="form-control change"
+												<form:input path="accountId" cssClass="form-control change essential"
 													id="accountId" readonly="true" />
 												<form:errors path="accountId"></form:errors>
+											</div>
+											<div class="col-md-2">
+											<label for="idChecking">ID검사</label>
+											<div>
+											<button class="btn btn-outline-primary" type="button" id="idCheck">Check</button>
+											</div>
 											</div>
 											<!-- Form Group (employeeID)-->
 											<div class="col-md-3">
@@ -167,7 +126,7 @@ to {
 											<!-- Form Group (name)-->
 											<div class="col-md-3">
 												<form:label path="name">이름</form:label>
-												<form:input path="name" cssClass="form-control change"
+												<form:input path="name" cssClass="form-control change essential"
 													id="name" readonly="true" />
 												<form:errors path="name"></form:errors>
 											</div>
@@ -175,7 +134,7 @@ to {
 										<!-- Form Row        -->
 										<div class="mb-3">
 											<form:label path="address">주소</form:label>
-											<form:input path="address" cssClass="form-control change"
+											<form:input path="address" cssClass="form-control change essential"
 												id="address" readonly="true" />
 											<form:errors path="address"></form:errors>
 
@@ -183,7 +142,7 @@ to {
 										<!-- Form Group (email address)-->
 										<div class="mb-3">
 											<form:label path="email">E-mail</form:label>
-											<form:input path="email" cssClass="form-control change"
+											<form:input path="email" cssClass="form-control change essential"
 												id="email" readonly="true" />
 											<form:errors path="email"></form:errors>
 										</div>
@@ -192,7 +151,7 @@ to {
 											<!-- Form Group (phone number)-->
 											<div class="col-md-4">
 												<form:label path="phone">전화번호</form:label>
-												<form:input path="phone" cssClass="form-control change"
+												<form:input path="phone" cssClass="form-control change essential"
 													id="phone" readonly="true" />
 												<form:errors path="phone"></form:errors>
 											</div>
@@ -200,7 +159,7 @@ to {
 
 											<div class="col-md-4">
 												<label for="birthDate">생일</label> <input
-													class="form-control change" name="birthDate"
+													class="form-control change essential" name="birthDate"
 													value="${memberVO.birthDate}" type="date" id="birthDate"
 													readonly="true" />
 

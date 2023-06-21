@@ -94,17 +94,13 @@ border :none;
 				<!-- Begin Page Content -->
 				<div class="container-fluid px-4 mt-4">
 					<!-- Account page navigation-->
-					<nav class="nav nav-borders">
-						<a class="nav-link active ms-0" href="/member/profile">Profile</a>
-						 <a	class="nav-link" href="/member/security">Security</a> <a
-							class="nav-link" href="account-notifications.html">Notifications</a>
-					</nav>
-					<hr class="mt-0 mb-4">
+					<h5 class="mt-0 mb-4" >보안관리</h5>
+					<hr class="mt-0 mb-4" >
 					<div class="row">
 						<div class="col-xl-4">
 							<!-- Profile picture card-->
 							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">Profile Picture</div>
+								<div class="card-header">프로필</div>
 								<div class="card-body text-center">
 									<!-- Profile picture image-->
 									<c:if test="${not empty memberVO.memberProfileVO.fileName }">
@@ -124,7 +120,7 @@ border :none;
 						<div class="col-xl-7">
 							<!-- Account details card-->
 							<div class="card mb-4">
-								<div class="card-header">Password Change</div>
+								<div class="card-header">비밀번호 변경</div>
 								<div class="card-body">
 									<form:form modelAttribute="memberVO" method="post" id="frm"
 										action="./security" >

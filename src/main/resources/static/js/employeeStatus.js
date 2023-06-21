@@ -21,7 +21,9 @@ function getClock() {
 
     
     $("#timeStemp").find("#month").text(year+"년 "+month+"월 "+date+"일")
-    $("#timeStemp").find("#date").text(hours+":"+minutes+":"+seconds)
+    // $("#timeStemp").find("#date").text(hours+":"+minutes+":"+seconds)
+    $("#timeStemp2").children("#month").text(year+"년 "+month+"월 "+date+"일")
+    $("#timeStemp2").children("#date").text(hours+":"+minutes+":"+seconds)
     
     
     

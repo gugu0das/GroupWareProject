@@ -35,39 +35,80 @@
 
 <body id="bg-gradient-primary">
 <div id="wrapper">
+
+
+		<c:choose>
+			<c:when test="${id != 'admin'}">
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:when>
+			<c:when test="${id == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+		</c:choose>
+		
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<!--top bar  -->
+				<c:choose>
+					<c:when test="${id == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
+
+				<!--top bar  End -->
+		<!-- sideBar -->
+		
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+		
 
-    <!-- Page Wrapper -->
-  <!--   <div id="wrapper"> -->
-
-
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
+   
                 <div class="container-fluid">
 
                    
 
                     <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
+                    <div class="card shadow mb-3">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Q&A 테이블</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">QnA</h6>
                         </div>
                         <div class="card-body">
                     	
                             <div class="table-responsive">
            
-                                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><!-- <div class="row"> --><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><!-- <label></label> --></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                <div id="dataTable_filter" class="dataTables_filter" style="display: flex; justify-content: flex-end;">
+                               
+                                </div>
+                                </div>
+                                </div>
+                                <div class="row">
+                                
+                                <div class="col-sm-12">
+                                <table class="table table-hover dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
-                                        <tr role="row"><th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 99px;">번호</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 148px;">제목</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 71px;">작성자</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">날짜</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 74px;">조회수</th></tr>
+                                        <tr role="row">
+                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 99px;">번호</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 148px;">제목</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 71px;">작성자</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">날짜</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 74px;">조회수</th></tr>
                                     </thead>
                                     <tfoot>
-                                        <!-- <tr><th rowspan="1" colspan="1">번호</th><th rowspan="1" colspan="1">제목</th><th rowspan="1" colspan="1">작성자</th><th rowspan="1" colspan="1">날짜</th><th rowspan="1" colspan="1">조회수</th></tr> -->
+                                        
                                     </tfoot>
                                     <tbody>
                                     <c:forEach items="${list}" var="qnaVO">
@@ -88,7 +129,9 @@
                                         </tr>
                                      </c:forEach>
                                         </tbody>
-                                </table></div></div>
+                                </table>
+                                </div>
+                                </div>
                                 <a class="btn btn-primary" href="./add"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-4 -4 20 20" x="80" y="86"><defs><path id="t" d="M0 11.1h12V0H0z"/></defs><g fill="none" fill-rule="evenodd"><path fill="#575756" d="M0 8.056V11.1h3.044L9.39 4.677 6.356 1.642zM10.486 3.58l.017-.019c.327-.387.508-.88.508-1.387C11.01.987 10.045 0 8.859 0c-.507 0-1 .202-1.406.547l-.673.671 3.034 3.034.672-.672z"/><mask id="u" fill="#fff"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#t"/></mask><path fill="#575756" d="M4.8 11.1H12v-.6H4.8z" mask="url(#u)"/></g></svg>글쓰기</a>
                                 <!-- pager -->
         		<div class="row d-flex justify-content-center mt-25px;">
@@ -141,11 +184,13 @@
             </footer>
                
             <!-- End of Footer -->
-
+        </div>
         </div>
         <!-- End of Content Wrapper -->
 
     </div>
+     </div>
+      </div>
     <!-- End of Page Wrapper -->
    
 

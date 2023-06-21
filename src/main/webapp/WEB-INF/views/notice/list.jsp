@@ -35,12 +35,44 @@
 
 <body id="bg-gradient-primary">
 <div id="wrapper">
+
+<!-- sideBar -->
+		
+		<c:choose>
+			<c:when test="${id != 'admin'}">
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:when>
+			<c:when test="${id == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+		</c:choose>
+		
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<!--top bar  -->
+				<c:choose>
+					<c:when test="${id == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
+
+				<!--top bar  End -->
+		<!-- sideBar -->
+	
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+		
 
 	
 	<div class="container-fluid">
@@ -48,7 +80,7 @@
 	<div class="card shadow mb-3">
 	
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">공지사항 테이블</h6>
+			<h6 class="m-0 font-weight-bold text-primary">공지사항</h6>
 		</div>
 		<div class="card-body">
 		
@@ -94,13 +126,7 @@
 											style="width: 74px;">조회수</th>
 								</thead>
 								<tfoot>
-									<!-- <tr>
-										<th rowspan="1" colspan="1">번호</th>
-										<th rowspan="1" colspan="1">제목</th>
-										<th rowspan="1" colspan="1">작성자</th>
-										<th rowspan="1" colspan="1">날짜</th>
-										<th rowspan="1" colspan="1">조회수</th>
-									</tr> -->
+									
 								</tfoot>
 
 								<tbody class="importantList">
@@ -170,7 +196,7 @@
 				</div>
 			</div>
 		</div>
-
+	</div>
 	</div>
 	</div>
 	<!-- /.container-fluid -->
@@ -191,7 +217,7 @@
 
 	</div>
 	</div>
-	
+	</div>
 	<!-- End of Content Wrapper -->
 
 	

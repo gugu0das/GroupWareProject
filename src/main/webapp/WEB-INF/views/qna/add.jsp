@@ -34,12 +34,43 @@
 </head>
 <body id="bg-gradient-primary">
 <div id="wrapper">
+
+
+		<c:choose>
+			<c:when test="${id != 'admin'}">
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:when>
+			<c:when test="${id == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+		</c:choose>
+		
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<!--top bar  -->
+				<c:choose>
+					<c:when test="${id == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
+
+				<!--top bar  End -->
+		<!-- sideBar -->
+	
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+			
         <!-- Header-->
         <!-- Page content-->
             <section class="py-5">
@@ -48,7 +79,7 @@
                     <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                         <div class="text-center mb-5">
                             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
-                            <h1 class="fw-bolder">커뮤니티 글 쓰기</h1>
+                            <h1 class="fw-bolder">QnA 글 쓰기</h1>
                             <p class="lead fw-normal text-muted mb-0"></p>
                         </div>
                         <div class="row gx-5 justify-content-center">
@@ -73,7 +104,7 @@
 	                                   <div class="form-floating mb-3" id="fileList">
 	                                   
 	                               			<div class="mb-3">
-	                                    	<label for="files" class="form-label">Image</label>
+	                                    	<label for="files" class="form-label">첨부파일 추가</label>
 	                                    	<!-- <input type="file" class="form-control" name="files" name="files"> -->
 	                                    	<!-- <button type="button">X</button> -->
 	                                    	</div>                          
@@ -82,14 +113,14 @@
 	                                    </div>
 	                                    <!-- content input-->
 	                                    <div class="form-floating mb-3">
+	                                    	<label for="contents"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="-4 -4 24 24" x="28" y="34"><g fill="none" fill-rule="evenodd" transform="translate(-4 -4)"><path d="M0 0h24v24H0z"/><rect width="15" height="15" x="4.5" y="4.5" fill="#FFF" stroke="#D3D3D3" rx="7.5"/><path fill="#D3D3D3" d="M8 11.5h8v1H8z"/></g></svg>내용</label>
 	                                        <textarea class="form-control" id="contents" name="contents" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
-	                                        <label for="contents"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="-4 -4 24 24" x="28" y="34"><g fill="none" fill-rule="evenodd" transform="translate(-4 -4)"><path d="M0 0h24v24H0z"/><rect width="15" height="15" x="4.5" y="4.5" fill="#FFF" stroke="#D3D3D3" rx="7.5"/><path fill="#D3D3D3" d="M8 11.5h8v1H8z"/></g></svg>내용</label>
 	                                        <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
 	                                    </div>  
 	                                    
 	                                    
 	                                                            
-	                                    <div class="d-grid"><button class="btn btn-success submitButton btn-lg" id="submitButton" type="submit">글 등록</button></div>
+	                                    <div class="d-grid"><button class="btn btn-success submitButton btn-lg" id="submitButton" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="-4 -4 24 24" x="68" y="24"><title>cf/icon/board/board checkbox_normal_24x24</title><g fill="none" fill-rule="evenodd"><path d="M-4-4h24v24H-4z"/><path stroke="#03c75a" fill="#FFF" d="M.5.5h15v15H.5z"/><path stroke="#03c75a" stroke-width="2" d="M4 7.32l3.26 2.5 4.74-5"/></g></svg>등록</button></div>
 	                                    
                                 	</form:form>   
                                 <%-- </form> --%>
@@ -101,7 +132,8 @@
             </section>
          </div> </div> </div>
         
-	
+	 </div>
+	  </div>
 	
 	<c:import url="../temp/logoutModal.jsp"></c:import>
 	<c:import url="../temp/common_js.jsp"></c:import>

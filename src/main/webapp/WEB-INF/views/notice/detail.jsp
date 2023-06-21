@@ -20,11 +20,40 @@
 <body id="bg-gradient-primary">
 <div id="wrapper">
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+		
+		<c:choose>
+			<c:when test="${id != 'admin'}">
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:when>
+			<c:when test="${id == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+		</c:choose>
+		
+		<!-- sideBar -->
+
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<!--top bar  -->
+				<c:choose>
+					<c:when test="${id == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
+		<!-- sideBar -->
+
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+	
 
   
    	
@@ -33,6 +62,7 @@
         						
 
     <div class="notice-container">
+    <div><a href="./list">공지사항</a></div>
 	 <h1 class="notice-title" style="font-size: 50px; margin-top: 50px;">${noticeVO.title}</h1>
 	 <div class="notice-writer">작성자: ${noticeVO.writer}</div>
 	 <div class="notice-date">작성일: ${noticeVO.regDate}</div>
@@ -92,11 +122,13 @@
                                 </div>
                             </article>
                             <div class="text-center"">
-                          	<c:if test="${memberVO.id eq noticeVO.memberId}">
+                          	<c:if test="${memberVO.id eq noticeVO.memberId or id == 'admin'}">
                             <button type="button" class="btn btn-outline-danger" id="dele" data-list-dele="${noticeVO.id}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 											viewBox="-4 -4 20 20" x="60" y="86">
 											<path fill="none" stroke="#D3D3D3"
 												d="M9.6 2.4L2.4 9.6m-.044-7.244L9.6 9.6" /></svg>삭제</button>
+							</c:if>
+							<c:if test="${memberVO.id eq noticeVO.memberId}">
                             <a id="update" class="btn btn-outline-primary" href="./update?id=${noticeVO.id}"><svg
 											xmlns="http://www.w3.org/2000/svg" width="18" height="18"
 											viewBox="-4 -4 18 18" x="37" y="108">

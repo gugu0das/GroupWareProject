@@ -48,15 +48,45 @@
 </head>
 <body id="bg-gradient-primary">
 	<div id="wrapper">
+		<c:choose>
+			<c:when test="${id != 'admin'}">
+				<c:import url="../temp/sidebar.jsp"></c:import>
+			</c:when>
+			<c:when test="${id == 'admin'}">
+				<c:import url="../temp/adminSidebar.jsp"></c:import>
+			</c:when>
+		</c:choose>
+		
 		<!-- sideBar -->
-		<c:import url="../temp/sidebar.jsp"></c:import>
+
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<!--top bar  -->
+				<c:choose>
+					<c:when test="${id == 'admin'}">
+						<c:import url="../temp/adminTopbar.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						<c:import url="../temp/topbar.jsp"></c:import>
+					</c:otherwise>
+
+				</c:choose>
+
+				<!--top bar  End -->
+		<!-- sideBar -->
+	
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
-				<c:import url="../temp/topbar.jsp"></c:import>
+		
 
 
 				<div class="qna-container">
+				<div><a href="./list">QnA</a></div>
 					<h1 class="qna-title" style="font-size: 50px; margin-top: 50px;">${qnaVO.title}</h1>
 					<div class="qna-writer">작성자: ${qnaVO.writer}</div>
 					<div class="qna-date">작성일: ${qnaVO.regDate}</div>
@@ -149,7 +179,7 @@
 
 
 
-								<c:if test="${memberVO.id eq qnaVO.memberId}">
+								<c:if test="${memberVO.id eq qnaVO.memberId or id == 'admin'}">
 									<button type="button" class="btn btn-outline-danger" id="dele"
 										data-list-dele="${qnaVO.id}">
 										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -158,6 +188,8 @@
 												d="M9.6 2.4L2.4 9.6m-.044-7.244L9.6 9.6" /></svg>
 										삭제
 									</button>
+									</c:if>
+									<c:if test="${memberVO.id eq qnaVO.memberId}">
 									<a id="update" type="submit" class="btn btn-outline-primary"
 										href="./update?id=${qnaVO.id}"><svg
 											xmlns="http://www.w3.org/2000/svg" width="18" height="18"
@@ -187,7 +219,8 @@
 		</div>
 	</div>
 
-
+ </div>
+  </div>
 
 
 
