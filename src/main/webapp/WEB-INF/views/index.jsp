@@ -65,7 +65,6 @@ to {
 	left: 0;
 	top: 0
 }
-
 </style>
 </head>
 
@@ -74,7 +73,7 @@ to {
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 		<!-- sideBar -->
-		
+
 		<c:choose>
 			<c:when test="${id != 'admin'}">
 				<c:import url="./temp/sidebar.jsp"></c:import>
@@ -83,7 +82,7 @@ to {
 				<c:import url="./temp/adminSidebar.jsp"></c:import>
 			</c:when>
 		</c:choose>
-		
+
 		<!-- sideBar -->
 
 
@@ -111,14 +110,68 @@ to {
 
 					<!-- Content Row -->
 					<div class="row">
+						<div class="col-xl-9 col-md-6 mb-4">
+							<div class="card border-left-primary shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-lg-4  mb-3">
+											<div class="d-flex" style="height: 100px">
+												<div class="flex-shrink-0 me-3">
+													<c:if
+														test="${not empty memberVO.memberProfileVO.fileName }">
+														<img class="img-account-profile rounded-circle mb-2"
+															style="width: 100px; height: 100px"
+															src="/profile/${memberVO.memberProfileVO.fileName }">
+													</c:if>
+													<c:if test="${empty memberVO.memberProfileVO.fileName }">
+														<img class="img-account-profile rounded-circle mb-2"
+															style="width: 100px; height: 100px"
+															src="/images/undraw_profile_1.svg">
+													</c:if>
 
+
+
+												</div>
+												<div class="flex-grow-1 align-self-center">
+													<div class="text-muted">
+														<p class="mb-2" id="timeStemp">
+															<a id="month"></a><a id="date"></a>
+														</p>
+														<h5 class="mb-1">${memberVO.name}&nbsp;${memberVO.jobVO.name}</h5>
+														<p class="mb-0">${memberVO.departmentVO.name}</p>
+														<p class="mb-0">남은 연차 수 : ${memberVO.annualVO.count}일</p>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-lg-4 align-self-center">
+											<div class="text-lg-center mt-4 mt-lg-0">
+												<div class="row">
+													<div class="col-4">
+														<div></div>
+													</div>
+													<div class="col-4">
+														<div></div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-lg-4 d-none d-lg-block">
+											<div class="clearfix mt-4 mt-lg-0"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="col-xl-3 col-md-6 mb-4">
 							<div class="card border-left-primary shadow h-100 py-2">
 								<div class="card-body">
 									<button id="sse">sse test</button>
 									<form id="timeHistory" action="/member/statusUpdate"
 										method="post">
-										<div class="" id="timeStemp">
+										<div class="" id="timeStemp2">
 											<div
 												class="text-xs font-weight-bold text-primary text-uppercase mb-1"
 												id="month">0000년 00월 00일</div>
@@ -180,7 +233,7 @@ to {
 						</div>
 
 						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
+						<!-- <div class="col-xl-3 col-md-6 mb-4">
 							<div class="card border-left-success shadow h-100 py-2">
 								<div class="card-body">
 									<div class="row no-gutters align-items-center">
@@ -198,9 +251,9 @@ to {
 								</div>
 							</div>
 						</div>
-
+ -->
 						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
+						<!-- <div class="col-xl-3 col-md-6 mb-4">
 							<div class="card border-left-info shadow h-100 py-2">
 								<div class="card-body">
 									<div class="row no-gutters align-items-center">
@@ -227,10 +280,10 @@ to {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 
 						<!-- Pending Requests Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
+						<!-- <div class="col-xl-3 col-md-6 mb-4">
 							<div class="card border-left-warning shadow h-100 py-2">
 								<div class="card-body">
 									<div class="row no-gutters align-items-center">
@@ -246,7 +299,7 @@ to {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 
 					<!-- Content Row -->
@@ -259,42 +312,41 @@ to {
 								<!-- Card Header - Dropdown -->
 								<div
 									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-primary">
-										공지사항 홈페이지
-										<h6>
-											<div class="dropdown no-arrow">
-												<a class="dropdown-toggle" href="#" role="button"
-													id="dropdownMenuLink" data-toggle="dropdown"
-													aria-haspopup="true" aria-expanded="false"> <i
-													class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-												</a>
-												<div
-													class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-													aria-labelledby="dropdownMenuLink">
-													<div class="dropdown-header">Dropdown Header:</div>
-													<a class="dropdown-item" href="#">Action</a> <a
-														class="dropdown-item" href="#">Another action</a>
-													<div class="dropdown-divider"></div>
-													<a class="dropdown-item" href="#">Something else here</a>
-												</div>
-											</div>
+									<h6 class="m-0 font-weight-bold text-primary">이번달 근무시간</h6>
+									<span class="text-small" style="float: right; font-size: 5px"><a
+										href="/member/statusList">바로가기</a></span>
 								</div>
 								<!-- Card Body -->
-								<div class="card-body">
-									<div class="chart-area">
-										<div class="chartjs-size-monitor">
-											<div class="chartjs-size-monitor-expand">
-												<div class=""></div>
+								<div class="card-body" style="height: 180px">
+
+									<h6 class="text small">
+										시작시간 : ${memberVO.workTimeVO.startTime}<span
+											class="float-right">종료시간 :
+											${memberVO.workTimeVO.finishTime}</span>
+									</h6>
+
+									<c:if test="${empty workTimeStatusVOs}">
+
+										<h1 class="h1">근무정보가없습니다.</h1>
+									</c:if>
+									<c:forEach items="${workTimeStatusVOs }" var="vo">
+										<c:if
+											test="${vo.monthVO.year eq  employeeVO.monthVO.year && vo.monthVO.month eq employeeVO.monthVO.month}">
+											<h4 class="small font-weight-bold">
+												이번달 총 근무 <span class="float-right">${vo.persent}%</span>
+											</h4>
+											<div class="progress mb-4">
+												<div class="progress-bar bg-success" role="progressbar"
+													style="width: ${vo.persent}%" aria-valuenow="${vo.persent}"
+													aria-valuemin="0" aria-valuemax="100">${vo.monthStatusWork }</div>
 											</div>
-											<div class="chartjs-size-monitor-shrink">
-												<div class=""></div>
-											</div>
-										</div>
-										<canvas id="myAreaChart"
-											style="display: block; width: 407px; height: 320px;"
-											width="407" height="320" class="chartjs-render-monitor"></canvas>
-									</div>
+											<span class="float-right">${vo.monthTotalWork }</span>
+										</c:if>
+									</c:forEach>
 								</div>
+
+
+
 							</div>
 						</div>
 
@@ -358,169 +410,51 @@ to {
 					<div class="row">
 
 						<!-- Content Column -->
-						<div class="col-lg-6 mb-4">
+						<div class="col-lg-12 mb-4">
 
-							<!-- Project Card Example -->
 							<div class="card shadow mb-4">
-								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+								<div
+									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+									<h6 class="m-0 font-weight-bold text-primary">연차 사용내역</h6>
+									<span class="text-small" style="float: right; font-size: 5px"><a
+										href="/member/leaveRecode">바로가기</a></span>
 								</div>
-								<div class="card-body">
-									<h4 class="small font-weight-bold">
-										Server Migration <span class="float-right">20%</span>
-									</h4>
-									<div class="progress mb-4">
-										<div class="progress-bar bg-danger" role="progressbar"
-											style="width: 20%" aria-valuenow="20" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-									<h4 class="small font-weight-bold">
-										Sales Tracking <span class="float-right">40%</span>
-									</h4>
-									<div class="progress mb-4">
-										<div class="progress-bar bg-warning" role="progressbar"
-											style="width: 40%" aria-valuenow="40" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-									<h4 class="small font-weight-bold">
-										Customer Database <span class="float-right">60%</span>
-									</h4>
-									<div class="progress mb-4">
-										<div class="progress-bar" role="progressbar"
-											style="width: 60%" aria-valuenow="60" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-									<h4 class="small font-weight-bold">
-										Payout Details <span class="float-right">80%</span>
-									</h4>
-									<div class="progress mb-4">
-										<div class="progress-bar bg-info" role="progressbar"
-											style="width: 80%" aria-valuenow="80" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-									<h4 class="small font-weight-bold">
-										Account Setup <span class="float-right">Complete!</span>
-									</h4>
-									<div class="progress">
-										<div class="progress-bar bg-success" role="progressbar"
-											style="width: 100%" aria-valuenow="100" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-								</div>
-							</div>
 
-							<!-- Color System -->
-							<div class="row">
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-primary text-white shadow">
-										<div class="card-body">
-											Primary
-											<div class="text-white-50 small">#4e73df</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-success text-white shadow">
-										<div class="card-body">
-											Success
-											<div class="text-white-50 small">#1cc88a</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-info text-white shadow">
-										<div class="card-body">
-											Info
-											<div class="text-white-50 small">#36b9cc</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-warning text-white shadow">
-										<div class="card-body">
-											Warning
-											<div class="text-white-50 small">#f6c23e</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-danger text-white shadow">
-										<div class="card-body">
-											Danger
-											<div class="text-white-50 small">#e74a3b</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-secondary text-white shadow">
-										<div class="card-body">
-											Secondary
-											<div class="text-white-50 small">#858796</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-light text-black shadow">
-										<div class="card-body">
-											Light
-											<div class="text-black-50 small">#f8f9fc</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-dark text-white shadow">
-										<div class="card-body">
-											Dark
-											<div class="text-white-50 small">#5a5c69</div>
-										</div>
+								<div class="card-body">
+									<div class="text-center mt-4"></div>
+									<div class="table-responsive" style="overflow-x: hidden">
+
+										<table class="table table-hover" id="employeeTable">
+											<thead>
+												<tr>
+													<th>일자</th>
+													<th>일수</th>
+													<th>연차구분</th>
+
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach items="${memberVO.leaveRecordVOs }"
+													var="leaveRecodeVO">
+													<tr class="leaveData" style="cursor: pointer;"
+														data-toggle="modal" data-target="#leaveDetail"
+														style="cursor: pointer;"
+														data-leaveId="${leaveRecodeVO.id }">
+														<td class="td">${leaveRecodeVO.useDate }</td>
+														<td class="td">${leaveRecodeVO.count }</td>
+														<td class="td">${leaveRecodeVO.annualType }</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+
 									</div>
 								</div>
 							</div>
 
 						</div>
 
-						<div class="col-lg-6 mb-4">
 
-							<!-- Illustrations -->
-							<div class="card shadow mb-4">
-								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-								</div>
-								<div class="card-body">
-									<div class="text-center">
-										<img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-											style="width: 25rem;" src="img/undraw_posting_photo.svg"
-											alt="...">
-									</div>
-									<p>
-										Add some quality, svg illustrations to your project courtesy
-										of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>,
-										a constantly updated collection of beautiful svg images that
-										you can use completely free and without attribution!
-									</p>
-									<a target="_blank" rel="nofollow" href="https://undraw.co/">Browse
-										Illustrations on unDraw →</a>
-								</div>
-							</div>
-
-							<!-- Approach -->
-							<div class="card shadow mb-4">
-								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary">Development
-										Approach</h6>
-								</div>
-								<div class="card-body">
-									<p>SB Admin 2 makes extensive use of Bootstrap 4 utility
-										classes in order to reduce CSS bloat and poor page
-										performance. Custom CSS classes are used to create custom
-										components and custom utility classes.</p>
-									<p class="mb-0">Before working with this theme, you should
-										become familiar with the Bootstrap framework, especially the
-										utility classes.</p>
-								</div>
-							</div>
-
-						</div>
 					</div>
 
 				</div>
@@ -554,13 +488,12 @@ to {
 	<c:import url="./temp/logoutModal.jsp"></c:import>
 	<c:import url="./temp/common_js.jsp"></c:import>
 	<script src="/js/employeeStatus.js"></script>
-	<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 	<!-- Page level custom scripts -->
-	<script src="/js/demo/datatables-demo.js"></script>
+
 	<!--Notice 공지사항 메인으로 빼는 기능-->
 	<script src="/js/noticeTop5.js"></script>
 	<script src="/js/SSE.js"></script>
-	
+
 
 </body>
 </html>

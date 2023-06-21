@@ -17,6 +17,8 @@ import com.ware.group.approval.ApprovalService;
 import com.ware.group.member.EmployeeStatusVO;
 import com.ware.group.member.MemberService;
 import com.ware.group.member.MemberVO;
+import com.ware.group.member.WorkTimeStatusVO;
+import com.ware.group.member.WorkTimeVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,14 +51,23 @@ public class HomeController {
 		session.setAttribute("id", memberVO.getAccountId());
 		
 		
-
+		memberVO = memberService.getMemberDetail(memberService.getSessionAttribute(session));
+		mv.addObject("memberVO",memberVO);
+		
 		//근태
 		employeeStatusVO =  memberService.getEmployeeStatus(session);
 		mv.addObject("employeeVO", employeeStatusVO);
+		
 		List<String> ar = memberService.getEmployeeStatusBtn(employeeStatusVO, session);
 		if(ar!=null&&ar.size()>0) {
 
 			mv.addObject("btns",ar);
+		}
+		if(employeeStatusVO!=null) {
+
+			WorkTimeVO workTimeVO = new WorkTimeVO();
+			List<WorkTimeStatusVO> workTimeStatusVOs =  memberService.getWorkTimeStatusTotal(workTimeVO,employeeStatusVO, session);
+			mv.addObject("workTimeStatusVOs",workTimeStatusVOs);
 		}
 		mv.setViewName("index");
 		
