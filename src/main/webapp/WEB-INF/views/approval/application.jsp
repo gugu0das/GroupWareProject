@@ -22,12 +22,12 @@
 				<!-- contents 작성 -->
 				<div class="container-fluid">
 					<div class="row">
-					<div class="card mb-4">
+					<div class="card mb-4" style="width : 100%;">
 									<div class="card-header">
 										
 										
 									</div>
-									<div class="card-body">
+									<div class="card-body mx-auto">
 										<div
 											class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
 											
@@ -82,7 +82,7 @@
 	$("#ttt").load("/files/approvalFormFile/${file}");
 	  /* $("#ttt").load("/files/approvalFormFile/${file}");  */
 	 $("#fr").append('<SPAN>결재 상세 내용</SPAN><input type="text" name="contents"><br>')
-	    $("#fr").append('<button type="button" id="btn">전송</button>');
+	    $("#fr").append('<button type="button" class="btn" id="btn">전송</button>');
 	</script>
 		<script type="text/javascript" src="/js/approvalApplication.js"></script>
 </body>

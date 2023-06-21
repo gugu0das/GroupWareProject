@@ -7,7 +7,7 @@ $(document).on("click",".btn1",function(){
         $("input").each(function(idx,index){
             if($(index).attr("type") =="hidden"){
                 console.log($(index).parent());
-                $(index).parent().html('<img alt="" src="/file/approval/승인.JPG" style="width:100px; height:100px;">');
+                $(index).parent().html('<img alt="" src="/files/approval/승인.PNG" style="width:100px; height:100px;">');
                 $("#approval").val(a);
                 return false;
             }
@@ -17,7 +17,7 @@ $(document).on("click",".btn1",function(){
         $("input").each(function(idx,index){
         if($(index).attr("type") =="hidden"){
             console.log($(index).parent());
-            $(index).parent().html('<img alt="" src="/file/approval/거절.JFIF" style="width:100px; height:100px;">');
+            $(index).parent().html('<img alt="" src="/files/approval/거절.JFIF" style="width:100px; height:100px;">');
             $("#approval").val(a);
             return false;
         }
