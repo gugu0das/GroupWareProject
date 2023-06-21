@@ -417,6 +417,7 @@ $(document).on('click', '#deleteOption', function(){
 				
 				
 			}else{
+				
 				let inputHtml = '<td>' +
 								'<form id="uploadForm" enctype="multipart/form-data" method="post">' + 
 								'<input type="file" name="file" id="oriName">' + 
@@ -426,13 +427,10 @@ $(document).on('click', '#deleteOption', function(){
 								'</td>' +
 								'<td>' +
 								'<div id="approver" data-approver-count="1">' +
-								'<select id="deptIdSelect" class="deptId form-control">';
+								'<select id="deptIdSelect" class="deptId form-control">' +
+								'<option value="부서" selected>부서</option>';
 								for(let i = 0; i < deptNameList.length; i ++){
-									if( i == 0 ){
-										inputHtml = inputHtml + '<option value="부서" selected>부서</option>';
-									}else{
-										inputHtml = inputHtml + '<option value="'+ deptIdList[i] +'">'+ deptNameList[i] +'</option>';
-									}
+									inputHtml = inputHtml + '<option value="'+ deptIdList[i] +'">'+ deptNameList[i] +'</option>';	
 								}
 		
 				inputHtml = inputHtml + '</select>' +
