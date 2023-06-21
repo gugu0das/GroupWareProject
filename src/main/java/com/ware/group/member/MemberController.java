@@ -242,7 +242,15 @@ public class MemberController {
 		return check;
 		
 	}
+	@GetMapping("idDuplicateCheckAccount")
+	@ResponseBody
+	public boolean idDuplicateCheckAccount(MemberVO memberVO)throws Exception{
+		
+		boolean check = memberService.idDuplicateCheck(memberVO);
 
+		return check;
+		
+	}
 	 
 
 	@PostMapping("statusUpdate")
