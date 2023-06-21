@@ -134,7 +134,7 @@ public class ApprovalController {
 	
 	@PostMapping("updateFormFile")
 	@ResponseBody
-	public String updateFormFile(MultipartHttpServletRequest request) throws Exception{
+	public String updateFormFile(@RequestPart(value = "categoryId") Map<String, Object> param, MultipartHttpServletRequest request) throws Exception{
 		log.error("=======test=======");
 		
 		
@@ -149,10 +149,10 @@ public class ApprovalController {
 		for(MultipartFile obj : file) {
 			approvalFormFileVO.setFileName(obj.getOriginalFilename());
 			
-			approvalFormFileVO.setCategoryId(3L);
+			approvalFormFileVO.setCategoryId(Long.parseLong((String)param.get("categoryId")));
 			result = approvalService.updateFormFile(approvalFormFileVO);
 			
-			filemanger.saveFile2(formFilePath, obj);
+			fileName = filemanger.saveFile2(formFilePath, obj);
 		}
 		
 		if(result == 1 && fileName != null) {

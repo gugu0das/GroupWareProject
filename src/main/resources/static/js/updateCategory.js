@@ -678,7 +678,11 @@ $(document).on('click', '#changeFile', function(){
 	let formFile = $(this).parent().children('#oriName').val().split('\\').pop();
 	let tempParent = $(this).parent().parent();
 	let fileData = new FormData(file[0]);
+	let data1 = {   
+	    "categoryId" : categoryId
+	}
 	
+	fileData.append('categoryId', new Blob([ JSON.stringify(data1) ], {type : "application/json"}));
 	$.ajax({
 		type: "POST",
 		url : "/approval/formFileDuplication",
