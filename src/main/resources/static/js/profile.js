@@ -60,9 +60,9 @@ $("#idCheck").on("click", async function () {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/member/idDuplicateCheck",
+        url: "/member/idDuplicateCheckAccount",
         data: {
-            employeeId: id,
+            
             accountId: id
 
         },

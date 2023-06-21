@@ -137,6 +137,8 @@ public class MemberController {
 		commonVO.setTextMsg("다시 확인해주세요.");
 		if(result>0) {
 			commonVO.setMsg("계정을 수정하였습니다.");
+			commonVO.setTextMsg("다시 로그인해주세요");
+			commonVO.setUrl("/member/logout");
 			commonVO.setTextMsg("");
 		}
 		mv.addObject("commonVO",commonVO);
@@ -242,7 +244,15 @@ public class MemberController {
 		return check;
 		
 	}
+	@GetMapping("idDuplicateCheckAccount")
+	@ResponseBody
+	public boolean idDuplicateCheckAccount(MemberVO memberVO)throws Exception{
+		
+		boolean check = memberService.idDuplicateCheck(memberVO);
 
+		return check;
+		
+	}
 	 
 
 	@PostMapping("statusUpdate")
