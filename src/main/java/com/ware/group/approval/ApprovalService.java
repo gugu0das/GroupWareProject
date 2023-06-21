@@ -294,6 +294,7 @@ public class ApprovalService {
 				}else {
 					approvalVO.setConfirm(ApprovalStatus.APPROVAL);
 					result = approvalDAO.setApprovalUpdate(approvalVO);
+					approvalVO = approvalDAO.getApprovalId(approvalVO);
 					allimVO.setMemberId(approvalVO.getMemberId());
 					
 					LeaveRecordVO leaveRecordVO = new LeaveRecordVO();
@@ -307,7 +308,7 @@ public class ApprovalService {
 					result = approvalDAO.setLeaverCode(leaveRecordVO);
 					result = approvalDAO.setAnnual(leaveRecordVO);
 					}			
-					approvalVO = approvalDAO.getApprovalId(approvalVO);
+					
 					
 					log.error("제발 ::{}",approvalVO.getId());
 					log.error("제발2 ::{}",approvalVO.getMemberId());
