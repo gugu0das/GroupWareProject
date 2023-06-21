@@ -112,23 +112,48 @@ function fn_formSubmit(){
 }
 
 var oldid = null;
-function calendarDayMouseover(event, id, calendardate){
-	if (!id) {
-		return;
-	}
-	
-	$(".calendarTooltip").css({left: (event.pageX + 10) +"px", top: (event.pageY + 10) +"px"});
-	$(".calendarTooltip").show();
-	if (oldid===id) return;
-	oldid=id;
+function calendarDayMouseover(event, id, calendardate) {
+    if (!id) {
+        return;
+    }
+
+    var tooltip = $(".calendarTooltip");
+    var tooltipHeight = tooltip.outerHeight();
+    var tooltipWidth = tooltip.outerWidth();
+    var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var yPos = event.pageY + 10;
+    var xPos = event.pageX + 10;
+
+    // 아래로 넘어갈 경우
+    if (yPos + tooltipHeight > windowHeight) {
+        yPos = event.pageY - tooltipHeight - 10;
+    }
+
+    // 오른쪽으로 넘어갈 경우
+    if (xPos + tooltipWidth > windowWidth) {
+        xPos = event.pageX - tooltipWidth - 10;
+    }
+    
+    // 위로 넘어갈 경우
+    if (yPos < 0) {
+        yPos = event.pageY + 10;
+    }
+
+    tooltip.css({ left: xPos + "px", top: yPos + "px" });
+    tooltip.show();
+
+    if (oldid === id) return;
+    oldid = id;
+
     $.ajax({
-    	url: "scheRead4Ajax",
-    	cache: false,
-    	data: { id : id, calendardate:calendardate },
-	    success: function(result){
-	    	$(".calendarTooltip").html(result);
-		}    
-    });	
+        url: "scheRead4Ajax",
+        cache: false,
+        data: { id: id, calendardate: calendardate },
+        success: function (result) {
+            $(".calendarTooltip").html(result);
+        }
+    });
 }
 
 function fn_moveToURL(url, msg){
@@ -244,10 +269,9 @@ function calendarDayMouseout(){
             </footer>
         </div>
         <!-- /#content-wrapper -->
-        <div class="calendarTooltip"></div>
     </div>
     <!-- /#wrapper -->
-
+    <div class="calendarTooltip"></div>
     <c:import url="../temp/logoutModal.jsp"></c:import>
     <c:import url="../temp/common_js.jsp"></c:import>
 </body>
