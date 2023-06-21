@@ -162,6 +162,9 @@ function fn_moveToURL(url, msg){
 	}
 	location.href=url;
 }
+$(document).ready(function() {
+    $(".calendarTooltip").hide();
+});
 
 function calendarDayMouseout(){
 	$(".calendarTooltip").hide();
