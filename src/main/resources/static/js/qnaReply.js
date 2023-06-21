@@ -210,6 +210,7 @@ replyAdd.addEventListener("click", function(){
                     }
 	    		 })
 	    		 }
+                 getList();
 	    		 });
 	    		 
         	}else {
