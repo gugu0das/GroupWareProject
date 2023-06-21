@@ -127,11 +127,17 @@
 		<div id="collapseSchedule" class="collapse" aria-labelledby="headingSchedule" data-parent="#accordionSidebar">
 		  <div class="bg-white py-2 collapse-inner rounded">
 			<h6 class="collapse-header">일정 관리</h6>
-			<a class="collapse-item" href="/schedule/scheList">일정 관리</a>
-			<a class="collapse-item" href="/schedule/scheForm">일정 추가</a>
+			<ul>
+				<li>
+					<a class="collapse-item" href="/schedule/scheList">일정 관리</a>
+				</li>
+				<li>
+					<a class="collapse-item" href="/schedule/scheForm">일정 추가</a>
+				</li>
+			</ul>
 		  </div>
 		</div>
-	  </li>
+	</li>
 	  
 	<!-- Divider -->
 	<hr class="sidebar-divider d-none d-md-block">
