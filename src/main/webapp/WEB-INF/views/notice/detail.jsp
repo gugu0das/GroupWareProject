@@ -33,6 +33,7 @@
         						
 
     <div class="notice-container">
+    <div><a href="./list">공지사항</a></div>
 	 <h1 class="notice-title" style="font-size: 50px; margin-top: 50px;">${noticeVO.title}</h1>
 	 <div class="notice-writer">작성자: ${noticeVO.writer}</div>
 	 <div class="notice-date">작성일: ${noticeVO.regDate}</div>

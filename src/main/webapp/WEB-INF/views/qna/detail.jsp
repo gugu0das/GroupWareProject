@@ -57,6 +57,7 @@
 
 
 				<div class="qna-container">
+				<div><a href="./list">QnA</a></div>
 					<h1 class="qna-title" style="font-size: 50px; margin-top: 50px;">${qnaVO.title}</h1>
 					<div class="qna-writer">작성자: ${qnaVO.writer}</div>
 					<div class="qna-date">작성일: ${qnaVO.regDate}</div>

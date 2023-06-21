@@ -48,7 +48,7 @@
 	<div class="card shadow mb-3">
 	
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">공지사항 테이블</h6>
+			<h6 class="m-0 font-weight-bold text-primary">공지사항</h6>
 		</div>
 		<div class="card-body">
 		
@@ -94,13 +94,7 @@
 											style="width: 74px;">조회수</th>
 								</thead>
 								<tfoot>
-									<!-- <tr>
-										<th rowspan="1" colspan="1">번호</th>
-										<th rowspan="1" colspan="1">제목</th>
-										<th rowspan="1" colspan="1">작성자</th>
-										<th rowspan="1" colspan="1">날짜</th>
-										<th rowspan="1" colspan="1">조회수</th>
-									</tr> -->
+									
 								</tfoot>
 
 								<tbody class="importantList">
