@@ -91,14 +91,36 @@ public class DepartmentController {
 	@PostMapping("delete")
 	public ModelAndView setDepartmentDelete(ModelAndView mv, DepartmentVO departmentVO)throws Exception{
 		int result = departmentService.setDepartmentDelete(departmentVO);
-		mv.setViewName("department/list");
+		
+		commonVO.setMsg("삭제할 수 없습니다.");
+		commonVO.setUrl("/department/list");
+		commonVO.setTextMsg("다시 확인해주세요.");
+		if(result>0) {
+			commonVO.setMsg("부서가 삭제되었습니다.");
+			commonVO.setTextMsg("");
+			
+		}
+		mv.addObject("commonVO",commonVO);
+		mv.addObject("result", result);
+		mv.setViewName("member/memberAlert");
+		
 		return mv;
 	}
 	@PostMapping("update")
 	public ModelAndView setDepartmentUpdate(ModelAndView mv, DepartmentVO departmentVO)throws Exception{
 		int result = departmentService.setDepartmentUpdate(departmentVO);
 		
-		mv.setViewName("department/list");
+		commonVO.setMsg("수정할 수 없습니다.");
+		commonVO.setUrl("/department/list");
+		commonVO.setTextMsg("다시 확인해주세요.");
+		if(result>0) {
+			commonVO.setMsg("부서가 수정되었습니다.");
+			commonVO.setTextMsg("");
+			
+		}
+		mv.addObject("commonVO",commonVO);
+		mv.addObject("result", result);
+		mv.setViewName("member/memberAlert");
 		return mv;
 	}
 

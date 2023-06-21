@@ -95,12 +95,12 @@
 								<div class="modal-footer">
 									<button class="btn btn-secondary" type="button"
 										data-dismiss="modal">닫기</button>
-									<%-- <c:if test="${memberVO.accountId == 'admin'}"> --%>
+									<c:if test="${memberVO.accountId == 'admin'}">
 										<form action="/member/update" method="get">
 											<input type="hidden" id="memberId" name="id">
 											<button class="btn btn-primary">수정하기</button>
 										</form>
-									<%-- </c:if> --%>
+									</c:if>
 								</div>
 							</div>
 						</div>

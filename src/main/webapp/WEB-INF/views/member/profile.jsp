@@ -106,14 +106,14 @@
 											<!-- Form Group (ID)-->
 											<div class="col-md-4">
 												<form:label path="accountId">계정 아이디</form:label>
-												<form:input path="accountId" cssClass="form-control change essential"
+												<form:input path="accountId" cssClass="form-control change essential success"
 													id="accountId" readonly="true" />
 												<form:errors path="accountId"></form:errors>
 											</div>
 											<div class="col-md-2">
 											<label for="idChecking">ID검사</label>
 											<div>
-											<button class="btn btn-outline-primary" type="button" id="idCheck">Check</button>
+											<button class="btn btn-outline-primary " type="button" id="idCheck">Check</button>
 											</div>
 											</div>
 											<!-- Form Group (employeeID)-->

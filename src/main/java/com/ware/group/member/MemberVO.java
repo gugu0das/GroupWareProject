@@ -8,6 +8,7 @@ import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,6 +53,7 @@ public class MemberVO implements UserDetails{
 	private Date updateDate;
 	
 	private Date hireDate;
+	@Null
 	private Date endDate;
 	
 	private boolean status;
