@@ -5,6 +5,13 @@
 $(document).on("click","#btn",function(){
     let a =true;
     if($('input:radio').lengh){
+	
+	if($('input[name=contents]')){
+		if($('input[name=contents]'),val() ==""){
+			alert("결재 상세 내용은 필수입니다.");
+		}
+	}
+	
     if(!$('input:radio[name=annualType]').is(':checked')){
        
             alert("종류는 필수 사항입니다");
@@ -32,7 +39,7 @@ $(document).on("click","#btn",function(){
         return false;
             
         
-    }else if( $(index).attr("name") =="count" && isNaN($(index).val()*1)){
+    }else if( $(index).attr("name") =="reason" && isNaN($(index).val()*1)){
         console.log(isNaN($(index).val()*1));
         alert("일수는 필수 사항입니다");
     a=false;
