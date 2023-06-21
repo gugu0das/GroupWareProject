@@ -4,18 +4,24 @@
 
 $(document).on("click","#btn",function(){
     let a =true;
-    if($('input:radio').lengh){
-	
-	if($('input[name=contents]')){
-		if($('input[name=contents]'),val() ==""){
+    console.log($('input:radio[name=annualType]').length);
+    if($('input:text[name=contents]')){
+		if($('input[name=contents]').val() ==""){
 			alert("결재 상세 내용은 필수입니다.");
+			 a=false;
+			  console.log(a);
+            return false;
 		}
 	}
+    if($('input:radio').length){
+	
+	
 	
     if(!$('input:radio[name=annualType]').is(':checked')){
        
             alert("종류는 필수 사항입니다");
             a=false;
+            console.log(a);
             return false;
         
         
@@ -29,29 +35,44 @@ $(document).on("click","#btn",function(){
             
             alert("날짜는 필수 사항입니다");
             a=false;
+            console.log(a);
             return false;
             
         }
-        else if( $(index).attr("name") =="count" && $(index).val()==""){
+        else if( $(index).attr("name") =="reason" && $(index).val()==""){
             console.log($(index).val().type);
-            alert("일수는 필수 사항입니다");
+            alert("사유는 필수 사항입니다");
         a=false;
+        console.log(a);
         return false;
             
         
-    }else if( $(index).attr("name") =="reason" && isNaN($(index).val()*1)){
+    }else if( $(index).attr("name") =="count" && isNaN($(index).val()*1)){
+        console.log(isNaN($(index).val()*1));
+        alert("일수는 숫자로 입력해주세요");
+    	a=false;
+    	console.log(a);
+    	return false;
+        
+    
+}else if($(index).attr("name") =="count" && $(index).val()==""){
         console.log(isNaN($(index).val()*1));
         alert("일수는 필수 사항입니다");
-    a=false;
-    return false;
+    	a=false;
+    	console.log(a);
+    	return false;
         
     
 }
+
+
 }
 
     })
+    
+    console.log(a);
     }
-
+console.log(a);
 if(a){
     $("input").each(function(idx,index){
         console.log("아 :",$(index).attr("name"))
@@ -105,7 +126,7 @@ if(a){
     console.log($("#useDate").val());
     console.log($("#type").val());
     $("#ddd").val($("#ttt").html());
-    $("#fr").submit();
+   $("#fr").submit();
     console.log($("#type").val());
 }else{
     return false;
