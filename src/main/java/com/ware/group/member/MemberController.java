@@ -1,12 +1,15 @@
 package com.ware.group.member;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.batch.BatchProperties.Job;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ware.group.annual.AnnualVO;
-import com.ware.group.annual.LeaveRecordVO;
 import com.ware.group.common.CommonVO;
 import com.ware.group.common.ScheduleService;
+import com.ware.group.common.Util4calen;
 import com.ware.group.department.DepartmentService;
 import com.ware.group.department.DepartmentVO;
 
@@ -38,6 +41,9 @@ public class MemberController {
 	private ScheduleService employeeService;
 	@Autowired
 	private DepartmentService departmentService;
+	@Autowired
+	private MemberDAO memberDAO;
+	
 	
 	CommonVO commonVO = new CommonVO();
 
@@ -300,5 +306,28 @@ public class MemberController {
 		
 		return mv;
 	}
-	
+	@GetMapping("testData")
+	public void sampleData(MemberVO memberVO,HttpSession session) throws Exception{
+		memberVO=memberService.getSessionAttribute(session);
+		for(int i= 1; i<31; i++) {
+			EmployeeStatusVO employeeStatusVO = new EmployeeStatusVO();
+			employeeStatusVO.setMemberId(memberVO.getId());
+			LocalDate localDate = LocalDate.of(2023, 4, i);
+			
+			
+			Date date = Util4calen.setLocalDateToDate(localDate);
+			if(date.getDay()==0||date.getDay()==6) {
+				continue;
+			}
+			employeeStatusVO.setReg(date);
+			Time startTime = new Time(9, 0, 0);
+			Time finishTime = new Time(18, 0, 0);
+			
+			employeeStatusVO.setOnTime(Util4calen.getStatusTime(startTime, date));
+			employeeStatusVO.setOffTime(Util4calen.getStatusTime(finishTime, date));
+			employeeStatusVO.setStatus("퇴근");
+			memberDAO.sampleData(employeeStatusVO);
+		}
+	}
+
 }

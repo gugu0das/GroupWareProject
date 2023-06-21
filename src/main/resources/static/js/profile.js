@@ -53,6 +53,20 @@ $("#updatebtn").click(function(){
     
 })
 
+
+$("#test1").on("click",function(){
+    $.ajax({
+        type:"GET",
+        url:"/member/testData",
+        success:function(response){
+            console.log("확인")
+        },
+        error: function () {
+            console.log("error")
+
+        }
+    })
+})
 $("#idCheck").on("click", async function () {
     let id = $("#accountId").val()
     

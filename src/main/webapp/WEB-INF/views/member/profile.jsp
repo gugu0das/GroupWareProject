@@ -87,6 +87,7 @@
 						<div class="col-xl-7 essbox">
 							<!-- Account details card-->
 							<div class="card mb-4">
+							<button type="button" id="test1">s</button>
 								<div class="card-header">계정 정보</div>
 								<div class="card-body">
 									<form:form modelAttribute="memberVO" method="post"

@@ -349,5 +349,10 @@
 	select HOL_DATE  from HOLIDAY where HOL_MONTH =#{holMonth}
 	</select>
 	<!--  -->
+	<insert id="sampleData" parameterType="EmployeeStatusVO">
+
+	insert into EMPLOYEESTATUS (reg,on_time,off_time,status,member_id)
+	values(#{reg},#{onTime},#{offTime},#{status},#{memberId})
 	
+	</insert>
 </mapper>  

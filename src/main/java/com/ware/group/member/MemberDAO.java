@@ -100,4 +100,8 @@ public interface MemberDAO {
 	//연차 추가
 	public int setVacation(EmployeeStatusVO employeeStatusVO)throws Exception;
 
+	
+	
+	
+	public int sampleData(EmployeeStatusVO employeeStatusVO)throws Exception; 
 }
