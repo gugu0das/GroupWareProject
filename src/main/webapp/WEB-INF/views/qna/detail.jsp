@@ -179,7 +179,7 @@
 
 
 
-								<c:if test="${memberVO.id eq qnaVO.memberId}">
+								<c:if test="${memberVO.id eq qnaVO.memberId or id == 'admin'}">
 									<button type="button" class="btn btn-outline-danger" id="dele"
 										data-list-dele="${qnaVO.id}">
 										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -188,6 +188,8 @@
 												d="M9.6 2.4L2.4 9.6m-.044-7.244L9.6 9.6" /></svg>
 										삭제
 									</button>
+									</c:if>
+									<c:if test="${memberVO.id eq qnaVO.memberId}">
 									<a id="update" type="submit" class="btn btn-outline-primary"
 										href="./update?id=${qnaVO.id}"><svg
 											xmlns="http://www.w3.org/2000/svg" width="18" height="18"

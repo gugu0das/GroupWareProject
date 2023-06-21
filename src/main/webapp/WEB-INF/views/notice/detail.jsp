@@ -122,11 +122,13 @@
                                 </div>
                             </article>
                             <div class="text-center"">
-                          	<c:if test="${memberVO.id eq noticeVO.memberId}">
+                          	<c:if test="${memberVO.id eq noticeVO.memberId or id == 'admin'}">
                             <button type="button" class="btn btn-outline-danger" id="dele" data-list-dele="${noticeVO.id}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 											viewBox="-4 -4 20 20" x="60" y="86">
 											<path fill="none" stroke="#D3D3D3"
 												d="M9.6 2.4L2.4 9.6m-.044-7.244L9.6 9.6" /></svg>삭제</button>
+							</c:if>
+							<c:if test="${memberVO.id eq noticeVO.memberId}">
                             <a id="update" class="btn btn-outline-primary" href="./update?id=${noticeVO.id}"><svg
 											xmlns="http://www.w3.org/2000/svg" width="18" height="18"
 											viewBox="-4 -4 18 18" x="37" y="108">
