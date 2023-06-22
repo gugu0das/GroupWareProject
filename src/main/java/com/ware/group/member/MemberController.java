@@ -156,8 +156,8 @@ public class MemberController {
 	
 	@GetMapping("profile")
 	public ModelAndView getProfile(@ModelAttribute MemberVO memberVO, ModelAndView mv,HttpSession session)throws Exception{
-
-		memberVO = memberService.getMemberProfile(memberVO, session);
+		memberVO=memberService.getSessionAttribute(session);
+				memberVO = memberService.getMemberDetail(memberVO);
 		
 		mv.addObject("memberVO", memberVO);
 		mv.setViewName("member/profile");

@@ -87,7 +87,7 @@
 						<div class="col-xl-7 essbox">
 							<!-- Account details card-->
 							<div class="card mb-4">
-							<button type="button" id="test1">s</button>
+							
 								<div class="card-header">계정 정보</div>
 								<div class="card-body">
 									<form:form modelAttribute="memberVO" method="post"
@@ -185,14 +185,14 @@
 
 
 											<div class="col-md-5">
-												<c:if test="${not empty departmentVO.name }">
+												<c:if test="${not empty memberVO.departmentVO.name }">
 												<form:label path="departmentVO.name">부서</form:label>
 												<form:input path="departmentVO.name" cssClass="form-control"
 													id="departmentVO.name" cssStyle="border:none;"
 													readonly="true" />
 												<form:errors path="departmentVO.name"></form:errors>
 													</c:if>
-												<c:if test="${empty departmentVO.name }">
+												<c:if test="${empty memberVO.departmentVO.name }">
 												<label for="department">부서</label>
 												<input name="department" id="department" class="form-control" style="border:none;" placeholder="부서없음" readonly="readonly" disabled="disabled">
 												
