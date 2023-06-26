@@ -139,8 +139,7 @@ public class NoticeController {
 		SecurityContextImpl contextImpl = (SecurityContextImpl)obj;
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 	    
-	    log.error("{}",noticeVO.getId());
-	    log.error("{}",noticeVO.getContents());
+	   
 	    noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
 		
 	    
@@ -172,7 +171,7 @@ public class NoticeController {
 	@GetMapping("delete")
 	public ModelAndView setDelete(NoticeVO noticeVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		log.error("{}",noticeVO.getId());
+	
 		int result = noticeService.setDelete(noticeVO);
 		
 		
@@ -188,7 +187,7 @@ public class NoticeController {
 	@ResponseBody
 	public int setFileDelete(NoticeVO noticeVO) throws Exception {
 		
-		log.error("{}",noticeVO.getId());
+		
 		int result = noticeService.setFileDelete(noticeVO);
 		
 		
@@ -205,9 +204,9 @@ public class NoticeController {
 	    MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
 			
 		noticeVO.setWriter(memberVO.getAccountId());
-		log.error("{}",noticeVO.getId());
+	
 		noticeVO = (NoticeVO)noticeService.getDetail(noticeVO);
-		log.error(noticeVO.getTitle());
+	
 		for(BoardFileVO boardFileVO:noticeVO.getBoardFileVOs()) {
 			log.error("=============================={}======================",boardFileVO.getId());;
 		}
