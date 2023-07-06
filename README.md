@@ -86,7 +86,7 @@
 |**Category**|**Detail**|
 |:--:|:--:|
 |**FrontEnd**|`HTML5`, `JavaScript`, `JQuery`, `BootStrap`, `CSS`|
-|**BackEnd**|`Java(JDK 1.8)`, `Servlet`, `Spring`, `Mybatis`|
+|**BackEnd**|`Java(JDK 1.8)`, `Servlet`, `Spring Boot`, `Mybatis`|
 |**OS**|`Windows 10`, `Windows 11`|
 |**Libray & API**|`Spring Security`, `Validation`, `FileUpload`, `Server-Sent Event(SSE)`, `Lombok`|
 |**IDE**|`STS4`, `VisualStudio Code`, `DBeaver`|
