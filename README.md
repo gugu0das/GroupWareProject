@@ -65,7 +65,7 @@
 
 ## 사용 기술 및 도구
 
-|Category|Detail|
+|**Category**|**Detail**|
 |:--:|:--:|
 |FrontEnd|HTML5, JavaScript, JQuery|
 |BackEnd|Java(JDK 1.8), Servlet, Spring, Mybatis|
