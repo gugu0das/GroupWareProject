@@ -67,15 +67,15 @@
 
 |**Category**|**Detail**|
 |:--:|:--:|
-|FrontEnd|HTML5, JavaScript, JQuery|
-|BackEnd|Java(JDK 1.8), Servlet, Spring, Mybatis|
-|OS|Windows 10, Windows 11|
-|Libray&API|Spring Security, Validation, FileUpload, Server-Sent Event(SSE), Lombok
-|IDE|STS4, VisualStudio, DBeaver|
-|Server|Tomcat(v8.5)|
-|Document|Google Drive, ERDCloud, Miro|
-|CI|Github|
-|DateBase|AWS RDS, Docker, MariaDB|
+|**FrontEnd**|HTML5, JavaScript, JQuery|
+|**BackEnd**|Java(JDK 1.8), Servlet, Spring, Mybatis|
+|**OS**|Windows 10, Windows 11|
+|**Libray & API**|Spring Security, Validation, FileUpload, Server-Sent Event(SSE), Lombok
+|**IDE**|STS4, VisualStudio, DBeaver|
+|**Server**|Tomcat(v8.5)|
+|**Document**|Google Drive, ERDCloud, Miro|
+|**CI**|Github|
+|**DB**|AWS RDS, Docker, MariaDB|
 
 ## 기능구현
 
