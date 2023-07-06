@@ -18,6 +18,7 @@
     - 문서 결재 관리
       - 문서 결재 신청 관리
       - 문서 결재 관리
+      - 문서 PDF 다운로드
   - 게시판
     - 공지사항 게시판
     - QNA 게시판
@@ -52,16 +53,33 @@
 ## 팀원
 > **팀장:** 이승엽
 > 
-> 결재 카테고리 관리 : 카테고리 
+> 결재 카테고리 관리 : 카테고리 관리, 결재자 관리, 결재 양식 관리
 > 
-> 실시간 알림 : 
+> 실시간 알림 : QNA 게시판 댓글, 결재 알림 전송
 >
 > 사이드 바 : 사용자 페이지 사이드 바 ( 결재 관련 ) , 관리자 페이지 사이드 바 ( 전체 )
 
-> **팀원:** 
+> **팀원:** 정상구
 >
-> 
+> 게시판 관리 : 공지사항 게시판, QNA 게시판, QNA 댓글
+>
+> Top Bar : 사용자 페이지 Top Bar
+>
+> 메인 페이지 디자인 수정
 
+> **팀원:** 김태현
+>
+> 회원 관리 : 회원 가입, 회원 직책 관리( 관리자 ), 회원 부서 관리( 관리자 ), 근태 관리
+
+> **팀원:** 이규원
+>
+> 캘린더 : 일정 관리
+
+> **팀원:** 전승민
+>
+> 문서 결재 관리 : 문서 결재 신청 관리, 문서 결재 관리
+>
+> 실시간 알림 : QNA 게시판 댓글, 결재 알림 전송, 문서 PDF 다운로드
 
 ## 사용 기술 및 도구
 
@@ -70,15 +88,16 @@
 |**FrontEnd**|`HTML5`, `JavaScript`, `JQuery`|
 |**BackEnd**|`Java(JDK 1.8)`, `Servlet`, `Spring`, `Mybatis`|
 |**OS**|`Windows 10`, `Windows 11`|
-|**Libray & API**|Spring Security, Validation, FileUpload, Server-Sent Event(SSE), Lombok
-|**IDE**|STS4, VisualStudio, DBeaver|
-|**Server**|Tomcat(v8.5)|
-|**Document**|Google Drive, ERDCloud, Miro|
-|**CI**|Github|
-|**DB**|AWS RDS, Docker, MariaDB|
+|**Libray & API**|`Spring Security`, `Validation`, `FileUpload`, `Server-Sent Event(SSE)`, `Lombok`|
+|**IDE**|`STS4`, `VisualStudio Code`, `DBeaver`|
+|**Server**|`Tomcat(v8.5)`|
+|**Document**|`Google Drive`, `ERDCloud`, `Miro`|
+|**CI**|`Github`|
+|**DB**|`AWS RDS`, `Docker`, `MariaDB`|
 
 ## 기능구현
 
 ## 배포
+**미정**
 
 ## ISSUE
