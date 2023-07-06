@@ -23,6 +23,7 @@
     - QNA 게시판
   - 캘린더
     - 일정 관리
+  - 실시간 알림
 - [배포]
 - [ISSUE]
 
@@ -44,11 +45,37 @@
 >
 > **배포일:** 미정
 >
+> **사용 언어:** JAVA
+> 
 > **프레임 워크:** SPRING BOOT
 
 ## 팀원
+> **팀장:** 이승엽
+> 
+> 결재 카테고리 관리 : 카테고리 
+> 
+> 실시간 알림 : 
+>
+> 사이드 바 : 사용자 페이지 사이드 바 ( 결재 관련 ) , 관리자 페이지 사이드 바 ( 전체 )
+
+> **팀원:** 
+>
+> 
+
 
 ## 사용 기술 및 도구
+
+|Category|Detail|
+|:--:|:--:|
+|FrontEnd|HTML5, JavaScript, JQuery|
+|BackEnd|Java(JDK 1.8), Servlet, Spring, Mybatis|
+|OS|Windows 10, Windows 11|
+|Libray&API|Spring Security, Validation, FileUpload, Server-Sent Event(SSE), Lombok
+|IDE|STS4, VisualStudio, DBeaver|
+|Server|Tomcat(v8.5)|
+|Document|Google Drive, ERDCloud, Miro|
+|CI|Github|
+|DateBase|AWS RDS, Docker, MariaDB|
 
 ## 기능구현
 
