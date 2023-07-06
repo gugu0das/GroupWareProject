@@ -85,7 +85,7 @@
 
 |**Category**|**Detail**|
 |:--:|:--:|
-|**FrontEnd**|`HTML5`, `JavaScript`, `JQuery`|
+|**FrontEnd**|`HTML5`, `JavaScript`, `JQuery`, `BootStrap`, `CSS`|
 |**BackEnd**|`Java(JDK 1.8)`, `Servlet`, `Spring`, `Mybatis`|
 |**OS**|`Windows 10`, `Windows 11`|
 |**Libray & API**|`Spring Security`, `Validation`, `FileUpload`, `Server-Sent Event(SSE)`, `Lombok`|
