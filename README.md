@@ -67,9 +67,9 @@
 
 |**Category**|**Detail**|
 |:--:|:--:|
-|**FrontEnd**|HTML5, JavaScript, JQuery|
-|**BackEnd**|Java(JDK 1.8), Servlet, Spring, Mybatis|
-|**OS**|Windows 10, Windows 11|
+|**FrontEnd**|`HTML5`, `JavaScript`, `JQuery`|
+|**BackEnd**|`Java(JDK 1.8)`, `Servlet`, `Spring`, `Mybatis`|
+|**OS**|`Windows 10`, `Windows 11`|
 |**Libray & API**|Spring Security, Validation, FileUpload, Server-Sent Event(SSE), Lombok
 |**IDE**|STS4, VisualStudio, DBeaver|
 |**Server**|Tomcat(v8.5)|
