@@ -97,7 +97,8 @@
 
 ## 기능구현
 ### 1. 관리자 페이지
-    
+      #### 1-1. 다국어
+   <img src="src/main/resources/static/gif/admin1_1.gif">
     #### 1-1. 관리자 페이지는 admin 계정만 접근 가능
       <img src="src/main/resources/static/gif/admin1_1.gif">
       
