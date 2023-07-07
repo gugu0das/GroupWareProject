@@ -104,15 +104,15 @@
   <img src="src/main/resources/static/gif/admin_department_job.gif">
       
   #### 1-3. 관리자는 결재 카테고리 관리 가능
-    - 결재 카테고리 생성
+  - 결재 카테고리 생성
     <img src="src/main/resources/static/gif/admin_addCategory.gif">
         
-    - 결재 카테고리 수정/삭제 (결재자, 양식)
-      - 하위 카테고리가 1개 존재하는 경우에 하위 카테고리를 삭제하면 상위 카테고리에 결재 양식과 결재자를 등록하게 됨 (미 등록 시 하위 카테고리 삭제 불가)
-      - 상위 카테고리가 삭제 될 경우 하위카테고리도 함께 삭제 됨.
-      <img src="src/main/resources/static/gif/admin_updateCategory.gif">
+  - 결재 카테고리 수정/삭제 (결재자, 양식)
+    - 하위 카테고리가 1개 존재하는 경우에 하위 카테고리를 삭제하면 상위 카테고리에 결재 양식과 결재자를 등록하게 됨 (미 등록 시 하위 카테고리 삭제 불가)
+    - 상위 카테고리가 삭제 될 경우 하위카테고리도 함께 삭제 됨.
+    <img src="src/main/resources/static/gif/admin_updateCategory.gif">
         
-    #### 1-4. 관리자는 게시판 관리 가능
+  #### 1-4. 관리자는 게시판 관리 가능
   
 ## 배포
 **미정**
