@@ -77,21 +77,21 @@
 
 > **팀원:** 전승민
 >
-> 문서 결재 관리 : 문서 결재 신청 관리, 문서 결재 관리
+> 문서 결재 관리 : 문서 결재 신청 관리, 문서 결재 관리, 문서 PDF 다운로드
 >
-> 실시간 알림 : QNA 게시판 댓글, 결재 알림 전송, 문서 PDF 다운로드
+> 실시간 알림 : QNA 게시판 댓글, 결재 알림 전송
 
 ## 사용 기술 및 도구
 
 |**Category**|**Detail**|
 |:--:|:--:|
 |**FrontEnd**|`HTML5`, `JavaScript`, `JQuery`, `BootStrap`, `CSS`|
-|**BackEnd**|`Java(JDK 1.8)`, `Servlet`, `Spring Boot`, `Mybatis`|
+|**BackEnd**|`Java(11)`, `Servlet`, `Spring Boot`, `Mybatis`|
 |**OS**|`Windows 10`, `Windows 11`|
-|**Libray & API**|`Spring Security`, `Validation`, `FileUpload`, `Server-Sent Event(SSE)`, `Lombok`|
+|**Libray & API**|`Spring Security`, `Validation`, `FileUpload`, `Server-Sent Event(SSE)`, `Lombok`, `gson`|
 |**IDE**|`STS4`, `VisualStudio Code`, `DBeaver`|
 |**Server**|`Tomcat(v8.5)`|
-|**Document**|`Google Drive`, `ERDCloud`, `Miro`|
+|**Document**|`Google Drive`, `ERDCloud`, `Miro`, `Notion`|
 |**CI**|`Github`|
 |**DB**|`AWS RDS`, `Docker`, `MariaDB`|
 
