@@ -100,10 +100,10 @@
   ####   1_1. 관리자 페이지는 admin 계정만 접근 가능
   <img src="src/main/resources/static/gif/admin1_1.gif">
 
-  #### 1-2. 관리자는 부서와 직책 관리 가능
+  ####   1-2. 부서와 직책 관리 기능
   <img src="src/main/resources/static/gif/admin_department_job.gif">
       
-  #### 1-3. 관리자는 결재 카테고리 관리 가능
+  ####   1-3. 결재 카테고리 관리 기능
   - 결재 카테고리 생성
   <img src="src/main/resources/static/gif/admin_addCategory.gif">
         
@@ -113,10 +113,23 @@
     - 각 카테고리의 결재자는 최소 한명 이상이 필요함
   <img src="src/main/resources/static/gif/admin_updateCategory.gif">
         
-  #### 1-4. 관리자는 게시판 관리 가능
+  ####   1-4. 게시판 관리 기능
+  - 공지사항 게시판 관리
+
+  - QNA 게시판 관리
+  ####   1-5. 회원(사원) 관리 기능
+  - 새로운 사원을 생성
+  <img src="src/main/resources/static/gif/admin_create_userInfo.gif">
   
+  - 전체 사원의 목록을 확인하고 수정
+  <img src="src/main/resources/static/gif/admin_update_userInfo.gif">
+  
+
+
 ## 배포
 **미정**
 
 ## ISSUE
   - 결재 양식 파일 등록시 파일의 종류를 거르지 않으나, HTML/HTM 파일로 업로드를 해야 정상적으로 양식을 불러올 수 있음.
+  - 관리자가 사원 개인정보 수정하는 파트에서의 문제가 있음.
+  - 관리자가 사원 회원가입을 먼저 진행하는데 DB로 정상 저장되나, 오류페이지로 넘어감.
