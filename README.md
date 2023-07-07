@@ -114,16 +114,25 @@
   <img src="src/main/resources/static/gif/admin_updateCategory.gif">
         
   ####   1-4. 게시판 관리 기능
+  - 모든 게시판 글 및 댓글은 관리자가 삭제 가능
+ 
   - 공지사항 게시판 관리
-
+    - 공지사항 작성 및 수정 가능
+    - 중요 표시 체크 여부를 통해 게시판 리스트 페이지에서 강조 및 글 위치를 최 상단에 고정할 수 있음
+  <img src="src/main/resources/static/gif/admin_notice.gif">
+  
   - QNA 게시판 관리
+  <img src="src/main/resources/static/gif/admin_QNA.gif">
+  
   ####   1-5. 회원(사원) 관리 기능
   - 새로운 사원을 생성
   <img src="src/main/resources/static/gif/admin_create_userInfo.gif">
   
   - 전체 사원의 목록을 확인하고 수정
   <img src="src/main/resources/static/gif/admin_update_userInfo.gif">
-  
+
+
+### 2. 사용자 페이지
 
 
 ## 배포
