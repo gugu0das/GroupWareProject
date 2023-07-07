@@ -169,7 +169,7 @@
   <img src="src/main/resources/static/gif/SSE.gif">
   
     - 결재 신청시 알림이 실시간으로 전송 됨.
-  (결재 오류 해결 후 캡쳐 필요)
+      - (결재 오류 해결 후 캡쳐 필요)
 
 ## 배포
 **미정**
