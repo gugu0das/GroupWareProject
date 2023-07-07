@@ -99,7 +99,7 @@
 ### 1. 관리자 페이지
     
     #### 1-1. 관리자 페이지는 admin 계정만 접근 가능
-      <img src="src/main/resources/static/gif/관리자 1-1.gif">
+      <img src="src/main/resources/static/gif/관리자1-1.gif">
     #### 1-2. 관리자는 부서와 직책 관리 가능
       <img src="src/main/resources/static/gif/관리자 부서-직책.gif">
     #### 1-3. 관리자는 결재 카테고리 관리 가능
